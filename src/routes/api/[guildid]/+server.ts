@@ -16,7 +16,7 @@ export const GET: RequestHandler = async ({ params }) => {
 	});
 
 	if (!request.ok) {
-		error(request.status, 'Failed to fetch server info from Titanium server');
+		error(request.status, 'Failed to fetch server info from Titanium');
 	}
 
 	const data = await request.json();

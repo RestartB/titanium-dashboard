@@ -53,22 +53,22 @@
 	transition:fade={{ duration: 100 }}
 >
 	<div class="flex w-full items-center justify-between gap-2">
-		<div class="flex flex-wrap items-center gap-2">
+		<div class="flex flex-wrap items-center gap-2 text-base">
 			<input
 				type="text"
-				class="w-12 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-2 text-center font-mono"
+				class="w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
 				bind:value={rule.occurences}
 			/>
 			<p>{occurenceString} in</p>
 			<input
 				type="text"
-				class="w-12 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-2 text-center font-mono"
+				class="w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
 				bind:value={rule.duration}
 			/>
 			<p>seconds</p>
 		</div>
 		<button
-			class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-600"
+			class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-600"
 			aria-label="Expand rule details"
 			onclick={() => (expanded = !expanded)}
 		>

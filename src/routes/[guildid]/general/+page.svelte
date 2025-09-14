@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { Row, ToggleRow } from '$lib/components/ui/row';
-
-	let toggled = $state(false);
+	const { data } = $props();
+	console.log(data)
+	let settings = $state(data.server_settings);
 </script>
 
 <div>
@@ -17,7 +18,7 @@
 	</p>
 </Row>
 
-<ToggleRow bind:toggled>
+<ToggleRow bind:toggled={settings.settings.loading_reaction}>
 	<div>
 		<h2 class="text-xl font-bold">Show Loading Reaction</h2>
 		<p>
@@ -27,7 +28,7 @@
 	</div>
 </ToggleRow>
 
-<ToggleRow bind:toggled>
+<ToggleRow bind:toggled={settings.settings.reply_ping}>
 	<div>
 		<h2 class="text-xl font-bold">Use Reply Pings</h2>
 		<p>Control whether Titanium should use reply pings when responding to prefix commands.</p>
