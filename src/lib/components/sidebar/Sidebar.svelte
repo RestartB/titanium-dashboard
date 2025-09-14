@@ -24,8 +24,13 @@
 
 <div class="flex w-full max-w-2xs flex-shrink-0 flex-col gap-2 p-4 pr-0">
 	<div class="flex items-center gap-2">
-		<img class="aspect-square h-10 w-10 rounded-md" src={server_info.icon} alt={server_info.name} />
-		<h2 class="font-bold">{server_info.name}</h2>
+		<img
+			class="aspect-square h-10 w-10 rounded-md"
+			src={server_info.icon}
+			alt={server_info.name}
+			translate="no"
+		/>
+		<h2 class="font-bold" translate="no">{server_info.name}</h2>
 	</div>
 	<Tile
 		title="Home"

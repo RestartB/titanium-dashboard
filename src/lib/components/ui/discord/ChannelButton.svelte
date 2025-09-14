@@ -7,18 +7,18 @@
 
 	let overlayOpen = $state(false);
 
-	const {
+	let {
 		channel,
 		type = '',
-		hasSelector = false,
 		channels = [],
-		categories = []
+		categories = [],
+		selectedChannel = $bindable()
 	}: {
-		channel: string | null;
-		type: string;
-		hasSelector?: boolean;
+		channel: string | null | undefined;
+		type?: string;
 		channels?: ChannelInfo[];
 		categories?: CategoryInfo[];
+		selectedChannel?: string;
 	} = $props();
 	const channelTypeIcons: Record<string, Component> = {
 		text: Hash,
@@ -31,7 +31,7 @@
 
 {#if overlayOpen}
 	<FullscreenOverlay bind:overlayOpen>
-		<ChannelPicker {channels} {categories} bind:overlayOpen />
+		<ChannelPicker {channels} {categories} bind:selectedChannel bind:overlayOpen />
 	</FullscreenOverlay>
 {/if}
 
@@ -49,15 +49,9 @@
 	{/if}
 {/snippet}
 
-{#if hasSelector}
-	<button
-		class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
-		onclick={() => (overlayOpen = !overlayOpen)}
-	>
-		{@render channelContent()}
-	</button>
-{:else}
-	<div class="flex w-fit items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2">
-		{@render channelContent()}
-	</div>
-{/if}
+<button
+	class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
+	onclick={() => (overlayOpen = !overlayOpen)}
+>
+	{@render channelContent()}
+</button>

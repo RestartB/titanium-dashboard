@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
 	import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 	import ActionPicker from '$lib/components/automod/ActionPicker.svelte';
 	import ActionTile from './ActionTile.svelte';
+	import WordTile from './WordTile.svelte';
 
-	import { ChevronDown } from '@lucide/svelte';
+	import { ChevronDown, X, Plus } from '@lucide/svelte';
 	import type { AutomodRule } from '$lib/types/automod';
 
-	let { rule = $bindable() }: { rule: AutomodRule } = $props();
+	let { rule = $bindable(), deleteThis }: { rule: AutomodRule; deleteThis: () => void } = $props();
 	let expanded = $state(false);
 	let createNewOpen = $state(false);
 
@@ -33,6 +33,8 @@
 			occurenceStrings[rule.rule_type as keyof typeof occurenceStrings] || 'messages';
 	}
 
+	let newWordInput = $state('');
+
 	$effect(() => {
 		rule.occurences = Number(rule.occurences);
 		if (isNaN(rule.occurences) || rule.occurences < 1) rule.occurences = 1;
@@ -48,10 +50,7 @@
 	</FullscreenOverlay>
 {/if}
 
-<div
-	class="w-full rounded-lg border-2 border-zinc-800 bg-zinc-700 p-2"
-	transition:fade={{ duration: 100 }}
->
+<div class="w-full rounded-lg border-2 border-zinc-800 bg-zinc-700 p-2">
 	<div class="flex w-full items-center justify-between gap-2">
 		<div class="flex flex-wrap items-center gap-2 text-base">
 			<input
@@ -67,16 +66,25 @@
 			/>
 			<p>seconds</p>
 		</div>
-		<button
-			class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-600"
-			aria-label="Expand rule details"
-			onclick={() => (expanded = !expanded)}
-		>
-			<ChevronDown
-				size={18}
-				class={`transition-transform duration-200 ${expanded ? 'rotate-180' : 'rotate-0'}`}
-			/>
-		</button>
+		<div class="flex items-center justify-center gap-2">
+			<button
+				class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-600"
+				aria-label="Delete rule"
+				onclick={deleteThis}
+			>
+				<X size={18} />
+			</button>
+			<button
+				class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-600"
+				aria-label="Expand rule details"
+				onclick={() => (expanded = !expanded)}
+			>
+				<ChevronDown
+					size={18}
+					class={`transition-transform duration-200 ${expanded ? 'rotate-180' : 'rotate-0'}`}
+				/>
+			</button>
+		</div>
 	</div>
 	<div
 		class="grid overflow-hidden transition-all duration-300 ease-in-out {expanded
@@ -84,10 +92,40 @@
 			: 'grid-rows-[0fr]'}"
 	>
 		<div class="min-h-0">
+			{#if rule.rule_type === 'badword_detection'}
+				<div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
+					<div
+						class="flex max-w-40 items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
+					>
+						<input
+							type="text"
+							placeholder="Add Word..."
+							class="h-full w-full"
+							bind:value={newWordInput}
+						/>
+						<button
+							class="rounded-lg p-1 hover:bg-zinc-600"
+							onclick={() => {
+								if (newWordInput) {
+									rule.words?.push(newWordInput);
+									newWordInput = '';
+								}
+							}}
+						>
+							<Plus size={16} />
+						</button>
+					</div>
+					{#if rule.words}
+						{#each rule.words as word, index}
+							<WordTile deleteThis={() => rule.words?.splice(index, 1)} {word} />
+						{/each}
+					{/if}
+				</div>
+			{/if}
 			<div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
 				{#each rule.actions as action, index}
 					<ActionTile
-						deleteThisAction={() => rule.actions.splice(index, 1)}
+						deleteThis={() => rule.actions.splice(index, 1)}
 						bind:action={rule.actions[index]}
 					/>
 				{/each}

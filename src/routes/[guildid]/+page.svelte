@@ -1,5 +1,17 @@
 <script lang="ts">
-	import { Cog } from '@lucide/svelte';
+	import {
+		Cog,
+		Key,
+		TriangleAlert,
+		Shield,
+		Brain,
+		DoorClosedLocked,
+		ScrollText,
+		Flame,
+		Trophy,
+		Tally5,
+		Users
+	} from '@lucide/svelte';
 	import type { Component } from 'svelte';
 
 	const { data } = $props();
@@ -10,10 +22,12 @@
 	<h1 class="text-4xl">
 		Hi there, <span
 			class="bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text font-bold text-transparent"
-			>Restart</span
+			translate="no">Restart</span
 		>
 	</h1>
-	<p>Manage settings for Titanium in <strong>{data.server_info.name}</strong> here.</p>
+	<p>
+		Manage settings for Titanium in <strong translate="no">{data.server_info.name}</strong> here.
+	</p>
 </div>
 
 {#snippet featureCard(title: string, description: string, href: string, Icon: Component)}
@@ -22,7 +36,7 @@
 		{href}
 	>
 		<div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-600">
-			<Icon size={32} />
+			<Icon size={28} />
 		</div>
 		<h2 class="font-xl font-bold">{title}</h2>
 		<p>{description}</p>
@@ -40,13 +54,13 @@
 		'Permissions',
 		'Change permissions for different features in your server.',
 		`/${serverID}/permissions`,
-		Cog
+		Key
 	)}
 	{@render featureCard(
 		'Error Log',
 		'View and manage error logs for your server.',
 		`/${serverID}/error-log`,
-		Cog
+		TriangleAlert
 	)}
 </div>
 
@@ -57,48 +71,48 @@
 		'Moderation',
 		'Moderate your server members and manage cases.',
 		`/${serverID}/moderation`,
-		Cog
+		Shield
 	)}
 	{@render featureCard(
 		'Automod',
 		'Allow Titanium to moderate your server for you.',
 		`/${serverID}/automod`,
-		Cog
+		Brain
 	)}
 	{@render featureCard(
 		'Bouncer',
 		'Allow Titanium to monitor users as they join.',
 		`/${serverID}/bouncer`,
-		Cog
+		DoorClosedLocked
 	)}
 	{@render featureCard(
 		'Logging',
 		'Log various events that happen in your server.',
 		`/${serverID}/logging`,
-		Cog
+		ScrollText
 	)}
 	{@render featureCard(
 		'Fireboard',
 		'Let server members highlight messages they love.',
 		`/${serverID}/fireboard`,
-		Cog
+		Flame
 	)}
 	{@render featureCard(
 		'Leaderboard',
 		'Track engagement and activity in your server.',
 		`/${serverID}/leaderboard`,
-		Cog
+		Trophy
 	)}
 	{@render featureCard(
 		'Server Counters',
 		'Display various server statistics and counters.',
 		`/${serverID}/server-counters`,
-		Cog
+		Tally5
 	)}
 	{@render featureCard(
 		'Self Roles',
 		'Allow users to assign roles with buttons or reactions.',
 		`/${serverID}/self-roles`,
-		Cog
+		Users
 	)}
 </div>

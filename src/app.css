@@ -1,5 +1,21 @@
 @import 'tailwindcss';
 
+@keyframes shake {
+	0% {
+		margin-left: 0rem;
+	}
+	25% {
+		margin-left: 0.5rem;
+	}
+	75% {
+		margin-left: -0.5rem;
+	}
+	100% {
+		margin-left: 0rem;
+	}
+}
+
 @theme {
 	--font-figtree: 'Figtree', sans-serif;
+	--animate-warning: shake 0.2s ease-in-out 0s 2;
 }

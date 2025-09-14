@@ -4,6 +4,6 @@ import type { AutomodSettings } from '$lib/types/automod';
 export const load: PageServerLoad = async ({ params, fetch }) => {
 	// Get data
 	const request = await fetch('/api/' + params.guildid + '/module/automod');
-	const automod_info: AutomodSettings = await request.json();
-	return { automod_info };
+	const automod_settings: AutomodSettings = await request.json();
+	return { automod_settings };
 };

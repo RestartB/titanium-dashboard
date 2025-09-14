@@ -1,8 +1,11 @@
 <script lang="ts">
-	import Channel from '$lib/components/ui/discord/Channel.svelte';
+	import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
 	import Collapsible from '$lib/components/ui/Collapsible.svelte';
+	import Saver from '$lib/components/Saver.svelte';
 	import type { LoggingSettings } from '$lib/types/logging';
-	const { data } = $props();
+
+	let { data } = $props();
+	let dataState = $state(data);
 
 	const logTypeStrings: Record<string, string[]> = {
 		app_command_perm_update_id: [
@@ -122,12 +125,16 @@
 			<p class="text-base text-zinc-400">{logTypeStrings[logType][1]}</p>
 		</div>
 
-		<Channel
-			channel={data.logging_info[logType as keyof LoggingSettings] ? 'Enabled' : null}
-			type={'text'}
-			hasSelector={true}
+		<ChannelButton
+			channel={data.server_info.channels.find(
+				(c) => c.id === dataState.logging_settings[logType as keyof LoggingSettings]
+			)?.name}
+			type={data.server_info.channels.find(
+				(c) => c.id === dataState.logging_settings[logType as keyof LoggingSettings]
+			)?.type ?? 'text'}
 			channels={data.server_info.channels}
 			categories={data.server_info.categories}
+			bind:selectedChannel={dataState.logging_settings[logType as keyof LoggingSettings] as string}
 		/>
 	</li>
 {/snippet}
@@ -141,6 +148,8 @@
 		{/each}
 	</ul>
 {/snippet}
+
+<Saver page="logging" bind:dataState />
 
 <div>
 	<h2 class="text-4xl font-bold">Logging</h2>

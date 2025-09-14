@@ -1,15 +1,29 @@
 <script lang="ts">
-	import Channel from '$lib/components/ui/discord/Channel.svelte';
-	import { X } from '@lucide/svelte';
+	import { X, Hash, Megaphone, MessagesSquare, Volume2, Podcast } from '@lucide/svelte';
 
 	import Fuse from 'fuse.js';
 	import type { ChannelInfo, CategoryInfo } from '$lib/types/server_info';
+	import type { Component } from 'svelte';
 
 	let {
 		channels,
 		categories,
+		selectedChannel = $bindable(),
 		overlayOpen = $bindable(true)
-	}: { channels: ChannelInfo[]; categories: CategoryInfo[]; overlayOpen?: boolean } = $props();
+	}: {
+		channels: ChannelInfo[];
+		categories: CategoryInfo[];
+		selectedChannel?: string;
+		overlayOpen?: boolean;
+	} = $props();
+
+	const channelTypeIcons: Record<string, Component> = {
+		text: Hash,
+		news: Megaphone,
+		forum: MessagesSquare,
+		voice: Volume2,
+		stage_voice: Podcast
+	};
 
 	let searchInput = $state('');
 
@@ -30,6 +44,24 @@
 		filteredChannels.filter((channel) => channel.category === null)
 	);
 </script>
+
+{#snippet channelRow(channel: ChannelInfo)}
+	<button
+		class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 hover:bg-zinc-600"
+		onclick={() => {
+			selectedChannel = channel.id;
+			overlayOpen = false;
+		}}
+	>
+		{#if channelTypeIcons[channel.type]}
+			{@const Icon = channelTypeIcons[channel.type]}
+			<Icon class="h-4 w-4 text-zinc-400" />
+		{:else}
+			<Hash class="h-4 w-4 text-zinc-400" />
+		{/if}
+		<p class="text-zinc-200 select-none">{channel.name}</p>
+	</button>
+{/snippet}
 
 <div
 	class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
@@ -60,7 +92,7 @@
 			{#if noCategoryChannels.length > 0}
 				<div class="flex flex-col gap-1">
 					{#each noCategoryChannels as channel}
-						<Channel channel={channel.name} type={channel.type} />
+						{@render channelRow(channel)}
 					{/each}
 				</div>
 			{/if}
@@ -74,7 +106,7 @@
 							{category.name}
 						</h3>
 						{#each categoryChannels as channel}
-							<Channel channel={channel.name} type={channel.type} />
+							{@render channelRow(channel)}
 						{/each}
 					</div>
 				{/if}

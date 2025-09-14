@@ -7,12 +7,13 @@
 </script>
 
 <svelte:head>
+	<title>Titanium Dashboard</title>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="h-screen flex flex-col">
+<div class="flex h-screen flex-col">
 	<Header />
-	<div class="pt-12 flex-1 overflow-hidden">
+	<div class="flex-1 overflow-hidden pt-12">
 		{@render children?.()}
 	</div>
 </div>

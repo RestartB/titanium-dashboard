@@ -6,9 +6,9 @@
 
 	let {
 		action = $bindable(),
-		deleteThisAction = () => {},
+		deleteThis = () => {},
 		overlayOpen = $bindable(false)
-	}: { action: AutomodAction; deleteThisAction: () => void; overlayOpen?: boolean } = $props();
+	}: { action: AutomodAction; deleteThis: () => void; overlayOpen?: boolean } = $props();
 </script>
 
 {#if overlayOpen}
@@ -25,7 +25,7 @@
 			<Cog size={16} />
 		</button>
 	{/if}
-	<button onclick={deleteThisAction}>
+	<button onclick={deleteThis}>
 		<X size={16} />
 	</button>
 	<p class="capitalize">{action.type}</p>
