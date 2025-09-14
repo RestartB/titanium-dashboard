@@ -106,7 +106,7 @@
 {#snippet emojiJumper(section: string, ButtonIcon: Component)}
 	<button
 		onclick={() => scrollToSection(section)}
-		class="rounded-full p-1 transition-colors {activeSection === section
+		class="cursor-pointer rounded-full p-1 transition-colors {activeSection === section
 			? 'bg-zinc-500'
 			: 'hover:bg-zinc-600/50'}"
 	>

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import type { ServerInfo } from '$lib/types/server_info';
+
 	import {
 		House,
 		Cog,
@@ -15,24 +17,87 @@
 		Users
 	} from '@lucide/svelte';
 	import Tile from './Tile.svelte';
+
+	const { server_info }: { server_info: ServerInfo } = $props();
+	const serverID = server_info.id;
 </script>
 
-<div class="flex w-full max-w-2xs flex-col gap-2">
+<div class="flex w-full max-w-2xs flex-shrink-0 flex-col gap-2 p-4 pr-0">
 	<div class="flex items-center gap-2">
-		<span class="aspect-square h-10 w-10 rounded-md bg-zinc-600"></span>
-		<h2 class="font-bold">SERVER NAME</h2>
+		<img class="aspect-square h-10 w-10 rounded-md" src={server_info.icon} alt={server_info.name} />
+		<h2 class="font-bold">{server_info.name}</h2>
 	</div>
-	<Tile title="Home" href="/123" Icon={House} active={page.url.pathname.endsWith("/123")} />
-	<Tile title="General Settings" href="/123/general" Icon={Cog} active={page.url.pathname.endsWith("/general")} />
-	<Tile title="Permissions" href="/123/permissions" Icon={Key} active={page.url.pathname.endsWith("/permissions")} />
-	<Tile title="Error Log" href="/123/error-log" Icon={TriangleAlert} active={page.url.pathname.endsWith("/error-log")} />
+	<Tile
+		title="Home"
+		href="/{serverID}"
+		Icon={House}
+		active={page.url.pathname.endsWith(serverID)}
+	/>
+	<Tile
+		title="General Settings"
+		href="/{serverID}/general"
+		Icon={Cog}
+		active={page.url.pathname.endsWith('/general')}
+	/>
+	<Tile
+		title="Permissions"
+		href="/{serverID}/permissions"
+		Icon={Key}
+		active={page.url.pathname.endsWith('/permissions')}
+	/>
+	<Tile
+		title="Error Log"
+		href="/{serverID}/error-log"
+		Icon={TriangleAlert}
+		active={page.url.pathname.endsWith('/error-log')}
+	/>
 	<p class="ml-2 text-base font-bold text-zinc-300/60">FEATURES</p>
-	<Tile title="Moderation" href="/123/moderation" Icon={Shield} active={page.url.pathname.endsWith("/moderation")} />
-	<Tile title="Automod" href="/123/automod" Icon={Brain} active={page.url.pathname.endsWith("/automod")} />
-	<Tile title="Bouncer" href="/123/bouncer" Icon={DoorClosedLocked} active={page.url.pathname.endsWith("/bouncer")} />
-	<Tile title="Logging" href="/123/logging" Icon={ScrollText} active={page.url.pathname.endsWith("/logging")} />
-	<Tile title="Fireboard" href="/123/fireboard" Icon={Flame} active={page.url.pathname.endsWith("/fireboard")} />
-	<Tile title="Leaderboard" href="/123/leaderboard" Icon={Trophy} active={page.url.pathname.endsWith("/leaderboard")} />
-	<Tile title="Server Counters" href="/123/server-counters" Icon={Tally5} active={page.url.pathname.endsWith("/server-counters")} />
-	<Tile title="Self Roles" href="/123/self-roles" Icon={Users} active={page.url.pathname.endsWith("/self-roles")} />
+	<Tile
+		title="Moderation"
+		href="/{serverID}/moderation"
+		Icon={Shield}
+		active={page.url.pathname.endsWith('/moderation')}
+	/>
+	<Tile
+		title="Automod"
+		href="/{serverID}/automod"
+		Icon={Brain}
+		active={page.url.pathname.endsWith('/automod')}
+	/>
+	<Tile
+		title="Bouncer"
+		href="/{serverID}/bouncer"
+		Icon={DoorClosedLocked}
+		active={page.url.pathname.endsWith('/bouncer')}
+	/>
+	<Tile
+		title="Logging"
+		href="/{serverID}/logging"
+		Icon={ScrollText}
+		active={page.url.pathname.endsWith('/logging')}
+	/>
+	<Tile
+		title="Fireboard"
+		href="/{serverID}/fireboard"
+		Icon={Flame}
+		active={page.url.pathname.endsWith('/fireboard')}
+	/>
+	<Tile
+		title="Leaderboard"
+		href="/{serverID}/leaderboard"
+		Icon={Trophy}
+		active={page.url.pathname.endsWith('/leaderboard')}
+	/>
+	<Tile
+		title="Server Counters"
+		href="/{serverID}/server-counters"
+		Icon={Tally5}
+		active={page.url.pathname.endsWith('/server-counters')}
+	/>
+	<Tile
+		title="Self Roles"
+		href="/{serverID}/self-roles"
+		Icon={Users}
+		active={page.url.pathname.endsWith('/self-roles')}
+	/>
 </div>

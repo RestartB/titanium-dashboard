@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { Cog } from '@lucide/svelte';
 	import type { Component } from 'svelte';
+
+	const { data } = $props();
+	const serverID = data.server_info.id;
 </script>
 
 <div>
@@ -10,12 +13,15 @@
 			>Restart</span
 		>
 	</h1>
-	<p>Manage settings for Titanium in <strong>SERVER NAME</strong> here.</p>
+	<p>Manage settings for Titanium in <strong>{data.server_info.name}</strong> here.</p>
 </div>
 
 {#snippet featureCard(title: string, description: string, href: string, Icon: Component)}
-	<a class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4" {href}>
-		<div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-700">
+	<a
+		class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4 shadow-lg transition-colors hover:bg-zinc-700"
+		{href}
+	>
+		<div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-600">
 			<Icon size={32} />
 		</div>
 		<h2 class="font-xl font-bold">{title}</h2>
@@ -27,19 +33,19 @@
 	{@render featureCard(
 		'General Settings',
 		'Change general settings like prefixes and reply types.',
-		'/general',
+		`/${serverID}/general`,
 		Cog
 	)}
 	{@render featureCard(
 		'Permissions',
 		'Change permissions for different features in your server.',
-		'/123/permissions',
+		`/${serverID}/permissions`,
 		Cog
 	)}
 	{@render featureCard(
 		'Error Log',
 		'View and manage error logs for your server.',
-		'/123/error-log',
+		`/${serverID}/error-log`,
 		Cog
 	)}
 </div>
@@ -50,49 +56,49 @@
 	{@render featureCard(
 		'Moderation',
 		'Moderate your server members and manage cases.',
-		'/123/moderation',
+		`/${serverID}/moderation`,
 		Cog
 	)}
 	{@render featureCard(
 		'Automod',
 		'Allow Titanium to moderate your server for you.',
-		'/123/automod',
+		`/${serverID}/automod`,
 		Cog
 	)}
 	{@render featureCard(
 		'Bouncer',
 		'Allow Titanium to monitor users as they join.',
-		'/123/bouncer',
+		`/${serverID}/bouncer`,
 		Cog
 	)}
 	{@render featureCard(
 		'Logging',
 		'Log various events that happen in your server.',
-		'/123/logging',
+		`/${serverID}/logging`,
 		Cog
 	)}
 	{@render featureCard(
 		'Fireboard',
 		'Let server members highlight messages they love.',
-		'/123/fireboard',
+		`/${serverID}/fireboard`,
 		Cog
 	)}
 	{@render featureCard(
 		'Leaderboard',
 		'Track engagement and activity in your server.',
-		'/123/leaderboard',
+		`/${serverID}/leaderboard`,
 		Cog
 	)}
 	{@render featureCard(
 		'Server Counters',
 		'Display various server statistics and counters.',
-		'/123/server-counters',
+		`/${serverID}/server-counters`,
 		Cog
 	)}
 	{@render featureCard(
 		'Self Roles',
 		'Allow users to assign roles with buttons or reactions.',
-		'/123/self-roles',
+		`/${serverID}/self-roles`,
 		Cog
 	)}
 </div>

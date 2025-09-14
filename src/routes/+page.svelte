@@ -1,5 +1,5 @@
 <script lang="ts">
-    import EmojiPicker from "$lib/components/EmojiPicker.svelte";
+    import EmojiPicker from "$lib/components/pickers/EmojiPicker.svelte";
 </script>
 
 <EmojiPicker />
