@@ -15,9 +15,8 @@
 			rule_name: '',
 			words: [],
 			antispam_type: '',
-			occurences: 0,
-			threshold: 0,
-			duration: 0,
+			threshold: 1,
+			duration: 1,
 			actions: []
 		};
 	}
@@ -41,14 +40,14 @@
 					onclick={() => {
 						const rule = createBlankRule();
 						rule.rule_type = 'badword_detection';
-						dataState.automod_settings.badword_detection.rules.push(rule);
+						dataState.automod_settings.badword_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.badword_detection.rules as rule, index}
+				{#each dataState.automod_settings.badword_detection as rule, index}
 					<Rule
-						bind:rule={dataState.automod_settings.badword_detection.rules[index]}
-						deleteThis={() => dataState.automod_settings.badword_detection.rules.splice(index, 1)}
+						bind:rule={dataState.automod_settings.badword_detection[index]}
+						deleteThis={() => dataState.automod_settings.badword_detection.splice(index, 1)}
 					/>
 				{/each}
 			</div>
@@ -66,15 +65,14 @@
 					onclick={() => {
 						const rule = createBlankRule();
 						rule.rule_type = 'malicious_link';
-						dataState.automod_settings.malicious_link_detection.rules.push(rule);
+						dataState.automod_settings.malicious_link_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.malicious_link_detection.rules as rule, index}
+				{#each dataState.automod_settings.malicious_link_detection as rule, index}
 					<Rule
-						bind:rule={dataState.automod_settings.malicious_link_detection.rules[index]}
-						deleteThis={() =>
-							dataState.automod_settings.malicious_link_detection.rules.splice(index, 1)}
+						bind:rule={dataState.automod_settings.malicious_link_detection[index]}
+						deleteThis={() => dataState.automod_settings.malicious_link_detection.splice(index, 1)}
 					/>
 				{/each}
 			</div>
@@ -88,15 +86,14 @@
 					onclick={() => {
 						const rule = createBlankRule();
 						rule.rule_type = 'phishing_link';
-						dataState.automod_settings.phishing_link_detection.rules.push(rule);
+						dataState.automod_settings.phishing_link_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.phishing_link_detection.rules as rule, index}
+				{#each dataState.automod_settings.phishing_link_detection as rule, index}
 					<Rule
-						bind:rule={dataState.automod_settings.phishing_link_detection.rules[index]}
-						deleteThis={() =>
-							dataState.automod_settings.phishing_link_detection.rules.splice(index, 1)}
+						bind:rule={dataState.automod_settings.phishing_link_detection[index]}
+						deleteThis={() => dataState.automod_settings.phishing_link_detection.splice(index, 1)}
 					/>
 				{/each}
 			</div>
@@ -115,15 +112,15 @@
 						const rule = createBlankRule();
 						rule.rule_type = 'spam_detection';
 						rule.antispam_type = 'message_spam';
-						dataState.automod_settings.spam_detection.rules.push(rule);
+						dataState.automod_settings.spam_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.spam_detection.rules as rule, index}
+				{#each dataState.automod_settings.spam_detection as rule, index}
 					{#if rule.antispam_type === 'message_spam'}
 						<Rule
-							bind:rule={dataState.automod_settings.spam_detection.rules[index]}
-							deleteThis={() => dataState.automod_settings.spam_detection.rules.splice(index, 1)}
+							bind:rule={dataState.automod_settings.spam_detection[index]}
+							deleteThis={() => dataState.automod_settings.spam_detection.splice(index, 1)}
 						/>
 					{/if}
 				{/each}
@@ -139,15 +136,15 @@
 						const rule = createBlankRule();
 						rule.rule_type = 'spam_detection';
 						rule.antispam_type = 'mention_spam';
-						dataState.automod_settings.spam_detection.rules.push(rule);
+						dataState.automod_settings.spam_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.spam_detection.rules as rule, index}
+				{#each dataState.automod_settings.spam_detection as rule, index}
 					{#if rule.antispam_type === 'mention_spam'}
 						<Rule
-							bind:rule={dataState.automod_settings.spam_detection.rules[index]}
-							deleteThis={() => dataState.automod_settings.spam_detection.rules.splice(index, 1)}
+							bind:rule={dataState.automod_settings.spam_detection[index]}
+							deleteThis={() => dataState.automod_settings.spam_detection.splice(index, 1)}
 						/>
 					{/if}
 				{/each}
@@ -163,15 +160,15 @@
 						const rule = createBlankRule();
 						rule.rule_type = 'spam_detection';
 						rule.antispam_type = 'word_spam';
-						dataState.automod_settings.spam_detection.rules.push(rule);
+						dataState.automod_settings.spam_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.spam_detection.rules as rule, index}
+				{#each dataState.automod_settings.spam_detection as rule, index}
 					{#if rule.antispam_type === 'word_spam'}
 						<Rule
-							bind:rule={dataState.automod_settings.spam_detection.rules[index]}
-							deleteThis={() => dataState.automod_settings.spam_detection.rules.splice(index, 1)}
+							bind:rule={dataState.automod_settings.spam_detection[index]}
+							deleteThis={() => dataState.automod_settings.spam_detection.splice(index, 1)}
 						/>
 					{/if}
 				{/each}
@@ -187,15 +184,15 @@
 						const rule = createBlankRule();
 						rule.rule_type = 'spam_detection';
 						rule.antispam_type = 'newline_spam';
-						dataState.automod_settings.spam_detection.rules.push(rule);
+						dataState.automod_settings.spam_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.spam_detection.rules as rule, index}
+				{#each dataState.automod_settings.spam_detection as rule, index}
 					{#if rule.antispam_type === 'newline_spam'}
 						<Rule
-							bind:rule={dataState.automod_settings.spam_detection.rules[index]}
-							deleteThis={() => dataState.automod_settings.spam_detection.rules.splice(index, 1)}
+							bind:rule={dataState.automod_settings.spam_detection[index]}
+							deleteThis={() => dataState.automod_settings.spam_detection.splice(index, 1)}
 						/>
 					{/if}
 				{/each}
@@ -211,15 +208,15 @@
 						const rule = createBlankRule();
 						rule.rule_type = 'spam_detection';
 						rule.antispam_type = 'link_spam';
-						dataState.automod_settings.spam_detection.rules.push(rule);
+						dataState.automod_settings.spam_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.spam_detection.rules as rule, index}
+				{#each dataState.automod_settings.spam_detection as rule, index}
 					{#if rule.antispam_type === 'link_spam'}
 						<Rule
-							bind:rule={dataState.automod_settings.spam_detection.rules[index]}
-							deleteThis={() => dataState.automod_settings.spam_detection.rules.splice(index, 1)}
+							bind:rule={dataState.automod_settings.spam_detection[index]}
+							deleteThis={() => dataState.automod_settings.spam_detection.splice(index, 1)}
 						/>
 					{/if}
 				{/each}
@@ -235,15 +232,15 @@
 						const rule = createBlankRule();
 						rule.rule_type = 'spam_detection';
 						rule.antispam_type = 'attachment_spam';
-						dataState.automod_settings.spam_detection.rules.push(rule);
+						dataState.automod_settings.spam_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.spam_detection.rules as rule, index}
+				{#each dataState.automod_settings.spam_detection as rule, index}
 					{#if rule.antispam_type === 'attachment_spam'}
 						<Rule
-							bind:rule={dataState.automod_settings.spam_detection.rules[index]}
-							deleteThis={() => dataState.automod_settings.spam_detection.rules.splice(index, 1)}
+							bind:rule={dataState.automod_settings.spam_detection[index]}
+							deleteThis={() => dataState.automod_settings.spam_detection.splice(index, 1)}
 						/>
 					{/if}
 				{/each}
@@ -259,15 +256,15 @@
 						const rule = createBlankRule();
 						rule.rule_type = 'spam_detection';
 						rule.antispam_type = 'emoji_spam';
-						dataState.automod_settings.spam_detection.rules.push(rule);
+						dataState.automod_settings.spam_detection.push(rule);
 					}}>Add Rule</button
 				>
 
-				{#each dataState.automod_settings.spam_detection.rules as rule, index}
+				{#each dataState.automod_settings.spam_detection as rule, index}
 					{#if rule.antispam_type === 'emoji_spam'}
 						<Rule
-							bind:rule={dataState.automod_settings.spam_detection.rules[index]}
-							deleteThis={() => dataState.automod_settings.spam_detection.rules.splice(index, 1)}
+							bind:rule={dataState.automod_settings.spam_detection[index]}
+							deleteThis={() => dataState.automod_settings.spam_detection.splice(index, 1)}
 						/>
 					{/if}
 				{/each}

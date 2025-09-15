@@ -43,7 +43,7 @@
 	</a>
 {/snippet}
 
-<div class="grid grid-cols-3 gap-2">
+<div class="grid grid-cols-3 gap-4">
 	{@render featureCard(
 		'General Settings',
 		'Change general settings like prefixes and reply types.',
@@ -66,7 +66,7 @@
 
 <p class="text-base font-bold text-zinc-300/60">FEATURES</p>
 
-<div class="grid grid-cols-3 gap-2">
+<div class="grid grid-cols-3 gap-4">
 	{@render featureCard(
 		'Moderation',
 		'Moderate your server members and manage cases.',

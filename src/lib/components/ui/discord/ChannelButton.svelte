@@ -8,17 +8,13 @@
 	let overlayOpen = $state(false);
 
 	let {
-		channel,
-		type = '',
 		channels = [],
 		categories = [],
-		selectedChannel = $bindable()
+		channel = $bindable()
 	}: {
-		channel: string | null | undefined;
-		type?: string;
 		channels?: ChannelInfo[];
 		categories?: CategoryInfo[];
-		selectedChannel?: string;
+		channel?: string;
 	} = $props();
 	const channelTypeIcons: Record<string, Component> = {
 		text: Hash,
@@ -27,23 +23,27 @@
 		voice: Volume2,
 		stage_voice: Podcast
 	};
+
+	const selectedChannel = $derived.by(() => {
+		return channels.find((c) => c.id === channel);
+	});
 </script>
 
 {#if overlayOpen}
 	<FullscreenOverlay bind:overlayOpen>
-		<ChannelPicker {channels} {categories} bind:selectedChannel bind:overlayOpen />
+		<ChannelPicker {channels} {categories} bind:selectedChannel={channel} bind:overlayOpen />
 	</FullscreenOverlay>
 {/if}
 
 {#snippet channelContent()}
-	{#if channel}
-		{#if channelTypeIcons[type]}
-			{@const Icon = channelTypeIcons[type]}
+	{#if selectedChannel}
+		{#if channelTypeIcons[selectedChannel.type]}
+			{@const Icon = channelTypeIcons[selectedChannel.type]}
 			<Icon class="h-4 w-4 text-zinc-400" />
 		{:else}
 			<Hash class="h-4 w-4 text-zinc-400" />
 		{/if}
-		<p class="text-zinc-200 select-none">{channel}</p>
+		<p class="text-zinc-200 select-none">{selectedChannel.name}</p>
 	{:else}
 		<p class="text-zinc-500 select-none">No channel set</p>
 	{/if}

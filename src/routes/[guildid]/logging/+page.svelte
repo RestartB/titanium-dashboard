@@ -7,6 +7,8 @@
 	let { data } = $props();
 	let dataState = $state(data);
 
+	$inspect(dataState)
+
 	const logTypeStrings: Record<string, string[]> = {
 		app_command_perm_update_id: [
 			'App Command Permissions Update',
@@ -126,15 +128,9 @@
 		</div>
 
 		<ChannelButton
-			channel={data.server_info.channels.find(
-				(c) => c.id === dataState.logging_settings[logType as keyof LoggingSettings]
-			)?.name}
-			type={data.server_info.channels.find(
-				(c) => c.id === dataState.logging_settings[logType as keyof LoggingSettings]
-			)?.type ?? 'text'}
 			channels={data.server_info.channels}
 			categories={data.server_info.categories}
-			bind:selectedChannel={dataState.logging_settings[logType as keyof LoggingSettings] as string}
+			bind:channel={dataState.logging_settings[logType as keyof LoggingSettings] as string}
 		/>
 	</li>
 {/snippet}

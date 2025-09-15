@@ -4,7 +4,7 @@
 	import Row from '$lib/components/ui/row/Row.svelte';
 	import { TriangleAlert } from '@lucide/svelte';
 
-	let { page, dataState = $bindable() }: { page: string; dataState: any } = $props();
+	let { page = '', dataState = $bindable() }: { page?: string; dataState: any } = $props();
 
 	let originalDataString = JSON.stringify(dataState);
 	let hasUnsavedChanges = $state(false);
@@ -39,7 +39,7 @@
 
 	async function saveServerSettings() {
 		await fetch(`/api/${dataState.server_info.id}/settings`, {
-			method: 'POST',
+			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
@@ -52,7 +52,7 @@
 
 		if (page === 'automod') {
 			await fetch(`/api/${dataState.server_info.id}/module/automod`, {
-				method: 'POST',
+				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json'
 				},
@@ -60,7 +60,7 @@
 			});
 		} else if (page === 'logging') {
 			await fetch(`/api/${dataState.server_info.id}/module/logging`, {
-				method: 'POST',
+				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json'
 				},

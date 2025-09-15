@@ -1,13 +1,8 @@
 export interface AutomodSettings {
-	badword_detection: AutomodFilter;
-	spam_detection: AutomodFilter;
-	malicious_link_detection: AutomodFilter;
-	phishing_link_detection: AutomodFilter;
-}
-
-export interface AutomodFilter {
-	enabled: boolean;
-	rules: AutomodRule[];
+	badword_detection: AutomodRule[];
+	spam_detection: AutomodRule[];
+	malicious_link_detection: AutomodRule[];
+	phishing_link_detection: AutomodRule[];
 }
 
 export interface AutomodRule {
@@ -16,7 +11,6 @@ export interface AutomodRule {
 	rule_name: string;
 	words?: string[];
 	antispam_type?: string;
-	occurences: number;
 	threshold: number;
 	duration: number;
 	actions: AutomodAction[];

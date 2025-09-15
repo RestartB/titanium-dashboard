@@ -2,7 +2,7 @@
 	import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 	import ActionPicker from '$lib/components/automod/ActionPicker.svelte';
 	import ActionTile from './ActionTile.svelte';
-	import WordTile from './WordTile.svelte';
+	import WordTile from '../ui/WordTile.svelte';
 
 	import { ChevronDown, X, Plus } from '@lucide/svelte';
 	import type { AutomodRule } from '$lib/types/automod';
@@ -11,7 +11,7 @@
 	let expanded = $state(false);
 	let createNewOpen = $state(false);
 
-	const occurenceStrings = {
+	const thresholdtrings = {
 		badword_detection: 'flagged words',
 		malicious_link: 'flagged links',
 		phishing_link: 'flagged links',
@@ -24,20 +24,19 @@
 		emoji_spam: 'emojis'
 	};
 
-	let occurenceString = $state('');
+	let thresholdtring = $state('');
 	if (rule.rule_type === 'spam_detection') {
-		occurenceString =
-			occurenceStrings[rule.antispam_type as keyof typeof occurenceStrings] || 'messages';
+		thresholdtring =
+			thresholdtrings[rule.antispam_type as keyof typeof thresholdtrings] || 'messages';
 	} else {
-		occurenceString =
-			occurenceStrings[rule.rule_type as keyof typeof occurenceStrings] || 'messages';
+		thresholdtring = thresholdtrings[rule.rule_type as keyof typeof thresholdtrings] || 'messages';
 	}
 
 	let newWordInput = $state('');
 
 	$effect(() => {
-		rule.occurences = Number(rule.occurences);
-		if (isNaN(rule.occurences) || rule.occurences < 1) rule.occurences = 1;
+		rule.threshold = Number(rule.threshold);
+		if (isNaN(rule.threshold) || rule.threshold < 1) rule.threshold = 1;
 
 		rule.duration = Number(rule.duration);
 		if (isNaN(rule.duration) || rule.duration < 1) rule.duration = 1;
@@ -56,9 +55,9 @@
 			<input
 				type="text"
 				class="w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
-				bind:value={rule.occurences}
+				bind:value={rule.threshold}
 			/>
-			<p>{occurenceString} in</p>
+			<p>{thresholdtring} in</p>
 			<input
 				type="text"
 				class="w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
@@ -68,14 +67,14 @@
 		</div>
 		<div class="flex items-center justify-center gap-2">
 			<button
-				class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-600"
+				class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
 				aria-label="Delete rule"
 				onclick={deleteThis}
 			>
 				<X size={18} />
 			</button>
 			<button
-				class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 hover:bg-zinc-600"
+				class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
 				aria-label="Expand rule details"
 				onclick={() => (expanded = !expanded)}
 			>
@@ -101,10 +100,16 @@
 							type="text"
 							placeholder="Add Word..."
 							class="h-full w-full"
+							onkeydown={(e) => {
+								if (e.key === 'Enter' && newWordInput) {
+									rule.words?.push(newWordInput);
+									newWordInput = '';
+								}
+							}}
 							bind:value={newWordInput}
 						/>
 						<button
-							class="rounded-lg p-1 hover:bg-zinc-600"
+							class="cursor-pointer rounded-lg p-1 transition-colors hover:bg-zinc-600"
 							onclick={() => {
 								if (newWordInput) {
 									rule.words?.push(newWordInput);
@@ -130,7 +135,7 @@
 					/>
 				{/each}
 				<button
-					class="rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
+					class="cursor-pointer rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
 					onclick={() => (createNewOpen = true)}>Add Action...</button
 				>
 			</div>
