@@ -1,5 +1,4 @@
 export interface LoggingSettings {
-	enabled: boolean;
 	app_command_perm_update_id: string;
 	dc_automod_rule_create_id: string;
 	dc_automod_rule_update_id: string;

@@ -15,7 +15,7 @@
 	import type { Component } from 'svelte';
 
 	const { data } = $props();
-	const serverID = data.server_info.id;
+	const serverID = data.serverInfo.id;
 </script>
 
 <div>
@@ -26,7 +26,7 @@
 		>
 	</h1>
 	<p>
-		Manage settings for Titanium in <strong translate="no">{data.server_info.name}</strong> here.
+		Manage settings for Titanium in <strong translate="no">{data.serverInfo.name}</strong> here.
 	</p>
 </div>
 

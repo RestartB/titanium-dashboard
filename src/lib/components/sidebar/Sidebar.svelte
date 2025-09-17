@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import type { ServerInfo } from '$lib/types/server_info';
+	import type { ServerInfo } from '$lib/types/serverInfo';
 
 	import {
 		House,
@@ -18,19 +18,22 @@
 	} from '@lucide/svelte';
 	import Tile from './Tile.svelte';
 
-	const { server_info }: { server_info: ServerInfo } = $props();
-	const serverID = server_info.id;
+	const { serverInfo }: { serverInfo: ServerInfo } = $props();
+	const serverID = serverInfo.id;
 </script>
 
-<div class="flex w-full max-w-2xs flex-shrink-0 flex-col gap-2 p-4 pr-0">
+<div
+	class="flex w-full max-w-2xs flex-shrink-0 flex-col gap-2 p-4 pr-0"
+	style="view-transition-name: sidebar"
+>
 	<div class="flex items-center gap-2">
 		<img
 			class="aspect-square h-10 w-10 rounded-md"
-			src={server_info.icon}
-			alt={server_info.name}
+			src={serverInfo.icon}
+			alt={serverInfo.name}
 			translate="no"
 		/>
-		<h2 class="font-bold" translate="no">{server_info.name}</h2>
+		<h2 class="font-bold" translate="no">{serverInfo.name}</h2>
 	</div>
 	<Tile
 		title="Home"

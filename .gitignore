@@ -24,3 +24,8 @@ vite.config.ts.timestamp-*
 
 # Emojis
 /static/emojis
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal

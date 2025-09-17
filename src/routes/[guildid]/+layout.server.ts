@@ -1,8 +1,8 @@
 import { error } from '@sveltejs/kit';
 
 import type { LayoutServerLoad } from './$types';
-import type { ServerInfo } from '$lib/types/server_info';
-import type { ServerSettings } from '$lib/types/server_settings';
+import type { ServerInfo } from '$lib/types/serverInfo';
+import type { ServerSettings } from '$lib/types/serverSettings';
 
 export const load: LayoutServerLoad = async ({ params, fetch }) => {
 	// Get data
@@ -18,8 +18,8 @@ export const load: LayoutServerLoad = async ({ params, fetch }) => {
 		error(settingsRequest.status, 'Failed to fetch server settings from Titanium');
 	}
 
-	const server_info: ServerInfo = await infoRequest.json();
-	const server_settings: ServerSettings = await settingsRequest.json();
+	const serverInfo: ServerInfo = await infoRequest.json();
+	const serverSettings: ServerSettings = await settingsRequest.json();
 
-	return { server_info, server_settings };
+	return { serverInfo, serverSettings };
 };

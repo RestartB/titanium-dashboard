@@ -3,7 +3,7 @@
 	import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
 	import { Hash, Megaphone, MessagesSquare, Volume2, Podcast } from '@lucide/svelte';
 	import type { Component } from 'svelte';
-	import type { ChannelInfo, CategoryInfo } from '$lib/types/server_info';
+	import type { ChannelInfo, CategoryInfo } from '$lib/types/serverInfo';
 
 	let overlayOpen = $state(false);
 

@@ -38,12 +38,12 @@
 	});
 
 	async function saveServerSettings() {
-		await fetch(`/api/${dataState.server_info.id}/settings`, {
+		await fetch(`/api/${dataState.serverInfo.id}/settings`, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(dataState.server_settings)
+			body: JSON.stringify(dataState.serverSettings)
 		});
 	}
 
@@ -51,7 +51,7 @@
 		await saveServerSettings();
 
 		if (page === 'automod') {
-			await fetch(`/api/${dataState.server_info.id}/module/automod`, {
+			await fetch(`/api/${dataState.serverInfo.id}/module/automod`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json'
@@ -59,7 +59,7 @@
 				body: JSON.stringify(dataState.automod_settings)
 			});
 		} else if (page === 'logging') {
-			await fetch(`/api/${dataState.server_info.id}/module/logging`, {
+			await fetch(`/api/${dataState.serverInfo.id}/module/logging`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json'

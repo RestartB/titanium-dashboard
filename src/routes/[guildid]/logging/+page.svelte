@@ -1,13 +1,13 @@
 <script lang="ts">
 	import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
 	import Collapsible from '$lib/components/ui/Collapsible.svelte';
+	import Toggle from '$lib/components/ui/Toggle.svelte';
 	import Saver from '$lib/components/Saver.svelte';
+	import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
 	import type { LoggingSettings } from '$lib/types/logging';
 
 	let { data } = $props();
 	let dataState = $state(data);
-
-	$inspect(dataState)
 
 	const logTypeStrings: Record<string, string[]> = {
 		app_command_perm_update_id: [
@@ -128,8 +128,8 @@
 		</div>
 
 		<ChannelButton
-			channels={data.server_info.channels}
-			categories={data.server_info.categories}
+			channels={data.serverInfo.channels}
+			categories={data.serverInfo.categories}
 			bind:channel={dataState.logging_settings[logType as keyof LoggingSettings] as string}
 		/>
 	</li>
@@ -147,95 +147,100 @@
 
 <Saver page="logging" bind:dataState />
 
-<div>
-	<h2 class="text-4xl font-bold">Logging</h2>
-	<p>Set log channels for various events that happen in your server.</p>
+<div class="flex items-center justify-between gap-4">
+	<div class="flex-1">
+		<h2 class="text-4xl font-bold">Logging</h2>
+		<p>Set log channels for various events that happen in your server.</p>
+	</div>
+	<Toggle bind:toggled={dataState.serverSettings.modules.logging} />
 </div>
 
-<Collapsible title="Titanium">
-	{@render logCategoryList('titanium_')}
-</Collapsible>
+<ToggledContent enabled={dataState.serverSettings.modules.logging}>
+	<Collapsible title="Titanium">
+		{@render logCategoryList('titanium_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="App Commands">
-	{@render logCategoryList('app_command_')}
-</Collapsible>
+	<Collapsible title="App Commands">
+		{@render logCategoryList('app_command_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Discord AutoMod">
-	{@render logCategoryList('dc_automod_')}
-</Collapsible>
+	<Collapsible title="Discord AutoMod">
+		{@render logCategoryList('dc_automod_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Channels">
-	{@render logCategoryList('channel_')}
-</Collapsible>
+	<Collapsible title="Channels">
+		{@render logCategoryList('channel_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Server Settings">
-	{@render logCategoryList('guild_')}
-</Collapsible>
+	<Collapsible title="Server Settings">
+		{@render logCategoryList('guild_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Members">
-	{@render logCategoryList('member_')}
-</Collapsible>
+	<Collapsible title="Members">
+		{@render logCategoryList('member_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Messages">
-	{@render logCategoryList('message_')}
-</Collapsible>
+	<Collapsible title="Messages">
+		{@render logCategoryList('message_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Polls">
-	{@render logCategoryList('poll_')}
-</Collapsible>
+	<Collapsible title="Polls">
+		{@render logCategoryList('poll_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Reactions">
-	{@render logCategoryList('reaction_')}
-</Collapsible>
+	<Collapsible title="Reactions">
+		{@render logCategoryList('reaction_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Roles">
-	{@render logCategoryList('role_')}
-</Collapsible>
+	<Collapsible title="Roles">
+		{@render logCategoryList('role_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Scheduled Events">
-	{@render logCategoryList('scheduled_event_')}
-</Collapsible>
+	<Collapsible title="Scheduled Events">
+		{@render logCategoryList('scheduled_event_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Soundboard">
-	{@render logCategoryList('soundboard_')}
-</Collapsible>
+	<Collapsible title="Soundboard">
+		{@render logCategoryList('soundboard_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Stage Instances">
-	{@render logCategoryList('stage_instance_')}
-</Collapsible>
+	<Collapsible title="Stage Instances">
+		{@render logCategoryList('stage_instance_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Threads">
-	{@render logCategoryList('thread_')}
-</Collapsible>
+	<Collapsible title="Threads">
+		{@render logCategoryList('thread_')}
+	</Collapsible>
 
-<hr class=" border-zinc-500" />
+	<hr class=" border-zinc-500" />
 
-<Collapsible title="Voice">
-	{@render logCategoryList('voice_')}
-</Collapsible>
+	<Collapsible title="Voice">
+		{@render logCategoryList('voice_')}
+	</Collapsible>
+</ToggledContent>

@@ -28,7 +28,7 @@
 		use slash commands.
 	</p>
 	<div class="mt-2 flex flex-wrap gap-2">
-		{#if dataState.server_settings.prefixes.length < 5}
+		{#if dataState.serverSettings.prefixes.length < 5}
 			<div
 				class="flex max-w-35 items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
 			>
@@ -38,7 +38,7 @@
 					class="h-full w-full"
 					onkeydown={(e) => {
 						if (e.key === 'Enter' && newPrefixInput) {
-							dataState.server_settings.prefixes.push(newPrefixInput);
+							dataState.serverSettings.prefixes.push(newPrefixInput);
 							newPrefixInput = '';
 						}
 					}}
@@ -48,7 +48,7 @@
 					class="cursor-pointer rounded-lg p-1 transition-colors hover:bg-zinc-600"
 					onclick={() => {
 						if (newPrefixInput) {
-							dataState.server_settings.prefixes.push(newPrefixInput);
+							dataState.serverSettings.prefixes.push(newPrefixInput);
 							newPrefixInput = '';
 						}
 					}}
@@ -57,16 +57,16 @@
 				</button>
 			</div>
 		{/if}
-		{#each dataState.server_settings.prefixes as prefix, index}
+		{#each dataState.serverSettings.prefixes as prefix, index}
 			<WordTile
 				word={prefix}
-				deleteThis={() => dataState.server_settings.prefixes.splice(index, 1)}
+				deleteThis={() => dataState.serverSettings.prefixes.splice(index, 1)}
 			/>
 		{/each}
 	</div>
 </Row>
 
-<ToggleRow bind:toggled={dataState.server_settings.settings.loading_reaction}>
+<ToggleRow bind:toggled={dataState.serverSettings.settings.loading_reaction}>
 	<div>
 		<h2 class="text-xl font-bold">Show Loading Reaction</h2>
 		<p>
@@ -76,7 +76,7 @@
 	</div>
 </ToggleRow>
 
-<ToggleRow bind:toggled={dataState.server_settings.settings.reply_ping}>
+<ToggleRow bind:toggled={dataState.serverSettings.settings.reply_ping}>
 	<div>
 		<h2 class="text-xl font-bold">Use Reply Pings</h2>
 		<p>Control whether Titanium should use reply pings when responding to prefix commands.</p>
