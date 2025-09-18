@@ -36,7 +36,7 @@ export const GET: RequestHandler = async ({ cookies }) => {
 	});
 
 	const mutualRequest = await fetch(
-		`http://localhost:5100/user/${tokenRecord.discordUserId}/guilds`
+		`http://127.0.0.1:5100/user/${tokenRecord.discordUserId}/guilds`
 	);
 
 	if (!mutualRequest.ok) {
