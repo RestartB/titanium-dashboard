@@ -65,7 +65,9 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	});
 
 	cookies.set('titanium_token', tokenData, {
-		httpOnly: true,
+		httpOnly: false,
+		secure: false,
+		sameSite: 'strict',
 		path: '/',
 		maxAge: 60 * 60 * 24 * 7
 	});

@@ -8,7 +8,7 @@ export const GET: RequestHandler = async ({ params }) => {
 		throw error(400, 'Missing guild ID');
 	}
 
-	const request = await fetch(`http://127.0.0.1:5100/${guildid}/settings`, {
+	const request = await fetch(`http://127.0.0.1:5100/guild/${guildid}/settings`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export const PUT: RequestHandler = async ({ params, request: req }) => {
 		throw error(400, 'Missing guild ID');
 	}
 
-	const putRequest = await fetch(`http://127.0.0.1:5100/${guildid}/settings`, {
+	const putRequest = await fetch(`http://127.0.0.1:5100/guild/${guildid}/settings`, {
 		method: 'PUT',
 		headers: {
 			'Content-Type': 'application/json'

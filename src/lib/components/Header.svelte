@@ -13,14 +13,20 @@
 				<img src={logo} alt="Titanium" class="h-8 w-8 rounded-md" translate="no" />
 				<h1 class="font-bold" translate="no">Titanium</h1>
 			</div>
-			<a href="/" class="flex h-full items-center px-2">Servers</a>
+			{#if userData}
+				<a href="/" class="flex h-full items-center px-2">Servers</a>
+			{/if}
 			<a href="https://titaniumbot.me/server" target="_blank" class="flex h-full items-center px-2"
 				>Support</a
 			>
 		</div>
 		<div class="flex items-center gap-2">
-			<img src={logo} alt="User Avatar" class="h-6 w-6 rounded-full bg-zinc-600" translate="no" />
-			<p class="font-bold" translate="no">{userData?.global_name || userData?.username}</p>
+			{#if userData}
+				<img src={logo} alt="User Avatar" class="h-6 w-6 rounded-full bg-zinc-600" translate="no" />
+				<p class="font-bold" translate="no">{userData?.global_name || userData?.username}</p>
+			{:else}
+				<p class="font-bold opacity-70">Not logged in</p>
+			{/if}
 		</div>
 	</div>
 </header>

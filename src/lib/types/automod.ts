@@ -10,6 +10,7 @@ export interface AutomodRule {
 	rule_type: string;
 	rule_name: string;
 	words?: string[];
+	user_ids?: string[];
 	antispam_type?: string;
 	threshold: number;
 	duration: number;

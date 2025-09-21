@@ -9,7 +9,7 @@
 		channels,
 		categories,
 		selectedChannel = $bindable(),
-		overlayOpen = $bindable(true)
+		overlayOpen = $bindable(false)
 	}: {
 		channels: ChannelInfo[];
 		categories: CategoryInfo[];

@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 	cookies.set('titanium_state', state, {
 		path: '/',
 		sameSite: 'strict',
-		secure: true,
+		secure: false,
 		maxAge: 600,
 		httpOnly: false
 	});

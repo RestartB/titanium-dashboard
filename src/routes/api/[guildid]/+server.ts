@@ -8,7 +8,7 @@ export const GET: RequestHandler = async ({ params }) => {
 		throw error(400, 'Missing guild ID');
 	}
 
-	const request = await fetch(`http://127.0.0.1:5100/${guildid}/info`, {
+	const request = await fetch(`http://127.0.0.1:5100/guild/${guildid}/info`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json'

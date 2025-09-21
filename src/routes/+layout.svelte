@@ -12,7 +12,8 @@
 		home: 0,
 		general: 1,
 		automod: 2,
-		logging: 3
+		logging: 3,
+		fireboard: 4,
 	};
 
 	onNavigate((navigation) => {
@@ -26,6 +27,19 @@
 
 		if (fromPageID === page.params.guildid) fromPageID = 'home';
 		if (toPageID === page.params.guildid) toPageID = 'home';
+
+		console.log({ fromPageID, toPageID });
+
+		if (fromPageID === '' || toPageID === '') {
+			document.documentElement.style.setProperty('--old-animation', 'fade-out');
+			document.documentElement.style.setProperty('--new-animation', 'fade-in');
+			return new Promise((resolve) => {
+				document.startViewTransition(async () => {
+					resolve();
+					await navigation.complete;
+				});
+			});
+		}
 
 		if (pageOrder[fromPageID] === undefined || pageOrder[toPageID] === undefined) return;
 		if (pageOrder[fromPageID] === pageOrder[toPageID]) return;
@@ -56,7 +70,7 @@
 </svelte:head>
 
 <div class="flex h-screen flex-col">
-	<Header userData={data.userData.userData} />
+	<Header userData={data.userData?.userData} />
 	<div class="flex-1 overflow-hidden pt-12">
 		{@render children?.()}
 	</div>

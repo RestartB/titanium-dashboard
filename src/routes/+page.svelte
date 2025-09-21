@@ -43,7 +43,9 @@
 			<img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
 			<h1 class="text-2xl font-bold" translate="no">Titanium Dashboard</h1>
 		</div>
-		<p>Select a server to get started.</p>
+		{#if data.userData}
+			<p>Select a server to get started.</p>
+		{/if}
 		<div class="flex w-full flex-1 flex-col gap-2 overflow-y-auto">
 			{#if data.userData}
 				{#if data.guildsData.mutualGuilds.length > 0}

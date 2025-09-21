@@ -3,6 +3,7 @@ export type ServerSettings = {
 		moderation: boolean;
 		automod: boolean;
 		logging: boolean;
+		fireboard: boolean;
 	};
 	settings: {
 		loading_reaction: boolean;

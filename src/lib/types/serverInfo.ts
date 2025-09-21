@@ -7,6 +7,7 @@ export interface ServerInfo {
 	roles: RoleInfo[];
 	channels: ChannelInfo[];
 	categories: CategoryInfo[];
+	emojis: EmojiInfo[];
 }
 
 export interface RoleInfo {
@@ -29,4 +30,10 @@ export interface CategoryInfo {
 	id: string;
 	name: string;
 	position: number;
+}
+
+export interface EmojiInfo {
+	id: string;
+	label: string;
+	url: string;
 }

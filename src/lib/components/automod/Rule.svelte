@@ -11,7 +11,7 @@
 	let expanded = $state(false);
 	let createNewOpen = $state(false);
 
-	const thresholdtrings = {
+	const thresholdStrings = {
 		badword_detection: 'flagged words',
 		malicious_link: 'flagged links',
 		phishing_link: 'flagged links',
@@ -24,22 +24,45 @@
 		emoji_spam: 'emojis'
 	};
 
-	let thresholdtring = $state('');
+	let thresholdString = $state('');
 	if (rule.rule_type === 'spam_detection') {
-		thresholdtring =
-			thresholdtrings[rule.antispam_type as keyof typeof thresholdtrings] || 'messages';
+		thresholdString =
+			thresholdStrings[rule.antispam_type as keyof typeof thresholdStrings] || 'messages';
 	} else {
-		thresholdtring = thresholdtrings[rule.rule_type as keyof typeof thresholdtrings] || 'messages';
+		thresholdString =
+			thresholdStrings[rule.rule_type as keyof typeof thresholdStrings] || 'messages';
 	}
 
 	let newWordInput = $state('');
 
 	$effect(() => {
-		rule.threshold = Number(rule.threshold);
-		if (isNaN(rule.threshold) || rule.threshold < 1) rule.threshold = 1;
+		if (String(rule.threshold).trim() === '') {
+			return;
+		}
 
-		rule.duration = Number(rule.duration);
-		if (isNaN(rule.duration) || rule.duration < 1) rule.duration = 1;
+		const numValue = Number(rule.threshold);
+		if (isNaN(numValue)) {
+			rule.threshold = 5;
+			return;
+		}
+		if (numValue < 1) {
+			rule.threshold = 1;
+		}
+	});
+
+	$effect(() => {
+		if (String(rule.duration).trim() === '') {
+			return;
+		}
+
+		const numValue = Number(rule.duration);
+		if (isNaN(numValue)) {
+			rule.duration = 5;
+			return;
+		}
+		if (numValue < 1) {
+			rule.duration = 1;
+		}
 	});
 </script>
 
@@ -56,12 +79,22 @@
 				type="text"
 				class="w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
 				bind:value={rule.threshold}
+				onfocusout={() => {
+					if (String(rule.threshold).trim() === '') {
+						rule.threshold = 1;
+					}
+				}}
 			/>
-			<p>{thresholdtring} in</p>
+			<p>{thresholdString} in</p>
 			<input
 				type="text"
 				class="w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
 				bind:value={rule.duration}
+				onfocusout={() => {
+					if (String(rule.duration).trim() === '') {
+						rule.duration = 1;
+					}
+				}}
 			/>
 			<p>seconds</p>
 		</div>
