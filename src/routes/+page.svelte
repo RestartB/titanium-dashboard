@@ -13,9 +13,8 @@
 {#snippet guildRow(guild: any, invite = false)}
 	<a
 		class="flex w-full items-center gap-4 rounded-md border border-zinc-700 p-4 transition-all"
+		class:cursor-default={invite}
 		class:hover:bg-zinc-700={!invite}
-		class:opacity-50={invite}
-		class:cursor-not-allowed={invite}
 		href={`/${guild.id}`}
 		title={guild.name}
 	>
@@ -25,8 +24,9 @@
 				: undefined}
 			name={guild.name}
 			size={40}
+			class={invite ? 'opacity-50' : ''}
 		/>
-		<div class="flex items-center gap-1">
+		<div class="flex items-center gap-1" class:opacity-50={invite}>
 			{#if guild.features.includes('PARTNERED')}
 				<img src={partner} alt="Partnered Server" class="h-4 w-4" translate="no" />
 			{:else if guild.features.includes('VERIFIED')}
@@ -34,6 +34,14 @@
 			{/if}
 			<p>{guild.name}</p>
 		</div>
+
+		{#if invite}
+			<span
+				class="ml-auto cursor-pointer rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600"
+			>
+				Add Bot
+			</span>
+		{/if}
 	</a>
 {/snippet}
 
@@ -70,7 +78,7 @@
 						{@render guildRow(guild)}
 					{/each}
 					{#if data.guildsData.nonMutualGuilds.length > 0}
-						<p class="text-base font-bold text-zinc-300/60">
+						<p class="mt-2 text-base font-bold text-zinc-300/60">
 							Servers without Titanium <span class="text-zinc-400"
 								>({data.guildsData.nonMutualGuilds.length})</span
 							>
