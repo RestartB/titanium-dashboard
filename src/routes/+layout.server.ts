@@ -1,3 +1,4 @@
+import { TEST_MODE } from '$env/static/private';
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
@@ -8,6 +9,17 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
 
 	let userData = null;
 	let guildsData = null;
+
+	if (TEST_MODE === 'true') {
+		userData = {
+			userData: {
+				id: '123456789012345678',
+				username: 'TestUser',
+				avatar: null
+			}
+		};
+		return { userData, guildsData };
+	}
 
 	const userRequest = await fetch('/api/identify');
 	if (!userRequest.ok) {

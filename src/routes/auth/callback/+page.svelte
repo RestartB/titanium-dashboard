@@ -54,8 +54,8 @@
 	});
 </script>
 
-<div class="flex h-full flex-col items-center justify-center">
-	<Row class="flex flex-col items-center justify-center gap-4 p-4">
+<div class="flex h-full flex-col items-center justify-center p-4">
+	<Row class="m-4 flex flex-col items-center justify-center gap-4 p-4">
 		<div class="flex items-center justify-center gap-2">
 			<img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
 			<h1 class="text-2xl font-bold" translate="no">Titanium Dashboard</h1>

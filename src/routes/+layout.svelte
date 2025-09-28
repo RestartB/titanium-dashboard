@@ -13,7 +13,7 @@
 		general: 1,
 		automod: 2,
 		logging: 3,
-		fireboard: 4,
+		fireboard: 4
 	};
 
 	onNavigate((navigation) => {
@@ -27,8 +27,6 @@
 
 		if (fromPageID === page.params.guildid) fromPageID = 'home';
 		if (toPageID === page.params.guildid) toPageID = 'home';
-
-		console.log({ fromPageID, toPageID });
 
 		if (fromPageID === '' || toPageID === '') {
 			document.documentElement.style.setProperty('--old-animation', 'fade-out');

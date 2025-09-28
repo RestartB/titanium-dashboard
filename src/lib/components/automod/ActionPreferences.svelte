@@ -25,19 +25,24 @@
 			return;
 		}
 
-		action.duration = 0;
+		let newDuration = 0;
 		const regex = /(\d+)(s|m|h|d|w|mon|y)/g;
 		const matches = [...durationInput.matchAll(regex)];
 
-		if (matches.length === 0) return;
+		if (matches.length === 0) {
+			action.duration = 0;
+			return;
+		}
 
 		for (const match of matches) {
 			const value = parseInt(match[1]);
 			const unit = match[2];
 
 			if (isNaN(value)) continue;
-			action.duration += value * (multipliers[unit as keyof typeof multipliers] || 0);
+			newDuration += value * (multipliers[unit as keyof typeof multipliers] || 0);
 		}
+
+		action.duration = newDuration;
 	});
 </script>
 

@@ -74,10 +74,10 @@
 
 <div class="w-full rounded-lg border-2 border-zinc-800 bg-zinc-700 p-2">
 	<div class="flex w-full items-center justify-between gap-2">
-		<div class="flex flex-wrap items-center gap-2 text-base">
+		<span class="text-base">
 			<input
 				type="text"
-				class="w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
+				class="inline w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
 				bind:value={rule.threshold}
 				onfocusout={() => {
 					if (String(rule.threshold).trim() === '') {
@@ -85,10 +85,10 @@
 					}
 				}}
 			/>
-			<p>{thresholdString} in</p>
+			{thresholdString} in
 			<input
 				type="text"
-				class="w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
+				class="inline w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
 				bind:value={rule.duration}
 				onfocusout={() => {
 					if (String(rule.duration).trim() === '') {
@@ -96,8 +96,8 @@
 					}
 				}}
 			/>
-			<p>seconds</p>
-		</div>
+			seconds
+		</span>
 		<div class="flex items-center justify-center gap-2">
 			<button
 				class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
@@ -168,9 +168,12 @@
 					/>
 				{/each}
 				<button
-					class="cursor-pointer rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
-					onclick={() => (createNewOpen = true)}>Add Action...</button
+					class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
+					onclick={() => (createNewOpen = true)}
 				>
+					<Plus size={16} />
+					<p>Add Action...</p>
+				</button>
 			</div>
 		</div>
 	</div>

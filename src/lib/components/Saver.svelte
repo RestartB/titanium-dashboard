@@ -37,7 +37,7 @@
 		}
 	});
 
-	async function saveServerSettings() {
+	async function saveChanges() {
 		await fetch(`/api/${dataState.serverInfo.id}/settings`, {
 			method: 'PUT',
 			headers: {
@@ -45,28 +45,14 @@
 			},
 			body: JSON.stringify(dataState.serverSettings)
 		});
-	}
 
-	async function saveChanges() {
-		await saveServerSettings();
-
-		if (page === 'automod') {
-			await fetch(`/api/${dataState.serverInfo.id}/module/automod`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(dataState.automod_settings)
-			});
-		} else if (page === 'logging') {
-			await fetch(`/api/${dataState.serverInfo.id}/module/logging`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(dataState.logging_settings)
-			});
-		}
+		await fetch(`/api/${dataState.serverInfo.id}/module/${page}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(dataState.pageSettings)
+		});
 
 		originalDataString = JSON.stringify(dataState);
 		hasUnsavedChanges = false;
@@ -87,12 +73,12 @@
 			class="pointer-events-auto w-full max-w-180 bg-zinc-800/60 backdrop-blur-lg transition-colors"
 			bind:thisElement={row}
 		>
-			<div class="flex h-full w-full items-center justify-between gap-4">
+			<div class="flex h-full w-full items-center justify-between gap-4 xxs:flex-row flex-col">
 				<div class="flex items-center gap-2">
 					<TriangleAlert size={20} />
 					<p>You have unsaved changes.</p>
 				</div>
-				<div class="flex items-center justify-center gap-2">
+				<div class="flex items-center justify-center gap-2 flex-shrink-0">
 					<button
 						class="cursor-pointer rounded-lg bg-zinc-600 px-2 py-1 transition-colors hover:bg-zinc-500"
 						onclick={resetChanges}>Reset</button

@@ -8,11 +8,9 @@
 	let overlayOpen = $state(false);
 
 	let {
-		channels = [],
 		categories = [],
 		channel = $bindable()
 	}: {
-		channels?: ChannelInfo[];
 		categories?: CategoryInfo[];
 		channel?: string;
 	} = $props();
@@ -24,14 +22,19 @@
 		stage_voice: Podcast
 	};
 
+	let allChannels = $derived(
+		categories
+			.flatMap((category) => category.channels)
+			.concat(categories.filter((c) => c.id === null).flatMap((c) => c.channels))
+	);
 	const selectedChannel = $derived.by(() => {
-		return channels.find((c) => c.id === channel);
+		return allChannels.find((c) => c.id === channel);
 	});
 </script>
 
 {#if overlayOpen}
 	<FullscreenOverlay bind:overlayOpen>
-		<ChannelPicker {channels} {categories} bind:selectedChannel={channel} bind:overlayOpen />
+		<ChannelPicker {categories} bind:selectedChannel={channel} bind:overlayOpen />
 	</FullscreenOverlay>
 {/if}
 
@@ -50,7 +53,7 @@
 {/snippet}
 
 <button
-	class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
+	class="flex w-fit flex-shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
 	onclick={() => (overlayOpen = !overlayOpen)}
 >
 	{@render channelContent()}

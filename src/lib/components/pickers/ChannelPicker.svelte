@@ -6,12 +6,10 @@
 	import type { Component } from 'svelte';
 
 	let {
-		channels,
 		categories,
 		selectedChannel = $bindable(),
 		overlayOpen = $bindable(false)
 	}: {
-		channels: ChannelInfo[];
 		categories: CategoryInfo[];
 		selectedChannel?: string;
 		overlayOpen?: boolean;
@@ -26,23 +24,27 @@
 	};
 
 	let searchInput = $state('');
+	let allChannels = $derived(
+		categories
+			.flatMap((category) => category.channels)
+			.concat(categories.filter((c) => c.id === null).flatMap((c) => c.channels))
+	);
 
-	const fuse = new Fuse(channels, {
-		keys: ['name'],
-		threshold: 0.3
-	});
+	const fuse = $derived(
+		new Fuse(allChannels, {
+			keys: ['name'],
+			threshold: 0.3
+		})
+	);
 
 	function getFilteredChannels(query: string): ChannelInfo[] {
-		if (!query) return channels;
+		if (!query) return allChannels;
 
 		const lowercasedQuery = query.toLowerCase();
 		return fuse.search(lowercasedQuery).map((result) => result.item);
 	}
 
 	let filteredChannels = $derived(getFilteredChannels(searchInput));
-	let noCategoryChannels = $derived(
-		filteredChannels.filter((channel) => channel.category === null)
-	);
 </script>
 
 {#snippet channelRow(channel: ChannelInfo)}
@@ -89,22 +91,17 @@
 		</div>
 
 		<div class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-2">
-			{#if noCategoryChannels.length > 0}
-				<div class="flex flex-col gap-1">
-					{#each noCategoryChannels as channel}
-						{@render channelRow(channel)}
-					{/each}
-				</div>
-			{/if}
 			{#each categories as category}
 				{@const categoryChannels = filteredChannels.filter(
 					(channel) => channel.category === category.id
 				)}
 				{#if categoryChannels.length > 0}
 					<div class="flex flex-col gap-1">
-						<h3 class="text-base font-semibold text-zinc-400">
-							{category.name}
-						</h3>
+						{#if category.id !== null}
+							<h3 class="text-base font-semibold text-zinc-400">
+								{category.name}
+							</h3>
+						{/if}
 						{#each categoryChannels as channel}
 							{@render channelRow(channel)}
 						{/each}

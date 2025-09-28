@@ -59,15 +59,14 @@
 			<Trash class="h-4 w-4" />
 		</button>
 		<ChannelButton
-			channel={board.channel_id}
-			channels={serverInfo.channels}
+			bind:channel={board.channel_id}
 			categories={serverInfo.categories}
 		/>
 	</div>
-	<span class="flex flex-wrap items-center gap-1">
+	<span class="">
 		When a message gets <input
 			type="text"
-			class="w-10 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 text-center font-mono"
+			class="inline w-10 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 text-center font-mono"
 			bind:value={board.threshold}
 			onfocusout={() => {
 				if (String(board.threshold).trim() === '') {
@@ -77,7 +76,7 @@
 		/>
 		or more
 		<button
-			class="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-zinc-700 bg-zinc-800 text-center text-xl"
+			class="inline-flex h-10 w-10 items-center justify-center rounded-lg border-2 border-zinc-700 bg-zinc-800 text-center text-xl"
 			aria-label="Select reaction"
 			onclick={() => {
 				emojiPickerOpen = true;

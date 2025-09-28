@@ -35,17 +35,17 @@
 <ToggledContent enabled={dataState.serverSettings.modules.fireboard}>
 	<div class="flex flex-col gap-4">
 		<button
-			class="w-fit cursor-pointer rounded-lg border-2 border-zinc-600 bg-zinc-700 p-2 px-4"
+			class="w-fit cursor-pointer rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2 px-4 transition-colors hover:bg-zinc-600"
 			onclick={() => {
-				dataState.fireboardSettings.boards.push(createBlankBoard());
+				dataState.pageSettings.boards.push(createBlankBoard());
 			}}>Add Board</button
 		>
-		{#each dataState.fireboardSettings.boards as _, index}
+		{#each dataState.pageSettings.boards as _, index}
 			<Board
-				bind:board={dataState.fireboardSettings.boards[index]}
+				bind:board={dataState.pageSettings.boards[index]}
 				serverInfo={data.serverInfo}
 				deleteThis={() => {
-					dataState.fireboardSettings.boards.splice(index, 1);
+					dataState.pageSettings.boards.splice(index, 1);
 				}}
 			/>
 		{/each}

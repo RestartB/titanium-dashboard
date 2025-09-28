@@ -29,6 +29,5 @@ export const GET: RequestHandler = async ({ cookies }) => {
 	}
 
 	const userData = await request.json();
-	console.log("Identify")
 	return json({ userData });
 };
