@@ -24,11 +24,7 @@
 	};
 
 	let searchInput = $state('');
-	let allChannels = $derived(
-		categories
-			.flatMap((category) => category.channels)
-			.concat(categories.filter((c) => c.id === null).flatMap((c) => c.channels))
-	);
+	let allChannels = $derived(categories.flatMap((category) => category.channels));
 
 	const fuse = $derived(
 		new Fuse(allChannels, {
