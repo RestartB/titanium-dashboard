@@ -1,12 +1,15 @@
 import { error, json } from '@sveltejs/kit';
+import { guildsLimit } from '$lib/limits';
 import type { RequestHandler } from './$types';
 
 import { eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { token } from '$lib/server/db/schema';
 
-export const GET: RequestHandler = async ({ cookies }) => {
-	const titaniumToken = cookies.get('titanium_token');
+export const GET: RequestHandler = async (event) => {
+	await guildsLimit.cookieLimiter?.preflight(event);
+	if (await guildsLimit.isLimited(event)) throw error(429);
+	const titaniumToken = event.cookies.get('titanium_token');
 
 	if (!titaniumToken) {
 		throw error(401, 'Unauthorized: No token provided');

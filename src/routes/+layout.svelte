@@ -11,9 +11,16 @@
 	const pageOrder: Record<string, number> = {
 		home: 0,
 		general: 1,
-		automod: 2,
-		logging: 3,
-		fireboard: 4
+		permissions: 2,
+		errors: 3,
+		moderation: 4,
+		automod: 5,
+		bouncer: 6,
+		logging: 7,
+		fireboard: 8,
+		leaderboard: 9,
+		server_counters: 10,
+		self_roles: 11
 	};
 
 	onNavigate((navigation) => {

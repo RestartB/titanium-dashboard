@@ -106,7 +106,7 @@
 	{@render featureCard(
 		'Server Counters',
 		'Display various server statistics and counters.',
-		`/${serverID}/server-counters`,
+		`/${serverID}/server_counters`,
 		Tally5
 	)}
 	{@render featureCard(

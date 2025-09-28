@@ -1,9 +1,9 @@
 <script lang="ts">
-	import FullscreenOverlay from '../FullscreenOverlay.svelte';
+	import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 	import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
 	import { Hash, Megaphone, MessagesSquare, Volume2, Podcast } from '@lucide/svelte';
 	import type { Component } from 'svelte';
-	import type { ChannelInfo, CategoryInfo } from '$lib/types/serverInfo';
+	import type { CategoryInfo } from '$lib/types/serverInfo';
 
 	let overlayOpen = $state(false);
 

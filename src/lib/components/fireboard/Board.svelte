@@ -3,7 +3,7 @@
 	import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 	import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
 	import EmojiPicker from '$lib/components/pickers/EmojiPicker.svelte';
-	import Toggle from '../ui/Toggle.svelte';
+	import Toggle from '$lib/components/ui/Toggle.svelte';
 	import { Trash } from '@lucide/svelte';
 
 	import type { ServerInfo } from '$lib/types/serverInfo';
@@ -63,7 +63,7 @@
 			categories={serverInfo.categories}
 		/>
 	</div>
-	<span class="">
+	<span>
 		When a message gets <input
 			type="text"
 			class="inline w-10 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 text-center font-mono"

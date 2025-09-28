@@ -1,8 +1,13 @@
 import { error, json } from '@sveltejs/kit';
+import { apiLimit } from '$lib/limits';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ params }) => {
-	const { guildid, module } = params;
+export const GET: RequestHandler = async (event) => {
+	await apiLimit.cookieLimiter?.preflight(event);
+	const status = await apiLimit.check(event);
+	if (status.limited)
+		throw error(429, `Too many requests, please try again after ${status.retryAfter} seconds`);
+	const { guildid, module } = event.params;
 
 	if (!guildid || !module) {
 		throw error(400, 'Missing guild ID or module name');

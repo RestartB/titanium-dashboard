@@ -4,6 +4,7 @@ export type ServerSettings = {
 		automod: boolean;
 		logging: boolean;
 		fireboard: boolean;
+		server_counters: boolean;
 	};
 	settings: {
 		loading_reaction: boolean;

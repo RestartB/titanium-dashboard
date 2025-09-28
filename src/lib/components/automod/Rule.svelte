@@ -2,7 +2,7 @@
 	import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 	import ActionPicker from '$lib/components/automod/ActionPicker.svelte';
 	import ActionTile from './ActionTile.svelte';
-	import WordTile from '../ui/WordTile.svelte';
+	import WordTile from '$lib/components/ui/WordTile.svelte';
 
 	import { ChevronDown, X, Plus } from '@lucide/svelte';
 	import type { AutomodRule } from '$lib/types/automod';
