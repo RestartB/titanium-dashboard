@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { beforeNavigate } from '$app/navigation';
+	import { beforeNavigate, invalidateAll } from '$app/navigation';
 	import { fly } from 'svelte/transition';
 	import Row from '$lib/components/ui/row/Row.svelte';
-	import { TriangleAlert } from '@lucide/svelte';
+	import { TriangleAlert, LoaderCircle } from '@lucide/svelte';
 
 	let { page = '', dataState = $bindable() }: { page?: string; dataState: any } = $props();
 
 	let originalDataString = JSON.stringify(dataState);
 	let hasUnsavedChanges = $state(false);
+	let loading = $state(false);
 	let row: HTMLDivElement | undefined = $state();
 
 	$effect(() => {
@@ -38,6 +39,9 @@
 	});
 
 	async function saveChanges() {
+		if (loading) return;
+		loading = true;
+
 		await fetch(`/api/${dataState.serverInfo.id}/settings`, {
 			method: 'PUT',
 			headers: {
@@ -54,11 +58,13 @@
 			body: JSON.stringify(dataState.pageSettings)
 		});
 
-		originalDataString = JSON.stringify(dataState);
+		await invalidateAll();
 		hasUnsavedChanges = false;
+		loading = false;
 	}
 
 	function resetChanges() {
+		if (loading) return;
 		dataState = JSON.parse(originalDataString);
 		hasUnsavedChanges = false;
 	}
@@ -73,20 +79,28 @@
 			class="pointer-events-auto w-full max-w-180 bg-zinc-800/60 backdrop-blur-lg transition-colors"
 			bind:thisElement={row}
 		>
-			<div class="flex h-full w-full items-center justify-between gap-4 xxs:flex-row flex-col">
+			<div class="flex h-full w-full flex-col items-center justify-between gap-4 xxs:flex-row">
 				<div class="flex items-center gap-2">
 					<TriangleAlert size={20} />
 					<p>You have unsaved changes.</p>
 				</div>
-				<div class="flex items-center justify-center gap-2 flex-shrink-0">
+				<div class="flex flex-shrink-0 items-center justify-center gap-2">
 					<button
-						class="cursor-pointer rounded-lg bg-zinc-600 px-2 py-1 transition-colors hover:bg-zinc-500"
-						onclick={resetChanges}>Reset</button
+						class="cursor-pointer rounded-lg bg-zinc-600 px-2 py-1 transition-all hover:bg-zinc-500 disabled:cursor-not-allowed disabled:opacity-50"
+						onclick={resetChanges}
+						disabled={loading}>Reset</button
 					>
 					<button
-						class="cursor-pointer rounded-lg bg-green-600 px-2 py-1 transition-colors hover:bg-green-500"
-						onclick={saveChanges}>Save changes</button
+						class="cursor-pointer rounded-lg bg-green-600 px-2 py-1 transition-all hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
+						disabled={loading}
+						onclick={saveChanges}
 					>
+						{#if loading}
+							<LoaderCircle size={20} class="animate-spin" />
+						{:else}
+							Save changes
+						{/if}
+					</button>
 				</div>
 			</div>
 		</Row>
