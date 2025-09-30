@@ -47,19 +47,19 @@
 	{@render featureCard(
 		'General Settings',
 		'Change general settings like prefixes and reply types.',
-		`/${serverID}/general`,
+		`/guild/${serverID}/general`,
 		Cog
 	)}
 	{@render featureCard(
 		'Permissions',
 		'Change permissions for different features in your server.',
-		`/${serverID}/permissions`,
+		`/guild/${serverID}/permissions`,
 		Key
 	)}
 	{@render featureCard(
 		'Error Log',
 		'View and manage error logs for your server.',
-		`/${serverID}/error-log`,
+		`/guild/${serverID}/error-log`,
 		TriangleAlert
 	)}
 </div>
@@ -70,49 +70,49 @@
 	{@render featureCard(
 		'Moderation',
 		'Moderate your server members and manage cases.',
-		`/${serverID}/moderation`,
+		`/guild/${serverID}/moderation`,
 		Shield
 	)}
 	{@render featureCard(
 		'Automod',
 		'Allow Titanium to moderate your server for you.',
-		`/${serverID}/automod`,
+		`/guild/${serverID}/automod`,
 		Brain
 	)}
 	{@render featureCard(
 		'Bouncer',
 		'Allow Titanium to monitor users as they join.',
-		`/${serverID}/bouncer`,
+		`/guild/${serverID}/bouncer`,
 		DoorClosedLocked
 	)}
 	{@render featureCard(
 		'Logging',
 		'Log various events that happen in your server.',
-		`/${serverID}/logging`,
+		`/guild/${serverID}/logging`,
 		ScrollText
 	)}
 	{@render featureCard(
 		'Fireboard',
 		'Let server members highlight messages they love.',
-		`/${serverID}/fireboard`,
+		`/guild/${serverID}/fireboard`,
 		Flame
 	)}
 	{@render featureCard(
 		'Leaderboard',
 		'Track engagement and activity in your server.',
-		`/${serverID}/leaderboard`,
+		`/guild/${serverID}/leaderboard`,
 		Trophy
 	)}
 	{@render featureCard(
 		'Server Counters',
 		'Display various server statistics and counters.',
-		`/${serverID}/server_counters`,
+		`/guild/${serverID}/server_counters`,
 		Tally5
 	)}
 	{@render featureCard(
 		'Self Roles',
 		'Allow users to assign roles with buttons or reactions.',
-		`/${serverID}/self-roles`,
+		`/guild/${serverID}/self-roles`,
 		Users
 	)}
 </div>

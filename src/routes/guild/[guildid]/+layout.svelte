@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { sidebarState } from '$lib/states/sidebar.svelte';
-	import { beforeNavigate } from '$app/navigation';
+	import { afterNavigate } from '$app/navigation';
 	import { fade } from 'svelte/transition';
 	import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
 	let { children, data } = $props();
@@ -8,7 +8,7 @@
 	let serverInfo = data.serverInfo;
 	let width: number = $state(840);
 
-	beforeNavigate(() => {
+	afterNavigate(() => {
 		sidebarState.open = false;
 	});
 </script>

@@ -1,17 +1,22 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { afterNavigate } from '$app/navigation';
 	import { fade, fly } from 'svelte/transition';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { sidebarState } from '$lib/states/sidebar.svelte';
 
 	import Avatar from '$lib/components/ui/Avatar.svelte';
-	import { PanelLeft, X, Menu, Server, LifeBuoy } from '@lucide/svelte';
+	import { PanelLeft, X, Menu, Server, LifeBuoy, LogOut } from '@lucide/svelte';
 	import logo from '$lib/assets/logo.svg';
 
 	let { userData }: { userData?: any | null | undefined } = $props();
 
 	let menuOpen = $state(false);
-	let pageWithSidebar = page.url.pathname !== '/' && !page.url.pathname.startsWith('/auth');
+	let pageWithSidebar = page.url.pathname.startsWith('/guild/');
+
+	afterNavigate(() => {
+		menuOpen = false;
+	});
 </script>
 
 <header
@@ -91,7 +96,7 @@
 				></div>
 
 				<div
-					class="flex max-h-full w-full max-w-sm flex-col overflow-hidden rounded-xl border-4 border-zinc-700 bg-zinc-800 p-4 shadow-2xl"
+					class="flex max-h-full w-fit flex-col overflow-hidden rounded-xl border-4 border-zinc-700 bg-zinc-800 p-4 shadow-2xl"
 					transition:fly={{ duration: 300, y: prefersReducedMotion.current ? 0 : -10, opacity: 0 }}
 				>
 					<nav class="flex h-full w-full flex-col items-center justify-start gap-2">
@@ -110,6 +115,15 @@
 							<LifeBuoy size="30" />
 							Support
 						</a>
+						{#if userData}
+							<a
+								class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
+								href="/auth/logout"
+							>
+								<LogOut size="30" />
+								Logout
+							</a>
+						{/if}
 					</nav>
 				</div>
 			</div>

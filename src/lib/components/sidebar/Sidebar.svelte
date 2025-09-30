@@ -36,68 +36,68 @@
 	/>
 	<Tile
 		title="General Settings"
-		href="/{serverID}/general"
+		href="/guild/{serverID}/general"
 		Icon={Cog}
 		active={page.url.pathname.endsWith('/general')}
 	/>
 	<Tile
 		title="Permissions"
-		href="/{serverID}/permissions"
+		href="/guild/{serverID}/permissions"
 		Icon={Key}
 		active={page.url.pathname.endsWith('/permissions')}
 	/>
 	<Tile
 		title="Error Log"
-		href="/{serverID}/error-log"
+		href="/guild/{serverID}/error-log"
 		Icon={TriangleAlert}
 		active={page.url.pathname.endsWith('/error-log')}
 	/>
 	<p class="ml-2 text-base font-bold text-zinc-300/60">FEATURES</p>
 	<Tile
 		title="Moderation"
-		href="/{serverID}/moderation"
+		href="/guild/{serverID}/moderation"
 		Icon={Shield}
 		active={page.url.pathname.endsWith('/moderation')}
 	/>
 	<Tile
 		title="Automod"
-		href="/{serverID}/automod"
+		href="/guild/{serverID}/automod"
 		Icon={Brain}
 		active={page.url.pathname.endsWith('/automod')}
 	/>
 	<Tile
 		title="Bouncer"
-		href="/{serverID}/bouncer"
+		href="/guild/{serverID}/bouncer"
 		Icon={DoorClosedLocked}
 		active={page.url.pathname.endsWith('/bouncer')}
 	/>
 	<Tile
 		title="Logging"
-		href="/{serverID}/logging"
+		href="/guild/{serverID}/logging"
 		Icon={ScrollText}
 		active={page.url.pathname.endsWith('/logging')}
 	/>
 	<Tile
 		title="Fireboard"
-		href="/{serverID}/fireboard"
+		href="/guild/{serverID}/fireboard"
 		Icon={Flame}
 		active={page.url.pathname.endsWith('/fireboard')}
 	/>
 	<Tile
 		title="Leaderboard"
-		href="/{serverID}/leaderboard"
+		href="/guild/{serverID}/leaderboard"
 		Icon={Trophy}
 		active={page.url.pathname.endsWith('/leaderboard')}
 	/>
 	<Tile
 		title="Server Counters"
-		href="/{serverID}/server_counters"
+		href="/guild/{serverID}/server_counters"
 		Icon={Tally5}
 		active={page.url.pathname.endsWith('/server_counters')}
 	/>
 	<Tile
 		title="Self Roles"
-		href="/{serverID}/self-roles"
+		href="/guild/{serverID}/self-roles"
 		Icon={Users}
 		active={page.url.pathname.endsWith('/self-roles')}
 	/>

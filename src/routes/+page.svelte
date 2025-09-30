@@ -15,7 +15,7 @@
 		class="flex w-full items-center gap-4 rounded-md border border-zinc-700 p-4 transition-all"
 		class:cursor-default={invite}
 		class:hover:bg-zinc-700={!invite}
-		href={`/${guild.id}`}
+		href={`/guild/${guild.id}`}
 		title={guild.name}
 	>
 		<Avatar
@@ -37,7 +37,7 @@
 
 		{#if invite}
 			<span
-				class="ml-auto cursor-pointer rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600"
+				class="ml-auto cursor-pointer rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600 flex-shrink-0"
 			>
 				Add Bot
 			</span>
