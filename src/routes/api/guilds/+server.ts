@@ -2,28 +2,13 @@ import { error, json } from '@sveltejs/kit';
 import { guildsLimit } from '$lib/limits';
 import type { RequestHandler } from './$types';
 
-import { eq } from 'drizzle-orm';
-import { db } from '$lib/server/db';
-import { token } from '$lib/server/db/schema';
-
 export const GET: RequestHandler = async (event) => {
 	await guildsLimit.cookieLimiter?.preflight(event);
 	if (await guildsLimit.isLimited(event)) throw error(429);
-	const titaniumToken = event.cookies.get('titanium_token');
-
-	if (!titaniumToken) {
-		throw error(401, 'Unauthorized: No token provided');
-	}
-	const tokenRecord = await db.select().from(token).where(eq(token.token, titaniumToken)).get();
-
-	if (!tokenRecord) {
-		console.error('Invalid token:', titaniumToken);
-		throw error(401, 'Unauthorized: Invalid token');
-	}
 
 	const request = await fetch('https://discord.com/api/users/@me/guilds', {
 		headers: {
-			Authorization: `Bearer ${tokenRecord.discordToken}`
+			Authorization: `Bearer ${event.locals.discordToken}`
 		}
 	});
 
@@ -39,7 +24,7 @@ export const GET: RequestHandler = async (event) => {
 	});
 
 	const mutualRequest = await fetch(
-		`http://127.0.0.1:5100/user/${tokenRecord.discordUserId}/guilds`
+		`http://127.0.0.1:5100/user/${event.locals.discordID}/guilds`
 	);
 
 	if (!mutualRequest.ok) {

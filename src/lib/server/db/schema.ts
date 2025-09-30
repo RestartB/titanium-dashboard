@@ -5,7 +5,7 @@ export const token = sqliteTable('token', {
 	hash: text('hash').notNull(),
 	createdAt: integer('created_at', { mode: 'timestamp' }).notNull(),
 	tokenExpiresAt: integer('token_expires_at', { mode: 'timestamp' }).notNull(),
-	discordToken: text('discord_token'),
+	discordToken: text('discord_token').notNull(),
 	discordExpiresIn: integer('discord_expires_in').notNull(),
 	discordUserId: text('discord_user_id').notNull()
 });
