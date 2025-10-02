@@ -1,39 +1,39 @@
 export interface ServerInfo {
-	id: string;
-	name: string;
-	icon: string;
-	banner: string;
-	member_count: number;
-	roles: RoleInfo[];
-	categories: CategoryInfo[];
-	emojis: EmojiInfo[];
+  id: string;
+  name: string;
+  icon: string;
+  banner: string;
+  member_count: number;
+  roles: RoleInfo[];
+  categories: CategoryInfo[];
+  emojis: EmojiInfo[];
 }
 
 export interface RoleInfo {
-	id: string;
-	name: string;
-	color: number;
-	hoist: boolean;
-	position: number;
+  id: string;
+  name: string;
+  color: number;
+  hoist: boolean;
+  position: number;
 }
 
 export interface ChannelInfo {
-	id: string;
-	name: string;
-	type: string;
-	position: number;
-	category: string | null;
+  id: string;
+  name: string;
+  type: string;
+  position: number;
+  category: string | null;
 }
 
 export interface CategoryInfo {
-	id: string | null;
-	name: string | null;
-	position: number;
-	channels: ChannelInfo[];
+  id: string | null;
+  name: string | null;
+  position: number;
+  channels: ChannelInfo[];
 }
 
 export interface EmojiInfo {
-	id: string;
-	label: string;
-	url: string;
+  id: string;
+  label: string;
+  url: string;
 }

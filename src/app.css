@@ -1,73 +1,73 @@
 @import 'tailwindcss';
 
 @keyframes shake {
-	0% {
-		margin-left: 0rem;
-	}
-	25% {
-		margin-left: 0.5rem;
-	}
-	75% {
-		margin-left: -0.5rem;
-	}
-	100% {
-		margin-left: 0rem;
-	}
+  0% {
+    margin-left: 0rem;
+  }
+  25% {
+    margin-left: 0.5rem;
+  }
+  75% {
+    margin-left: -0.5rem;
+  }
+  100% {
+    margin-left: 0rem;
+  }
 }
 
 @keyframes slide-to-bottom {
-	to {
-		transform: translateY(30px);
-		opacity: 0;
-	}
+  to {
+    transform: translateY(30px);
+    opacity: 0;
+  }
 }
 
 @keyframes slide-from-top {
-	from {
-		transform: translateY(-30px);
-		opacity: 0;
-	}
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
 }
 
 @keyframes slide-to-top {
-	to {
-		transform: translateY(-30px);
-		opacity: 0;
-	}
+  to {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
 }
 
 @keyframes slide-from-bottom {
-	from {
-		transform: translateY(30px);
-		opacity: 0;
-	}
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
 }
 
 @keyframes fade-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fade-out {
-	from {
-		opacity: 1;
-	}
-	to {
-		opacity: 0;
-	}
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @theme {
-	--font-figtree: 'Figtree', sans-serif;
-	--breakpoint-sidebar: 840px;
-	--breakpoint-xs: 40rem;
-	--breakpoint-xxs: 30rem;
-	--color-blurple: #5865f2;
-	--animate-warning: shake 0.2s ease-in-out 0s 2;
-	--animate-slide-to-bottom: slide-to-bottom 0.2s ease-in-out 0s 1;
-	--animate-slide-from-top: slide-from-top 0.2s ease-in-out 0s 1;
+  --font-figtree: 'Figtree', sans-serif;
+  --breakpoint-sidebar: 840px;
+  --breakpoint-xs: 40rem;
+  --breakpoint-xxs: 30rem;
+  --color-blurple: #5865f2;
+  --animate-warning: shake 0.2s ease-in-out 0s 2;
+  --animate-slide-to-bottom: slide-to-bottom 0.2s ease-in-out 0s 1;
+  --animate-slide-from-top: slide-from-top 0.2s ease-in-out 0s 1;
 }

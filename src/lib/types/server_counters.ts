@@ -1,9 +1,9 @@
 export type ServerCounterSettings = {
-	channels: ServerCounterChannel[];
+  channels: ServerCounterChannel[];
 };
 
 export type ServerCounterChannel = {
-	id?: string;
-	name: string;
-	type: string;
+  id?: string;
+  name: string;
+  type: string;
 };
