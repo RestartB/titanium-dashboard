@@ -50,7 +50,11 @@
       >
 
       {#each rules as rule, index}
-        <Rule bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
+        {#if type === 'spam_detection' && spamType === rule.antispam_type}
+          <Rule bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
+        {:else if type !== 'spam_detection'}
+          <Rule bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
+        {/if}
       {/each}
     </div>
   </Row>
