@@ -1,3 +1,8 @@
+export interface ServerPermissions {
+  dashboard_manager: boolean;
+  case_manager: boolean;
+}
+
 export interface ServerInfo {
   id: string;
   name: string;

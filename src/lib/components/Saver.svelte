@@ -42,7 +42,7 @@
     if (loading) return;
     loading = true;
 
-    await fetch(`/api/${dataState.serverInfo.id}/settings`, {
+    await fetch(`/api/guild/${dataState.serverInfo.id}/settings`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -50,7 +50,7 @@
       body: JSON.stringify(dataState.serverSettings)
     });
 
-    await fetch(`/api/${dataState.serverInfo.id}/module/${page}`, {
+    await fetch(`/api/guild/${dataState.serverInfo.id}/module/${page}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'

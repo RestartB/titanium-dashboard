@@ -28,6 +28,7 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
   }
   userData = await userRequest.json();
 
+  // TODO: move to +page.server.ts
   const guildsRequest = await fetch('/api/guilds');
   if (!guildsRequest.ok) {
     console.error('Failed to fetch guilds data:', await guildsRequest.text());
