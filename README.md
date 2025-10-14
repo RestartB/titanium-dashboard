@@ -1,38 +1,21 @@
-# sv
+# Titanium Dashboard
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This repo contains [Titanium](https://github.com/RestartB/titanium/tree/v2)'s web dashboard. It communicates with the local Titanium API to facilitate communication between the bot, database and web UI. Follow the steps below to get started:
 
-## Creating a project
+> [!IMPORTANT]
+> This project is in highly active development. Therefore, I am not accepting PRs or code edits for this repo at this time.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Running in production
 
-```sh
-# create a new project in the current directory
-npx sv create
+1. run `pnpm install` to install required packages
+2. copy the provided `.env.example` file, name it `.env` and fill in any required information
+3. run `pnpm run db:push` to create the database and required tables
+4. run `pnpm run build` to build server files for production
+5. run `node build --env-file=.env` to run the server
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Running the dev server
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+1. run `pnpm install` to install required packages
+2. copy the provided `.env.example` file, name it `.env` and fill in any required information
+3. run `pnpm run db:push` to create the database and required tables
+4. run `pnpm run dev` to start the dev server
