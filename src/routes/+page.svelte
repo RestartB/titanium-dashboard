@@ -17,6 +17,7 @@
     class:hover:bg-zinc-700={!invite}
     href={`/guild/${guild.id}`}
     title={guild.name}
+    data-sveltekit-preload-data={false}
   >
     <Avatar
       src={guild.icon

@@ -5,7 +5,7 @@ export const apiLimit = new RetryAfterRateLimiter({
   cookie: {
     name: 'api_token',
     secret: RATE_LIMIT_SECRET,
-    rate: [3, 's'],
+    rate: [4, 's'],
     preflight: true
   }
 });

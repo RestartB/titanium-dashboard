@@ -23,6 +23,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    console.log('No titanium token');
     return redirect(302, '/');
   }
 
@@ -34,6 +35,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return json({ error: 'Invalid Token' }, { status: 401 });
     }
 
+    console.log('Invalid titanium token');
     return redirect(302, '/');
   }
 
@@ -56,6 +58,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         return json({ error: 'Missing Guild ID' }, { status: 400 });
       }
 
+      console.log('No guild id');
       return redirect(302, '/');
     }
 
@@ -64,6 +67,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         return json({ error: 'Invalid Guild ID' }, { status: 400 });
       }
 
+      console.log('Invalid guild id');
       return redirect(302, '/');
     }
 
@@ -83,6 +87,7 @@ export const handle: Handle = async ({ event, resolve }) => {
           return json({ error: 'Guild not found' }, { status: 404 });
         }
 
+        console.log('Guild not found');
         return redirect(302, '/');
       }
 
@@ -93,6 +98,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         );
       }
 
+      console.log('Failed to fetch guild permissions from Titanium');
       return redirect(302, '/');
     }
 
@@ -106,6 +112,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         return json({ error: 'Insufficient Permissions' }, { status: 403 });
       }
 
+      console.log('Insufficient guild permissions');
       return redirect(302, '/');
     }
 

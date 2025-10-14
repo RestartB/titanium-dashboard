@@ -7,8 +7,13 @@
 
   import { ChevronDown, X, Plus } from '@lucide/svelte';
   import type { AutomodRule } from '$lib/types/automod';
+  import type { RoleInfo } from '$lib/types/serverInfo';
 
-  let { rule = $bindable(), deleteThis }: { rule: AutomodRule; deleteThis: () => void } = $props();
+  let {
+    roles,
+    rule = $bindable(),
+    deleteThis
+  }: { roles: RoleInfo[]; rule: AutomodRule; deleteThis: () => void } = $props();
   let expanded = $state(false);
   let createNewOpen = $state(false);
 
@@ -161,19 +166,22 @@
           {/if}
         </div>
 
-        <div class="mt-2 flex items-center gap-2">
-          <Toggle bind:toggled={rule.match_whole_word} />
-          <p class="text-sm text-zinc-300/60">Match Whole Word</p>
-        </div>
+        <div class="mt-2 flex flex-wrap items-center gap-2">
+          <div class="flex items-center gap-2">
+            <Toggle bind:toggled={rule.match_whole_word} />
+            <p class="text-sm text-zinc-300/60">Match Whole Word</p>
+          </div>
 
-        <div class="mt-2 flex items-center gap-2">
-          <Toggle bind:toggled={rule.case_sensitive} />
-          <p class="text-sm text-zinc-300/60">Case Sensitive</p>
+          <div class="flex items-center gap-2">
+            <Toggle bind:toggled={rule.case_sensitive} />
+            <p class="text-sm text-zinc-300/60">Case Sensitive</p>
+          </div>
         </div>
       {/if}
       <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
         {#each rule.actions as action, index}
           <ActionTile
+            {roles}
             deleteThis={() => rule.actions.splice(index, 1)}
             bind:action={rule.actions[index]}
           />

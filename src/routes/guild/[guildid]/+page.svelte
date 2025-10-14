@@ -16,13 +16,14 @@
 
   const { data } = $props();
   const serverID = data.serverInfo.id;
+  const userData = data.userData?.userData;
 </script>
 
 <div>
   <h1 class="text-4xl">
     Hi there, <span
       class="bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text font-bold text-transparent"
-      translate="no">Restart</span
+      translate="no">{userData?.global_name || userData?.username}</span
     >
   </h1>
   <p>
@@ -43,7 +44,7 @@
   </a>
 {/snippet}
 
-<div class="grid grid-cols-3 gap-4">
+<div class="grid grid-cols-1 gap-4 xxs:grid-cols-2 lg:grid-cols-3">
   {@render featureCard(
     'General Settings',
     'Change general settings like prefixes and reply types.',
@@ -66,7 +67,7 @@
 
 <p class="text-base font-bold text-zinc-300/60">FEATURES</p>
 
-<div class="grid grid-cols-3 gap-4">
+<div class="grid grid-cols-1 gap-4 xxs:grid-cols-2 lg:grid-cols-3">
   {@render featureCard(
     'Moderation',
     'Moderate your server members and manage cases.',

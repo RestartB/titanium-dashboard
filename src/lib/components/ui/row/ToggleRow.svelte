@@ -4,7 +4,7 @@
 </script>
 
 <div class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4">
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between gap-2">
     <div>
       {@render children?.()}
     </div>

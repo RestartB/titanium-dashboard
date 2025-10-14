@@ -21,6 +21,7 @@ export interface AutomodRule {
 
 export interface AutomodAction {
   type: string;
+  role_id?: string;
   duration?: number;
   reason?: string;
 }

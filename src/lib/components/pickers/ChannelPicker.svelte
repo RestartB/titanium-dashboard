@@ -28,7 +28,7 @@
 
   const fuse = $derived(
     new Fuse(allChannels, {
-      keys: ['name'],
+      keys: ['name', 'id'],
       threshold: 0.3
     })
   );

@@ -8,7 +8,6 @@ export type ServerSettings = {
   };
   settings: {
     loading_reaction: boolean;
-    reply_ping: boolean;
   };
   prefixes: string[];
 };

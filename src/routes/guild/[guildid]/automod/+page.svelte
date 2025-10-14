@@ -51,9 +51,17 @@
 
       {#each rules as rule, index}
         {#if type === 'spam_detection' && spamType === rule.antispam_type}
-          <Rule bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
+          <Rule
+            roles={dataState.serverInfo.roles}
+            bind:rule={rules[index]}
+            deleteThis={() => rules.splice(index, 1)}
+          />
         {:else if type !== 'spam_detection'}
-          <Rule bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
+          <Rule
+            roles={dataState.serverInfo.roles}
+            bind:rule={rules[index]}
+            deleteThis={() => rules.splice(index, 1)}
+          />
         {/if}
       {/each}
     </div>

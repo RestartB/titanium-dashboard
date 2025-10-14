@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { beforeNavigate, invalidateAll } from '$app/navigation';
+  import { beforeNavigate } from '$app/navigation';
   import { fly } from 'svelte/transition';
   import Row from '$lib/components/ui/row/Row.svelte';
   import { TriangleAlert, LoaderCircle } from '@lucide/svelte';
@@ -50,15 +50,16 @@
       body: JSON.stringify(dataState.serverSettings)
     });
 
-    await fetch(`/api/guild/${dataState.serverInfo.id}/module/${page}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dataState.pageSettings)
-    });
+    if (page) {
+      await fetch(`/api/guild/${dataState.serverInfo.id}/module/${page}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataState.pageSettings)
+      });
+    }
 
-    await invalidateAll();
     hasUnsavedChanges = false;
     loading = false;
   }

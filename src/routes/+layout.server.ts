@@ -8,7 +8,6 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
   }
 
   let userData = null;
-  let guildsData = null;
 
   if (TEST_MODE === 'true') {
     userData = {
@@ -18,23 +17,17 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
         avatar: null
       }
     };
-    return { userData, guildsData };
+    return { userData };
   }
 
   const userRequest = await fetch('/api/identify');
   if (!userRequest.ok) {
     console.error('Failed to fetch user data:', await userRequest.text());
-    return { userData, guildsData };
+    return { userData };
   }
   userData = await userRequest.json();
 
-  // TODO: move to +page.server.ts
-  const guildsRequest = await fetch('/api/guilds');
-  if (!guildsRequest.ok) {
-    console.error('Failed to fetch guilds data:', await guildsRequest.text());
-    return { userData, guildsData };
-  }
-  guildsData = await guildsRequest.json();
+  console.log('User data fetched:', userData);
 
-  return { userData, guildsData };
+  return { userData };
 };

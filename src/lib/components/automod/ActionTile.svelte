@@ -3,17 +3,24 @@
   import ActionPreferences from '$lib/components/automod/ActionPreferences.svelte';
   import { Cog, X } from '@lucide/svelte';
   import type { AutomodAction } from '$lib/types/automod';
+  import type { RoleInfo } from '$lib/types/serverInfo';
 
   let {
     action = $bindable(),
+    roles,
     deleteThis = () => {},
     overlayOpen = $bindable(false)
-  }: { action: AutomodAction; deleteThis: () => void; overlayOpen?: boolean } = $props();
+  }: {
+    action: AutomodAction;
+    roles: RoleInfo[];
+    deleteThis: () => void;
+    overlayOpen?: boolean;
+  } = $props();
 </script>
 
 {#if overlayOpen}
   <FullscreenOverlay bind:overlayOpen>
-    <ActionPreferences bind:action bind:overlayOpen />
+    <ActionPreferences {roles} bind:action bind:overlayOpen />
   </FullscreenOverlay>
 {/if}
 
@@ -28,5 +35,5 @@
   <button onclick={deleteThis}>
     <X size={16} />
   </button>
-  <p class="capitalize">{action.type}</p>
+  <p class="capitalize">{action.type.replaceAll('_', ' ')}</p>
 </div>

@@ -75,10 +75,3 @@
     </p>
   </div>
 </ToggleRow>
-
-<ToggleRow bind:toggled={dataState.serverSettings.settings.reply_ping}>
-  <div>
-    <h2 class="text-xl font-bold">Use Reply Pings</h2>
-    <p>Control whether Titanium should use reply pings when responding to prefix commands.</p>
-  </div>
-</ToggleRow>

@@ -1,5 +1,15 @@
 <script lang="ts">
-  import { Trash, TriangleAlert, Clock, UserRoundX, Hammer, X } from '@lucide/svelte';
+  import {
+    Trash,
+    TriangleAlert,
+    Clock,
+    UserRoundX,
+    Hammer,
+    Plus,
+    Minus,
+    ToggleRight,
+    X
+  } from '@lucide/svelte';
   import type { Component } from 'svelte';
   import type { AutomodAction, AutomodRule } from '$lib/types/automod';
 
@@ -62,6 +72,14 @@
       )}
       {@render actionRow('kick', 'Kick User', 'Kick the user from the server.', UserRoundX)}
       {@render actionRow('ban', 'Ban User', 'Permanently ban the user from the server.', Hammer)}
+      {@render actionRow('add_role', 'Add Role', 'Add a role to the user.', Plus)}
+      {@render actionRow('remove_role', 'Remove Role', 'Remove a role from the user.', Minus)}
+      {@render actionRow(
+        'toggle_role',
+        'Toggle Role',
+        'Add or remove a role from the user.',
+        ToggleRight
+      )}
     </div>
   </div>
 </div>
