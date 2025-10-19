@@ -48,9 +48,9 @@
   />
   <Tile
     title="Error Log"
-    href="/guild/{serverID}/error-log"
+    href="/guild/{serverID}/errors"
     Icon={TriangleAlert}
-    active={page.url.pathname.endsWith('/error-log')}
+    active={page.url.pathname.endsWith('/errors')}
   />
   <p class="ml-2 text-base font-bold text-zinc-300/60">FEATURES</p>
   <Tile

@@ -60,7 +60,7 @@
   {@render featureCard(
     'Error Log',
     'View and manage error logs for your server.',
-    `/guild/${serverID}/error-log`,
+    `/guild/${serverID}/errors`,
     TriangleAlert
   )}
 </div>

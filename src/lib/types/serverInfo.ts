@@ -42,3 +42,16 @@ export interface EmojiInfo {
   label: string;
   url: string;
 }
+
+export interface ErrorLogs {
+  total_count: number;
+  errors: ErrorLog[];
+}
+
+export interface ErrorLog {
+  id: string;
+  module: string;
+  error: string;
+  details: string;
+  timestamp: string;
+}
