@@ -12,7 +12,7 @@
   let { userData }: { userData?: any | null | undefined } = $props();
 
   let menuOpen = $state(false);
-  let pageWithSidebar = page.url.pathname.startsWith('/guild/');
+  let pageWithSidebar = $derived(page.url.pathname.startsWith('/guild/'));
 
   afterNavigate(() => {
     menuOpen = false;

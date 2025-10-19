@@ -52,10 +52,10 @@
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
 >
-  <div class="items-between flex w-full justify-center gap-2">
+  <div class="items-center flex w-full justify-between gap-2">
     <h2 class="text-xl font-bold">Set Preferences</h2>
     <button
-      class="ml-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
+      class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
       onclick={() => (overlayOpen = false)}
       aria-label="Close action selector"
     >
