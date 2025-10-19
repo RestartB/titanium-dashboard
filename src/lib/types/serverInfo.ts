@@ -53,5 +53,5 @@ export interface ErrorLog {
   module: string;
   error: string;
   details: string;
-  timestamp: string;
+  time_occurred: string;
 }

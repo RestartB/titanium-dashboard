@@ -11,7 +11,7 @@
 
 <ButtonRow Icon={CircleQuestionMark} onclick={() => (overlayOpen = true)}>
   <p class="text-base text-zinc-400">
-    <strong>{error.module} - {new Date(error.timestamp).toLocaleString()}</strong>
+    <strong>{error.module} - {new Date(error.time_occurred).toLocaleString()}</strong>
   </p>
   <p class="font-semibold">{error.error}</p>
 </ButtonRow>
@@ -53,14 +53,16 @@
           <p>{error.error}</p>
         </div>
 
-        <div>
-          <h3 class="font-bold">Info</h3>
-          <p>{error.details}</p>
-        </div>
+        {#if error.details}
+          <div>
+            <h3 class="font-bold">Info</h3>
+            <p>{error.details}</p>
+          </div>
+        {/if}
 
         <div>
           <h3 class="font-bold">Time</h3>
-          <p>{new Date(error.timestamp).toLocaleString()}</p>
+          <p>{new Date(error.time_occurred).toLocaleString()}</p>
         </div>
 
         <p class="mt-auto text-center font-mono text-sm text-zinc-400">{error.id}</p>
