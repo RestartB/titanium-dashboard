@@ -11,15 +11,12 @@
   let currentPage = $state(1);
   const changePage = async function (newPage: number) {
     if (newPage < 1 || newPage > pageCount) return;
-
     currentPage = newPage;
 
     const response = await fetch(
       `/api/guild/${data.serverInfo.id}/errors?offset=${(currentPage - 1) * 50}&limit=50`
     );
     const newData: ErrorLogs = await response.json();
-
-    console.log(newData);
 
     errorData = newData;
   };
