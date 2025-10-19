@@ -116,7 +116,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return redirect(302, '/');
     }
 
-    event.locals.guildID = guildid;
+    event.locals.guildId = guildid;
   }
 
   const response = await resolve(event);

@@ -9,7 +9,7 @@ export const GET: RequestHandler = async (event) => {
   }
 
   const request = await fetch(
-    `http://127.0.0.1:5100/guild/${event.locals.guildID}/module/${module}`,
+    `http://127.0.0.1:5100/guild/${event.locals.guildId}/module/${module}`,
     {
       method: 'GET',
       headers: {
@@ -35,7 +35,7 @@ export const PUT: RequestHandler = async (event) => {
   }
 
   const putRequest = await fetch(
-    `http://127.0.0.1:5100/guild/${event.locals.guildID}/module/${module}`,
+    `http://127.0.0.1:5100/guild/${event.locals.guildId}/module/${module}`,
     {
       method: 'PUT',
       headers: {

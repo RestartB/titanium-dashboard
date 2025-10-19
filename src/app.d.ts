@@ -7,7 +7,7 @@ declare global {
       token?: string;
       discordToken?: string;
       discordID?: string;
-      guildID?: string;
+      guildId?: string;
       dashboard_manager?: boolean;
       case_manager?: boolean;
     }

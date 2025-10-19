@@ -3,7 +3,7 @@ import type { ServerModerationSettings } from '$lib/types/moderation';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
   // Get data
-  const request = await fetch('/api/guild/' + locals.guildID + '/module/moderation');
+  const request = await fetch('/api/guild/' + locals.guildId + '/module/moderation');
   const pageSettings: ServerModerationSettings = await request.json();
   return { pageSettings };
 };

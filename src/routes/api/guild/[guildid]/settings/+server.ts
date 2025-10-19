@@ -2,7 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (event) => {
-  const request = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildID}/settings`, {
+  const request = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/settings`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -20,7 +20,7 @@ export const GET: RequestHandler = async (event) => {
 export const PUT: RequestHandler = async (event) => {
   const body = await event.request.json();
 
-  const putRequest = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildID}/settings`, {
+  const putRequest = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/settings`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

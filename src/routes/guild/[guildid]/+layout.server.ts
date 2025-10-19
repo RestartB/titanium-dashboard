@@ -6,7 +6,7 @@ import type { ServerSettings } from '$lib/types/serverSettings';
 
 export const load: LayoutServerLoad = async ({ locals, fetch }) => {
   // Get data
-  const infoRequest = await fetch('/api/guild/' + locals.guildID);
+  const infoRequest = await fetch('/api/guild/' + locals.guildId);
 
   if (!infoRequest.ok) {
     if (infoRequest.status === 404 || infoRequest.status === 403) {
@@ -16,7 +16,7 @@ export const load: LayoutServerLoad = async ({ locals, fetch }) => {
     error(infoRequest.status, 'Failed to fetch server info from Titanium');
   }
 
-  const settingsRequest = await fetch('/api/guild/' + locals.guildID + '/settings');
+  const settingsRequest = await fetch('/api/guild/' + locals.guildId + '/settings');
 
   if (!settingsRequest.ok) {
     if (settingsRequest.status === 404 || settingsRequest.status === 403) {
