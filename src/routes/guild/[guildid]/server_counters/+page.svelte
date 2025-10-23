@@ -35,7 +35,7 @@
         dataState.pageSettings.channels.push(createBlankChannel());
       }}>Add Channel</button
     >
-    {#each dataState.pageSettings.channels as _, index}
+    {#each dataState.pageSettings.channels as _, index (index)}
       <Channel
         {index}
         bind:channel={dataState.pageSettings.channels[index]}

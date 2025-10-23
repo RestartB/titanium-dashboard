@@ -48,7 +48,7 @@
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
 >
-  <div class="items-center flex w-full justify-between gap-2">
+  <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Select an Action</h2>
     <button
       class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
@@ -59,7 +59,7 @@
     </button>
   </div>
   <div
-    class="flex h-full max-h-98 min-h-98 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
+    class="flex h-full max-h-100 min-h-100 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
   >
     <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
       {@render actionRow('delete', 'Delete Message', 'Remove the messages.', Trash)}

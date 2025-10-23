@@ -64,7 +64,7 @@
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
 >
-  <div class="items-center flex w-full justify-between gap-2">
+  <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Select a Channel</h2>
     <button
       class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
@@ -87,7 +87,7 @@
     </div>
 
     <div class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-2">
-      {#each categories as category}
+      {#each categories as category (category.id)}
         {@const categoryChannels = filteredChannels.filter(
           (channel) => channel.category === category.id
         )}
@@ -98,7 +98,7 @@
                 {category.name}
               </h3>
             {/if}
-            {#each categoryChannels as channel}
+            {#each categoryChannels as channel (channel.id)}
               {@render channelRow(channel)}
             {/each}
           </div>

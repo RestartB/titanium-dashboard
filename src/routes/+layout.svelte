@@ -75,7 +75,7 @@
 </svelte:head>
 
 <div class="flex h-screen flex-col">
-  <Header userData={data.userData?.userData} />
+  <Header userData={data.userData} />
   <div class="flex-1 overflow-hidden pt-12">
     {@render children?.()}
   </div>

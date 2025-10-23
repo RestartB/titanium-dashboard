@@ -150,7 +150,7 @@
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
 >
-  <div class="items-center flex w-full justify-between gap-2">
+  <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Select an Emoji</h2>
     <button
       class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
@@ -195,7 +195,7 @@
             />
           </button>
         {/if}
-        {#each groupsSubgroups.groups as group}
+        {#each groupsSubgroups.groups as group (group.key)}
           {#if group.message !== 'components'}
             {@render emojiJumper(group.message, sectionIcons[group.message] || Smile)}
           {/if}
@@ -220,7 +220,7 @@
           <h3 class="text-md font-semibold capitalize">{serverInfo.name}</h3>
         </div>
         <div class="grid grid-cols-7 place-items-center gap-2">
-          {#each filteredCustomEmojis as emoji}
+          {#each filteredCustomEmojis as emoji (emoji.id)}
             <button
               onclick={() => {
                 selectedEmoji = emoji.id;
@@ -242,7 +242,7 @@
           {/each}
         </div>
       {/if}
-      {#each groupsSubgroups.groups as group}
+      {#each groupsSubgroups.groups as group (group.key)}
         {@const groupEmojis = filteredEmojis.filter((emoji) => emoji.group === group.order)}
         {#if groupEmojis.length > 0 && group.message !== 'components'}
           {@const IconComponent = sectionIcons[group.message]}
@@ -253,7 +253,7 @@
             <h3 class="text-md font-semibold capitalize">{group.message}</h3>
           </div>
           <div class="grid grid-cols-7 place-items-center gap-2">
-            {#each groupEmojis as emoji}
+            {#each groupEmojis as emoji (emoji.hexcode)}
               <button
                 onclick={() => {
                   selectedEmoji = emoji.emoji;

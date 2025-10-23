@@ -31,7 +31,7 @@
 </div>
 
 <ul class="flex w-full list-none flex-col gap-2">
-  {#each errorData.errors as error}
+  {#each errorData.errors as error (error.id)}
     <li class="w-full">
       <Error {error} />
     </li>

@@ -1,5 +1,6 @@
 import { TEST_MODE } from '$env/static/private';
 import type { LayoutServerLoad } from './$types';
+import type { UserInfo } from '$lib/types/userInfo';
 
 export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
   const titaniumToken = cookies.get('titanium_token');
@@ -7,7 +8,7 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
     return { userData: null };
   }
 
-  let userData = null;
+  let userData: UserInfo | null = null;
 
   if (TEST_MODE === 'true') {
     userData = {
@@ -26,8 +27,6 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
     return { userData };
   }
   userData = await userRequest.json();
-
-  console.log('User data fetched:', userData);
 
   return { userData };
 };

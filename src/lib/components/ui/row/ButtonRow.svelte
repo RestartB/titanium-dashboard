@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Component } from 'svelte';
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   let {
     children,
     class: className = '',

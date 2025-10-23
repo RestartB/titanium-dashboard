@@ -19,23 +19,23 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   const titaniumToken = event.cookies.get('titanium_token');
   if (!titaniumToken) {
+    console.log('No titanium token');
     if (event.url.pathname.startsWith('/api')) {
       return json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    console.log('No titanium token');
     return redirect(302, '/');
   }
 
   const tokenRecord = await db.select().from(token).where(eq(token.token, titaniumToken)).get();
   if (!tokenRecord) {
+    console.log('Invalid titanium token');
     event.cookies.delete('titanium_token', { path: '/' });
 
     if (event.url.pathname.startsWith('/api')) {
       return json({ error: 'Invalid Token' }, { status: 401 });
     }
 
-    console.log('Invalid titanium token');
     return redirect(302, '/');
   }
 
@@ -54,20 +54,21 @@ export const handle: Handle = async ({ event, resolve }) => {
     const guildid = event.params.guildid;
 
     if (!guildid) {
+      console.log('No guild id');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Missing Guild ID' }, { status: 400 });
       }
 
-      console.log('No guild id');
-      return redirect(302, '/');
+      const response = await resolve(event);
+      return response;
     }
 
     if (isNaN(Number(guildid))) {
+      console.log('Invalid guild id');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Invalid Guild ID' }, { status: 400 });
       }
 
-      console.log('Invalid guild id');
       return redirect(302, '/');
     }
 
@@ -83,14 +84,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     if (!permCheckRequest.ok) {
       if (permCheckRequest.status === 404) {
+        console.log('Guild not found');
         if (event.url.pathname.startsWith('/api')) {
           return json({ error: 'Guild not found' }, { status: 404 });
         }
 
-        console.log('Guild not found');
         return redirect(302, '/');
       }
 
+      console.log('Failed to fetch guild permissions from Titanium');
       if (event.url.pathname.startsWith('/api')) {
         return json(
           { error: 'Failed to fetch guild permissions from Titanium' },
@@ -98,7 +100,6 @@ export const handle: Handle = async ({ event, resolve }) => {
         );
       }
 
-      console.log('Failed to fetch guild permissions from Titanium');
       return redirect(302, '/');
     }
 
@@ -108,11 +109,11 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.case_manager = permCheck.case_manager;
 
     if (!permCheck.dashboard_manager && !permCheck.case_manager) {
+      console.log('Insufficient guild permissions');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Insufficient Permissions' }, { status: 403 });
       }
 
-      console.log('Insufficient guild permissions');
       return redirect(302, '/');
     }
 

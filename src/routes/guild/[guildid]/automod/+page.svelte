@@ -12,7 +12,7 @@
 
   function createBlankRule(): AutomodRule {
     return {
-      id: '',
+      id: crypto.randomUUID(),
       rule_type: '',
       rule_name: '',
       words: [],
@@ -49,7 +49,7 @@
         }}>Add Rule</button
       >
 
-      {#each rules as rule, index}
+      {#each rules as rule, index (rule.id)}
         {#if type === 'spam_detection' && spamType === rule.antispam_type}
           <Rule
             roles={dataState.serverInfo.roles}

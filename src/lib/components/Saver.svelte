@@ -4,6 +4,7 @@
   import Row from '$lib/components/ui/row/Row.svelte';
   import { TriangleAlert, LoaderCircle } from '@lucide/svelte';
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   let { page = '', dataState = $bindable() }: { page?: string; dataState: any } = $props();
 
   let originalDataString = JSON.stringify(dataState);

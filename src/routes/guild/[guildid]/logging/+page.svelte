@@ -138,7 +138,7 @@
 
 {#snippet logCategoryList(category: string)}
   <ul class="mt-2 flex flex-col gap-2">
-    {#each Object.keys(logTypeStrings) as logType}
+    {#each Object.keys(logTypeStrings) as logType (logType)}
       {#if logType.startsWith(category)}
         {@render logTypeRow(logType)}
       {/if}

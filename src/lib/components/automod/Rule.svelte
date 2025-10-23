@@ -160,7 +160,7 @@
             </button>
           </div>
           {#if rule.words}
-            {#each rule.words as word, index}
+            {#each rule.words as word, index (index)}
               <WordTile deleteThis={() => rule.words?.splice(index, 1)} {word} />
             {/each}
           {/if}
@@ -179,7 +179,7 @@
         </div>
       {/if}
       <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
-        {#each rule.actions as action, index}
+        {#each rule.actions as _, index (index)}
           <ActionTile
             {roles}
             deleteThis={() => rule.actions.splice(index, 1)}

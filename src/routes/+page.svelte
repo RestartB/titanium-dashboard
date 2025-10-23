@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { resolve } from '$app/paths';
+
   import Row from '$lib/components/ui/row/Row.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
   import logo from '$lib/assets/logo.svg';
@@ -7,15 +9,17 @@
   import verified from '$lib/assets/verified.png';
   import partner from '$lib/assets/partner.webp';
 
+  import type { ServerInfo } from '$lib/types/serverInfo';
+
   let { data } = $props();
 </script>
 
-{#snippet guildRow(guild: any, invite = false)}
+{#snippet guildRow(guild: ServerInfo, invite = false)}
   <a
     class="flex w-full items-center gap-4 rounded-md border border-zinc-700 p-4 transition-all"
     class:cursor-default={invite}
     class:hover:bg-zinc-700={!invite}
-    href={`/guild/${guild.id}`}
+    href={resolve(`/guild/${guild.id}`)}
     title={guild.name}
     data-sveltekit-preload-data={false}
   >
@@ -28,9 +32,9 @@
       class={invite ? 'opacity-50' : ''}
     />
     <div class="flex items-center gap-1" class:opacity-50={invite}>
-      {#if guild.features.includes('PARTNERED')}
+      {#if guild.features?.includes('PARTNERED')}
         <img src={partner} alt="Partnered Server" class="h-4 w-4" translate="no" />
-      {:else if guild.features.includes('VERIFIED')}
+      {:else if guild.features?.includes('VERIFIED')}
         <img src={verified} alt="Verified Server" class="h-4 w-4" translate="no" />
       {/if}
       <p>{guild.name}</p>
@@ -75,7 +79,7 @@
               >
             </p>
           {/if}
-          {#each data.guildsData.mutualGuilds as guild}
+          {#each data.guildsData.mutualGuilds as guild (guild.id)}
             {@render guildRow(guild)}
           {/each}
           {#if data.guildsData.nonMutualGuilds.length > 0}
@@ -85,14 +89,14 @@
               >
             </p>
           {/if}
-          {#each data.guildsData.nonMutualGuilds as guild}
+          {#each data.guildsData.nonMutualGuilds as guild (guild.id)}
             {@render guildRow(guild, true)}
           {/each}
         {/if}
       {:else}
         <a
           class="flex items-center justify-center gap-2 rounded-md bg-blurple p-2 px-4 text-white transition-all hover:brightness-150"
-          href="/auth/login"
+          href={resolve('/auth/login')}
         >
           <img src={discord} alt="Discord" class="h-6 w-6" />
           Log in with Discord</a

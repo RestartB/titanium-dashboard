@@ -1,10 +1,13 @@
 <script lang="ts">
   import { ChevronDown } from '@lucide/svelte';
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const {
     children,
     title,
     defaultState = false
   }: { children: any; title: string; defaultState?: boolean } = $props();
+
   let isOpen = $state(defaultState);
 </script>
 

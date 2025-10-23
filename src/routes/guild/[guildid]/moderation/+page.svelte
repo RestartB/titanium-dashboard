@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Row, ToggleRow } from '$lib/components/ui/row';
+  import { ToggleRow } from '$lib/components/ui/row';
   import Saver from '$lib/components/Saver.svelte';
 
   const { data } = $props();

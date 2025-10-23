@@ -1,5 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   let { children, overlayOpen = $bindable(false) }: { children?: any; overlayOpen?: boolean } =
     $props();
 </script>

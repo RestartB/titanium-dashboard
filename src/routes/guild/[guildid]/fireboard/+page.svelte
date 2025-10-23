@@ -40,7 +40,7 @@
         dataState.pageSettings.boards.push(createBlankBoard());
       }}>Add Board</button
     >
-    {#each dataState.pageSettings.boards as _, index}
+    {#each dataState.pageSettings.boards as _, index (index)}
       <Board
         bind:board={dataState.pageSettings.boards[index]}
         serverInfo={data.serverInfo}

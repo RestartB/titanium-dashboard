@@ -57,7 +57,7 @@
         </button>
       </div>
     {/if}
-    {#each dataState.serverSettings.prefixes as prefix, index}
+    {#each dataState.serverSettings.prefixes as prefix, index (index)}
       <WordTile
         word={prefix}
         deleteThis={() => dataState.serverSettings.prefixes.splice(index, 1)}

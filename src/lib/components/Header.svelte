@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
+  import { resolve } from '$app/paths';
   import { afterNavigate } from '$app/navigation';
   import { fade, fly } from 'svelte/transition';
   import { prefersReducedMotion } from 'svelte/motion';
@@ -9,7 +10,10 @@
   import { PanelLeft, X, Menu, Server, LifeBuoy, LogOut } from '@lucide/svelte';
   import logo from '$lib/assets/logo.svg';
 
-  let { userData }: { userData?: any | null | undefined } = $props();
+  import type { UserInfo } from '$lib/types/userInfo';
+
+  const { userData }: { userData?: UserInfo | null | undefined } = $props();
+  const shortUserData = userData?.userData;
 
   let menuOpen = $state(false);
   let pageWithSidebar = $derived(page.url.pathname.startsWith('/guild/'));
@@ -45,7 +49,7 @@
       </div>
 
       {#if userData}
-        <a href="/" class="hidden h-full items-center px-2 xxs:flex">Servers</a>
+        <a href={resolve('/')} class="hidden h-full items-center px-2 xxs:flex">Servers</a>
       {/if}
       <a
         href="https://titaniumbot.me/server"
@@ -55,17 +59,17 @@
     </div>
 
     <div class="ml-auto flex items-center gap-2 xxs:pr-4">
-      {#if userData}
+      {#if shortUserData}
         <Avatar
-          src={userData.avatar
-            ? `https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png`
+          src={shortUserData.avatar
+            ? `https://cdn.discordapp.com/avatars/${shortUserData.id}/${shortUserData.avatar}.png`
             : undefined}
-          name={userData?.global_name || userData?.username}
+          name={shortUserData?.global_name || shortUserData?.username}
           size={24}
           circle={true}
         />
         <p class="truncate font-bold" translate="no">
-          {userData?.global_name || userData?.username}
+          {shortUserData?.global_name || shortUserData?.username}
         </p>
       {:else}
         <p class="font-bold opacity-70">Not logged in</p>
@@ -102,7 +106,7 @@
           <nav class="flex h-full w-full flex-col items-center justify-start gap-2">
             <a
               class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
-              href="/"
+              href={resolve('/')}
             >
               <Server size="30" />
               Servers
@@ -118,7 +122,7 @@
             {#if userData}
               <a
                 class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
-                href="/auth/logout"
+                href={resolve('/auth/logout')}
               >
                 <LogOut size="30" />
                 Logout

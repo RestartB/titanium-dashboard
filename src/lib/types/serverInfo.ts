@@ -9,6 +9,7 @@ export interface ServerInfo {
   icon: string;
   banner: string;
   member_count: number;
+  features?: string[];
   roles: RoleInfo[];
   categories: CategoryInfo[];
   emojis: EmojiInfo[];
