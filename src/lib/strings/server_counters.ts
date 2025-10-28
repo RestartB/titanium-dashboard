@@ -9,5 +9,6 @@ export const typeDisplayNames: Record<string, string> = {
   members_status_dnd: 'Members - Do Not Disturb',
   members_activity: 'Members - In An Activity',
   members_custom_status: 'Members - Custom Status',
-  channels: 'Total Channels'
+  channels: 'Total Channels',
+  activity: 'Specific Activity'
 };

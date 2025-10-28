@@ -1,7 +1,7 @@
 <script lang="ts">
   import { X } from '@lucide/svelte';
   import { typeDisplayNames } from '$lib/strings/server_counters';
-  import type { ServerCounterChannel } from '$lib/types/server_counters';
+  import type { ServerCounterChannel } from '$lib/types/serverCounters';
 
   let {
     channel = $bindable(),
@@ -16,6 +16,7 @@
       channel.type = type;
       overlayOpen = false;
     }}
+    aria-label="Select {typeDisplayNames[type]} type"
   >
     <div class="w-full text-left">
       <p class="font-medium">{typeDisplayNames[type]}</p>
@@ -27,18 +28,18 @@
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
 >
-  <div class="items-center flex w-full justify-between gap-2">
+  <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Select a Type</h2>
     <button
       class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
       onclick={() => (overlayOpen = false)}
-      aria-label="Close action selector"
+      aria-label="Close type selector"
     >
       <X class="h-6 w-6" />
     </button>
   </div>
   <div
-    class="flex h-full max-h-98 min-h-98 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
+    class="flex h-full max-h-104 min-h-104 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
   >
     <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
       {@render typeRow('total_members', 'The total amount of users and bots in the server.')}
@@ -66,7 +67,7 @@
         'members_custom_status',
         'The total amount of users and bots that have a custom status set.'
       )}
-      {@render typeRow('channels', 'The total amount of channels in the server.')}
+      {@render typeRow('activity', 'The amount of users doing a specific activity.')}
     </div>
   </div>
 </div>

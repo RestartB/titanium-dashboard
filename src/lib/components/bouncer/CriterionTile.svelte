@@ -24,10 +24,12 @@
 <div
   class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
 >
-  <button onclick={() => (overlayOpen = true)}>
-    <Cog size={16} />
-  </button>
-  <button onclick={deleteThis}>
+  {#if criterion.type !== 'avatar'}
+    <button onclick={() => (overlayOpen = true)} aria-label="Open criterion preferences">
+      <Cog size={16} />
+    </button>
+  {/if}
+  <button onclick={deleteThis} aria-label="Delete criterion">
     <X size={16} />
   </button>
   <p class="capitalize">{criterion.type.replaceAll('_', ' ')}</p>

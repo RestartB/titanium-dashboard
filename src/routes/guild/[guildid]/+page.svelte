@@ -19,6 +19,19 @@
   const userData = data.userData?.userData;
 </script>
 
+{#snippet featureCard(title: string, description: string, href: string, Icon: Component)}
+  <a
+    class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4 shadow-lg transition-all hover:scale-102 hover:bg-zinc-700"
+    {href}
+  >
+    <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-600">
+      <Icon size={28} />
+    </div>
+    <h2 class="font-xl font-bold">{title}</h2>
+    <p>{description}</p>
+  </a>
+{/snippet}
+
 <div>
   <h1 class="text-4xl">
     Hi there, <span
@@ -30,19 +43,6 @@
     Manage settings for Titanium in <strong translate="no">{data.serverInfo.name}</strong> here.
   </p>
 </div>
-
-{#snippet featureCard(title: string, description: string, href: string, Icon: Component)}
-  <a
-    class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4 shadow-lg transition-colors hover:bg-zinc-700"
-    {href}
-  >
-    <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-600">
-      <Icon size={28} />
-    </div>
-    <h2 class="font-xl font-bold">{title}</h2>
-    <p>{description}</p>
-  </a>
-{/snippet}
 
 <div class="grid grid-cols-1 gap-4 xxs:grid-cols-2 lg:grid-cols-3">
   {@render featureCard(

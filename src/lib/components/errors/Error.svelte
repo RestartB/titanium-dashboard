@@ -9,7 +9,11 @@
   let overlayOpen = $state(false);
 </script>
 
-<ButtonRow Icon={CircleQuestionMark} onclick={() => (overlayOpen = true)}>
+<ButtonRow
+  label="View error details"
+  Icon={CircleQuestionMark}
+  onclick={() => (overlayOpen = true)}
+>
   <p class="text-base text-zinc-400">
     <strong>{error.module} - {new Date(error.time_occurred).toLocaleString()}</strong>
   </p>

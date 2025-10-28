@@ -33,8 +33,19 @@
 {/if}
 
 <Row>
-  <h2 class="font-bold">Criteria</h2>
-  <p>The criteria that must be met before actions are ran.</p>
+  <div class="flex w-full items-center">
+    <div>
+      <h2 class="font-bold">Criteria</h2>
+      <p>The criteria that must be met before actions are ran.</p>
+    </div>
+    <button
+      class="mb-auto ml-auto flex flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 px-2 text-base transition-colors hover:bg-red-600 xs:p-1"
+      onclick={deleteThis}
+    >
+      <X size={16} class="flex-shrink-0" />
+      <p class="hidden xs:block">Delete Rule</p>
+    </button>
+  </div>
   <div class="my-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-700 p-2">
     <button
       class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"

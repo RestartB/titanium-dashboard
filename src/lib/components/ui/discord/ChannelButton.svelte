@@ -9,10 +9,12 @@
 
   let {
     categories = [],
-    channel = $bindable()
+    channel = $bindable(),
+    class: className = ''
   }: {
     categories?: CategoryInfo[];
     channel?: string;
+    class?: string;
   } = $props();
   const channelTypeIcons: Record<string, Component> = {
     text: Hash,
@@ -53,8 +55,9 @@
 {/snippet}
 
 <button
-  class="flex w-fit flex-shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
+  class="flex w-fit flex-shrink-0 cursor-pointer items-center gap-2 rounded-lg p-1 px-2 transition-colors hover:bg-zinc-600 {className}"
   onclick={() => (overlayOpen = !overlayOpen)}
+  aria-label="Toggle channel selector"
 >
   {@render channelContent()}
 </button>

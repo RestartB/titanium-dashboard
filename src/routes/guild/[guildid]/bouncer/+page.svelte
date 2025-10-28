@@ -3,6 +3,7 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
+  import { Plus } from '@lucide/svelte';
   import type { BouncerRule } from '$lib/types/bouncer';
 
   const { data } = $props();
@@ -10,7 +11,7 @@
 
   function createBlankRule(): BouncerRule {
     return {
-      id: crypto.randomUUID(),
+      id: '',
       enabled: true,
       actions: [],
       criteria: []
@@ -30,13 +31,16 @@
 
 <ToggledContent enabled={dataState.serverSettings.modules.automod}>
   <button
-    class="w-fit cursor-pointer rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2 px-4 transition-colors hover:bg-zinc-600"
+    class="flex w-fit cursor-pointer items-center gap-2 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2 px-4 transition-colors hover:bg-zinc-600"
     onclick={() => {
       dataState.pageSettings.rules.push(createBlankRule());
-    }}>Add Rule</button
+    }}
   >
+    <Plus size={20} />
+    Add Rule
+  </button>
 
-  {#each dataState.pageSettings.rules as rule, index (rule.id)}
+  {#each dataState.pageSettings.rules as _, index (index)}
     <Rule
       roles={dataState.serverInfo.roles}
       bind:rule={dataState.pageSettings.rules[index]}

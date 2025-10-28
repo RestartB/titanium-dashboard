@@ -28,11 +28,11 @@
   class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
 >
   {#if action.type !== 'delete'}
-    <button onclick={() => (overlayOpen = true)}>
+    <button onclick={() => (overlayOpen = true)} aria-label="Open action preferences">
       <Cog size={16} />
     </button>
   {/if}
-  <button onclick={deleteThis}>
+  <button onclick={deleteThis} aria-label="Delete action">
     <X size={16} />
   </button>
   <p class="capitalize">{action.type.replaceAll('_', ' ')}</p>

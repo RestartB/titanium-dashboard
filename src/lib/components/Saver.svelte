@@ -74,7 +74,7 @@
 
 {#if hasUnsavedChanges}
   <div
-    class="pointer-events-none fixed inset-0 z-10 mt-12 flex flex-col items-center justify-end overflow-hidden p-4"
+    class="pointer-events-none fixed inset-0 z-100 mt-12 flex flex-col items-center justify-end overflow-hidden p-4"
     transition:fly={{ y: 20, duration: 200 }}
   >
     <Row
@@ -88,14 +88,15 @@
         </div>
         <div class="flex flex-shrink-0 items-center justify-center gap-2">
           <button
-            class="cursor-pointer rounded-lg bg-zinc-600 px-2 py-1 transition-all hover:bg-zinc-500 disabled:cursor-not-allowed disabled:opacity-50"
+            class="min-h-9 cursor-pointer rounded-lg bg-zinc-600 px-2 py-1 transition-all hover:bg-zinc-500 disabled:cursor-not-allowed disabled:opacity-50"
             onclick={resetChanges}
             disabled={loading}>Reset</button
           >
           <button
-            class="cursor-pointer rounded-lg bg-green-600 px-2 py-1 transition-all hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
+            class="flex min-h-9 min-w-32 cursor-pointer items-center justify-center rounded-lg bg-green-600 px-2 py-1 transition-all hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
             disabled={loading}
             onclick={saveChanges}
+            aria-label={loading ? 'Saving changes' : 'Save changes'}
           >
             {#if loading}
               <LoaderCircle size={20} class="animate-spin" />

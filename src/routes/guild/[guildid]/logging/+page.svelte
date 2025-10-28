@@ -132,6 +132,7 @@
     <ChannelButton
       categories={data.serverInfo.categories}
       bind:channel={dataState.pageSettings[logType as keyof LoggingSettings] as string}
+      class="bg-zinc-800"
     />
   </li>
 {/snippet}

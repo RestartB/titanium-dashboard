@@ -6,4 +6,5 @@ export type ServerCounterChannel = {
   id?: string;
   name: string;
   type: string;
+  activity_name?: string;
 };

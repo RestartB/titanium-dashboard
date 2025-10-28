@@ -142,6 +142,7 @@
     class="cursor-pointer rounded-full p-1 transition-colors {activeSection === section
       ? 'bg-zinc-500'
       : 'hover:bg-zinc-600/50'}"
+    aria-label="Jump to {section} section"
   >
     <ButtonIcon size={24} />
   </button>
@@ -155,7 +156,7 @@
     <button
       class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
       onclick={() => (overlayOpen = false)}
-      aria-label="Close channel selector"
+      aria-label="Close emoji selector"
     >
       <X class="h-6 w-6" />
     </button>
@@ -183,6 +184,7 @@
           <button
             onclick={() => scrollToSection('custom')}
             class="flex cursor-pointer items-center justify-center p-1"
+            aria-label="Jump to server emojis section"
           >
             <img
               src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}

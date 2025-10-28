@@ -52,6 +52,7 @@
               newPrefixInput = '';
             }
           }}
+          aria-label="Add prefix"
         >
           <Plus size={16} />
         </button>

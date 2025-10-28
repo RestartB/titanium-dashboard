@@ -50,6 +50,7 @@
       selectedChannel = channel.id;
       overlayOpen = false;
     }}
+    aria-label="Select {channel.name} channel"
   >
     {#if channelTypeIcons[channel.type]}
       {@const Icon = channelTypeIcons[channel.type]}

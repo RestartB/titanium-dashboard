@@ -15,6 +15,7 @@
   <button
     class="flex w-full cursor-pointer items-center justify-between py-1"
     onclick={() => (isOpen = !isOpen)}
+    aria-label="Toggle {title} section"
   >
     <h3 class="font-bold">{title}</h3>
     <ChevronDown

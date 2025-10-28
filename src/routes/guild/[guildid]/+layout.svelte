@@ -1,6 +1,7 @@
 <script lang="ts">
   import { sidebarState } from '$lib/states/sidebar.svelte';
   import { afterNavigate } from '$app/navigation';
+  import { page } from '$app/state';
   import { fade } from 'svelte/transition';
   import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
   let { children, data } = $props();
@@ -11,6 +12,10 @@
   afterNavigate(() => {
     sidebarState.open = false;
   });
+
+  let isHome = $derived(
+    page.url.pathname.split('/')[page.url.pathname.split('/').length - 1] !== data.serverInfo.id
+  );
 </script>
 
 <svelte:window bind:innerWidth={width} />
@@ -35,7 +40,7 @@
       </div>
     {/if}
 
-    <div class="flex w-full flex-col gap-4 overflow-y-auto p-4 pb-30">
+    <div class="flex w-full flex-col gap-4 overflow-y-auto p-4 {isHome ? 'pb-35' : ''}">
       {@render children?.()}
     </div>
   </div>

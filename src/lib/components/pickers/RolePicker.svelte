@@ -40,6 +40,7 @@
       selectedRole = role.id;
       overlayOpen = false;
     }}
+    aria-label="Select {role.name} role"
   >
     {#if role.color}
       <span

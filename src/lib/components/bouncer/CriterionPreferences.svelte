@@ -56,7 +56,7 @@
     <button
       class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
       onclick={() => (overlayOpen = false)}
-      aria-label="Close criterion preferences selector"
+      aria-label="Close criterion settings panel"
     >
       <X class="h-6 w-6" />
     </button>
@@ -94,6 +94,7 @@
                     newWordInput = '';
                   }
                 }}
+                aria-label="Add word"
               >
                 <Plus size={16} />
               </button>

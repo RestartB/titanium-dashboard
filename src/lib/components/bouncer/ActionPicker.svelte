@@ -35,6 +35,7 @@
       rule.actions = [...(rule.actions || []), action];
       overlayOpen = false;
     }}
+    aria-label="Select {name} action"
   >
     <Icon size={24} />
     <div class="w-full text-left">
@@ -58,7 +59,7 @@
     </button>
   </div>
   <div
-    class="flex h-full max-h-100 min-h-100 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
+    class="flex h-full max-h-104 min-h-104 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
   >
     <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
       {@render actionRow('warn', 'Warn User', 'Add a warning to the user.', TriangleAlert)}

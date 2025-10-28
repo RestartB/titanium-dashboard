@@ -155,6 +155,7 @@
                   newWordInput = '';
                 }
               }}
+              aria-label="Add word"
             >
               <Plus size={16} />
             </button>

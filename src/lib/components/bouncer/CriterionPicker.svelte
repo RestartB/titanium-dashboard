@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { TriangleAlert, Tag, Clock, X } from '@lucide/svelte';
+  import { ALargeSmall, Tag, Clock, User, X } from '@lucide/svelte';
   import type { Component } from 'svelte';
   import type { BouncerCriteria, BouncerRule } from '$lib/types/bouncer';
 
@@ -26,6 +26,7 @@
       rule.criteria = [...(rule.criteria || []), criterion];
       overlayOpen = false;
     }}
+    aria-label="Select {name} criterion"
   >
     <Icon size={24} />
     <div class="w-full text-left">
@@ -49,14 +50,14 @@
     </button>
   </div>
   <div
-    class="flex h-full max-h-100 min-h-100 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
+    class="flex h-full max-h-104 min-h-104 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
   >
     <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
       {@render criterionRow(
         'username',
         'Username',
         "Watch for words in the user's username.",
-        TriangleAlert
+        ALargeSmall
       )}
       {@render criterionRow('tag', 'Guild Tag', "Watch for words in the user's guild tag.", Tag)}
       {@render criterionRow(
@@ -64,6 +65,12 @@
         'Account Age',
         "Watch for the age of the user's account.",
         Clock
+      )}
+      {@render criterionRow(
+        'avatar',
+        'Default Avatar',
+        'Watch if the user has a default avatar.',
+        User
       )}
     </div>
   </div>
