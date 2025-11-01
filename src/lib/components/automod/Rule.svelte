@@ -6,8 +6,8 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
 
   import { ChevronDown, X, Plus } from '@lucide/svelte';
-  import type { AutomodRule } from '$lib/types/automod';
-  import type { RoleInfo } from '$lib/types/serverInfo';
+  import type { AutomodRule } from '$lib/interfaces/automod';
+  import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let {
     roles,

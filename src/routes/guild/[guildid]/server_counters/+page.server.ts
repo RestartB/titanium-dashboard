@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { ServerCounterSettings } from '$lib/types/serverCounters';
+import type { ServerCounterSettings } from '$lib/interfaces/serverCounters';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
   // Get data

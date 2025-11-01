@@ -2,7 +2,7 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import { X, Plus } from '@lucide/svelte';
-  import type { BouncerCriteria } from '$lib/types/bouncer';
+  import type { BouncerCriteria } from '$lib/interfaces/bouncer';
 
   let {
     criterion = $bindable(),

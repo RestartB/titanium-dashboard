@@ -4,7 +4,7 @@
   import Board from '$lib/components/fireboard/Board.svelte';
   import Saver from '$lib/components/Saver.svelte';
 
-  import type { FireboardBoard } from '$lib/types/fireboard';
+  import type { FireboardBoard } from '$lib/interfaces/fireboard';
 
   let { data } = $props();
   let dataState = $state(data);

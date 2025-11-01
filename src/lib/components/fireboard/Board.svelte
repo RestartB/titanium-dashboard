@@ -6,8 +6,8 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import { Trash } from '@lucide/svelte';
 
-  import type { ServerInfo } from '$lib/types/serverInfo';
-  import type { FireboardBoard } from '$lib/types/fireboard';
+  import type { ServerInfo } from '$lib/interfaces/serverInfo';
+  import type { FireboardBoard } from '$lib/interfaces/fireboard';
 
   let {
     board = $bindable(),

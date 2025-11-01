@@ -9,7 +9,7 @@
   import verified from '$lib/assets/verified.png';
   import partner from '$lib/assets/partner.webp';
 
-  import type { ServerInfo } from '$lib/types/serverInfo';
+  import type { ServerInfo } from '$lib/interfaces/serverInfo';
 
   let { data } = $props();
 </script>

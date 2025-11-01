@@ -5,7 +5,7 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
-  import type { AutomodRule } from '$lib/types/automod';
+  import type { AutomodRule } from '$lib/interfaces/automod';
 
   const { data } = $props();
   let dataState = $state(data);

@@ -1,8 +1,8 @@
 import { error, redirect } from '@sveltejs/kit';
 
 import type { LayoutServerLoad } from './$types';
-import type { ServerInfo } from '$lib/types/serverInfo';
-import type { ServerSettings } from '$lib/types/serverSettings';
+import type { ServerInfo } from '$lib/interfaces/serverInfo';
+import type { ServerSettings } from '$lib/interfaces/serverSettings';
 
 export const load: LayoutServerLoad = async ({ locals, fetch }) => {
   // Get data

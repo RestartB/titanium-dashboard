@@ -4,7 +4,7 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import { Plus } from '@lucide/svelte';
-  import type { BouncerRule } from '$lib/types/bouncer';
+  import type { BouncerRule } from '$lib/interfaces/bouncer';
 
   const { data } = $props();
   let dataState = $state(data);

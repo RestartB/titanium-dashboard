@@ -2,7 +2,7 @@
   import { X, Hash, Megaphone, MessagesSquare, Volume2, Podcast } from '@lucide/svelte';
 
   import Fuse from 'fuse.js';
-  import type { ChannelInfo, CategoryInfo } from '$lib/types/serverInfo';
+  import type { ChannelInfo, CategoryInfo } from '$lib/interfaces/serverInfo';
   import type { Component } from 'svelte';
 
   let {

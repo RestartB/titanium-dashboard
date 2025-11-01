@@ -7,10 +7,10 @@
   import { sidebarState } from '$lib/states/sidebar.svelte';
 
   import Avatar from '$lib/components/ui/Avatar.svelte';
-  import { PanelLeft, X, Menu, Server, LifeBuoy, LogOut } from '@lucide/svelte';
+  import { PanelLeft, X, Menu, Server, LifeBuoy, LogOut, LogIn } from '@lucide/svelte';
   import logo from '$lib/assets/logo.svg';
 
-  import type { UserInfo } from '$lib/types/userInfo';
+  import type { UserInfo } from '$lib/interfaces/userInfo';
 
   const { userData }: { userData?: UserInfo | null | undefined } = $props();
   const shortUserData = userData?.userData;
@@ -108,8 +108,13 @@
               class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
               href={resolve('/')}
             >
-              <Server size="30" />
-              Servers
+              {#if userData}
+                <Server size="30" />
+                Servers
+              {:else}
+                <LogIn size="30" />
+                Log in
+              {/if}
             </a>
             <a
               class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"

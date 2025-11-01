@@ -10,7 +10,7 @@
     X
   } from '@lucide/svelte';
   import type { Component } from 'svelte';
-  import type { BouncerAction, BouncerRule } from '$lib/types/bouncer';
+  import type { BouncerAction, BouncerRule } from '$lib/interfaces/bouncer';
 
   let {
     rule = $bindable(),

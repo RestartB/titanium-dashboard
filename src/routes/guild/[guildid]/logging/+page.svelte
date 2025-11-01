@@ -4,7 +4,7 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
-  import type { LoggingSettings } from '$lib/types/logging';
+  import type { LoggingSettings } from '$lib/interfaces/logging';
 
   let { data } = $props();
   let dataState = $state(data);

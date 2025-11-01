@@ -2,8 +2,8 @@
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import ActionPreferences from '$lib/components/automod/ActionPreferences.svelte';
   import { Cog, X } from '@lucide/svelte';
-  import type { AutomodAction } from '$lib/types/automod';
-  import type { RoleInfo } from '$lib/types/serverInfo';
+  import type { AutomodAction } from '$lib/interfaces/automod';
+  import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let {
     action = $bindable(),

@@ -1,8 +1,8 @@
 <script lang="ts">
   import RoleButton from '$lib/components/ui/discord/RoleButton.svelte';
   import { X } from '@lucide/svelte';
-  import type { RoleInfo } from '$lib/types/serverInfo';
-  import type { AutomodAction } from '$lib/types/automod';
+  import type { RoleInfo } from '$lib/interfaces/serverInfo';
+  import type { AutomodAction } from '$lib/interfaces/automod';
 
   const multipliers = {
     s: 1,

@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { FireboardSettings } from '$lib/types/fireboard';
+import type { FireboardSettings } from '$lib/interfaces/fireboard';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
   // Get data

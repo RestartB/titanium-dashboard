@@ -1,6 +1,6 @@
 import { TEST_MODE } from '$env/static/private';
 import type { LayoutServerLoad } from './$types';
-import type { UserInfo } from '$lib/types/userInfo';
+import type { UserInfo } from '$lib/interfaces/userInfo';
 
 export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
   const titaniumToken = cookies.get('titanium_token');

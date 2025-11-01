@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { ChevronDown } from '@lucide/svelte';
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -8,7 +9,12 @@
     defaultState = false
   }: { children: any; title: string; defaultState?: boolean } = $props();
 
-  let isOpen = $state(defaultState);
+  // default open when there's no client side js
+  let isOpen = $state(true);
+
+  onMount(() => {
+    isOpen = defaultState;
+  });
 </script>
 
 <div class="w-full">

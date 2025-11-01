@@ -1,7 +1,7 @@
 <script lang="ts">
   import Error from '$lib/components/errors/Error.svelte';
   import { ChevronFirst, ChevronLeft, ChevronRight, ChevronLast } from '@lucide/svelte';
-  import type { ErrorLogs } from '$lib/types/serverInfo';
+  import type { ErrorLogs } from '$lib/interfaces/serverInfo';
 
   const { data } = $props();
 

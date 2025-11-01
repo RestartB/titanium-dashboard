@@ -4,7 +4,7 @@
   import Channel from '$lib/components/server_counters/Channel.svelte';
   import Saver from '$lib/components/Saver.svelte';
 
-  import type { ServerCounterChannel } from '$lib/types/serverCounters';
+  import type { ServerCounterChannel } from '$lib/interfaces/serverCounters';
 
   let { data } = $props();
   let dataState = $state(data);

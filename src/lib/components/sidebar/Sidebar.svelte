@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import type { ServerInfo } from '$lib/types/serverInfo';
+  import type { ServerInfo } from '$lib/interfaces/serverInfo';
 
   import {
     House,

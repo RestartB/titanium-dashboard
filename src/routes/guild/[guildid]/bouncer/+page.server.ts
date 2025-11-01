@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { BouncerSettings } from '$lib/types/bouncer';
+import type { BouncerSettings } from '$lib/interfaces/bouncer';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
   // Get data

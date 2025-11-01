@@ -1,7 +1,7 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
-  import type { RoleInfo } from '$lib/types/serverInfo';
+  import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let overlayOpen = $state(false);
 

@@ -11,7 +11,7 @@
     X
   } from '@lucide/svelte';
   import type { Component } from 'svelte';
-  import type { AutomodAction, AutomodRule } from '$lib/types/automod';
+  import type { AutomodAction, AutomodRule } from '$lib/interfaces/automod';
 
   let {
     rule = $bindable(),

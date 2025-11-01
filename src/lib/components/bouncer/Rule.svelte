@@ -7,8 +7,8 @@
   import ActionPicker from './ActionPicker.svelte';
 
   import { X, Plus } from '@lucide/svelte';
-  import type { BouncerRule } from '$lib/types/bouncer';
-  import type { RoleInfo } from '$lib/types/serverInfo';
+  import type { BouncerRule } from '$lib/interfaces/bouncer';
+  import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let {
     roles,

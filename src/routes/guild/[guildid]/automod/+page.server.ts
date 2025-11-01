@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { AutomodSettings } from '$lib/types/automod';
+import type { AutomodSettings } from '$lib/interfaces/automod';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
   // Get data

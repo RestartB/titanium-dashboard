@@ -1,8 +1,8 @@
 <script lang="ts">
   import RoleButton from '$lib/components/ui/discord/RoleButton.svelte';
   import { X } from '@lucide/svelte';
-  import type { RoleInfo } from '$lib/types/serverInfo';
-  import type { AutomodAction } from '$lib/types/automod';
+  import type { RoleInfo } from '$lib/interfaces/serverInfo';
+  import type { AutomodAction } from '$lib/interfaces/automod';
 
   const multipliers = {
     s: 1,
@@ -52,7 +52,7 @@
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
 >
-  <div class="items-center flex w-full justify-between gap-2">
+  <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Set Preferences</h2>
     <button
       class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"

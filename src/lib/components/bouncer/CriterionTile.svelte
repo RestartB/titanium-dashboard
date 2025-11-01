@@ -1,7 +1,7 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import { Cog, X } from '@lucide/svelte';
-  import type { BouncerCriteria } from '$lib/types/bouncer';
+  import type { BouncerCriteria } from '$lib/interfaces/bouncer';
   import CriterionPreferences from './CriterionPreferences.svelte';
 
   let {

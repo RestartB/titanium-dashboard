@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ALargeSmall, Tag, Clock, User, X } from '@lucide/svelte';
   import type { Component } from 'svelte';
-  import type { BouncerCriteria, BouncerRule } from '$lib/types/bouncer';
+  import type { BouncerCriteria, BouncerRule } from '$lib/interfaces/bouncer';
 
   let {
     rule = $bindable(),

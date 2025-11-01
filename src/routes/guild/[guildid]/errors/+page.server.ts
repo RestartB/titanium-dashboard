@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { ErrorLogs } from '$lib/types/serverInfo';
+import type { ErrorLogs } from '$lib/interfaces/serverInfo';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
   // Get data

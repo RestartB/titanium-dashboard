@@ -1,7 +1,7 @@
 <script lang="ts">
   import { X } from '@lucide/svelte';
   import { typeDisplayNames } from '$lib/strings/server_counters';
-  import type { ServerCounterChannel } from '$lib/types/serverCounters';
+  import type { ServerCounterChannel } from '$lib/interfaces/serverCounters';
 
   let {
     channel = $bindable(),

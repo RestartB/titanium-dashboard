@@ -2,11 +2,12 @@
   import ButtonRow from '$lib/components/ui/row/ButtonRow.svelte';
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
-  import { Copy, X, CircleQuestionMark } from '@lucide/svelte';
-  import type { ErrorLog } from '$lib/types/serverInfo';
+  import { Copy, Check, X, CircleQuestionMark } from '@lucide/svelte';
+  import type { ErrorLog } from '$lib/interfaces/serverInfo';
 
   const { error }: { error: ErrorLog } = $props();
   let overlayOpen = $state(false);
+  let isCopied = $state(false);
 </script>
 
 <ButtonRow
@@ -28,12 +29,21 @@
       <div class="flex w-full items-center justify-between gap-2">
         <h2 class="text-xl font-bold">Error</h2>
         <button
-          class="ml-auto flex h-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
-          onclick={() => navigator.clipboard.writeText(error.id)}
+          class="ml-auto w-24 flex h-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
+          onclick={() =>
+            navigator.clipboard.writeText(error.id).then(() => {
+              isCopied = true;
+              setTimeout(() => (isCopied = false), 3000);
+            })}
           aria-label="Copy ID to clipboard"
         >
-          <p class="mr-2">Copy</p>
-          <Copy size={20} />
+          {#if isCopied}
+            <p class="mr-2">Done</p>
+            <Check size={20} />
+          {:else}
+            <p class="mr-2">Copy</p>
+            <Copy size={20} />
+          {/if}
         </button>
         <button
           class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"

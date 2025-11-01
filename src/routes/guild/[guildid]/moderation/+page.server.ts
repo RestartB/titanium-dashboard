@@ -1,5 +1,5 @@
 import type { PageServerLoad } from './$types';
-import type { ServerModerationSettings } from '$lib/types/moderation';
+import type { ServerModerationSettings } from '$lib/interfaces/moderation';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
   // Get data

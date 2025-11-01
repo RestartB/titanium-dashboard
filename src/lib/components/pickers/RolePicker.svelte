@@ -2,7 +2,7 @@
   import { X } from '@lucide/svelte';
 
   import Fuse from 'fuse.js';
-  import type { RoleInfo } from '$lib/types/serverInfo';
+  import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let {
     roles,

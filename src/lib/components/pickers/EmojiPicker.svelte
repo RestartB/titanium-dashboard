@@ -18,7 +18,7 @@
   import shortcodes from 'emojibase-data/en/shortcodes/joypixels.json';
 
   import type { Emoji } from 'emojibase';
-  import type { ServerInfo, EmojiInfo } from '$lib/types/serverInfo';
+  import type { ServerInfo, EmojiInfo } from '$lib/interfaces/serverInfo';
 
   import Fuse from 'fuse.js';
 
