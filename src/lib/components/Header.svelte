@@ -36,9 +36,13 @@
           aria-label="{sidebarState.open ? 'Close' : 'Open'} sidebar"
         >
           {#if sidebarState.open}
-            <X class="h-6 w-6" />
+            <span in:fade={{ duration: 100 }}>
+              <X class="h-6 w-6 flex-shrink-0" />
+            </span>
           {:else}
-            <PanelLeft class="h-6 w-6" />
+            <span in:fade={{ duration: 100 }}>
+              <PanelLeft class="h-6 w-6 flex-shrink-0" />
+            </span>
           {/if}
         </button>
       {/if}
@@ -58,7 +62,7 @@
       >
     </div>
 
-    <div class="ml-auto flex items-center gap-2 xxs:pr-4">
+    <div class="ml-auto flex items-center gap-2">
       {#if shortUserData}
         <Avatar
           src={shortUserData.avatar
@@ -72,7 +76,7 @@
           {shortUserData?.global_name || shortUserData?.username}
         </p>
       {:else}
-        <p class="font-bold opacity-70">Not logged in</p>
+        <p class="font-bold opacity-70 xxs:pr-4">Not logged in</p>
       {/if}
     </div>
 
@@ -82,9 +86,13 @@
       aria-label="{menuOpen ? 'Close' : 'Open'} menu"
     >
       {#if menuOpen}
-        <X class="h-6 w-6" />
+        <span in:fade={{ duration: 100 }}>
+          <X class="h-6 w-6 flex-shrink-0" />
+        </span>
       {:else}
-        <Menu class="h-6 w-6" />
+        <span in:fade={{ duration: 100 }}>
+          <Menu class="h-6 w-6 flex-shrink-0" />
+        </span>
       {/if}
     </button>
 
@@ -109,10 +117,10 @@
               href={resolve('/')}
             >
               {#if userData}
-                <Server size="30" />
+                <Server size="30" class="flex-shrink-0" />
                 Servers
               {:else}
-                <LogIn size="30" />
+                <LogIn size="30" class="flex-shrink-0" />
                 Log in
               {/if}
             </a>
@@ -121,7 +129,7 @@
               href="https://titaniumbot.me/server"
               target="_blank"
             >
-              <LifeBuoy size="30" />
+              <LifeBuoy size="30" class="flex-shrink-0" />
               Support
             </a>
             {#if userData}
@@ -129,13 +137,21 @@
                 class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
                 href={resolve('/auth/logout')}
               >
-                <LogOut size="30" />
+                <LogOut size="30" class="flex-shrink-0" />
                 Logout
               </a>
             {/if}
           </nav>
         </div>
       </div>
+    {/if}
+    {#if userData}
+      <a
+        class="hidden h-full items-center justify-center gap-2 rounded-lg px-4 text-xl font-semibold xxs:flex"
+        href={resolve('/auth/logout')}
+      >
+        <LogOut size="24" class="flex-shrink-0" />
+      </a>
     {/if}
   </div>
 </header>

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { ToggleRow } from '$lib/components/ui/row';
+  import { ToggleRow, AnchorRow } from '$lib/components/ui/row';
   import Saver from '$lib/components/Saver.svelte';
+  import { ChevronRight } from '@lucide/svelte';
 
   const { data } = $props();
   let dataState = $state(data);
@@ -18,6 +19,17 @@
   <h2 class="text-4xl font-bold">Moderation</h2>
   <p>Moderate your server and manage cases.</p>
 </div>
+
+<AnchorRow
+  href="/guild/{dataState.serverInfo.id}/moderation/cases"
+  Icon={ChevronRight}
+  title="View Cases"
+>
+  <div>
+    <h2 class="text-xl font-bold">Cases</h2>
+    <p>View moderation cases that have been created in this server.</p>
+  </div>
+</AnchorRow>
 
 <ToggleRow bind:toggled={dataState.pageSettings.delete_confirmation}>
   <div>

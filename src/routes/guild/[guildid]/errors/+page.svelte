@@ -30,16 +30,16 @@
   </p>
 </div>
 
-<ul class="flex w-full list-none flex-col gap-2">
-  {#each errorData.errors as error (error.id)}
-    <li class="w-full">
-      <Error {error} />
-    </li>
-  {/each}
-</ul>
-
 {#if errorData.errors.length === 0}
   <p class="text-zinc-400">No errors have been logged.</p>
+{:else}
+  <ul class="flex w-full list-none flex-col gap-2">
+    {#each errorData.errors as error (error.id)}
+      <li class="w-full">
+        <Error {error} />
+      </li>
+    {/each}
+  </ul>
 {/if}
 
 {#if pageCount > 1}
