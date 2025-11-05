@@ -8,6 +8,10 @@ import { token } from '$lib/server/db/schema';
 import { apiLimit } from '$lib/limits';
 
 export const handle: Handle = async ({ event, resolve }) => {
+  const pathParts = event.url.pathname.split('/');
+  const guildIndex = pathParts.indexOf('guild');
+  const guildId = guildIndex !== -1 ? pathParts[guildIndex + 1] : event.params.guildid;
+
   if (
     event.url.pathname === '/' ||
     (event.url.pathname.startsWith('/auth') && event.url.pathname !== '/auth/logout') ||
@@ -51,9 +55,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
 
   if (event.url.pathname.startsWith('/guild/') || event.url.pathname.startsWith('/api/guild/')) {
-    const guildid = event.params.guildid;
-
-    if (!guildid) {
+    if (!guildId) {
       console.log('No guild id');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Missing Guild ID' }, { status: 400 });
@@ -63,7 +65,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return response;
     }
 
-    if (isNaN(Number(guildid))) {
+    if (isNaN(Number(guildId))) {
       console.log('Invalid guild id');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Invalid Guild ID' }, { status: 400 });
@@ -73,7 +75,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
     const permCheckRequest = await fetch(
-      'http://localhost:5100/guild/' + event.params.guildid + '/perms/' + event.locals.discordID,
+      'http://localhost:5100/guild/' + guildId + '/perms/' + event.locals.discordID,
       {
         method: 'GET',
         headers: {
@@ -117,7 +119,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return redirect(302, '/');
     }
 
-    event.locals.guildId = guildid;
+    event.locals.guildId = guildId;
   }
 
   const response = await resolve(event);

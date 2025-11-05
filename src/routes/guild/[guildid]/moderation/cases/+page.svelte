@@ -4,10 +4,14 @@
 </script>
 
 <div>
-  <h2 class="text-4xl font-bold">Moderation</h2>
-  <p>Moderate your server and manage cases.</p>
+  <h2 class="text-4xl font-bold">Cases</h2>
+  <p>View and manage cases that have been created in your server.</p>
 </div>
 
-{#each data.cases.cases as caseData}
-  <CaseRow case={caseData} />
-{/each}
+{#if data.cases.cases.length === 0}
+  <p class="text-zinc-400">No cases found.</p>
+{:else}
+  {#each data.cases.cases as caseData}
+    <CaseRow case={caseData} />
+  {/each}
+{/if}

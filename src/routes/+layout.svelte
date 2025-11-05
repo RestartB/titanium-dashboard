@@ -8,34 +8,48 @@
 
   let { children, data } = $props();
 
-  const pageOrder: Record<string, number> = {
-    home: 0,
-    general: 1,
-    permissions: 2,
-    errors: 3,
-    moderation: 4,
-    automod: 5,
-    bouncer: 6,
-    logging: 7,
-    fireboard: 8,
-    leaderboard: 9,
-    server_counters: 10,
-    self_roles: 11
+  // Define page hierarchy with depth levels
+  const pageHierarchy: Record<string, { depth: number; order: number }> = {
+    home: { depth: 0, order: 0 },
+    general: { depth: 0, order: 1 },
+    permissions: { depth: 0, order: 2 },
+    errors: { depth: 0, order: 3 },
+    moderation: { depth: 0, order: 4 },
+    'moderation/cases': { depth: 1, order: 0 },
+    automod: { depth: 0, order: 5 },
+    bouncer: { depth: 0, order: 6 },
+    logging: { depth: 0, order: 7 },
+    fireboard: { depth: 0, order: 8 },
+    leaderboard: { depth: 0, order: 9 },
+    server_counters: { depth: 0, order: 10 },
+    self_roles: { depth: 0, order: 11 }
   };
+
+  function getPageInfo(url: URL, params: Record<string, string | undefined> | null) {
+    if (!params || !params.guildid) return null;
+
+    const guildPath = `/guild/${params.guildid}/`;
+    const afterGuild = url.pathname.replace(guildPath, '');
+
+    const pagePath = afterGuild || 'home';
+
+    if (pagePath === `/guild/${params.guildid}`) {
+      return pageHierarchy['home'] || null;
+    } else {
+      return pageHierarchy[pagePath] || null;
+    }
+  }
 
   onNavigate((navigation) => {
     if (!document.startViewTransition) return;
-
     if (!navigation.to || !navigation.from) return;
     if (navigation.to.url.href === navigation.from.url.href) return;
 
-    let fromPageID = navigation.from.url.pathname.split('/').pop() || '';
-    let toPageID = navigation.to.url.pathname.split('/').pop() || '';
+    const fromPage = getPageInfo(navigation.from.url, navigation.from.params);
+    const toPage = getPageInfo(navigation.to.url, navigation.to.params);
 
-    if (fromPageID === page.params.guildid) fromPageID = 'home';
-    if (toPageID === page.params.guildid) toPageID = 'home';
-
-    if (fromPageID === '' || toPageID === '') {
+    // fade if this is a non guild page
+    if (!fromPage || !toPage) {
       document.documentElement.style.setProperty('--old-animation', 'fade-out');
       document.documentElement.style.setProperty('--new-animation', 'fade-in');
       return new Promise((resolve) => {
@@ -46,19 +60,27 @@
       });
     }
 
-    if (pageOrder[fromPageID] === undefined || pageOrder[toPageID] === undefined) return;
-    if (pageOrder[fromPageID] === pageOrder[toPageID]) return;
+    let oldAnim = 'fade-out';
+    let newAnim = 'fade-in';
 
-    const isForward = pageOrder[toPageID] > pageOrder[fromPageID];
+    // compare depths
+    if (toPage.depth > fromPage.depth) {
+      // going into a subpage
+      oldAnim = 'slide-to-left';
+      newAnim = 'slide-from-right';
+    } else if (toPage.depth < fromPage.depth) {
+      // coming out
+      oldAnim = 'slide-to-right';
+      newAnim = 'slide-from-left';
+    } else if (toPage.depth === fromPage.depth) {
+      // same depth
+      const isForward = toPage.order > fromPage.order;
+      oldAnim = isForward ? 'slide-to-top' : 'slide-to-bottom';
+      newAnim = isForward ? 'slide-from-bottom' : 'slide-from-top';
+    }
 
-    document.documentElement.style.setProperty(
-      '--old-animation',
-      isForward ? 'slide-to-top' : 'slide-to-bottom'
-    );
-    document.documentElement.style.setProperty(
-      '--new-animation',
-      isForward ? 'slide-from-bottom' : 'slide-from-top'
-    );
+    document.documentElement.style.setProperty('--old-animation', oldAnim);
+    document.documentElement.style.setProperty('--new-animation', newAnim);
 
     return new Promise((resolve) => {
       document.startViewTransition(async () => {

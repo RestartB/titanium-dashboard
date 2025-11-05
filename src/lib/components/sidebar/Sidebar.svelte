@@ -57,7 +57,8 @@
     title="Moderation"
     href="/guild/{serverID}/moderation"
     Icon={Shield}
-    active={page.url.pathname.endsWith('/moderation')}
+    active={page.url.pathname.endsWith('/moderation') ||
+      page.url.pathname.includes('/moderation/cases')}
   />
   <Tile
     title="Automod"
