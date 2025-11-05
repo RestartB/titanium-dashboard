@@ -1,8 +1,11 @@
 <script lang="ts">
+  import Button from '$lib/components/ui/Button.svelte';
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Channel from '$lib/components/server_counters/Channel.svelte';
   import Saver from '$lib/components/Saver.svelte';
+
+  import { Plus } from '@lucide/svelte';
 
   import type { ServerCounterChannel } from '$lib/interfaces/serverCounters';
 
@@ -29,12 +32,14 @@
 
 <ToggledContent enabled={dataState.serverSettings.modules.server_counters}>
   <div class="flex flex-col gap-4">
-    <button
-      class="w-fit cursor-pointer rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2 px-4 transition-colors hover:bg-zinc-600"
+    <Button
       onclick={() => {
         dataState.pageSettings.channels.push(createBlankChannel());
-      }}>Add Channel</button
+      }}
     >
+      <Plus size={20} />
+      Add Channel
+    </Button>
     {#each dataState.pageSettings.channels as _, index (index)}
       <Channel
         {index}

@@ -53,12 +53,17 @@
       </div>
 
       {#if userData}
-        <a href={resolve('/')} class="hidden h-full items-center px-2 xxs:flex">Servers</a>
+        <a
+          href={resolve('/')}
+          class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xxs:flex"
+          >Servers</a
+        >
       {/if}
       <a
         href="https://titaniumbot.me/server"
         target="_blank"
-        class="hidden h-full items-center px-2 xxs:flex">Support</a
+        class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xxs:flex"
+        >Support</a
       >
     </div>
 
@@ -117,10 +122,10 @@
               href={resolve('/')}
             >
               {#if userData}
-                <Server size="30" class="flex-shrink-0" />
+                <Server size={30} class="flex-shrink-0" />
                 Servers
               {:else}
-                <LogIn size="30" class="flex-shrink-0" />
+                <LogIn size={30} class="flex-shrink-0" />
                 Log in
               {/if}
             </a>
@@ -129,7 +134,7 @@
               href="https://titaniumbot.me/server"
               target="_blank"
             >
-              <LifeBuoy size="30" class="flex-shrink-0" />
+              <LifeBuoy size={30} class="flex-shrink-0" />
               Support
             </a>
             {#if userData}
@@ -137,7 +142,7 @@
                 class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
                 href={resolve('/auth/logout')}
               >
-                <LogOut size="30" class="flex-shrink-0" />
+                <LogOut size={30} class="flex-shrink-0" />
                 Logout
               </a>
             {/if}
@@ -147,10 +152,10 @@
     {/if}
     {#if userData}
       <a
-        class="hidden h-full items-center justify-center gap-2 rounded-lg px-4 text-xl font-semibold xxs:flex"
+        class="hidden h-full items-center justify-center gap-2 border-y-transparent border-b-zinc-500 px-4 text-xl font-semibold transition-all hover:border-y-4 xxs:flex"
         href={resolve('/auth/logout')}
       >
-        <LogOut size="24" class="flex-shrink-0" />
+        <LogOut size={20} class="flex-shrink-0" />
       </a>
     {/if}
   </div>

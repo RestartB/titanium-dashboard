@@ -1,6 +1,7 @@
 <script lang="ts">
   import Rule from '$lib/components/bouncer/Rule.svelte';
   import Toggle from '$lib/components/ui/Toggle.svelte';
+  import Button from '$lib/components/ui/Button.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import { Plus } from '@lucide/svelte';
@@ -30,15 +31,14 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.automod}>
-  <button
-    class="flex w-fit cursor-pointer items-center gap-2 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2 px-4 transition-colors hover:bg-zinc-600"
+  <Button
     onclick={() => {
       dataState.pageSettings.rules.push(createBlankRule());
     }}
   >
     <Plus size={20} />
     Add Rule
-  </button>
+  </Button>
 
   {#each dataState.pageSettings.rules as _, index (index)}
     <Rule

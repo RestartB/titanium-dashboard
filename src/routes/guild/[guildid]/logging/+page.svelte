@@ -2,12 +2,22 @@
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
   import Collapsible from '$lib/components/ui/Collapsible.svelte';
   import Toggle from '$lib/components/ui/Toggle.svelte';
+  import Button from '$lib/components/ui/Button.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
+
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
+
+  import { Plus, Flame } from '@lucide/svelte';
+
   import type { LoggingSettings } from '$lib/interfaces/logging';
 
   let { data } = $props();
   let dataState = $state(data);
+
+  let overlayOpen = $state(false);
+  let selectAllChannel: string | undefined = $state();
 
   const logTypeStrings: Record<string, string[]> = {
     app_command_perm_update_id: [
@@ -118,6 +128,14 @@
       'When a message triggers a Titanium AutoMod rule.'
     ]
   };
+
+  $effect(() => {
+    if (selectAllChannel) {
+      for (const logType of Object.keys(logTypeStrings)) {
+        dataState.pageSettings[logType as keyof LoggingSettings] = selectAllChannel;
+      }
+    }
+  });
 </script>
 
 {#snippet logTypeRow(logType: string)}
@@ -149,6 +167,16 @@
 
 <Saver page="logging" bind:dataState />
 
+{#if overlayOpen}
+  <FullscreenOverlay bind:overlayOpen>
+    <ChannelPicker
+      categories={data.serverInfo.categories}
+      bind:selectedChannel={selectAllChannel}
+      bind:overlayOpen
+    />
+  </FullscreenOverlay>
+{/if}
+
 <div class="flex items-center justify-between gap-4">
   <div class="flex-1">
     <h2 class="text-4xl font-bold">Logging</h2>
@@ -158,6 +186,28 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.logging}>
+  <div class="flex items-center gap-2">
+    <Button
+      onclick={() => {
+        overlayOpen = true;
+      }}
+    >
+      <Plus size={20} />
+      Set All Channels
+    </Button>
+
+    <Button
+      onclick={() => {
+        for (const logType of Object.keys(logTypeStrings)) {
+          dataState.pageSettings[logType as keyof LoggingSettings] = null;
+        }
+      }}
+    >
+      <Flame size={20} />
+      Clear All
+    </Button>
+  </div>
+
   <Collapsible title="Titanium">
     {@render logCategoryList('titanium_')}
   </Collapsible>

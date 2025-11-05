@@ -1,8 +1,11 @@
 <script lang="ts">
+  import Button from '$lib/components/ui/Button.svelte';
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Board from '$lib/components/fireboard/Board.svelte';
   import Saver from '$lib/components/Saver.svelte';
+
+  import { Plus } from '@lucide/svelte';
 
   import type { FireboardBoard } from '$lib/interfaces/fireboard';
 
@@ -34,12 +37,14 @@
 
 <ToggledContent enabled={dataState.serverSettings.modules.fireboard}>
   <div class="flex flex-col gap-4">
-    <button
-      class="w-fit cursor-pointer rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2 px-4 transition-colors hover:bg-zinc-600"
+    <Button
       onclick={() => {
         dataState.pageSettings.boards.push(createBlankBoard());
-      }}>Add Board</button
+      }}
     >
+      <Plus size={20} />
+      Add Board
+    </Button>
     {#each dataState.pageSettings.boards as _, index (index)}
       <Board
         bind:board={dataState.pageSettings.boards[index]}
