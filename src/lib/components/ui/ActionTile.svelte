@@ -1,6 +1,6 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
-  import ActionPreferences from '$lib/components/automod/ActionPreferences.svelte';
+  import ActionPreferences from '$lib/components/ui/ActionPreferences.svelte';
   import { Cog, X } from '@lucide/svelte';
   import type { AutomodAction } from '$lib/interfaces/automod';
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
@@ -24,15 +24,9 @@
   </FullscreenOverlay>
 {/if}
 
-<div
-  class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
->
+<div class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base">
   {#if action.type !== 'delete'}
-    <button
-      onclick={() => (overlayOpen = true)}
-      class="cursor-pointer"
-      aria-label="Open action preferences"
-    >
+    <button onclick={() => (overlayOpen = true)} class="cursor-pointer" aria-label="Open action preferences">
       <Cog size={16} />
     </button>
   {/if}

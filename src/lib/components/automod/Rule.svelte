@@ -1,7 +1,7 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
-  import ActionPicker from '$lib/components/automod/ActionPicker.svelte';
-  import ActionTile from './ActionTile.svelte';
+  import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
+  import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import Toggle from '$lib/components/ui/Toggle.svelte';
 
@@ -32,11 +32,9 @@
 
   let thresholdString = $state('');
   if (rule.rule_type === 'spam_detection') {
-    thresholdString =
-      thresholdStrings[rule.antispam_type as keyof typeof thresholdStrings] || 'messages';
+    thresholdString = thresholdStrings[rule.antispam_type as keyof typeof thresholdStrings] || 'messages';
   } else {
-    thresholdString =
-      thresholdStrings[rule.rule_type as keyof typeof thresholdStrings] || 'messages';
+    thresholdString = thresholdStrings[rule.rule_type as keyof typeof thresholdStrings] || 'messages';
   }
 
   let newWordInput = $state('');
@@ -74,7 +72,7 @@
 
 {#if createNewOpen}
   <FullscreenOverlay bind:overlayOpen={createNewOpen}>
-    <ActionPicker bind:rule bind:overlayOpen={createNewOpen} />
+    <ActionPicker type="automod" bind:rule bind:overlayOpen={createNewOpen} />
   </FullscreenOverlay>
 {/if}
 
@@ -117,10 +115,7 @@
         aria-label="Expand rule details"
         onclick={() => (expanded = !expanded)}
       >
-        <ChevronDown
-          size={18}
-          class={`transition-transform duration-200 ${expanded ? 'rotate-180' : 'rotate-0'}`}
-        />
+        <ChevronDown size={18} class={`transition-transform duration-200 ${expanded ? 'rotate-180' : 'rotate-0'}`} />
       </button>
     </div>
   </div>
@@ -181,11 +176,7 @@
       {/if}
       <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
         {#each rule.actions as _, index (index)}
-          <ActionTile
-            {roles}
-            deleteThis={() => rule.actions.splice(index, 1)}
-            bind:action={rule.actions[index]}
-          />
+          <ActionTile {roles} deleteThis={() => rule.actions.splice(index, 1)} bind:action={rule.actions[index]} />
         {/each}
         <button
           class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"

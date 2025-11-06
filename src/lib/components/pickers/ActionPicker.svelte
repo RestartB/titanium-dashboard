@@ -1,24 +1,17 @@
 <script lang="ts">
-  import {
-    Trash,
-    TriangleAlert,
-    Clock,
-    UserRoundX,
-    Hammer,
-    Plus,
-    Minus,
-    ToggleRight,
-    X
-  } from '@lucide/svelte';
+  import { Trash, TriangleAlert, Clock, UserRoundX, Hammer, Plus, Minus, ToggleRight, X } from '@lucide/svelte';
+
   import type { Component } from 'svelte';
   import type { AutomodAction, AutomodRule } from '$lib/interfaces/automod';
+  import type { BouncerAction, BouncerRule } from '$lib/interfaces/bouncer';
 
   let {
+    type = 'automod',
     rule = $bindable(),
     overlayOpen = $bindable(true)
-  }: { rule: AutomodRule; overlayOpen?: boolean } = $props();
+  }: { type: 'automod' | 'bouncer'; rule: AutomodRule | BouncerRule; overlayOpen?: boolean } = $props();
 
-  function createBlankAction(): AutomodAction {
+  function createBlankAction(): AutomodAction | BouncerAction {
     return {
       type: '',
       duration: 0,
@@ -63,24 +56,19 @@
     class="flex h-full max-h-104 min-h-104 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
   >
     <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
-      {@render actionRow('delete', 'Delete Message', 'Remove the messages.', Trash)}
+      {#if type === 'automod'}
+        {@render actionRow('delete', 'Delete Message', 'Remove the messages.', Trash)}
+      {/if}
       {@render actionRow('warn', 'Warn User', 'Add a warning to the user.', TriangleAlert)}
-      {@render actionRow(
-        'mute',
-        'Timeout User',
-        'Prevent the user from sending messages for a duration.',
-        Clock
-      )}
+      {@render actionRow('mute', 'Timeout User', 'Prevent the user from sending messages for a duration.', Clock)}
       {@render actionRow('kick', 'Kick User', 'Kick the user from the server.', UserRoundX)}
       {@render actionRow('ban', 'Ban User', 'Permanently ban the user from the server.', Hammer)}
+      {#if type === 'bouncer'}
+        {@render actionRow('reset_nick', 'Reset Nickname', "Reset the user's nickname.", Hammer)}
+      {/if}
       {@render actionRow('add_role', 'Add Role', 'Add a role to the user.', Plus)}
       {@render actionRow('remove_role', 'Remove Role', 'Remove a role from the user.', Minus)}
-      {@render actionRow(
-        'toggle_role',
-        'Toggle Role',
-        'Add or remove a role from the user.',
-        ToggleRight
-      )}
+      {@render actionRow('toggle_role', 'Toggle Role', 'Add or remove a role from the user.', ToggleRight)}
     </div>
   </div>
 </div>

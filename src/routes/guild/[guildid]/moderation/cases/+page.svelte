@@ -15,9 +15,7 @@
     if (newPage < 1 || newPage > pageCount) return;
     currentPage = newPage;
 
-    const response = await fetch(
-      `/api/guild/${data.serverInfo.id}/errors?offset=${(currentPage - 1) * 50}&limit=50`
-    );
+    const response = await fetch(`/api/guild/${data.serverInfo.id}/errors?offset=${(currentPage - 1) * 50}&limit=50`);
     const newData: CasesResponse = await response.json();
 
     casesData = newData;
@@ -25,8 +23,12 @@
 </script>
 
 <a href={`/guild/${data.serverInfo.id}/moderation`} class="back-button group flex items-center">
-  <ChevronLeft size={32} class="transition-all ease-in-out group-hover:-translate-x-1" />
-  Moderation
+  <ChevronLeft
+    size={32}
+    class="flex-shrink-0 transition-transform duration-200 ease-in-out group-hover:-translate-x-3 -translate-x-2"
+  />
+
+  <p class="-ml-1">Moderation</p>
 </a>
 
 <div>

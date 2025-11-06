@@ -4,7 +4,7 @@
   import ActionTile from './ActionTile.svelte';
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import CriterionPicker from './CriterionPicker.svelte';
-  import ActionPicker from './ActionPicker.svelte';
+  import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
 
   import { X, Plus } from '@lucide/svelte';
   import type { BouncerRule } from '$lib/interfaces/bouncer';
@@ -28,7 +28,7 @@
 
 {#if createActionOpen}
   <FullscreenOverlay bind:overlayOpen={createActionOpen}>
-    <ActionPicker bind:rule bind:overlayOpen={createActionOpen} />
+    <ActionPicker type="bouncer" bind:rule bind:overlayOpen={createActionOpen} />
   </FullscreenOverlay>
 {/if}
 
@@ -55,10 +55,7 @@
       <p>Add Criterion...</p>
     </button>
     {#each rule.criteria as _, index (index)}
-      <CriterionTile
-        bind:criterion={rule.criteria[index]}
-        deleteThis={() => rule.criteria.splice(index, 1)}
-      />
+      <CriterionTile bind:criterion={rule.criteria[index]} deleteThis={() => rule.criteria.splice(index, 1)} />
     {/each}
   </div>
 
@@ -73,11 +70,7 @@
       <p>Add Action...</p>
     </button>
     {#each rule.actions as _, index (index)}
-      <ActionTile
-        {roles}
-        bind:action={rule.actions[index]}
-        deleteThis={() => rule.actions.splice(index, 1)}
-      />
+      <ActionTile {roles} bind:action={rule.actions[index]} deleteThis={() => rule.actions.splice(index, 1)} />
     {/each}
   </div>
 </Row>
