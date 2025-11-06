@@ -14,7 +14,7 @@ export const GET: RequestHandler = async ({ locals, cookies }) => {
   }
 
   if (locals.discordToken) {
-    const newRequest = await fetch('https://discord.com/api/oauth2/token', {
+    const newRequest = await fetch('https://discord.com/api/oauth2/token/revoke', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
