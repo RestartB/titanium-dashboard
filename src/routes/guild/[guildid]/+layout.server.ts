@@ -2,7 +2,7 @@ import { error, redirect } from '@sveltejs/kit';
 
 import type { LayoutServerLoad } from './$types';
 import type { ServerInfo } from '$lib/interfaces/serverInfo';
-import type { ServerSettings } from '$lib/interfaces/serverSettings';
+import type { GuildSettingsSchema } from '$lib/validators/settings';
 
 export const load: LayoutServerLoad = async ({ locals, fetch }) => {
   // Get data
@@ -27,7 +27,7 @@ export const load: LayoutServerLoad = async ({ locals, fetch }) => {
   }
 
   const serverInfo: ServerInfo = await infoRequest.json();
-  const serverSettings: ServerSettings = await settingsRequest.json();
+  const serverSettings: GuildSettingsSchema = await settingsRequest.json();
 
   return { serverInfo, serverSettings };
 };

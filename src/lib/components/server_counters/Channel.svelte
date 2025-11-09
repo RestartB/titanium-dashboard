@@ -5,7 +5,7 @@
   import { Trash, Cog } from '@lucide/svelte';
 
   import { typeDisplayNames } from '$lib/strings/server_counters';
-  import type { ServerCounterChannel } from '$lib/interfaces/serverCounters';
+  import type { ServerCounterChannelSchema } from '$lib/validators/serverCounters';
 
   let {
     index,
@@ -13,7 +13,7 @@
     deleteThis
   }: {
     index: number;
-    channel: ServerCounterChannel;
+    channel: ServerCounterChannelSchema;
     deleteThis: () => void;
   } = $props();
 

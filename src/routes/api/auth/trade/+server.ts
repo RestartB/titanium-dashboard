@@ -6,11 +6,7 @@ import { token } from '$lib/server/db/schema';
 
 import crypto from 'crypto';
 
-import {
-  DISCORD_CLIENT_ID,
-  DISCORD_CLIENT_SECRET,
-  DISCORD_REDIRECT_URI
-} from '$env/static/private';
+import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI } from '$env/static/private';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
   const body = await request.json();

@@ -1,9 +1,9 @@
 import type { PageServerLoad } from './$types';
-import type { ServerCounterSettings } from '$lib/interfaces/serverCounters';
+import type { ServerCountersConfigSchema } from '$lib/validators/serverCounters';
 
 export const load: PageServerLoad = async ({ locals, fetch }) => {
   // Get data
   const request = await fetch('/api/guild/' + locals.guildId + '/module/server_counters');
-  const pageSettings: ServerCounterSettings = await request.json();
+  const pageSettings: ServerCountersConfigSchema = await request.json();
   return { pageSettings };
 };

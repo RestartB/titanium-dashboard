@@ -1,8 +1,10 @@
 <script lang="ts">
   import RoleButton from '$lib/components/ui/discord/RoleButton.svelte';
   import { X } from '@lucide/svelte';
+
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
-  import type { AutomodAction } from '$lib/interfaces/automod';
+  import type { AutomodActionSchema } from '$lib/validators/automod';
+  import type { BouncerActionSchema } from '$lib/validators/bouncer';
 
   const multipliers = {
     s: 1,
@@ -18,7 +20,7 @@
     roles,
     action = $bindable(),
     overlayOpen = $bindable(true)
-  }: { roles: RoleInfo[]; action: AutomodAction; overlayOpen?: boolean } = $props();
+  }: { roles: RoleInfo[]; action: AutomodActionSchema | BouncerActionSchema; overlayOpen?: boolean } = $props();
 
   let durationInput = $state('');
 
@@ -69,9 +71,7 @@
       {#if action.type === 'mute' || action.type === 'ban'}
         <div class="w-full text-left">
           <p class="font-medium">Duration</p>
-          <p class="mb-2 text-sm text-zinc-400">
-            Set the duration for the punishment (e.g., 1d5h30m).
-          </p>
+          <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment (e.g., 1d5h30m).</p>
           <input
             type="text"
             class="w-full rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2"

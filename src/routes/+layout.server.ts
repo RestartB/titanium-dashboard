@@ -1,6 +1,7 @@
 import { TEST_MODE } from '$env/static/private';
 import type { LayoutServerLoad } from './$types';
 import type { UserInfo } from '$lib/interfaces/userInfo';
+import { redirect } from '@sveltejs/kit';
 
 export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
   const titaniumToken = cookies.get('titanium_token');
@@ -22,6 +23,11 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
   }
 
   const userRequest = await fetch('/api/identify');
+
+  if (userRequest.status === 401) {
+    redirect(302, '/logout');
+  }
+
   if (!userRequest.ok) {
     console.error('Failed to fetch user data:', await userRequest.text());
     return { userData };

@@ -3,11 +3,7 @@
   import { ChevronDown } from '@lucide/svelte';
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  const {
-    children,
-    title,
-    defaultState = false
-  }: { children: any; title: string; defaultState?: boolean } = $props();
+  const { children, title, defaultState = false }: { children: any; title: string; defaultState?: boolean } = $props();
 
   // default open when there's no client side js
   let isOpen = $state(true);
@@ -24,15 +20,9 @@
     aria-label="Toggle {title} section"
   >
     <h3 class="font-bold">{title}</h3>
-    <ChevronDown
-      class="flex-shrink-0 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}"
-    />
+    <ChevronDown class="flex-shrink-0 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}" />
   </button>
-  <div
-    class="grid transition-all duration-300 ease-in-out {isOpen
-      ? 'grid-rows-[1fr]'
-      : 'grid-rows-[0fr]'}"
-  >
+  <div class="grid transition-all duration-300 ease-in-out {isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}">
     <div class="overflow-hidden">
       <div class="mt-2">
         {@render children()}

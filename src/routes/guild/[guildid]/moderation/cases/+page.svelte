@@ -25,7 +25,7 @@
 <a href={`/guild/${data.serverInfo.id}/moderation`} class="back-button group flex items-center">
   <ChevronLeft
     size={32}
-    class="flex-shrink-0 transition-transform duration-200 ease-in-out group-hover:-translate-x-3 -translate-x-2"
+    class="flex-shrink-0 -translate-x-2 transition-transform duration-200 ease-in-out group-hover:-translate-x-3"
   />
 
   <p class="-ml-1">Moderation</p>

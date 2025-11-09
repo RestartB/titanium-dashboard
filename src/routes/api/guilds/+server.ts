@@ -32,9 +32,7 @@ export const GET: RequestHandler = async (event) => {
 
   const mutualGuildIDs = await mutualRequest.json();
 
-  const nonMutualGuilds = guilds.filter(
-    (guild: { id: string }) => !mutualGuildIDs.includes(guild.id)
-  );
+  const nonMutualGuilds = guilds.filter((guild: { id: string }) => !mutualGuildIDs.includes(guild.id));
   const mutualGuilds = guilds.filter((guild: { id: string }) => mutualGuildIDs.includes(guild.id));
 
   return json({ nonMutualGuilds, mutualGuilds });

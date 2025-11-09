@@ -7,13 +7,14 @@
 
   import { Plus } from '@lucide/svelte';
 
-  import type { FireboardBoard } from '$lib/interfaces/fireboard';
+  import type { FireboardBoardSchema } from '$lib/validators/fireboard';
 
   let { data } = $props();
   let dataState = $state(data);
 
-  function createBlankBoard(): FireboardBoard {
+  function createBlankBoard(): FireboardBoardSchema {
     return {
+      id: crypto.randomUUID(),
       channel_id: '',
       reaction: '🔥',
       threshold: 5,

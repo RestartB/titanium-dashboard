@@ -11,7 +11,7 @@
 
   import { Plus, Flame } from '@lucide/svelte';
 
-  import type { LoggingSettings } from '$lib/interfaces/logging';
+  import type { LoggingConfigSchema } from '$lib/validators/logging';
 
   let { data } = $props();
   let dataState = $state(data);
@@ -24,30 +24,15 @@
       'App Command Permissions Update',
       "When an application command's permissions are edited."
     ],
-    dc_automod_rule_create_id: [
-      'Discord AutoMod Rule Created',
-      'When a new Discord AutoMod rule is created.'
-    ],
-    dc_automod_rule_update_id: [
-      'Discord AutoMod Rule Updated',
-      'When a Discord AutoMod rule is edited.'
-    ],
-    dc_automod_rule_delete_id: [
-      'Discord AutoMod Rule Deleted',
-      'When a Discord AutoMod rule is deleted.'
-    ],
+    dc_automod_rule_create_id: ['Discord AutoMod Rule Created', 'When a new Discord AutoMod rule is created.'],
+    dc_automod_rule_update_id: ['Discord AutoMod Rule Updated', 'When a Discord AutoMod rule is edited.'],
+    dc_automod_rule_delete_id: ['Discord AutoMod Rule Deleted', 'When a Discord AutoMod rule is deleted.'],
     channel_create_id: ['Channel Created', 'When a new channel is created.'],
     channel_update_id: ['Channel Updated', 'When a channel is edited.'],
     channel_delete_id: ['Channel Deleted', 'When a channel is deleted.'],
     guild_name_update_id: ['Guild Name Updated', "When the server's name is changed."],
-    guild_afk_channel_update_id: [
-      'Guild AFK Channel Updated',
-      "When the server's AFK channel is changed."
-    ],
-    guild_afk_timeout_update_id: [
-      'Guild AFK Timeout Updated',
-      "When the server's AFK timeout is changed."
-    ],
+    guild_afk_channel_update_id: ['Guild AFK Channel Updated', "When the server's AFK channel is changed."],
+    guild_afk_timeout_update_id: ['Guild AFK Timeout Updated', "When the server's AFK timeout is changed."],
     guild_icon_update_id: ['Guild Icon Updated', "When the guild's icon is changed."],
     guild_emoji_create_id: ['Guild Emoji Created', 'When a new guild emoji is created.'],
     guild_emoji_delete_id: ['Guild Emoji Deleted', 'When a guild emoji is deleted.'],
@@ -57,10 +42,7 @@
     guild_invite_delete_id: ['Guild Invite Deleted', 'When a server invite is deleted.'],
     member_join_id: ['Member Joined', 'When a new member joins the server.'],
     member_leave_id: ['Member Left', 'When a member leaves the server.'],
-    member_nickname_update_id: [
-      'Member Nickname Updated',
-      'When a user changes their server nickname.'
-    ],
+    member_nickname_update_id: ['Member Nickname Updated', 'When a user changes their server nickname.'],
     member_roles_update_id: ['Member Roles Updated', "When a user's assigned roles changes."],
     member_ban_id: ['Member Banned', 'When a user is banned from the server.'],
     member_unban_id: ['Member Unbanned', 'When a user is unbanned from the server.'],
@@ -76,23 +58,14 @@
     poll_create_id: ['Poll Created', 'When a new poll is created.'],
     poll_delete_id: ['Poll Deleted', 'When a poll is deleted.'],
     reaction_clear_id: ['Reaction Cleared', 'When all reactions on a message are cleared.'],
-    reaction_clear_emoji_id: [
-      'Reaction Cleared (Emoji)',
-      'When a specific reaction on a message is cleared.'
-    ],
+    reaction_clear_emoji_id: ['Reaction Cleared (Emoji)', 'When a specific reaction on a message is cleared.'],
     role_create_id: ['Role Created', 'When a new role is created.'],
     role_update_id: ['Role Updated', 'When a role is edited.'],
     role_delete_id: ['Role Deleted', 'When a role is deleted.'],
-    scheduled_event_create_id: [
-      'Scheduled Event Created',
-      'When a new scheduled event is created.'
-    ],
+    scheduled_event_create_id: ['Scheduled Event Created', 'When a new scheduled event is created.'],
     scheduled_event_update_id: ['Scheduled Event Updated', 'When a scheduled event is edited.'],
     scheduled_event_delete_id: ['Scheduled Event Deleted', 'When a scheduled event is deleted.'],
-    soundboard_sound_create_id: [
-      'Soundboard Sound Created',
-      'When a new soundboard sound is created.'
-    ],
+    soundboard_sound_create_id: ['Soundboard Sound Created', 'When a new soundboard sound is created.'],
     soundboard_sound_update_id: ['Soundboard Sound Updated', 'When a soundboard sound is edited.'],
     soundboard_sound_delete_id: ['Soundboard Sound Deleted', 'When a soundboard sound is deleted.'],
     stage_instance_create_id: ['Stage Instance Created', 'When a user starts a stage instance.'],
@@ -108,10 +81,7 @@
     voice_mute_id: ['Voice Muted', 'When a user is muted server wide by a moderator.'],
     voice_unmute_id: ['Voice Unmuted', 'When a user is unmuted server wide by a moderator.'],
     voice_deafen_id: ['Voice Deafened', 'When a user is deafened server wide by a moderator.'],
-    voice_undeafen_id: [
-      'Voice Undeafened',
-      'When a user is undeafened server wide by a moderator.'
-    ],
+    voice_undeafen_id: ['Voice Undeafened', 'When a user is undeafened server wide by a moderator.'],
     titanium_warn_id: ['Titanium Warn', 'When a user is warned using Titanium.'],
     titanium_mute_id: ['Titanium Mute', 'When a user is muted using Titanium.'],
     titanium_unmute_id: ['Titanium Unmute', 'When a user is unmuted using Titanium.'],
@@ -119,20 +89,14 @@
     titanium_ban_id: ['Titanium Ban', 'When a user is banned using Titanium.'],
     titanium_unban_id: ['Titanium Unban', 'When a user is unbanned using Titanium.'],
     titanium_case_delete_id: ['Titanium Case Deleted', 'When a moderator deletes a Titanium case.'],
-    titanium_case_comment_id: [
-      'Titanium Case Commented',
-      'When a moderator comments on a Titanium case.'
-    ],
-    titanium_automod_trigger_id: [
-      'Titanium AutoMod Triggered',
-      'When a message triggers a Titanium AutoMod rule.'
-    ]
+    titanium_case_comment_id: ['Titanium Case Commented', 'When a moderator comments on a Titanium case.'],
+    titanium_automod_trigger_id: ['Titanium AutoMod Triggered', 'When a message triggers a Titanium AutoMod rule.']
   };
 
   $effect(() => {
     if (selectAllChannel) {
       for (const logType of Object.keys(logTypeStrings)) {
-        dataState.pageSettings[logType as keyof LoggingSettings] = selectAllChannel;
+        dataState.pageSettings[logType as keyof LoggingConfigSchema] = selectAllChannel;
       }
     }
   });
@@ -149,7 +113,7 @@
 
     <ChannelButton
       categories={data.serverInfo.categories}
-      bind:channel={dataState.pageSettings[logType as keyof LoggingSettings] as string}
+      bind:channel={dataState.pageSettings[logType as keyof LoggingConfigSchema] as string}
       class="bg-zinc-800"
     />
   </li>
@@ -169,11 +133,7 @@
 
 {#if overlayOpen}
   <FullscreenOverlay bind:overlayOpen>
-    <ChannelPicker
-      categories={data.serverInfo.categories}
-      bind:selectedChannel={selectAllChannel}
-      bind:overlayOpen
-    />
+    <ChannelPicker categories={data.serverInfo.categories} bind:selectedChannel={selectAllChannel} bind:overlayOpen />
   </FullscreenOverlay>
 {/if}
 
@@ -199,7 +159,7 @@
     <Button
       onclick={() => {
         for (const logType of Object.keys(logTypeStrings)) {
-          dataState.pageSettings[logType as keyof LoggingSettings] = null;
+          dataState.pageSettings[logType as keyof LoggingConfigSchema] = null;
         }
       }}
     >

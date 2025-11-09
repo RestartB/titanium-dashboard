@@ -1,8 +1,3 @@
-export type ServerModerationSettings = {
-  dm_users: boolean;
-  delete_confirmation: boolean;
-};
-
 export type CasesResponse = {
   cases: ModerationCase[];
   total_count: number;

@@ -10,11 +10,7 @@
   let isCopied = $state(false);
 </script>
 
-<ButtonRow
-  label="View error details"
-  Icon={CircleQuestionMark}
-  onclick={() => (overlayOpen = true)}
->
+<ButtonRow label="View error details" Icon={CircleQuestionMark} onclick={() => (overlayOpen = true)}>
   <p class="text-base text-zinc-400">
     <strong>{error.module} - {new Date(error.time_occurred).toLocaleString()}</strong>
   </p>
@@ -29,7 +25,7 @@
       <div class="flex w-full items-center justify-between gap-2">
         <h2 class="text-xl font-bold">Error</h2>
         <button
-          class="ml-auto w-24 flex h-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
+          class="ml-auto flex h-8 w-24 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
           onclick={() =>
             navigator.clipboard.writeText(error.id).then(() => {
               isCopied = true;

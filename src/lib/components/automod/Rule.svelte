@@ -6,14 +6,14 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
 
   import { ChevronDown, X, Plus } from '@lucide/svelte';
-  import type { AutomodRule } from '$lib/interfaces/automod';
+  import type { AutomodRuleSchema } from '$lib/validators/automod';
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let {
     roles,
     rule = $bindable(),
     deleteThis
-  }: { roles: RoleInfo[]; rule: AutomodRule; deleteThis: () => void } = $props();
+  }: { roles: RoleInfo[]; rule: AutomodRuleSchema; deleteThis: () => void } = $props();
   let expanded = $state(false);
   let createNewOpen = $state(false);
 

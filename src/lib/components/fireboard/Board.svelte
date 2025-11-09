@@ -7,14 +7,14 @@
   import { Trash } from '@lucide/svelte';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
-  import type { FireboardBoard } from '$lib/interfaces/fireboard';
+  import type { FireboardBoardSchema } from '$lib/validators/fireboard';
 
   let {
     board = $bindable(),
     serverInfo,
     deleteThis
   }: {
-    board: FireboardBoard;
+    board: FireboardBoardSchema;
     serverInfo: ServerInfo;
     deleteThis: () => void;
   } = $props();
@@ -39,21 +39,13 @@
 
 {#if emojiPickerOpen}
   <FullscreenOverlay bind:overlayOpen={emojiPickerOpen}>
-    <EmojiPicker
-      {serverInfo}
-      bind:overlayOpen={emojiPickerOpen}
-      bind:selectedEmoji={board.reaction}
-    />
+    <EmojiPicker {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={board.reaction} />
   </FullscreenOverlay>
 {/if}
 
 <Row class="flex flex-col gap-2">
   <div class="flex items-center justify-between gap-2">
-    <ChannelButton
-      bind:channel={board.channel_id}
-      categories={serverInfo.categories}
-      class="bg-zinc-700"
-    />
+    <ChannelButton bind:channel={board.channel_id} categories={serverInfo.categories} class="bg-zinc-700" />
     <button
       class="flex flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 text-base transition-colors hover:bg-red-600 xs:p-1"
       onclick={deleteThis}

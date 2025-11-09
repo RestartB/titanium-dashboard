@@ -5,12 +5,12 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import { Plus } from '@lucide/svelte';
-  import type { BouncerRule } from '$lib/interfaces/bouncer';
+  import type { BouncerRuleSchema } from '$lib/validators/bouncer';
 
   const { data } = $props();
   let dataState = $state(data);
 
-  function createBlankRule(): BouncerRule {
+  function createBlankRule(): BouncerRuleSchema {
     return {
       id: '',
       enabled: true,

@@ -8,10 +8,13 @@ import { token } from '$lib/server/db/schema';
 import { apiLimit } from '$lib/limits';
 
 export const handle: Handle = async ({ event, resolve }) => {
+  console.log(`Handling request for ${event.url.pathname}`);
+
   const pathParts = event.url.pathname.split('/');
   const guildIndex = pathParts.indexOf('guild');
   const guildId = guildIndex !== -1 ? pathParts[guildIndex + 1] : event.params.guildid;
 
+  // ignore auth for certain endpoints
   if (
     event.url.pathname === '/' ||
     (event.url.pathname.startsWith('/auth') && event.url.pathname !== '/auth/logout') ||
@@ -21,6 +24,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     return response;
   }
 
+  // token present check
   const titaniumToken = event.cookies.get('titanium_token');
   if (!titaniumToken) {
     console.log('No titanium token');
@@ -31,9 +35,10 @@ export const handle: Handle = async ({ event, resolve }) => {
     return redirect(302, '/');
   }
 
+  // token valid check
   const tokenRecord = await db.select().from(token).where(eq(token.token, titaniumToken)).get();
   if (!tokenRecord) {
-    console.log('Invalid titanium token');
+    console.log('Invalid Titanium token');
     event.cookies.delete('titanium_token', { path: '/' });
 
     if (event.url.pathname.startsWith('/api')) {
@@ -47,13 +52,14 @@ export const handle: Handle = async ({ event, resolve }) => {
   event.locals.discordToken = tokenRecord.discordToken;
   event.locals.discordID = tokenRecord.discordUserId;
 
+  // rate limiting
   if (event.url.pathname.startsWith('/api/guild/')) {
     await apiLimit.cookieLimiter?.preflight(event);
     const status = await apiLimit.check(event);
-    if (status.limited)
-      throw error(429, `Too many requests, please try again after ${status.retryAfter} seconds`);
+    if (status.limited) throw error(429, `Too many requests, please try again after ${status.retryAfter} seconds`);
   }
 
+  // guild id / permissions check
   if (event.url.pathname.startsWith('/guild/') || event.url.pathname.startsWith('/api/guild/')) {
     if (!guildId) {
       console.log('No guild id');
@@ -96,10 +102,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
       console.log('Failed to fetch guild permissions from Titanium');
       if (event.url.pathname.startsWith('/api')) {
-        return json(
-          { error: 'Failed to fetch guild permissions from Titanium' },
-          { status: permCheckRequest.status }
-        );
+        return json({ error: 'Failed to fetch guild permissions from Titanium' }, { status: permCheckRequest.status });
       }
 
       return redirect(302, '/');

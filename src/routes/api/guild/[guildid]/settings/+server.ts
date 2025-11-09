@@ -1,4 +1,5 @@
 import { error, json } from '@sveltejs/kit';
+import { guildSettingsSchema } from '$lib/validators';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (event) => {
@@ -20,12 +21,18 @@ export const GET: RequestHandler = async (event) => {
 export const PUT: RequestHandler = async (event) => {
   const body = await event.request.json();
 
+  const validationResult = guildSettingsSchema.safeParse(body);
+
+  if (!validationResult.success) {
+    throw error(400, 'Invalid guild settings');
+  }
+
   const putRequest = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/settings`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(validationResult.data)
   });
 
   if (!putRequest.ok) {

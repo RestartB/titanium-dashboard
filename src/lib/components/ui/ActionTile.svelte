@@ -2,7 +2,9 @@
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import ActionPreferences from '$lib/components/ui/ActionPreferences.svelte';
   import { Cog, X } from '@lucide/svelte';
-  import type { AutomodAction } from '$lib/interfaces/automod';
+
+  import type { AutomodActionSchema } from '$lib/validators/automod';
+  import type { BouncerActionSchema } from '$lib/validators/bouncer';
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let {
@@ -11,8 +13,8 @@
     deleteThis = () => {},
     overlayOpen = $bindable(false)
   }: {
-    action: AutomodAction;
-    roles: RoleInfo[];
+    action: AutomodActionSchema | BouncerActionSchema;
+    roles: RoleInfo[]; 
     deleteThis: () => void;
     overlayOpen?: boolean;
   } = $props();

@@ -16,9 +16,7 @@
     sidebarState.open = false;
   });
 
-  let isHome = $derived(
-    page.url.pathname.split('/')[page.url.pathname.split('/').length - 1] !== data.serverInfo.id
-  );
+  let isHome = $derived(page.url.pathname.split('/')[page.url.pathname.split('/').length - 1] !== data.serverInfo.id);
 </script>
 
 <svelte:window bind:innerWidth={width} />
@@ -34,11 +32,7 @@
         class="fixed inset-0 isolate z-50 mt-12 overflow-y-auto bg-white/60 backdrop-blur-lg dark:bg-black/60"
         transition:fade={{ duration: 100 }}
       >
-        <div
-          class="absolute inset-0 -z-10"
-          onclick={() => (sidebarState.open = false)}
-          aria-hidden="true"
-        ></div>
+        <div class="absolute inset-0 -z-10" onclick={() => (sidebarState.open = false)} aria-hidden="true"></div>
         <Sidebar {serverInfo} />
       </div>
     {/if}
@@ -48,8 +42,7 @@
         <div class="flex items-center gap-4 rounded-md border-2 border-zinc-700 bg-red-800/30 p-4">
           <TriangleAlert size={20} class="flex-shrink-0" />
           <p>
-            <strong>Javascript is disabled in your browser.</strong> The dashboard will function in a
-            limited read only mode.
+            <strong>Javascript is disabled in your browser.</strong> The dashboard will function in a limited read only mode.
           </p>
         </div>
       </noscript>

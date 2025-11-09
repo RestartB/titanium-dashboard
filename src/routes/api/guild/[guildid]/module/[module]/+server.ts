@@ -1,6 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
+import * as validators from '$lib/validators';
+
 export const GET: RequestHandler = async (event) => {
   const { module } = event.params;
 
@@ -8,15 +10,12 @@ export const GET: RequestHandler = async (event) => {
     throw error(400, 'Missing module name');
   }
 
-  const request = await fetch(
-    `http://127.0.0.1:5100/guild/${event.locals.guildId}/module/${module}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
+  const request = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/module/${module}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
     }
-  );
+  });
 
   if (!request.ok) {
     error(request.status, 'Failed to fetch server info from Titanium server');
@@ -34,16 +33,26 @@ export const PUT: RequestHandler = async (event) => {
     throw error(400, 'Missing module name');
   }
 
-  const putRequest = await fetch(
-    `http://127.0.0.1:5100/guild/${event.locals.guildId}/module/${module}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    }
-  );
+  const schemaKey = module + 'ConfigSchema';
+  const validator = validators[schemaKey as keyof typeof validators];
+
+  if (!validator) {
+    throw error(400, 'Invalid module name');
+  }
+
+  const validationResult = validator.safeParse(body);
+
+  if (!validationResult.success) {
+    throw error(400, 'Invalid module config');
+  }
+
+  const putRequest = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/module/${module}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(validationResult.data)
+  });
 
   if (!putRequest.ok) {
     const errorData = await putRequest.json();

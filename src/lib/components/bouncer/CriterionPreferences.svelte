@@ -2,12 +2,12 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import { X, Plus } from '@lucide/svelte';
-  import type { BouncerCriteria } from '$lib/interfaces/bouncer';
+  import type { BouncerCriterionSchema } from '$lib/validators/bouncer';
 
   let {
     criterion = $bindable(),
     overlayOpen = $bindable(true)
-  }: { criterion: BouncerCriteria; overlayOpen?: boolean } = $props();
+  }: { criterion: BouncerCriterionSchema; overlayOpen?: boolean } = $props();
 
   let newWordInput = $state('');
   let durationInput = $state('');
@@ -122,8 +122,8 @@
         <div class="w-full text-left">
           <p class="font-medium">Minimum Age</p>
           <p class="mb-2 text-sm text-zinc-400">
-            Set account age requirement (e.g., 1d5h30m). If the account is younger than this
-            duration, the criterion will match.
+            Set account age requirement (e.g., 1d5h30m). If the account is younger than this duration, the criterion
+            will match.
           </p>
           <input
             type="text"

@@ -10,7 +10,7 @@
     role = $bindable()
   }: {
     roles?: RoleInfo[];
-    role?: string;
+    role?: string | null;
   } = $props();
 
   const selectedRole = $derived.by(() => {
@@ -29,9 +29,7 @@
     {#if selectedRole.color}
       <span
         class="h-4 w-4 flex-shrink-0 rounded-full"
-        style="background-color: {selectedRole.color === '#000000'
-          ? '#99A9B5'
-          : selectedRole.color}"
+        style="background-color: {selectedRole.color === '#000000' ? '#99A9B5' : selectedRole.color}"
       ></span>
     {/if}
     <p class="text-zinc-200 select-none">{selectedRole.name}</p>

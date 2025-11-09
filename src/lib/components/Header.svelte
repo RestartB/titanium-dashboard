@@ -106,11 +106,7 @@
         class="fixed inset-0 isolate mt-12 flex items-start justify-end overflow-hidden bg-white/60 p-4 backdrop-blur-lg dark:bg-black/60"
         transition:fade={{ duration: 100 }}
       >
-        <div
-          class="absolute inset-0 -z-10"
-          onclick={() => (menuOpen = false)}
-          aria-hidden="true"
-        ></div>
+        <div class="absolute inset-0 -z-10" onclick={() => (menuOpen = false)} aria-hidden="true"></div>
 
         <div
           class="flex max-h-full w-fit flex-col overflow-hidden rounded-xl border-4 border-zinc-700 bg-zinc-800 p-4 shadow-2xl"

@@ -10,7 +10,7 @@
     overlayOpen = $bindable(false)
   }: {
     roles: RoleInfo[];
-    selectedRole?: string;
+    selectedRole?: string | null;
     overlayOpen?: boolean;
   } = $props();
 

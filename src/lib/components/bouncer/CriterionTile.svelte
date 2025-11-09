@@ -1,7 +1,7 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import { Cog, X } from '@lucide/svelte';
-  import type { BouncerCriteria } from '$lib/interfaces/bouncer';
+  import type { BouncerCriterionSchema } from '$lib/validators/bouncer';
   import CriterionPreferences from './CriterionPreferences.svelte';
 
   let {
@@ -9,7 +9,7 @@
     deleteThis = () => {},
     overlayOpen = $bindable(false)
   }: {
-    criterion: BouncerCriteria;
+    criterion: BouncerCriterionSchema;
     deleteThis: () => void;
     overlayOpen?: boolean;
   } = $props();
@@ -21,9 +21,7 @@
   </FullscreenOverlay>
 {/if}
 
-<div
-  class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
->
+<div class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base">
   {#if criterion.type !== 'avatar'}
     <button onclick={() => (overlayOpen = true)} aria-label="Open criterion preferences">
       <Cog size={16} />

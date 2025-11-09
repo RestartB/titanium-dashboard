@@ -24,8 +24,7 @@
 <Row>
   <h2 class="text-xl font-bold">Prefixes</h2>
   <p>
-    Create and delete up to 5 prefixes that Titanium responds to. You can also mention Titanium or
-    use slash commands.
+    Create and delete up to 5 prefixes that Titanium responds to. You can also mention Titanium or use slash commands.
   </p>
   <div class="mt-2 flex flex-wrap gap-2">
     {#if dataState.serverSettings.prefixes.length < 5}
@@ -59,10 +58,7 @@
       </div>
     {/if}
     {#each dataState.serverSettings.prefixes as prefix, index (index)}
-      <WordTile
-        word={prefix}
-        deleteThis={() => dataState.serverSettings.prefixes.splice(index, 1)}
-      />
+      <WordTile word={prefix} deleteThis={() => dataState.serverSettings.prefixes.splice(index, 1)} />
     {/each}
   </div>
 </Row>
@@ -71,8 +67,8 @@
   <div>
     <h2 class="text-xl font-bold">Show Loading Reaction</h2>
     <p>
-      Enable or disable the loading reaction that appears when Titanium is processing a prefix
-      command. The loading indicator will always show for slash commands.
+      Enable or disable the loading reaction that appears when Titanium is processing a prefix command. The loading
+      indicator will always show for slash commands.
     </p>
   </div>
 </ToggleRow>

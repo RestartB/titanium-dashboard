@@ -28,12 +28,7 @@
     <Avatar src={serverInfo.icon} name={serverInfo.name} size={40} />
     <h2 class="font-bold" translate="no">{serverInfo.name}</h2>
   </div>
-  <Tile
-    title="Home"
-    href="/guild/{serverID}"
-    Icon={House}
-    active={page.url.pathname.endsWith(serverID)}
-  />
+  <Tile title="Home" href="/guild/{serverID}" Icon={House} active={page.url.pathname.endsWith(serverID)} />
   <Tile
     title="General Settings"
     href="/guild/{serverID}/general"
@@ -57,15 +52,9 @@
     title="Moderation"
     href="/guild/{serverID}/moderation"
     Icon={Shield}
-    active={page.url.pathname.endsWith('/moderation') ||
-      page.url.pathname.includes('/moderation/cases')}
+    active={page.url.pathname.endsWith('/moderation') || page.url.pathname.includes('/moderation/cases')}
   />
-  <Tile
-    title="Automod"
-    href="/guild/{serverID}/automod"
-    Icon={Brain}
-    active={page.url.pathname.endsWith('/automod')}
-  />
+  <Tile title="Automod" href="/guild/{serverID}/automod" Icon={Brain} active={page.url.pathname.endsWith('/automod')} />
   <Tile
     title="Bouncer"
     href="/guild/{serverID}/bouncer"

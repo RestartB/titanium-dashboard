@@ -1,15 +1,15 @@
 <script lang="ts">
   import { X } from '@lucide/svelte';
   import { typeDisplayNames } from '$lib/strings/server_counters';
-  import type { ServerCounterChannel } from '$lib/interfaces/serverCounters';
+  import type { ServerCounterChannelSchema } from '$lib/validators/serverCounters';
 
   let {
     channel = $bindable(),
     overlayOpen = $bindable(true)
-  }: { channel: ServerCounterChannel; overlayOpen?: boolean } = $props();
+  }: { channel: ServerCounterChannelSchema; overlayOpen?: boolean } = $props();
 </script>
 
-{#snippet typeRow(type: string, description: string)}
+{#snippet typeRow(type: ServerCounterChannelSchema['type'], description: string)}
   <button
     class="flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 px-4 transition-all hover:bg-zinc-800"
     onclick={() => {
@@ -45,28 +45,16 @@
       {@render typeRow('total_members', 'The total amount of users and bots in the server.')}
       {@render typeRow('users', 'The total amount of human users in the server.')}
       {@render typeRow('bots', 'The total amount of bots in the server.')}
-      {@render typeRow(
-        'online_members',
-        'The total amount of users and bots that are not offline.'
-      )}
+      {@render typeRow('online_members', 'The total amount of users and bots that are not offline.')}
       {@render typeRow('offline_members', 'The total amount of users and bots that are offline.')}
-      {@render typeRow(
-        'members_status_online',
-        'The total amount of users and bots that are online.'
-      )}
+      {@render typeRow('members_status_online', 'The total amount of users and bots that are online.')}
       {@render typeRow('members_status_idle', 'The total amount of users and bots that are idle.')}
-      {@render typeRow(
-        'members_status_dnd',
-        'The total amount of users and bots that are set to Do Not Disturb.'
-      )}
+      {@render typeRow('members_status_dnd', 'The total amount of users and bots that are set to Do Not Disturb.')}
       {@render typeRow(
         'members_activity',
         'The total amount of users and bots that are in an activity (playing a game, listening to Spotify, etc).'
       )}
-      {@render typeRow(
-        'members_custom_status',
-        'The total amount of users and bots that have a custom status set.'
-      )}
+      {@render typeRow('members_custom_status', 'The total amount of users and bots that have a custom status set.')}
       {@render typeRow('activity', 'The amount of users doing a specific activity.')}
     </div>
   </div>

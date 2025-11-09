@@ -24,9 +24,7 @@
     data-sveltekit-preload-data={false}
   >
     <Avatar
-      src={guild.icon
-        ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`
-        : undefined}
+      src={guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : undefined}
       name={guild.name}
       size={40}
       class={invite ? 'opacity-50' : ''}
@@ -54,9 +52,7 @@
   <div
     class="absolute right-0 left-0 -z-50 h-full w-full bg-[url('/images/background_blur.svg')] bg-cover bg-center bg-no-repeat brightness-50"
   ></div>
-  <Row
-    class="flex h-auto max-h-156 w-full max-w-128 flex-col items-center gap-4 overflow-hidden p-4"
-  >
+  <Row class="flex h-auto max-h-156 w-full max-w-128 flex-col items-center gap-4 overflow-hidden p-4">
     <div class="flex items-center justify-center gap-2">
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
       <h1 class="text-2xl font-bold" translate="no">Titanium Dashboard</h1>
@@ -64,9 +60,7 @@
     <div class="flex w-full flex-1 flex-col gap-2 overflow-y-auto">
       {#if data.userData}
         {#if !data.guildsData || !data.guildsData.mutualGuilds || !data.guildsData.nonMutualGuilds}
-          <p class="text-center text-zinc-300/60">
-            An error occurred while loading servers. Try again later.
-          </p>
+          <p class="text-center text-zinc-300/60">An error occurred while loading servers. Try again later.</p>
         {:else if data.guildsData.mutualGuilds.length === 0 && data.guildsData.nonMutualGuilds.length === 0}
           <p class="text-center text-zinc-300/60">
             You do not have permission to control or add Titanium to any servers.
@@ -74,9 +68,7 @@
         {:else}
           {#if data.guildsData.mutualGuilds.length > 0}
             <p class="text-base font-bold text-zinc-300/60">
-              Servers with Titanium <span class="text-zinc-400"
-                >({data.guildsData.mutualGuilds.length})</span
-              >
+              Servers with Titanium <span class="text-zinc-400">({data.guildsData.mutualGuilds.length})</span>
             </p>
           {/if}
           {#each data.guildsData.mutualGuilds as guild (guild.id)}
@@ -84,9 +76,7 @@
           {/each}
           {#if data.guildsData.nonMutualGuilds.length > 0}
             <p class="mt-2 text-base font-bold text-zinc-300/60">
-              Servers without Titanium <span class="text-zinc-400"
-                >({data.guildsData.nonMutualGuilds.length})</span
-              >
+              Servers without Titanium <span class="text-zinc-400">({data.guildsData.nonMutualGuilds.length})</span>
             </p>
           {/if}
           {#each data.guildsData.nonMutualGuilds as guild (guild.id)}

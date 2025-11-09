@@ -2,31 +2,37 @@
   import { Trash, TriangleAlert, Clock, UserRoundX, Hammer, Plus, Minus, ToggleRight, X } from '@lucide/svelte';
 
   import type { Component } from 'svelte';
-  import type { AutomodAction, AutomodRule } from '$lib/interfaces/automod';
-  import type { BouncerAction, BouncerRule } from '$lib/interfaces/bouncer';
+  import type { AutomodActionSchema, AutomodRuleSchema } from '$lib/validators/automod';
+  import type { BouncerActionSchema, BouncerRuleSchema } from '$lib/validators/bouncer';
 
   let {
     type = 'automod',
     rule = $bindable(),
     overlayOpen = $bindable(true)
-  }: { type: 'automod' | 'bouncer'; rule: AutomodRule | BouncerRule; overlayOpen?: boolean } = $props();
+  }: { type: 'automod' | 'bouncer'; rule: AutomodRuleSchema | BouncerRuleSchema; overlayOpen?: boolean } = $props();
 
-  function createBlankAction(): AutomodAction | BouncerAction {
+  function createBlankAction(
+    type: AutomodActionSchema['type'] | BouncerActionSchema['type']
+  ): AutomodActionSchema | BouncerActionSchema {
     return {
-      type: '',
+      type: type,
       duration: 0,
       reason: ''
     };
   }
 </script>
 
-{#snippet actionRow(type: string, name: string, description: string, Icon: Component)}
+{#snippet actionRow(
+  type: AutomodActionSchema['type'] | BouncerActionSchema['type'],
+  name: string,
+  description: string,
+  Icon: Component
+)}
   <button
     class="flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 px-4 transition-all hover:bg-zinc-800"
     onclick={() => {
-      const action = createBlankAction();
-      action.type = type;
-      rule.actions = [...(rule.actions || []), action];
+      const action = createBlankAction(type);
+      rule.actions = [...(rule.actions || []), action] as typeof rule.actions;
       overlayOpen = false;
     }}
     aria-label="Select {name} action"

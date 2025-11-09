@@ -1,20 +1,20 @@
 <script lang="ts">
   import Row from '$lib/components/ui/row/Row.svelte';
   import CriterionTile from './CriterionTile.svelte';
-  import ActionTile from './ActionTile.svelte';
+  import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import CriterionPicker from './CriterionPicker.svelte';
   import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
 
   import { X, Plus } from '@lucide/svelte';
-  import type { BouncerRule } from '$lib/interfaces/bouncer';
+  import type { BouncerRuleSchema, BouncerActionSchema } from '$lib/validators/bouncer';
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let {
     roles,
     rule = $bindable(),
     deleteThis
-  }: { roles: RoleInfo[]; rule: BouncerRule; deleteThis: () => void } = $props();
+  }: { roles: RoleInfo[]; rule: BouncerRuleSchema; deleteThis: () => void } = $props();
 
   let createCriterionOpen = $state(false);
   let createActionOpen = $state(false);

@@ -5,15 +5,17 @@
   import Toggle from '$lib/components/ui/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
-  import type { AutomodRule } from '$lib/interfaces/automod';
+  import type { AutomodRuleSchema } from '$lib/validators/automod';
 
   const { data } = $props();
   let dataState = $state(data);
 
-  function createBlankRule(): AutomodRule {
+  function createBlankRule(
+    rule_type: AutomodRuleSchema['rule_type']
+  ): AutomodRuleSchema {
     return {
       id: crypto.randomUUID(),
-      rule_type: '',
+      rule_type: rule_type,
       rule_name: '',
       words: [],
       match_whole_word: false,
@@ -29,8 +31,8 @@
 {#snippet rulesCard(
   title: string,
   description: string,
-  type: string,
-  rules: AutomodRule[],
+  type: AutomodRuleSchema['rule_type'],
+  rules: AutomodRuleSchema[],
   spamType?: string
 )}
   <Row>
@@ -40,8 +42,7 @@
       <button
         class="cursor-pointer rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
         onclick={() => {
-          const rule = createBlankRule();
-          rule.rule_type = type;
+          const rule = createBlankRule(type);
           if (spamType) {
             rule.antispam_type = spamType;
           }
@@ -51,17 +52,9 @@
 
       {#each rules as rule, index (rule.id)}
         {#if type === 'spam_detection' && spamType === rule.antispam_type}
-          <Rule
-            roles={dataState.serverInfo.roles}
-            bind:rule={rules[index]}
-            deleteThis={() => rules.splice(index, 1)}
-          />
+          <Rule roles={dataState.serverInfo.roles} bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
         {:else if type !== 'spam_detection'}
-          <Rule
-            roles={dataState.serverInfo.roles}
-            bind:rule={rules[index]}
-            deleteThis={() => rules.splice(index, 1)}
-          />
+          <Rule roles={dataState.serverInfo.roles} bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
         {/if}
       {/each}
     </div>

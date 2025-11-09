@@ -1,4 +1,7 @@
 import { error, json } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
+import { db } from '$lib/server/db';
+import { token } from '$lib/server/db/schema';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ locals }) => {
@@ -7,6 +10,13 @@ export const GET: RequestHandler = async ({ locals }) => {
       Authorization: `Bearer ${locals.discordToken}`
     }
   });
+
+  if (request.status === 401) {
+    if (locals.discordToken) {
+      await db.delete(token).where(eq(token.discordToken, locals.discordToken)).run();
+    }
+    throw error(401, 'Unauthorized');
+  }
 
   if (!request.ok) {
     console.error('Failed to fetch user data from Discord:', await request.text());

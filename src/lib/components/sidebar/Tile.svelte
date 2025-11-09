@@ -1,12 +1,7 @@
 <script lang="ts">
   import type { Component } from 'svelte';
 
-  const {
-    title,
-    href,
-    active,
-    Icon
-  }: { title: string; href: string; active: boolean; Icon: Component } = $props();
+  const { title, href, active, Icon }: { title: string; href: string; active: boolean; Icon: Component } = $props();
 </script>
 
 <a

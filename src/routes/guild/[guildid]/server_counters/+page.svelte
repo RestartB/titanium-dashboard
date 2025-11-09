@@ -7,15 +7,16 @@
 
   import { Plus } from '@lucide/svelte';
 
-  import type { ServerCounterChannel } from '$lib/interfaces/serverCounters';
+  import type { ServerCounterChannelSchema } from '$lib/validators/serverCounters';
 
   let { data } = $props();
   let dataState = $state(data);
 
-  function createBlankChannel(): ServerCounterChannel {
+  function createBlankChannel(type: ServerCounterChannelSchema['type']): ServerCounterChannelSchema {
     return {
+      id: '',
       name: '',
-      type: ''
+      type: type
     };
   }
 </script>
@@ -34,7 +35,7 @@
   <div class="flex flex-col gap-4">
     <Button
       onclick={() => {
-        dataState.pageSettings.channels.push(createBlankChannel());
+        dataState.pageSettings.channels.push(createBlankChannel('total_members'));
       }}
     >
       <Plus size={20} />

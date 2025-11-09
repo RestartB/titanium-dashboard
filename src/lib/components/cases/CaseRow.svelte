@@ -25,13 +25,7 @@
   </div>
 
   <div class="mt-2 flex items-center gap-1">
-    <img
-      src={caseData.user_pfp}
-      alt="{caseData.user_name}'s PFP"
-      width="32"
-      height="32"
-      class="h-8 w-8 rounded-full"
-    />
+    <img src={caseData.user_pfp} alt="{caseData.user_name}'s PFP" width="32" height="32" class="h-8 w-8 rounded-full" />
     <p class="font-semibold">{caseData.user_display} (@{caseData.user_name})</p>
   </div>
   <p class="text-base">{caseData.description}</p>

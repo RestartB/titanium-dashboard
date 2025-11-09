@@ -1,17 +1,6 @@
 <script lang="ts">
   import type { Component } from 'svelte';
-  import {
-    X,
-    Smile,
-    UserRound,
-    Cat,
-    Pizza,
-    Earth,
-    Gamepad2,
-    Lamp,
-    Heart,
-    Flag
-  } from '@lucide/svelte';
+  import { X, Smile, UserRound, Cat, Pizza, Earth, Gamepad2, Lamp, Heart, Flag } from '@lucide/svelte';
 
   import emojis from 'emojibase-data/en/data.json';
   import groupsSubgroups from 'emojibase-data/en/messages.json';
@@ -280,9 +269,7 @@
       {/each}
     </div>
 
-    <div
-      class="flex h-16 flex-shrink-0 items-center gap-2 overflow-hidden border-t-2 border-zinc-500 p-2"
-    >
+    <div class="flex h-16 flex-shrink-0 items-center gap-2 overflow-hidden border-t-2 border-zinc-500 p-2">
       {#if hoveredEmoji}
         {#if 'hexcode' in hoveredEmoji}
           <img
@@ -293,13 +280,7 @@
             decoding="async"
           />
         {:else if 'url' in hoveredEmoji}
-          <img
-            src={hoveredEmoji.url}
-            alt={hoveredEmoji.label}
-            class="h-8 w-8"
-            loading="lazy"
-            decoding="async"
-          />
+          <img src={hoveredEmoji.url} alt={hoveredEmoji.label} class="h-8 w-8" loading="lazy" decoding="async" />
         {/if}
         <div class="max-w-full overflow-hidden">
           {#if 'shortcodes' in hoveredEmoji}

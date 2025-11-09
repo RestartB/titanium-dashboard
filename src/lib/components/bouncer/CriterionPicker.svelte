@@ -1,14 +1,12 @@
 <script lang="ts">
   import { ALargeSmall, Tag, Clock, User, X } from '@lucide/svelte';
   import type { Component } from 'svelte';
-  import type { BouncerCriteria, BouncerRule } from '$lib/interfaces/bouncer';
+  import type { BouncerCriterionSchema, BouncerRuleSchema } from '$lib/validators/bouncer';
 
-  let {
-    rule = $bindable(),
-    overlayOpen = $bindable(true)
-  }: { rule: BouncerRule; overlayOpen?: boolean } = $props();
+  let { rule = $bindable(), overlayOpen = $bindable(true) }: { rule: BouncerRuleSchema; overlayOpen?: boolean } =
+    $props();
 
-  function createCriterion(type: string): BouncerCriteria {
+  function createCriterion(type: BouncerCriterionSchema['type']): BouncerCriterionSchema {
     return {
       type: type,
       words: [],
@@ -18,7 +16,7 @@
   }
 </script>
 
-{#snippet criterionRow(type: string, name: string, description: string, Icon: Component)}
+{#snippet criterionRow(type: BouncerCriterionSchema['type'], name: string, description: string, Icon: Component)}
   <button
     class="flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 px-4 transition-all hover:bg-zinc-800"
     onclick={() => {
@@ -53,25 +51,10 @@
     class="flex h-full max-h-104 min-h-104 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
   >
     <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
-      {@render criterionRow(
-        'username',
-        'Username',
-        "Watch for words in the user's username.",
-        ALargeSmall
-      )}
+      {@render criterionRow('username', 'Username', "Watch for words in the user's username.", ALargeSmall)}
       {@render criterionRow('tag', 'Guild Tag', "Watch for words in the user's guild tag.", Tag)}
-      {@render criterionRow(
-        'age',
-        'Account Age',
-        "Watch for the age of the user's account.",
-        Clock
-      )}
-      {@render criterionRow(
-        'avatar',
-        'Default Avatar',
-        'Watch if the user has a default avatar.',
-        User
-      )}
+      {@render criterionRow('age', 'Account Age', "Watch for the age of the user's account.", Clock)}
+      {@render criterionRow('avatar', 'Default Avatar', 'Watch if the user has a default avatar.', User)}
     </div>
   </div>
 </div>
