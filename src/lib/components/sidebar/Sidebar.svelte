@@ -23,7 +23,7 @@
   const serverID = serverInfo.id;
 </script>
 
-<div class="flex w-full flex-shrink-0 flex-col gap-2 p-4" style="view-transition-name: sidebar">
+<div class="flex w-full shrink-0 flex-col gap-2 p-4" style="view-transition-name: sidebar">
   <div class="flex items-center gap-2">
     <Avatar src={serverInfo.icon} name={serverInfo.name} size={40} />
     <h2 class="font-bold" translate="no">{serverInfo.name}</h2>

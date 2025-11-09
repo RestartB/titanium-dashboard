@@ -100,12 +100,12 @@
 {#if overlayOpen}
   <FullscreenOverlay {overlayOpen}>
     <div
-      class="flex w-full max-w-128 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
+      class="flex w-full max-w-lg flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
     >
       <div class="flex w-full items-center justify-between gap-2">
         <h2 class="text-xl font-bold">Error</h2>
         <button
-          class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
+          class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
           onclick={() => (overlayOpen = false)}
           aria-label="Close error popup"
         >
@@ -114,7 +114,7 @@
       </div>
 
       <div
-        class="flex h-full max-h-[10rem] min-h-[10rem] w-full max-w-120 flex-shrink-0 flex-col gap-4 overflow-auto rounded-xl border-2 border-zinc-600 bg-zinc-700 p-4"
+        class="flex h-full max-h-40 min-h-40 w-full max-w-120 shrink-0 flex-col gap-4 overflow-auto rounded-xl border-2 border-zinc-600 bg-zinc-700 p-4"
       >
         <p>An error occurred while saving your changes. Please try again later.</p>
         <p class="mt-auto text-center font-mono text-sm text-zinc-400">
@@ -141,7 +141,7 @@
           <TriangleAlert size={20} />
           <p>You have unsaved changes.</p>
         </div>
-        <div class="flex flex-shrink-0 items-center justify-center gap-2">
+        <div class="flex shrink-0 items-center justify-center gap-2">
           <button
             class="min-h-9 cursor-pointer rounded-lg bg-zinc-600 px-2 py-1 transition-all hover:bg-zinc-500 disabled:cursor-not-allowed disabled:opacity-50"
             onclick={resetChanges}

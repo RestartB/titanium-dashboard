@@ -143,7 +143,7 @@
   <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Select an Emoji</h2>
     <button
-      class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
+      class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
       onclick={() => (overlayOpen = false)}
       aria-label="Close emoji selector"
     >
@@ -151,9 +151,9 @@
     </button>
   </div>
   <div
-    class="flex h-full max-h-[30rem] min-h-[30rem] w-full max-w-96 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
+    class="flex h-full max-h-120 min-h-120 w-full max-w-96 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
   >
-    <div class="flex h-fit w-full flex-shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
+    <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
       <input
         type="text"
         placeholder="Search emojis..."
@@ -178,7 +178,7 @@
             <img
               src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
               alt={serverInfo.name}
-              class="h-6 w-6 flex-shrink-0 transition-all {activeSection === 'custom'
+              class="h-6 w-6 shrink-0 transition-all {activeSection === 'custom'
                 ? 'rounded-full brightness-150'
                 : 'rounded-lg'}"
               loading="lazy"
@@ -269,7 +269,7 @@
       {/each}
     </div>
 
-    <div class="flex h-16 flex-shrink-0 items-center gap-2 overflow-hidden border-t-2 border-zinc-500 p-2">
+    <div class="flex h-16 shrink-0 items-center gap-2 overflow-hidden border-t-2 border-zinc-500 p-2">
       {#if hoveredEmoji}
         {#if 'hexcode' in hoveredEmoji}
           <img

@@ -39,10 +39,10 @@
       <p>The criteria that must be met before actions are ran.</p>
     </div>
     <button
-      class="mb-auto ml-auto flex flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 px-2 text-base transition-colors hover:bg-red-600 xs:p-1"
+      class="mb-auto ml-auto flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 px-2 text-base transition-colors hover:bg-red-600 xs:p-1"
       onclick={deleteThis}
     >
-      <X size={16} class="flex-shrink-0" />
+      <X size={16} class="shrink-0" />
       <p class="hidden xs:block">Delete Rule</p>
     </button>
   </div>

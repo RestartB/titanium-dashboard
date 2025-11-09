@@ -29,7 +29,7 @@
 <Row class="flex flex-col gap-2">
   <div class="flex items-center justify-between gap-2">
     <button
-      class="flex flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg bg-zinc-700 p-1 px-2 transition-colors hover:bg-zinc-600"
+      class="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg bg-zinc-700 p-1 px-2 transition-colors hover:bg-zinc-600"
       aria-label="Open type picker"
       onclick={() => {
         typePickerOpen = true;
@@ -40,11 +40,11 @@
     </button>
 
     <button
-      class="flex flex-shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 text-base transition-colors hover:bg-red-600 xs:p-1"
+      class="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 text-base transition-colors hover:bg-red-600 xs:p-1"
       onclick={deleteThis}
       aria-label="Delete channel counter"
     >
-      <Trash size={16} class="flex-shrink-0" />
+      <Trash size={16} class="shrink-0" />
       <p class="hidden xs:block">Delete</p>
     </button>
   </div>

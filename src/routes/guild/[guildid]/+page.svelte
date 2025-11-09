@@ -35,7 +35,7 @@
 <div>
   <h1 class="text-4xl">
     Hi there, <span
-      class="bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text font-bold text-transparent"
+      class="bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text font-bold text-transparent"
       translate="no">{userData?.global_name || userData?.username}</span
     >
   </h1>

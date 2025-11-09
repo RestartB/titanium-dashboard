@@ -37,11 +37,11 @@
         >
           {#if sidebarState.open}
             <span in:fade={{ duration: 100 }}>
-              <X class="h-6 w-6 flex-shrink-0" />
+              <X class="h-6 w-6 shrink-0" />
             </span>
           {:else}
             <span in:fade={{ duration: 100 }}>
-              <PanelLeft class="h-6 w-6 flex-shrink-0" />
+              <PanelLeft class="h-6 w-6 shrink-0" />
             </span>
           {/if}
         </button>
@@ -92,11 +92,11 @@
     >
       {#if menuOpen}
         <span in:fade={{ duration: 100 }}>
-          <X class="h-6 w-6 flex-shrink-0" />
+          <X class="h-6 w-6 shrink-0" />
         </span>
       {:else}
         <span in:fade={{ duration: 100 }}>
-          <Menu class="h-6 w-6 flex-shrink-0" />
+          <Menu class="h-6 w-6 shrink-0" />
         </span>
       {/if}
     </button>
@@ -118,10 +118,10 @@
               href={resolve('/')}
             >
               {#if userData}
-                <Server size={30} class="flex-shrink-0" />
+                <Server size={30} class="shrink-0" />
                 Servers
               {:else}
-                <LogIn size={30} class="flex-shrink-0" />
+                <LogIn size={30} class="shrink-0" />
                 Log in
               {/if}
             </a>
@@ -130,7 +130,7 @@
               href="https://titaniumbot.me/server"
               target="_blank"
             >
-              <LifeBuoy size={30} class="flex-shrink-0" />
+              <LifeBuoy size={30} class="shrink-0" />
               Support
             </a>
             {#if userData}
@@ -138,7 +138,7 @@
                 class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
                 href={resolve('/auth/logout')}
               >
-                <LogOut size={30} class="flex-shrink-0" />
+                <LogOut size={30} class="shrink-0" />
                 Logout
               </a>
             {/if}
@@ -151,7 +151,7 @@
         class="hidden h-full items-center justify-center gap-2 border-y-transparent border-b-zinc-500 px-4 text-xl font-semibold transition-all hover:border-y-4 xxs:flex"
         href={resolve('/auth/logout')}
       >
-        <LogOut size={20} class="flex-shrink-0" />
+        <LogOut size={20} class="shrink-0" />
       </a>
     {/if}
   </div>

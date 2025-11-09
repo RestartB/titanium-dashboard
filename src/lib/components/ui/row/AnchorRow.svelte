@@ -30,6 +30,6 @@
   </div>
 
   {#if Icon}
-    <Icon size={24} class="flex-shrink-0" />
+    <Icon size={24} class="shrink-0" />
   {/if}
 </a>

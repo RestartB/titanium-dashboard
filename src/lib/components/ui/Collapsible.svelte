@@ -20,7 +20,7 @@
     aria-label="Toggle {title} section"
   >
     <h3 class="font-bold">{title}</h3>
-    <ChevronDown class="flex-shrink-0 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}" />
+    <ChevronDown class="shrink-0 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}" />
   </button>
   <div class="grid transition-all duration-300 ease-in-out {isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}">
     <div class="overflow-hidden">

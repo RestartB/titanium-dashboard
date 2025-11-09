@@ -40,7 +40,7 @@
     <div class="flex w-full flex-col gap-4 overflow-y-auto p-4 {isHome ? 'pb-35' : ''}">
       <noscript>
         <div class="flex items-center gap-4 rounded-md border-2 border-zinc-700 bg-red-800/30 p-4">
-          <TriangleAlert size={20} class="flex-shrink-0" />
+          <TriangleAlert size={20} class="shrink-0" />
           <p>
             <strong>Javascript is disabled in your browser.</strong> The dashboard will function in a limited read only mode.
           </p>

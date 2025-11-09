@@ -57,7 +57,7 @@
   <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Set Preferences</h2>
     <button
-      class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
+      class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
       onclick={() => (overlayOpen = false)}
       aria-label="Close settings panel"
     >
@@ -65,7 +65,7 @@
     </button>
   </div>
   <div
-    class="flex h-full max-h-98 min-h-98 w-full max-w-96 flex-shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
+    class="flex h-full max-h-98 min-h-98 w-full max-w-96 shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
   >
     <div class="flex flex-col items-center gap-4 p-4">
       {#if action.type === 'mute' || action.type === 'ban'}

@@ -81,7 +81,7 @@
     <span class="text-base">
       <input
         type="text"
-        class="inline w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
+        class="inline w-10 shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
         bind:value={rule.threshold}
         onfocusout={() => {
           if (String(rule.threshold).trim() === '') {
@@ -92,7 +92,7 @@
       {thresholdString} in
       <input
         type="text"
-        class="inline w-10 flex-shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
+        class="inline w-10 shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
         bind:value={rule.duration}
         onfocusout={() => {
           if (String(rule.duration).trim() === '') {
@@ -104,14 +104,14 @@
     </span>
     <div class="flex items-center justify-center gap-2">
       <button
-        class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
+        class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
         aria-label="Delete rule"
         onclick={deleteThis}
       >
         <X size={18} />
       </button>
       <button
-        class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
+        class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
         aria-label="Expand rule details"
         onclick={() => (expanded = !expanded)}
       >

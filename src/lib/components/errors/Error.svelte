@@ -20,12 +20,12 @@
 {#if overlayOpen}
   <FullscreenOverlay {overlayOpen}>
     <div
-      class="flex w-full max-w-128 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
+      class="flex w-full max-w-lg flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
     >
       <div class="flex w-full items-center justify-between gap-2">
         <h2 class="text-xl font-bold">Error</h2>
         <button
-          class="ml-auto flex h-8 w-24 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
+          class="ml-auto flex h-8 w-24 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
           onclick={() =>
             navigator.clipboard.writeText(error.id).then(() => {
               isCopied = true;
@@ -42,7 +42,7 @@
           {/if}
         </button>
         <button
-          class="flex h-8 w-8 flex-shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
+          class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
           onclick={() => (overlayOpen = false)}
           aria-label="Close popup"
         >
@@ -51,7 +51,7 @@
       </div>
 
       <div
-        class="flex h-full max-h-[30rem] min-h-[30rem] w-full max-w-120 flex-shrink-0 flex-col gap-4 overflow-auto rounded-xl border-2 border-zinc-600 bg-zinc-700 p-4"
+        class="flex h-full max-h-120 min-h-120 w-full max-w-120 shrink-0 flex-col gap-4 overflow-auto rounded-xl border-2 border-zinc-600 bg-zinc-700 p-4"
       >
         <div>
           <h3 class="font-bold">Module</h3>

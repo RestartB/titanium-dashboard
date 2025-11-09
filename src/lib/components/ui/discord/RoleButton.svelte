@@ -28,7 +28,7 @@
   {#if selectedRole}
     {#if selectedRole.color}
       <span
-        class="h-4 w-4 flex-shrink-0 rounded-full"
+        class="h-4 w-4 shrink-0 rounded-full"
         style="background-color: {selectedRole.color === '#000000' ? '#99A9B5' : selectedRole.color}"
       ></span>
     {/if}
@@ -39,7 +39,7 @@
 {/snippet}
 
 <button
-  class="flex w-fit flex-shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
+  class="flex w-fit shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
   onclick={() => (overlayOpen = !overlayOpen)}
   aria-label="Toggle role selector"
 >

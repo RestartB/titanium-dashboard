@@ -40,7 +40,7 @@
 
     {#if invite}
       <span
-        class="ml-auto flex-shrink-0 cursor-pointer rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600"
+        class="ml-auto shrink-0 cursor-pointer rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600"
       >
         Add Bot
       </span>
