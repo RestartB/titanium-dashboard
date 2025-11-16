@@ -10,7 +10,11 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
     throw redirect(302, '/');
   }
 
-  const state = `${Date.now()}-${Math.random().toString(36).substring(2)}`;
+  // get redirect from url arg
+  const redirectTo = url.searchParams.get('redirect');
+
+  // date + random chars + redirect stored in base64
+  const state = `${Date.now()}-${Math.random().toString(36).substring(2)}-${redirectTo ? btoa(encodeURIComponent(redirectTo)) : ''}`;
   cookies.set('titanium_state', state, {
     path: '/',
     sameSite: 'strict',

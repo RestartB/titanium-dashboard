@@ -4,6 +4,15 @@
   import { LoaderCircle } from '@lucide/svelte';
   import { onMount } from 'svelte';
 
+  const getCookie = (name: string): string | null => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return decodeURIComponent(parts.pop()?.split(';').shift() || '');
+    }
+    return null;
+  };
+
   onMount(() => {
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
@@ -15,20 +24,22 @@
     }
 
     const state = params.get('state');
-
-    const getCookie = (name: string): string | null => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) {
-        return decodeURIComponent(parts.pop()?.split(';').shift() || '');
-      }
-      return null;
-    };
     const stateCookie = getCookie('titanium_state');
 
     if (!state || !stateCookie || state !== stateCookie) {
       // window.location.href = '/';
       alert('Invalid state parameter. Please try logging in again.');
+      return;
+    }
+
+    // get redirect from state
+    const stateParts = state.split('-');
+    const redirectPart = stateParts.slice(2).join('-');
+    const redirectTo = redirectPart ? decodeURIComponent(atob(redirectPart)) : '/';
+
+    if (!redirectTo.startsWith('/')) {
+      // window.location.href = '/';
+      alert('Invalid redirect URL. Please try logging in again.');
       return;
     }
 
@@ -41,7 +52,7 @@
     })
       .then((res) => {
         if (res.ok) {
-          window.location.href = '/';
+          window.location.href = `${window.location.origin}${redirectTo}`;
         } else {
           // window.location.href = '/';
           alert('An error occurred. Please try logging in again.');

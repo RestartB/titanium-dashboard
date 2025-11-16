@@ -52,7 +52,7 @@
   <div
     class="absolute right-0 left-0 -z-50 h-full w-full bg-[url('/images/background_blur.svg')] bg-cover bg-center bg-no-repeat brightness-50"
   ></div>
-  <Row class="flex h-auto max-h-156 w-full max-w-128 flex-col items-center gap-4 overflow-hidden p-4">
+  <Row class="flex h-auto max-h-156 w-full max-w-lg flex-col items-center gap-4 overflow-hidden p-4">
     <div class="flex items-center justify-center gap-2">
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
       <h1 class="text-2xl font-bold" translate="no">Titanium Dashboard</h1>

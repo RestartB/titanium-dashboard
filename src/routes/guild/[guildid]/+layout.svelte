@@ -29,7 +29,7 @@
       </div>
     {:else if sidebarState.open}
       <div
-        class="fixed inset-0 isolate z-50 mt-12 overflow-y-auto bg-white/60 backdrop-blur-lg dark:bg-black/60"
+        class="fixed inset-0 isolate z-50 mt-12 overflow-y-auto bg-black/60 backdrop-blur-lg"
         transition:fade={{ duration: 100 }}
       >
         <div class="absolute inset-0 -z-10" onclick={() => (sidebarState.open = false)} aria-hidden="true"></div>

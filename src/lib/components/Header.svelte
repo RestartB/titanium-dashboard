@@ -103,7 +103,7 @@
 
     {#if menuOpen}
       <div
-        class="fixed inset-0 isolate mt-12 flex items-start justify-end overflow-hidden bg-white/60 p-4 backdrop-blur-lg dark:bg-black/60"
+        class="fixed inset-0 isolate mt-12 flex items-start justify-end overflow-hidden bg-black/60 p-4 backdrop-blur-lg"
         transition:fade={{ duration: 100 }}
       >
         <div class="absolute inset-0 -z-10" onclick={() => (menuOpen = false)} aria-hidden="true"></div>

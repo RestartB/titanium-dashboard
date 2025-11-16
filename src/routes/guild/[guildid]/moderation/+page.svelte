@@ -51,7 +51,7 @@
 
   <ToggleRow bind:toggled={dataState.pageSettings.external_cases}>
     <div>
-      <h2 class="text-xl font-bold">Create Third Party Cases</h2>
+      <h2 class="text-xl font-bold">Create External Cases</h2>
       <p>
         When someone is punished using the built in Discord mod tools or another bot, Titanium will create a case for
         the user.
@@ -62,9 +62,9 @@
   <ToggledContent bind:enabled={dataState.pageSettings.external_cases}>
     <ToggleRow bind:toggled={dataState.pageSettings.external_case_dms}>
       <div>
-        <h2 class="text-xl font-bold">Send Third Party Cases DMs</h2>
+        <h2 class="text-xl font-bold">Send External Cases DMs</h2>
         <p>
-          When a third party case is created, Titanium will attempt to DM the user informing them of the action taken.
+          When a external case is created, Titanium will attempt to DM the user informing them of the action taken.
           Enable with caution - this can cause the user to recieve a DM from the original bot, and a DM from Titanium.
         </p>
       </div>

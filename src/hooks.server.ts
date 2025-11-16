@@ -32,7 +32,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    return redirect(302, '/');
+    return redirect(302, '/auth/login?redirect=' + encodeURIComponent(event.url.pathname));
   }
 
   // token valid check
@@ -45,7 +45,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return json({ error: 'Invalid Token' }, { status: 401 });
     }
 
-    return redirect(302, '/');
+    return redirect(302, '/auth/login?redirect=' + encodeURIComponent(event.url.pathname));
   }
 
   event.locals.token = titaniumToken;
