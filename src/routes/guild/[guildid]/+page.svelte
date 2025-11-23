@@ -10,7 +10,7 @@
     Flame,
     Trophy,
     Tally5,
-    Users
+    BadgeCheck
   } from '@lucide/svelte';
   import type { Component } from 'svelte';
 
@@ -111,9 +111,9 @@
     Tally5
   )}
   {@render featureCard(
-    'Self Roles',
-    'Allow users to assign roles with buttons or reactions.',
-    `/guild/${serverID}/self-roles`,
-    Users
+    'Confessions',
+    'Allow server members to make anonymous confessions.',
+    `/guild/${serverID}/confessions`,
+    BadgeCheck
   )}
 </div>

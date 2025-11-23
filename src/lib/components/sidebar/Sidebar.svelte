@@ -14,7 +14,7 @@
     Flame,
     Trophy,
     Tally5,
-    Users
+    BadgeCheck
   } from '@lucide/svelte';
   import Tile from './Tile.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
@@ -86,9 +86,9 @@
     active={page.url.pathname.endsWith('/server_counters')}
   />
   <Tile
-    title="Self Roles"
-    href="/guild/{serverID}/self-roles"
-    Icon={Users}
-    active={page.url.pathname.endsWith('/self-roles')}
+    title="Confessions"
+    href="/guild/{serverID}/confessions"
+    Icon={BadgeCheck}
+    active={page.url.pathname.endsWith('/confessions')}
   />
 </div>

@@ -22,7 +22,7 @@
     fireboard: { depth: 0, order: 8 },
     leaderboard: { depth: 0, order: 9 },
     server_counters: { depth: 0, order: 10 },
-    self_roles: { depth: 0, order: 11 }
+    confessions: { depth: 0, order: 11 }
   };
 
   function getPageInfo(url: URL, params: Record<string, string | undefined> | null) {

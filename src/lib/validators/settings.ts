@@ -7,7 +7,8 @@ export const moduleSchema = z.object({
   logging: z.boolean(),
   fireboard: z.boolean(),
   server_counters: z.boolean(),
-  confession: z.boolean()
+  confessions: z.boolean(),
+  leaderboard: z.boolean()
 });
 
 export type ModuleSchema = z.infer<typeof moduleSchema>;

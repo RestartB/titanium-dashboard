@@ -8,8 +8,8 @@ export {
   type GuildSettingsSchema
 } from './settings';
 
-// Confession
-export { confessionConfigSchema, type ConfessionConfigSchema } from './confession';
+// Confessions
+export { confessionConfigSchema, type ConfessionConfigSchema } from './confessions';
 
 // Moderation
 export { moderationConfigSchema, type ModerationConfigSchema } from './moderation';
@@ -54,3 +54,11 @@ export {
   type ServerCounterChannelSchema,
   type ServerCountersConfigSchema
 } from './serverCounters';
+
+// Leaderboard
+export {
+  leaderboardLevelSchema,
+  leaderboardConfigSchema,
+  type LeaderboardLevelSchema,
+  type LeaderboardConfigSchema
+} from './leaderboard';

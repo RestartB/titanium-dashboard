@@ -26,7 +26,7 @@
   }
 </script>
 
-<Saver page="fireboard" bind:dataState />
+<Saver page="fireboard" {data} bind:dataState />
 
 <div class="flex items-center justify-between gap-4">
   <div class="flex-1">

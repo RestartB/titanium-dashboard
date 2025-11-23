@@ -9,7 +9,7 @@
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
 
-  import { Plus, Flame } from '@lucide/svelte';
+  import { ListPlus, ListX } from '@lucide/svelte';
 
   import type { LoggingConfigSchema } from '$lib/validators/logging';
 
@@ -129,7 +129,7 @@
   </ul>
 {/snippet}
 
-<Saver page="logging" bind:dataState />
+<Saver page="logging" {data} bind:dataState />
 
 {#if overlayOpen}
   <FullscreenOverlay bind:overlayOpen>
@@ -152,7 +152,7 @@
         overlayOpen = true;
       }}
     >
-      <Plus size={20} />
+      <ListPlus size={20} />
       Set All Channels
     </Button>
 
@@ -163,7 +163,7 @@
         }
       }}
     >
-      <Flame size={20} />
+      <ListX size={20} />
       Clear All
     </Button>
   </div>

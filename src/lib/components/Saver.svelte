@@ -7,9 +7,9 @@
   import { TriangleAlert, LoaderCircle, X } from '@lucide/svelte';
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  let { page = '', dataState = $bindable() }: { page?: string; dataState: any } = $props();
+  let { page = '', data, dataState = $bindable() }: { page?: string; data: any; dataState: any } = $props();
 
-  let originalDataString = JSON.stringify(dataState);
+  let originalDataString = JSON.stringify(data);
   let hasUnsavedChanges = $state(false);
   let loading = $state(false);
   let row: HTMLDivElement | undefined = $state();
@@ -93,8 +93,9 @@
   function resetChanges() {
     if (loading) return;
     dataState = JSON.parse(originalDataString);
-    hasUnsavedChanges = false;
   }
+
+  $inspect(hasUnsavedChanges);
 </script>
 
 {#if overlayOpen}

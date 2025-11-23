@@ -21,7 +21,7 @@
   }
 </script>
 
-<Saver page="server_counters" bind:dataState />
+<Saver page="server_counters" {data} bind:dataState />
 
 <div class="flex items-center justify-between gap-4">
   <div class="flex-1">
