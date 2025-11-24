@@ -30,7 +30,10 @@ export const automodRuleSchema = z
     words: z.array(z.string()).default([]),
     match_whole_word: z.boolean().default(false),
     case_sensitive: z.boolean().default(false),
-    antispam_type: z.string().nullable().optional(),
+    antispam_type: z
+      .enum(['message', 'mention', 'word', 'newline', 'link', 'attachment', 'emoji'])
+      .nullable()
+      .optional(),
     threshold: z.number().int(),
     duration: z.number().int(),
     actions: z.array(automodActionSchema)
