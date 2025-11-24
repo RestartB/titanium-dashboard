@@ -5,6 +5,7 @@
 
 <div class="border-box flex h-screen w-full flex-col items-center justify-center gap-4 p-4">
   <div class="flex flex-col items-center justify-center">
+    <img src="https://http.cat/{page.status}" alt="Cat image for error code {page.status}" class="mb-4 h-100 rounded-xl border-2 border-zinc-600" />
     <h1 class="text-center font-mono text-8xl font-bold">{page.status}</h1>
     <h2 class="text-center text-2xl">
       {page.error && page.error.message ? page.error.message : 'An error occurred'}

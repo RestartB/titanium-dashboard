@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Toggle from '$lib/components/ui/Toggle.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import { X, Plus } from '@lucide/svelte';
   import type { BouncerCriterionSchema } from '$lib/validators/bouncer';

@@ -2,7 +2,7 @@
   import Row from '$lib/components/ui/row/Row.svelte';
   import Rule from '$lib/components/automod/Rule.svelte';
   import Collapsible from '$lib/components/ui/Collapsible.svelte';
-  import Toggle from '$lib/components/ui/Toggle.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';
@@ -11,16 +11,17 @@
   let dataState = $state(data);
 
   function createBlankRule(
-    rule_type: AutomodRuleSchema['rule_type']
+    ruleType: AutomodRuleSchema['rule_type'],
+    spamType?: AutomodRuleSchema['antispam_type']
   ): AutomodRuleSchema {
     return {
       id: crypto.randomUUID(),
-      rule_type: rule_type,
+      rule_type: ruleType,
       rule_name: '',
       words: [],
       match_whole_word: false,
       case_sensitive: false,
-      antispam_type: '',
+      antispam_type: spamType,
       threshold: 1,
       duration: 1,
       actions: []
@@ -33,7 +34,7 @@
   description: string,
   type: AutomodRuleSchema['rule_type'],
   rules: AutomodRuleSchema[],
-  spamType?: string
+  spamType?: AutomodRuleSchema['antispam_type']
 )}
   <Row>
     <div class="flex flex-col gap-2">
@@ -42,10 +43,7 @@
       <button
         class="cursor-pointer rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
         onclick={() => {
-          const rule = createBlankRule(type);
-          if (spamType) {
-            rule.antispam_type = spamType;
-          }
+          const rule = createBlankRule(type, spamType);
           rules.push(rule);
         }}>Add Rule</button
       >
@@ -105,49 +103,49 @@
         'Detect when users are sending messages too fast.',
         'spam_detection',
         dataState.pageSettings.spam_detection,
-        'message_spam'
+        'message'
       )}
       {@render rulesCard(
         'Mention Spam',
         'Detect when users are mentioning too many users.',
         'spam_detection',
         dataState.pageSettings.spam_detection,
-        'mention_spam'
+        'mention'
       )}
       {@render rulesCard(
         'Word Spam',
         'Detect when users are sending too many words.',
         'spam_detection',
         dataState.pageSettings.spam_detection,
-        'word_spam'
+        'word'
       )}
       {@render rulesCard(
         'Newline Spam',
         'Detect when users are sending too many newlines.',
         'spam_detection',
         dataState.pageSettings.spam_detection,
-        'newline_spam'
+        'newline'
       )}
       {@render rulesCard(
         'Link Spam',
         'Detect when users are sending too many links.',
         'spam_detection',
         dataState.pageSettings.spam_detection,
-        'link_spam'
+        'link'
       )}
       {@render rulesCard(
         'Attachment Spam',
         'Detect when users are sending too many attachments.',
         'spam_detection',
         dataState.pageSettings.spam_detection,
-        'attachment_spam'
+        'attachment'
       )}
       {@render rulesCard(
         'Emoji Spam',
         'Detect when users are sending too many emojis.',
         'spam_detection',
         dataState.pageSettings.spam_detection,
-        'emoji_spam'
+        'emoji'
       )}
     </div>
   </Collapsible>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Button from '$lib/components/ui/Button.svelte';
-  import Toggle from '$lib/components/ui/Toggle.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Channel from '$lib/components/server_counters/Channel.svelte';
   import Saver from '$lib/components/Saver.svelte';

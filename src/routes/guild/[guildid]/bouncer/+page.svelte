@@ -1,7 +1,7 @@
 <script lang="ts">
   import Rule from '$lib/components/bouncer/Rule.svelte';
-  import Toggle from '$lib/components/ui/Toggle.svelte';
-  import Button from '$lib/components/ui/Button.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import { Plus } from '@lucide/svelte';

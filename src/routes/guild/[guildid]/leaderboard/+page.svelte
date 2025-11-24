@@ -1,7 +1,8 @@
 <script lang="ts">
   import { ToggleRow, Row } from '$lib/components/ui/row';
-  import Toggle from '$lib/components/ui/Toggle.svelte';
-  import Radio from '$lib/components/ui/Radio.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Radio from '$lib/components/ui/inputs/Radio.svelte';
+  import Number from '$lib/components/ui/inputs/Number.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
 
@@ -90,6 +91,7 @@
         <h2 class="text-xl font-bold">XP</h2>
         <p>Enter the amount of XP users will receive for each message they send in the server.</p>
       </div>
+      <Number bind:value={dataState.pageSettings.xp} class="mt-2" />
     </Row>
   {:else if dataState.pageSettings.mode === 'random'}
     <Row>
@@ -97,12 +99,14 @@
         <h2 class="text-xl font-bold">Minimum XP</h2>
         <p>Enter the minimum amount of XP users can receive for each message they send in the server.</p>
       </div>
+      <Number bind:value={dataState.pageSettings.min_xp} class="mt-2" />
     </Row>
     <Row>
       <div>
         <h2 class="text-xl font-bold">Maximum XP</h2>
         <p>Enter the maximum amount of XP users can receive for each message they send in the server.</p>
       </div>
+      <Number bind:value={dataState.pageSettings.max_xp} class="mt-2" />
     </Row>
   {:else if dataState.pageSettings.mode === 'length'}
     <Row>
@@ -113,6 +117,7 @@
           their message.
         </p>
       </div>
+      <Number bind:value={dataState.pageSettings.xp_mult} integer={false} class="mt-2" />
     </Row>
   {/if}
 

@@ -3,7 +3,7 @@
   import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
   import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
-  import Toggle from '$lib/components/ui/Toggle.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
 
   import { ChevronDown, X, Plus } from '@lucide/svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';

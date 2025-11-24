@@ -3,7 +3,7 @@
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
   import EmojiPicker from '$lib/components/pickers/EmojiPicker.svelte';
-  import Toggle from '$lib/components/ui/Toggle.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import { Trash } from '@lucide/svelte';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';

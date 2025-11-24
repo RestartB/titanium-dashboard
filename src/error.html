@@ -53,6 +53,13 @@
         font-weight: inherit;
       }
 
+      img {
+        margin-bottom: 16px;
+        height: 400px;
+        border-radius: 12px;
+        border: 2px solid #52525c;
+      }
+
       a {
         height: 2.75rem;
         box-sizing: border-box;
@@ -81,6 +88,8 @@
     </style>
   </head>
   <body>
+    <img src="https://http.cat/%sveltekit.status%" alt="Cat image for error code %sveltekit.status%" />
+
     <div>
       <h1>%sveltekit.status%</h1>
       <h2>%sveltekit.error.message%</h2>

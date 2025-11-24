@@ -1,8 +1,8 @@
 <script lang="ts">
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
   import Collapsible from '$lib/components/ui/Collapsible.svelte';
-  import Toggle from '$lib/components/ui/Toggle.svelte';
-  import Button from '$lib/components/ui/Button.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
 

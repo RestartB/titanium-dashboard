@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ToggleRow, AnchorRow, Row } from '$lib/components/ui/row';
-  import Toggle from '$lib/components/ui/Toggle.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import { ChevronRight, ScrollText } from '@lucide/svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';

@@ -11,7 +11,7 @@ export type LeaderboardLevelSchema = z.infer<typeof leaderboardLevelSchema>;
 export const leaderboardConfigSchema = z.object({
   mode: z.enum(['fixed', 'random', 'length']).default('fixed'),
   cooldown: z.number().int().nonnegative(),
-  xp: z.number().int().nonnegative(),
+  xp: z.number().int().nonnegative().optional(),
   min_xp: z.number().int().nonnegative().optional(),
   max_xp: z.number().int().nonnegative().optional(),
   xp_mult: z.number().nonnegative().optional(),
