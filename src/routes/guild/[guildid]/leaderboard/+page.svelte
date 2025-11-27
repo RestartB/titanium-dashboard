@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ToggleRow, Row } from '$lib/components/ui/row';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Radio from '$lib/components/ui/inputs/Radio.svelte';
   import Number from '$lib/components/ui/inputs/Number.svelte';
@@ -91,7 +92,7 @@
         <h2 class="text-xl font-bold">XP</h2>
         <p>Enter the amount of XP users will receive for each message they send in the server.</p>
       </div>
-      <Number bind:value={dataState.pageSettings.xp} class="mt-2" />
+      <Number bind:value={dataState.pageSettings.base_xp} class="mt-2" />
     </Row>
   {:else if dataState.pageSettings.mode === 'random'}
     <Row>
@@ -126,6 +127,7 @@
       <h2 class="text-xl font-bold">Cooldown</h2>
       <p>Enter the amount of time (in seconds) users must wait before they can earn XP again.</p>
     </div>
+    <Number bind:value={dataState.pageSettings.cooldown} class="mt-2" />
   </Row>
 
   <hr class=" border-zinc-500" />
@@ -170,6 +172,10 @@
 
   <hr class=" border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Web Leaderboard</p>
+
+  <Alert>
+    <p>Coming soon</p>
+  </Alert>
 
   <ToggleRow bind:toggled={dataState.pageSettings.web_leaderboard_enabled}>
     <div>

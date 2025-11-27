@@ -50,7 +50,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   event.locals.token = titaniumToken;
   event.locals.discordToken = tokenRecord.discordToken;
-  event.locals.discordID = tokenRecord.discordUserId;
+  event.locals.discordId = tokenRecord.discordUserId;
 
   // rate limiting
   if (event.url.pathname.startsWith('/api/guild/')) {
@@ -81,7 +81,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
     const permCheckRequest = await fetch(
-      'http://localhost:5100/guild/' + guildId + '/perms/' + event.locals.discordID,
+      'http://localhost:5100/guild/' + guildId + '/perms/' + event.locals.discordId,
       {
         method: 'GET',
         headers: {

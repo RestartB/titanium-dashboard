@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ToggleRow, AnchorRow, Row } from '$lib/components/ui/row';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import { ChevronRight, ScrollText } from '@lucide/svelte';
@@ -20,13 +21,17 @@
   <Toggle bind:toggled={dataState.serverSettings.modules.confessions} />
 </div>
 
+<Alert>
+  <p>Work in progress</p>
+</Alert>
+
 <ToggledContent enabled={dataState.serverSettings.modules.confessions}>
   <hr class=" border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Channel</p>
 
   <ToggleRow bind:toggled={dataState.pageSettings.confessions_in_channel}>
     <div>
-      <h2 class="text-xl font-bold">Send Confessions in current channel</h2>
+      <h2 class="text-xl font-bold">Send confessions in source channel</h2>
       <p>
         When this option is enabled, confessions will be sent in the channel where the command is used, instead of a
         dedicated confession channel.
@@ -37,10 +42,10 @@
   <ToggledContent enabled={!dataState.pageSettings.confessions_in_channel}>
     <Row>
       <div>
-        <h2 class="text-xl font-bold">DM Users</h2>
+        <h2 class="text-xl font-bold">Confession Channel</h2>
         <p>
-          When this option is enabled, Titanium will attempt to DM users when a case is created against them as a result
-          of a moderation action. This includes actions like bans, kicks, mutes, and warnings.
+          Select a channel for confessions to be sent to. Make sure that Titanium has permissions to send messages in
+          the channel.
         </p>
       </div>
 
@@ -55,6 +60,10 @@
   <hr class=" border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Confession Logs</p>
 
+  <Alert>
+    <p>Coming soon</p>
+  </Alert>
+
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
       <div class=" hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">
@@ -62,7 +71,7 @@
       </div>
       <div>
         <h2 class="text-xl font-bold">Log Channel</h2>
-        <p>Go to the Titanium category in the logging page to add a channel for confession logs.</p>
+        <p>Go to the Titanium category on the logging page to add a channel for confession logs.</p>
       </div>
     </div>
   </AnchorRow>

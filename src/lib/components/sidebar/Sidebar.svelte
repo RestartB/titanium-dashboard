@@ -20,7 +20,7 @@
   import Avatar from '$lib/components/ui/Avatar.svelte';
 
   const { serverInfo }: { serverInfo: ServerInfo } = $props();
-  const serverID = serverInfo.id;
+  const serverId = serverInfo.id;
 </script>
 
 <div class="flex w-full shrink-0 flex-col gap-2 p-4" style="view-transition-name: sidebar">
@@ -28,66 +28,66 @@
     <Avatar src={serverInfo.icon} name={serverInfo.name} size={40} />
     <h2 class="font-bold" translate="no">{serverInfo.name}</h2>
   </div>
-  <Tile title="Home" href="/guild/{serverID}" Icon={House} active={page.url.pathname.endsWith(serverID)} />
+  <Tile title="Home" href="/guild/{serverId}" Icon={House} active={page.url.pathname.endsWith(serverId)} />
   <Tile
     title="General Settings"
-    href="/guild/{serverID}/general"
+    href="/guild/{serverId}/general"
     Icon={Cog}
     active={page.url.pathname.endsWith('/general')}
   />
   <Tile
     title="Permissions"
-    href="/guild/{serverID}/permissions"
+    href="/guild/{serverId}/permissions"
     Icon={Key}
     active={page.url.pathname.endsWith('/permissions')}
   />
   <Tile
     title="Error Log"
-    href="/guild/{serverID}/errors"
+    href="/guild/{serverId}/errors"
     Icon={TriangleAlert}
     active={page.url.pathname.endsWith('/errors')}
   />
   <p class="ml-2 text-base font-bold text-zinc-300/60">FEATURES</p>
   <Tile
     title="Moderation"
-    href="/guild/{serverID}/moderation"
+    href="/guild/{serverId}/moderation"
     Icon={Shield}
     active={page.url.pathname.endsWith('/moderation') || page.url.pathname.includes('/moderation/cases')}
   />
-  <Tile title="Automod" href="/guild/{serverID}/automod" Icon={Brain} active={page.url.pathname.endsWith('/automod')} />
+  <Tile title="Automod" href="/guild/{serverId}/automod" Icon={Brain} active={page.url.pathname.endsWith('/automod')} />
   <Tile
     title="Bouncer"
-    href="/guild/{serverID}/bouncer"
+    href="/guild/{serverId}/bouncer"
     Icon={DoorClosedLocked}
     active={page.url.pathname.endsWith('/bouncer')}
   />
   <Tile
     title="Logging"
-    href="/guild/{serverID}/logging"
+    href="/guild/{serverId}/logging"
     Icon={ScrollText}
     active={page.url.pathname.endsWith('/logging')}
   />
   <Tile
     title="Fireboard"
-    href="/guild/{serverID}/fireboard"
+    href="/guild/{serverId}/fireboard"
     Icon={Flame}
     active={page.url.pathname.endsWith('/fireboard')}
   />
   <Tile
     title="Leaderboard"
-    href="/guild/{serverID}/leaderboard"
+    href="/guild/{serverId}/leaderboard"
     Icon={Trophy}
     active={page.url.pathname.endsWith('/leaderboard')}
   />
   <Tile
     title="Server Counters"
-    href="/guild/{serverID}/server_counters"
+    href="/guild/{serverId}/server_counters"
     Icon={Tally5}
     active={page.url.pathname.endsWith('/server_counters')}
   />
   <Tile
     title="Confessions"
-    href="/guild/{serverID}/confessions"
+    href="/guild/{serverId}/confessions"
     Icon={BadgeCheck}
     active={page.url.pathname.endsWith('/confessions')}
   />

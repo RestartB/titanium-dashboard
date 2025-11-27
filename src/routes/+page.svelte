@@ -57,6 +57,7 @@
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
       <h1 class="text-2xl font-bold" translate="no">Titanium Dashboard</h1>
     </div>
+
     <div class="flex w-full flex-1 flex-col gap-2 overflow-y-auto">
       {#if data.userData}
         {#if !data.guildsData || !data.guildsData.mutualGuilds || !data.guildsData.nonMutualGuilds}
@@ -94,5 +95,6 @@
       {/if}
     </div>
   </Row>
+
   <p class="mt-4 font-semibold opacity-80">© 2025, Restart</p>
 </div>

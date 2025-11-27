@@ -4,7 +4,7 @@
 
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import Row from '$lib/components/ui/row/Row.svelte';
-  import { TriangleAlert, LoaderCircle, X } from '@lucide/svelte';
+  import { TriangleAlert, LoaderCircle, Copy, Check, X } from '@lucide/svelte';
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   let { page = '', data, dataState = $bindable() }: { page?: string; data: any; dataState: any } = $props();
@@ -17,6 +17,7 @@
   let overlayOpen = $state(false);
   let errorCode: number = $state(0);
   let errorStage: string = $state('');
+  let isCopied = $state(false);
 
   $effect(() => {
     const currentDataString = JSON.stringify(dataState);
@@ -94,8 +95,6 @@
     if (loading) return;
     dataState = JSON.parse(originalDataString);
   }
-
-  $inspect(hasUnsavedChanges);
 </script>
 
 {#if overlayOpen}
@@ -105,6 +104,31 @@
     >
       <div class="flex w-full items-center justify-between gap-2">
         <h2 class="text-xl font-bold">Error</h2>
+        <button
+          class="ml-auto flex h-8 w-24 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
+          onclick={() =>
+            navigator.clipboard
+              .writeText(
+                JSON.stringify({
+                  serverId: dataState.serverInfo.id,
+                  pageSettings: dataState.pageSettings,
+                  serverSettings: dataState.serverSettings
+                })
+              )
+              .then(() => {
+                isCopied = true;
+                setTimeout(() => (isCopied = false), 3000);
+              })}
+          aria-label="Copy data to clipboard"
+        >
+          {#if isCopied}
+            <p class="mr-2">Done</p>
+            <Check size={20} />
+          {:else}
+            <p class="mr-2">Copy</p>
+            <Copy size={20} />
+          {/if}
+        </button>
         <button
           class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
           onclick={() => (overlayOpen = false)}

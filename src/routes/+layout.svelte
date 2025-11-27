@@ -4,7 +4,6 @@
   import Header from '$lib/components/Header.svelte';
 
   import { onNavigate } from '$app/navigation';
-  import { page } from '$app/state';
 
   let { children, data } = $props();
 

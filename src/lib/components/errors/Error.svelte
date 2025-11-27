@@ -2,8 +2,11 @@
   import ButtonRow from '$lib/components/ui/row/ButtonRow.svelte';
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
+  import { scale } from 'svelte/transition';
+
   import { Copy, Check, X, CircleQuestionMark } from '@lucide/svelte';
   import type { ErrorLog } from '$lib/interfaces/serverInfo';
+  import { cubicOut } from 'svelte/easing';
 
   const { error }: { error: ErrorLog } = $props();
   let overlayOpen = $state(false);
@@ -21,6 +24,7 @@
   <FullscreenOverlay {overlayOpen}>
     <div
       class="flex w-full max-w-lg flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
+      transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
     >
       <div class="flex w-full items-center justify-between gap-2">
         <h2 class="text-xl font-bold">Error</h2>

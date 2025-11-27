@@ -1,11 +1,16 @@
 <script lang="ts">
   import Row from '$lib/components/ui/row/Row.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
 </script>
 
 <div>
   <h2 class="text-4xl font-bold">Permissions</h2>
   <p>Change the permissions for Titanium's commands and dashboard access.</p>
 </div>
+
+<Alert>
+  <p>Coming soon</p>
+</Alert>
 
 <Row>
   <div>

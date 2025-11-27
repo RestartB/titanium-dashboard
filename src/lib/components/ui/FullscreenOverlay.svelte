@@ -6,7 +6,7 @@
 </script>
 
 <div
-  class="fixed inset-0 isolate z-50 mt-12 flex flex-col items-center justify-center overflow-hidden p-4 backdrop-blur-lg bg-black/60"
+  class="fixed inset-0 isolate z-50 mt-12 flex flex-col items-center justify-center overflow-hidden bg-black/60 p-4 backdrop-blur-lg"
   transition:fade={{ duration: 100 }}
 >
   <div class="absolute inset-0 -z-10" onclick={() => (overlayOpen = false)} aria-hidden="true"></div>

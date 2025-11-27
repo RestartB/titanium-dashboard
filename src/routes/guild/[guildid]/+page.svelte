@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Alert from '$lib/components/ui/Alert.svelte';
   import {
     Cog,
     Key,
@@ -15,7 +16,7 @@
   import type { Component } from 'svelte';
 
   const { data } = $props();
-  const serverID = data.serverInfo.id;
+  const serverId = data.serverInfo.id;
   const userData = data.userData?.userData;
 </script>
 
@@ -44,23 +45,30 @@
   </p>
 </div>
 
+<Alert>
+  <p>
+    Titanium v2 is a work in progress, please note that many features are not finalised and data may not carry over
+    between updates.
+  </p>
+</Alert>
+
 <div class="grid grid-cols-1 gap-4 xxs:grid-cols-2 lg:grid-cols-3">
   {@render featureCard(
     'General Settings',
     'Change general settings like prefixes and reply types.',
-    `/guild/${serverID}/general`,
+    `/guild/${serverId}/general`,
     Cog
   )}
   {@render featureCard(
     'Permissions',
     'Change permissions for different features in your server.',
-    `/guild/${serverID}/permissions`,
+    `/guild/${serverId}/permissions`,
     Key
   )}
   {@render featureCard(
     'Error Log',
     'View and manage error logs for your server.',
-    `/guild/${serverID}/errors`,
+    `/guild/${serverId}/errors`,
     TriangleAlert
   )}
 </div>
@@ -71,49 +79,49 @@
   {@render featureCard(
     'Moderation',
     'Moderate your server members and manage cases.',
-    `/guild/${serverID}/moderation`,
+    `/guild/${serverId}/moderation`,
     Shield
   )}
   {@render featureCard(
     'Automod',
     'Allow Titanium to moderate your server for you.',
-    `/guild/${serverID}/automod`,
+    `/guild/${serverId}/automod`,
     Brain
   )}
   {@render featureCard(
     'Bouncer',
     'Allow Titanium to monitor users as they join.',
-    `/guild/${serverID}/bouncer`,
+    `/guild/${serverId}/bouncer`,
     DoorClosedLocked
   )}
   {@render featureCard(
     'Logging',
     'Log various events that happen in your server.',
-    `/guild/${serverID}/logging`,
+    `/guild/${serverId}/logging`,
     ScrollText
   )}
   {@render featureCard(
     'Fireboard',
     'Let server members highlight messages they love.',
-    `/guild/${serverID}/fireboard`,
+    `/guild/${serverId}/fireboard`,
     Flame
   )}
   {@render featureCard(
     'Leaderboard',
     'Track engagement and activity in your server.',
-    `/guild/${serverID}/leaderboard`,
+    `/guild/${serverId}/leaderboard`,
     Trophy
   )}
   {@render featureCard(
     'Server Counters',
     'Display various server statistics and counters.',
-    `/guild/${serverID}/server_counters`,
+    `/guild/${serverId}/server_counters`,
     Tally5
   )}
   {@render featureCard(
     'Confessions',
     'Allow server members to make anonymous confessions.',
-    `/guild/${serverID}/confessions`,
+    `/guild/${serverId}/confessions`,
     BadgeCheck
   )}
 </div>

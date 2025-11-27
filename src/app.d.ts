@@ -6,7 +6,7 @@ declare global {
     interface Locals {
       token?: string;
       discordToken?: string;
-      discordID?: string;
+      discordId?: string;
       guildId?: string;
       dashboard_manager?: boolean;
       case_manager?: boolean;

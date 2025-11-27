@@ -23,17 +23,17 @@ export const GET: RequestHandler = async (event) => {
     return permissions & 0x20 || permissions & 0x8;
   });
 
-  const mutualRequest = await fetch(`http://127.0.0.1:5100/user/${event.locals.discordID}/guilds`);
+  const mutualRequest = await fetch(`http://127.0.0.1:5100/user/${event.locals.discordId}/guilds`);
 
   if (!mutualRequest.ok) {
     console.error('Failed to fetch mutual guilds:', await mutualRequest.text());
     throw error(mutualRequest.status, 'Failed to fetch mutual guilds');
   }
 
-  const mutualGuildIDs = await mutualRequest.json();
+  const mutualGuildIds = await mutualRequest.json();
 
-  const nonMutualGuilds = guilds.filter((guild: { id: string }) => !mutualGuildIDs.includes(guild.id));
-  const mutualGuilds = guilds.filter((guild: { id: string }) => mutualGuildIDs.includes(guild.id));
+  const nonMutualGuilds = guilds.filter((guild: { id: string }) => !mutualGuildIds.includes(guild.id));
+  const mutualGuilds = guilds.filter((guild: { id: string }) => mutualGuildIds.includes(guild.id));
 
   return json({ nonMutualGuilds, mutualGuilds });
 };

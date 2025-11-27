@@ -11,6 +11,7 @@ export const GET: RequestHandler = async (event) => {
   });
 
   if (!request.ok) {
+    console.error(request.statusText);
     error(request.status, 'Failed to fetch server settings from Titanium');
   }
 
@@ -24,6 +25,7 @@ export const PUT: RequestHandler = async (event) => {
   const validationResult = guildSettingsSchema.safeParse(body);
 
   if (!validationResult.success) {
+    console.error(validationResult.error);
     throw error(400, 'Invalid guild settings');
   }
 
@@ -36,7 +38,8 @@ export const PUT: RequestHandler = async (event) => {
   });
 
   if (!putRequest.ok) {
-    error(putRequest.status, 'Failed to update server settings on Titanium server');
+    console.error(putRequest.statusText);
+    throw error(putRequest.status, 'Failed to update server settings on Titanium server');
   }
 
   return new Response(null, { status: 204 });

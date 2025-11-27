@@ -18,6 +18,7 @@ export const GET: RequestHandler = async (event) => {
   });
 
   if (!request.ok) {
+    console.error(request.statusText);
     error(request.status, 'Failed to fetch server info from Titanium server');
   }
 
@@ -43,6 +44,7 @@ export const PUT: RequestHandler = async (event) => {
   const validationResult = validator.safeParse(body);
 
   if (!validationResult.success) {
+    console.error(validationResult.error);
     throw error(400, 'Invalid module config');
   }
 
@@ -56,7 +58,8 @@ export const PUT: RequestHandler = async (event) => {
 
   if (!putRequest.ok) {
     const errorData = await putRequest.json();
-    error(putRequest.status, errorData || 'Failed to update server info on Titanium server');
+    console.error(putRequest.statusText, errorData);
+    error(putRequest.status, 'Failed to update server info on Titanium server');
   }
 
   return new Response(null, { status: 204 });

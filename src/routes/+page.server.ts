@@ -13,5 +13,6 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
   }
 
   const guildsData = await guildsRequest.json();
+
   return { guildsData };
 };
