@@ -6,6 +6,8 @@
   import Number from '$lib/components/ui/inputs/Number.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
+  import Level from '$lib/components/leaderboard/Level.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
 
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
 
@@ -13,6 +15,8 @@
 
   const { data } = $props();
   let dataState = $state(data);
+
+  const sortedLevels = $derived([...dataState.pageSettings.levels].sort((a, b) => a.xp_required - b.xp_required));
 </script>
 
 <Saver page="leaderboard" {data} bind:dataState />
@@ -131,7 +135,29 @@
   </Row>
 
   <hr class=" border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Levels</p>
+
+  <Button
+    onclick={() => {
+      dataState.pageSettings.levels.push({ xp_required: 1000, reward_roles: [] });
+    }}
+  >
+    Add Level
+  </Button>
+
+  {#each sortedLevels as level, i}
+    <Level
+      bind:level={dataState.pageSettings.levels[dataState.pageSettings.levels.indexOf(level)]}
+      id={i + 1}
+      deleteLevel={() => {
+        dataState.pageSettings.levels.splice(dataState.pageSettings.levels.indexOf(level), 1);
+      }}
+    />
+  {/each}
+
+  <hr class=" border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Old Members</p>
+
   <ToggleRow bind:toggled={dataState.pageSettings.levelup_notifications}>
     <div>
       <h2 class="text-xl font-bold">Delete XP for leavers</h2>

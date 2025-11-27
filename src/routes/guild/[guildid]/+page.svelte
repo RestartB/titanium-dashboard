@@ -47,8 +47,8 @@
 
 <Alert>
   <p>
-    Titanium v2 is a work in progress, please note that many features are not finalised and data may not carry over
-    between updates.
+    Titanium v2 is a work in progress, please note that many features are not finalised and data created in the test
+    version will not carry over to the final version.
   </p>
 </Alert>
 

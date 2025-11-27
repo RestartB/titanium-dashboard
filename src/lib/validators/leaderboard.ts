@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 export const leaderboardLevelSchema = z.object({
-  level: z.number().int().nonnegative().optional(),
   xp_required: z.number().int().nonnegative(),
   reward_roles: z.array(z.string()).default([])
 });
