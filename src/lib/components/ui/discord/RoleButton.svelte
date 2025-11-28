@@ -7,10 +7,12 @@
 
   let {
     roles = [],
-    role = $bindable()
+    role = $bindable(),
+    class: className = ''
   }: {
     roles?: RoleInfo[];
     role?: string | null;
+    class?: string;
   } = $props();
 
   const selectedRole = $derived.by(() => {
@@ -39,7 +41,7 @@
 {/snippet}
 
 <button
-  class="flex w-fit shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
+  class="flex w-fit shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-zinc-700 p-1 px-2 transition-colors hover:bg-zinc-600 {className}"
   onclick={() => (overlayOpen = !overlayOpen)}
   aria-label="Toggle role selector"
 >

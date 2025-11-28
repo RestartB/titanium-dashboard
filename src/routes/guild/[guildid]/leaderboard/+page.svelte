@@ -11,7 +11,7 @@
 
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
 
-  import { Dice6, Star, Brain } from '@lucide/svelte';
+  import { Dice6, Star, Brain, Plus } from '@lucide/svelte';
 
   const { data } = $props();
   let dataState = $state(data);
@@ -142,6 +142,7 @@
       dataState.pageSettings.levels.push({ xp_required: 1000, reward_roles: [] });
     }}
   >
+    <Plus size={20} />
     Add Level
   </Button>
 

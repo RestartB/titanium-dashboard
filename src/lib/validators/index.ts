@@ -3,13 +3,15 @@ export {
   moduleSchema,
   settingsSchema,
   guildSettingsSchema,
+  guildPermissionsSchema,
   type ModuleSchema,
   type SettingsSchema,
-  type GuildSettingsSchema
+  type GuildSettingsSchema,
+  type GuildPermissionsSchema
 } from './settings';
 
 // Confessions
-export { confessionConfigSchema, type ConfessionConfigSchema } from './confessions';
+export { confessionsConfigSchema, type ConfessionsConfigSchema } from './confessions';
 
 // Moderation
 export { moderationConfigSchema, type ModerationConfigSchema } from './moderation';

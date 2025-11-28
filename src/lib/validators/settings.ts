@@ -32,3 +32,10 @@ export const guildSettingsSchema = z.object({
 });
 
 export type GuildSettingsSchema = z.infer<typeof guildSettingsSchema>;
+
+export const guildPermissionsSchema = z.object({
+  dashboard_managers: z.array(z.string()),
+  case_managers: z.array(z.string())
+});
+
+export type GuildPermissionsSchema = z.infer<typeof guildPermissionsSchema>;

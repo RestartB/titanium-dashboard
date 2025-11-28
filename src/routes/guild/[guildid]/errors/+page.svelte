@@ -9,7 +9,7 @@
   let pageCount = $derived(Math.max(1, Math.ceil(errorData.total_count / 50)));
 
   let currentPage = $state(1);
-  const changePage = async function (newPage: number) {
+  async function changePage(newPage: number) {
     if (newPage < 1 || newPage > pageCount) return;
     currentPage = newPage;
 
@@ -17,7 +17,7 @@
     const newData: ErrorLogs = await response.json();
 
     errorData = newData;
-  };
+  }
 </script>
 
 <div>

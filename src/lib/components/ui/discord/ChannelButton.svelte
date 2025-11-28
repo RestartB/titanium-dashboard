@@ -55,7 +55,7 @@
 {/snippet}
 
 <button
-  class="flex w-fit shrink-0 cursor-pointer items-center gap-2 rounded-lg p-1 px-2 transition-colors hover:bg-zinc-600 {className}"
+  class="flex w-fit shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-zinc-700 p-1 px-2 transition-colors hover:bg-zinc-600 {className}"
   onclick={() => (overlayOpen = !overlayOpen)}
   aria-label="Toggle channel selector"
 >

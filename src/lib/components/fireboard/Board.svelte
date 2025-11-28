@@ -45,7 +45,7 @@
 
 <Row class="flex flex-col gap-2">
   <div class="flex items-center justify-between gap-2">
-    <ChannelButton bind:channel={board.channel_id} categories={serverInfo.categories} class="bg-zinc-700" />
+    <ChannelButton bind:channel={board.channel_id} categories={serverInfo.categories} />
     <button
       class="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 text-base transition-colors hover:bg-red-600 xs:p-1"
       onclick={deleteThis}

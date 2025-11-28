@@ -120,6 +120,18 @@ export const handle: Handle = async ({ event, resolve }) => {
       }
 
       return redirect(302, '/');
+    } else if (
+      event.url.pathname === `/api/guild/${guildId}` ||
+      event.url.pathname === `/api/guild/${guildId}/settings` ||
+      event.url.pathname === `/api/guild/${guildId}/cases` ||
+      event.url.pathname === `/guild/${guildId}/moderation/cases` ||
+      event.url.pathname.startsWith(`/guild/${guildId}/moderation/cases/`)
+    ) {
+      if (!permCheck.case_manager && !permCheck.dashboard_manager) {
+        return redirect(302, '/');
+      }
+    } else if (!permCheck.dashboard_manager) {
+      return redirect(302, `/guild/${guildId}/moderation/cases`);
     }
 
     event.locals.guildId = guildId;

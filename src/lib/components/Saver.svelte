@@ -50,6 +50,32 @@
     if (loading) return;
     loading = true;
 
+    if (page == 'permissions') {
+      const permissionsReq = await fetch(`/api/guild/${dataState.serverInfo.id}/perms`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dataState.pageSettings)
+      });
+
+      if (!permissionsReq.ok) {
+        errorCode = permissionsReq.status;
+        errorStage = '1';
+
+        overlayOpen = true;
+        loading = false;
+        return;
+      }
+
+      await invalidateAll();
+      hasUnsavedChanges = false;
+      overlayOpen = false;
+      loading = false;
+
+      return;
+    }
+
     const generalSettingsReq = await fetch(`/api/guild/${dataState.serverInfo.id}/settings`, {
       method: 'PUT',
       headers: {
@@ -88,6 +114,7 @@
 
     await invalidateAll();
     hasUnsavedChanges = false;
+    overlayOpen = false;
     loading = false;
   }
 

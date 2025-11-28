@@ -61,7 +61,7 @@
   )}
   {@render featureCard(
     'Permissions',
-    'Change permissions for different features in your server.',
+    'Change who can access the Titanium dashboard.',
     `/guild/${serverId}/permissions`,
     Key
   )}

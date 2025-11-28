@@ -29,5 +29,5 @@ export const load: LayoutServerLoad = async ({ locals, fetch }) => {
   const serverInfo: ServerInfo = await infoRequest.json();
   const serverSettings: GuildSettingsSchema = await settingsRequest.json();
 
-  return { serverInfo, serverSettings };
+  return { serverInfo, serverSettings, cases_only: !locals.dashboard_manager && locals.case_manager };
 };

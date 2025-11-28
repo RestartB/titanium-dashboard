@@ -23,18 +23,20 @@
 
 <div class="flex h-full justify-center">
   <div class="flex w-full max-w-7xl">
-    {#if width >= 840}
-      <div class="hidden w-full max-w-2xs sidebar:block">
-        <Sidebar {serverInfo} />
-      </div>
-    {:else if sidebarState.open}
-      <div
-        class="fixed inset-0 isolate z-50 mt-12 overflow-y-auto bg-black/60 backdrop-blur-lg"
-        transition:fade={{ duration: 100 }}
-      >
-        <div class="absolute inset-0 -z-10" onclick={() => (sidebarState.open = false)} aria-hidden="true"></div>
-        <Sidebar {serverInfo} />
-      </div>
+    {#if !data.cases_only}
+      {#if width >= 840}
+        <div class="hidden w-full max-w-2xs sidebar:block">
+          <Sidebar {serverInfo} />
+        </div>
+      {:else if sidebarState.open}
+        <div
+          class="fixed inset-0 isolate z-50 mt-12 overflow-y-auto bg-black/60 backdrop-blur-lg"
+          transition:fade={{ duration: 100 }}
+        >
+          <div class="absolute inset-0 -z-10" onclick={() => (sidebarState.open = false)} aria-hidden="true"></div>
+          <Sidebar {serverInfo} />
+        </div>
+      {/if}
     {/if}
 
     <div class="flex w-full flex-col gap-4 overflow-y-auto p-4 {isHome ? 'pb-35' : ''}">

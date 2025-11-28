@@ -11,7 +11,7 @@
   let pageCount = $derived(Math.max(1, Math.ceil(casesData.cases.length / 50)));
 
   let currentPage = $state(1);
-  const changePage = async function (newPage: number) {
+  async function changePage(newPage: number) {
     if (newPage < 1 || newPage > pageCount) return;
     currentPage = newPage;
 
@@ -19,17 +19,19 @@
     const newData: CasesResponse = await response.json();
 
     casesData = newData;
-  };
+  }
 </script>
 
-<a href={`/guild/${data.serverInfo.id}/moderation`} class="back-button group flex items-center">
-  <ChevronLeft
-    size={32}
-    class="shrink-0 -translate-x-2 transition-transform duration-200 ease-in-out group-hover:-translate-x-3"
-  />
+{#if !data.cases_only}
+  <a href={`/guild/${data.serverInfo.id}/moderation`} class="back-button group flex items-center">
+    <ChevronLeft
+      size={32}
+      class="shrink-0 -translate-x-2 transition-transform duration-200 ease-in-out group-hover:-translate-x-3"
+    />
 
-  <p class="-ml-1">Moderation</p>
-</a>
+    <p class="-ml-1">Moderation</p>
+  </a>
+{/if}
 
 <div>
   <h2 class="text-4xl font-bold">Cases</h2>
