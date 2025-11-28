@@ -1,9 +1,11 @@
 import { error, json } from '@sveltejs/kit';
+import { TITANIUM_API_URL } from '$env/static/private';
+
 import { guildSettingsSchema } from '$lib/validators';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (event) => {
-  const request = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/settings`, {
+  const request = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}/settings`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -29,7 +31,7 @@ export const PUT: RequestHandler = async (event) => {
     throw error(400, 'Invalid guild settings');
   }
 
-  const putRequest = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/settings`, {
+  const putRequest = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}/settings`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

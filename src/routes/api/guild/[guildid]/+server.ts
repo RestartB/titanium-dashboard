@@ -1,8 +1,10 @@
 import { error, json } from '@sveltejs/kit';
+import { TITANIUM_API_URL } from '$env/static/private';
+
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (event) => {
-  const request = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/info`, {
+  const request = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}/info`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

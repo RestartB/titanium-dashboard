@@ -1,6 +1,7 @@
 import { error, json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+import { TITANIUM_API_URL } from '$env/static/private';
 
+import type { RequestHandler } from './$types';
 import * as validators from '$lib/validators';
 
 export const GET: RequestHandler = async (event) => {
@@ -10,7 +11,7 @@ export const GET: RequestHandler = async (event) => {
     throw error(400, 'Missing module name');
   }
 
-  const request = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/module/${module}`, {
+  const request = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}/module/${module}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -48,7 +49,7 @@ export const PUT: RequestHandler = async (event) => {
     throw error(400, 'Invalid module config');
   }
 
-  const putRequest = await fetch(`http://127.0.0.1:5100/guild/${event.locals.guildId}/module/${module}`, {
+  const putRequest = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}/module/${module}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'

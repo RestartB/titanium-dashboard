@@ -1,5 +1,7 @@
 import { error, json } from '@sveltejs/kit';
 import { guildsLimit } from '$lib/limits';
+import { TITANIUM_API_URL } from '$env/static/private';
+
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (event) => {
@@ -23,7 +25,7 @@ export const GET: RequestHandler = async (event) => {
     return permissions & 0x20 || permissions & 0x8;
   });
 
-  const mutualRequest = await fetch(`http://127.0.0.1:5100/user/${event.locals.discordId}/guilds`);
+  const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${event.locals.discordId}/guilds`);
 
   if (!mutualRequest.ok) {
     console.error('Failed to fetch mutual guilds:', await mutualRequest.text());

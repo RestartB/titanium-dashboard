@@ -1,4 +1,6 @@
 import { error, json } from '@sveltejs/kit';
+import { TITANIUM_API_URL } from '$env/static/private';
+
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (event) => {
@@ -7,7 +9,7 @@ export const GET: RequestHandler = async (event) => {
   const offset = Math.max(Number(event.url.searchParams.get('offset') || 0), 0);
 
   const request = await fetch(
-    `http://127.0.0.1:5100/guild/${event.locals.guildId}/cases?limit=${limit}&offset=${offset}`,
+    `${TITANIUM_API_URL}/guild/${event.locals.guildId}/cases?limit=${limit}&offset=${offset}`,
     {
       method: 'GET',
       headers: {
