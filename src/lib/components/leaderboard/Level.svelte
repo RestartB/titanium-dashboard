@@ -1,7 +1,7 @@
 <script lang="ts">
   import Row from '$lib/components/ui/row/Row.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
-  import Number from '$lib/components/ui/inputs/Number.svelte';
+  import NumberInput from '$lib/components/ui/inputs/Number.svelte';
   import type { LeaderboardLevelSchema } from '$lib/validators';
 
   import { Save, X, Pen, Trash } from '@lucide/svelte';
@@ -51,6 +51,6 @@
     <p class="mt-2 font-bold">XP Requirement</p>
     <p>The amount of XP required to reach the level.</p>
 
-    <Number bind:value={editedLevel.xp_required} class="mt-2" />
+    <NumberInput bind:value={editedLevel.xp_required} min={1} class="mt-2" />
   {/if}
 </Row>

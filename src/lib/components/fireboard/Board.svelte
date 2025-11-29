@@ -4,6 +4,7 @@
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
   import EmojiPicker from '$lib/components/pickers/EmojiPicker.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import NumberInput from '$lib/components/ui/inputs/Number.svelte';
   import { Trash } from '@lucide/svelte';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
@@ -20,21 +21,6 @@
   } = $props();
 
   let emojiPickerOpen = $state(false);
-
-  $effect(() => {
-    if (String(board.threshold).trim() === '') {
-      return;
-    }
-
-    const numValue = Number(board.threshold);
-    if (isNaN(numValue)) {
-      board.threshold = 5;
-      return;
-    }
-    if (numValue < 1) {
-      board.threshold = 1;
-    }
-  });
 </script>
 
 {#if emojiPickerOpen}
@@ -56,15 +42,11 @@
     </button>
   </div>
   <span>
-    When a message gets <input
-      type="text"
-      class="inline w-10 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 text-center font-mono"
+    When a message gets <NumberInput
       bind:value={board.threshold}
-      onfocusout={() => {
-        if (String(board.threshold).trim() === '') {
-          board.threshold = 5;
-        }
-      }}
+      min={1}
+      max={99}
+      class="inline-block w-10 text-center"
     />
     or more
     <button

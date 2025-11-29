@@ -4,6 +4,7 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Board from '$lib/components/fireboard/Board.svelte';
   import Saver from '$lib/components/Saver.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
 
   import { Plus } from '@lucide/svelte';
 
@@ -37,6 +38,8 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.fireboard}>
+  <Alert>Custom emojis are currently not supported</Alert>
+
   <div class="flex flex-col gap-4">
     <Button
       onclick={() => {
