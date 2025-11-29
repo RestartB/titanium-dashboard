@@ -18,7 +18,8 @@ export const handle: Handle = async ({ event, resolve }) => {
   if (
     event.url.pathname === '/' ||
     (event.url.pathname.startsWith('/auth') && event.url.pathname !== '/auth/logout') ||
-    event.url.pathname.startsWith('/api/auth')
+    event.url.pathname.startsWith('/api/auth') ||
+    event.url.pathname.startsWith('/emojis')
   ) {
     const response = await resolve(event);
     return response;
