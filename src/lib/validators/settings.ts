@@ -29,6 +29,9 @@ export const guildSettingsSchema = z.object({
     .refine((prefixes) => prefixes.every((p) => p.length >= 1 && p.length <= 5), {
       message: 'Each prefix must be between 1 and 5 characters long'
     })
+    .refine((prefixes) => new Set(prefixes).size === prefixes.length, {
+      message: 'Prefixes must be unique'
+    })
 });
 
 export type GuildSettingsSchema = z.infer<typeof guildSettingsSchema>;
