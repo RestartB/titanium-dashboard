@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const fireboardBoardSchema = z.object({
-  id: z.string().nullable().optional(),
+  id: z.uuid().nullable().optional(),
   channel_id: z.string(),
   reaction: z.string(),
   threshold: z.number().int().positive(),
