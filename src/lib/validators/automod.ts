@@ -24,7 +24,7 @@ export type AutomodActionSchema = z.infer<typeof automodActionSchema>;
 
 export const automodRuleSchema = z
   .object({
-    id: z.uuid().nullable().optional(),
+    id: z.string().nullable().optional(),
     rule_type: z.enum(['badword_detection', 'spam_detection', 'malicious_link', 'phishing_link']),
     rule_name: z.string().default(''),
     words: z.array(z.string()).default([]),

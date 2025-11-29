@@ -23,7 +23,7 @@ export type BouncerActionSchema = z.infer<typeof bouncerActionSchema>;
 
 export const bouncerRuleSchema = z
   .object({
-    id: z.uuid(),
+    id: z.string(),
     enabled: z.boolean(),
     criteria: z.array(bouncerCriterionSchema),
     actions: z.array(bouncerActionSchema)
