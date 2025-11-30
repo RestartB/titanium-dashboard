@@ -9,7 +9,7 @@
   /* eslint-disable @typescript-eslint/no-explicit-any */
   let { page = '', data, dataState = $bindable() }: { page?: string; data: any; dataState: any } = $props();
 
-  let originalDataString = JSON.stringify(data);
+  let originalDataString = $derived(JSON.stringify(data));
   let hasUnsavedChanges = $state(false);
   let loading = $state(false);
   let row: HTMLDivElement | undefined = $state();
@@ -69,6 +69,8 @@
       }
 
       await invalidateAll();
+
+      dataState = data;
       hasUnsavedChanges = false;
       overlayOpen = false;
       loading = false;
@@ -113,6 +115,8 @@
     }
 
     await invalidateAll();
+
+    dataState = data;
     hasUnsavedChanges = false;
     overlayOpen = false;
     loading = false;
