@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const automodActionSchema = z
   .object({
     type: z.enum(['warn', 'mute', 'kick', 'ban', 'delete', 'add_role', 'remove_role', 'toggle_role']),
-    duration: z.number().int().positive().nullable().optional(),
+    duration: z.number().int().nullable().optional(),
     role_id: z.string().nullable().optional(),
     reason: z.string().nullable().optional()
   })

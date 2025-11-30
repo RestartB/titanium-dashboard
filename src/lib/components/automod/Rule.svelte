@@ -4,10 +4,12 @@
   import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import NumberInput from '$lib/components/ui/inputs/Number.svelte';
 
   import { ChevronDown, X, Plus } from '@lucide/svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
+  import Number from '$lib/components/ui/inputs/Number.svelte';
 
   let {
     roles,
@@ -38,36 +40,6 @@
   }
 
   let newWordInput = $state('');
-
-  $effect(() => {
-    if (String(rule.threshold).trim() === '') {
-      return;
-    }
-
-    const numValue = Number(rule.threshold);
-    if (isNaN(numValue)) {
-      rule.threshold = 5;
-      return;
-    }
-    if (numValue < 1) {
-      rule.threshold = 1;
-    }
-  });
-
-  $effect(() => {
-    if (String(rule.duration).trim() === '') {
-      return;
-    }
-
-    const numValue = Number(rule.duration);
-    if (isNaN(numValue)) {
-      rule.duration = 5;
-      return;
-    }
-    if (numValue < 1) {
-      rule.duration = 1;
-    }
-  });
 </script>
 
 {#if createNewOpen}
@@ -79,26 +51,16 @@
 <div class="w-full rounded-lg border-2 border-zinc-800 bg-zinc-700 p-2">
   <div class="flex w-full items-center justify-between gap-2">
     <span class="text-base">
-      <input
-        type="text"
-        class="inline w-10 shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
+      <Number
+        class="inline w-10 shrink-0 rounded-lg border-2 p-1 px-1 text-center font-mono"
         bind:value={rule.threshold}
-        onfocusout={() => {
-          if (String(rule.threshold).trim() === '') {
-            rule.threshold = 1;
-          }
-        }}
+        min={1}
       />
       {thresholdString} in
-      <input
-        type="text"
-        class="inline w-10 shrink-0 rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1 px-1 text-center font-mono"
+      <Number
+        class="inline w-10 shrink-0 rounded-lg border-2 p-1 px-1 text-center font-mono"
         bind:value={rule.duration}
-        onfocusout={() => {
-          if (String(rule.duration).trim() === '') {
-            rule.duration = 1;
-          }
-        }}
+        min={1}
       />
       seconds
     </span>
