@@ -60,10 +60,6 @@
   <hr class=" border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Confession Logs</p>
 
-  <Alert>
-    <p>Coming soon</p>
-  </Alert>
-
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
       <div class=" hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">

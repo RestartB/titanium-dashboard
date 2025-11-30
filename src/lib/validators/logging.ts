@@ -85,7 +85,7 @@ export const loggingConfigSchema = z.object({
   voice_deafen_id: z.string().nullable().optional(),
   voice_undeafen_id: z.string().nullable().optional(),
 
-  // Titanium moderation events
+  // Titanium events
   titanium_warn_id: z.string().nullable().optional(),
   titanium_mute_id: z.string().nullable().optional(),
   titanium_unmute_id: z.string().nullable().optional(),
@@ -94,7 +94,9 @@ export const loggingConfigSchema = z.object({
   titanium_unban_id: z.string().nullable().optional(),
   titanium_case_delete_id: z.string().nullable().optional(),
   titanium_case_comment_id: z.string().nullable().optional(),
-  titanium_automod_trigger_id: z.string().nullable().optional()
+  titanium_automod_trigger_id: z.string().nullable().optional(),
+  titanium_bouncer_trigger_id: z.string().nullable().optional(),
+  titanium_confession_id: z.string().nullable().optional()
 });
 
 export type LoggingConfigSchema = z.infer<typeof loggingConfigSchema>;

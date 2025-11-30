@@ -90,7 +90,9 @@
     titanium_unban_id: ['Titanium Unban', 'When a user is unbanned using Titanium.'],
     titanium_case_delete_id: ['Titanium Case Deleted', 'When a moderator deletes a Titanium case.'],
     titanium_case_comment_id: ['Titanium Case Commented', 'When a moderator comments on a Titanium case.'],
-    titanium_automod_trigger_id: ['Titanium AutoMod Triggered', 'When a message triggers a Titanium AutoMod rule.']
+    titanium_automod_trigger_id: ['Titanium AutoMod Triggered', 'When a message triggers a Titanium AutoMod rule.'],
+    titanium_bouncer_trigger_id: ['Titanium Bouncer Triggered', 'When a user triggers a Titanium Bouncer action.'],
+    titanium_confession_id: ['Titanium Confession Posted', 'When a confession is posted using the confessions feature.']
   };
 
   $effect(() => {
