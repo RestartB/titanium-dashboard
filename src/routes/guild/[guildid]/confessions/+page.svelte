@@ -21,10 +21,6 @@
   <Toggle bind:toggled={dataState.serverSettings.modules.confessions} />
 </div>
 
-<Alert>
-  <p>Work in progress</p>
-</Alert>
-
 <ToggledContent enabled={dataState.serverSettings.modules.confessions}>
   <hr class=" border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Channel</p>
