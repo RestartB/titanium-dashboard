@@ -14,6 +14,7 @@
     return {
       id: '',
       enabled: true,
+      evaluate_for_existing_members: true,
       actions: [],
       criteria: []
     };

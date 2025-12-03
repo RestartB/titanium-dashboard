@@ -25,6 +25,7 @@ export const bouncerRuleSchema = z
   .object({
     id: z.string(),
     enabled: z.boolean(),
+    evaluate_for_existing_members: z.boolean(),
     criteria: z.array(bouncerCriterionSchema),
     actions: z.array(bouncerActionSchema)
   })

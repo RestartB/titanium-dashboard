@@ -1,5 +1,6 @@
 <script lang="ts">
   import Row from '$lib/components/ui/row/Row.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import CriterionTile from './CriterionTile.svelte';
   import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
@@ -7,7 +8,7 @@
   import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
 
   import { X, Plus } from '@lucide/svelte';
-  import type { BouncerRuleSchema, BouncerActionSchema } from '$lib/validators/bouncer';
+  import type { BouncerRuleSchema } from '$lib/validators/bouncer';
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
   let {
@@ -72,5 +73,10 @@
     {#each rule.actions as _, index (index)}
       <ActionTile {roles} bind:action={rule.actions[index]} deleteThis={() => rule.actions.splice(index, 1)} />
     {/each}
+  </div>
+
+  <div class="flex gap-2 items-center mt-2">
+    <Toggle bind:toggled={rule.evaluate_for_existing_members} />
+    <p>Also check this rule when users update their profile.</p>
   </div>
 </Row>
