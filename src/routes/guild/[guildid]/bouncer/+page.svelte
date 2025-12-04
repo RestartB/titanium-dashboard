@@ -21,7 +21,7 @@
   }
 </script>
 
-<Saver page="automod" {data} bind:dataState />
+<Saver page="bouncer" {data} bind:dataState />
 
 <div class="flex items-center justify-between gap-4">
   <div class="flex-1">
