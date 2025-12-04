@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { scale } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
+
   import { ALargeSmall, Tag, Clock, User, X } from '@lucide/svelte';
   import type { Component } from 'svelte';
   import type { BouncerCriterionSchema, BouncerRuleSchema } from '$lib/validators/bouncer';
@@ -36,6 +39,7 @@
 
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
+  transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
 >
   <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Select a Criteria Type</h2>

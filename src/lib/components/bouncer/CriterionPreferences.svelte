@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { scale } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
+
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import { X, Plus } from '@lucide/svelte';
@@ -50,6 +53,7 @@
 
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
+  transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
 >
   <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Set Preferences</h2>

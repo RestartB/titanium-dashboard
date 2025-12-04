@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { cubicOut } from 'svelte/easing';
+  import { scale } from 'svelte/transition';
+
   import { Trash, TriangleAlert, Clock, UserRoundX, Hammer, Plus, Minus, ToggleRight, X } from '@lucide/svelte';
 
   import type { Component } from 'svelte';
@@ -47,6 +50,7 @@
 
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
+  transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
 >
   <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Select an Action</h2>

@@ -7,6 +7,8 @@
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
 
+  import { Plus } from '@lucide/svelte';
+
   const { data } = $props();
   let dataState = $state(data);
 
@@ -64,7 +66,7 @@
       Titanium's commands past what their roles already provide.
     </p>
     <div class="flex flex-wrap gap-2">
-      <Button onclick={() => (dashboardOverlayOpen = true)}>Add Role</Button>
+      <Button onclick={() => (dashboardOverlayOpen = true)}><Plus size={20} /> Add Role</Button>
       {#each dataState.pageSettings.dashboard_managers as role}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}
@@ -92,7 +94,7 @@
     </p>
 
     <div class="flex flex-wrap gap-2">
-      <Button onclick={() => (caseOverlayOpen = true)}>Add Role</Button>
+      <Button onclick={() => (caseOverlayOpen = true)}><Plus size={20} /> Add Role</Button>
       {#each dataState.pageSettings.case_managers as role}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}

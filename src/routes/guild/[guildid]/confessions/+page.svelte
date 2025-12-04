@@ -22,7 +22,6 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.confessions}>
-  <hr class=" border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Channel</p>
 
   <ToggleRow bind:toggled={dataState.pageSettings.confessions_in_channel}>

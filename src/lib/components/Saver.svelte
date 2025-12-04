@@ -1,6 +1,7 @@
 <script lang="ts">
   import { beforeNavigate, invalidateAll } from '$app/navigation';
-  import { fly } from 'svelte/transition';
+  import { fly, scale } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
 
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import Row from '$lib/components/ui/row/Row.svelte';
@@ -132,6 +133,7 @@
   <FullscreenOverlay {overlayOpen}>
     <div
       class="flex w-full max-w-lg flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
+      transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
     >
       <div class="flex w-full items-center justify-between gap-2">
         <h2 class="text-xl font-bold">Error</h2>

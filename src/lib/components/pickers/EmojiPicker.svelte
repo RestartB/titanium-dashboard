@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { cubicOut } from 'svelte/easing';
+  import { scale } from 'svelte/transition';
+
   import type { Component } from 'svelte';
   import { X, Smile, UserRound, Cat, Pizza, Earth, Gamepad2, Lamp, Heart, Flag } from '@lucide/svelte';
 
@@ -139,6 +142,7 @@
 
 <div
   class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
+  transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
 >
   <div class="flex w-full items-center justify-between gap-2">
     <h2 class="text-xl font-bold">Select an Emoji</h2>
@@ -150,9 +154,7 @@
       <X class="h-6 w-6" />
     </button>
   </div>
-  <div
-    class="flex h-full max-h-120 min-h-120 w-full max-w-96 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
-  >
+  <div class="flex h-full max-h-120 min-h-120 w-full max-w-96 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700">
     <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
       <input
         type="text"
