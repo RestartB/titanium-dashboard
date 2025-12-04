@@ -75,7 +75,7 @@
     {/each}
   </div>
 
-  <div class="flex gap-2 items-center mt-2">
+  <div class="mt-2 flex items-center gap-2">
     <Toggle bind:toggled={rule.evaluate_for_existing_members} />
     <p>Also check this rule when users update their profile.</p>
   </div>

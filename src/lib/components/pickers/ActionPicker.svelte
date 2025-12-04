@@ -19,7 +19,7 @@
   ): AutomodActionSchema | BouncerActionSchema {
     return {
       type: type,
-      duration: 0,
+      duration: null,
       reason: ''
     };
   }
