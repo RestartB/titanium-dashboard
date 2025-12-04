@@ -21,7 +21,7 @@
 </ButtonRow>
 
 {#if overlayOpen}
-  <FullscreenOverlay {overlayOpen}>
+  <FullscreenOverlay {overlayOpen} class="z-99">
     <div
       class="flex w-full max-w-lg flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
       transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
