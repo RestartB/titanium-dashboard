@@ -29,7 +29,7 @@
 
   $effect(() => {
     if (!durationInput) {
-      action.duration = 0;
+      action.duration = null;
       return;
     }
 
@@ -38,7 +38,7 @@
     const matches = [...durationInput.matchAll(regex)];
 
     if (matches.length === 0) {
-      action.duration = 0;
+      action.duration = null;
       return;
     }
 

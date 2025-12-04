@@ -19,6 +19,8 @@
       criteria: []
     };
   }
+
+  $inspect(dataState);
 </script>
 
 <Saver page="bouncer" {data} bind:dataState />

@@ -26,7 +26,7 @@
 
   $effect(() => {
     if (!durationInput) {
-      criterion.account_age = 7;
+      criterion.account_age = null;
       return;
     }
 
@@ -35,7 +35,7 @@
     const matches = [...durationInput.matchAll(regex)];
 
     if (matches.length === 0) {
-      criterion.account_age = 7;
+      criterion.account_age = null;
       return;
     }
 
