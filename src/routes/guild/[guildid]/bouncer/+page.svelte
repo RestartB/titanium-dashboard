@@ -19,8 +19,6 @@
       criteria: []
     };
   }
-
-  $inspect(dataState);
 </script>
 
 <Saver page="bouncer" {data} bind:dataState />
@@ -30,10 +28,10 @@
     <h2 class="text-4xl font-bold">Bouncer</h2>
     <p>Allow Titanium to monitor users as they join.</p>
   </div>
-  <Toggle bind:toggled={dataState.serverSettings.modules.automod} />
+  <Toggle bind:toggled={dataState.serverSettings.modules.bouncer} />
 </div>
 
-<ToggledContent enabled={dataState.serverSettings.modules.automod}>
+<ToggledContent enabled={dataState.serverSettings.modules.bouncer}>
   <Button
     onclick={() => {
       dataState.pageSettings.rules.push(createBlankRule());
