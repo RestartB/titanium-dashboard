@@ -9,7 +9,7 @@
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
 
-  import { ListPlus, ListX } from '@lucide/svelte';
+  import { ListPlus, ListX, X } from '@lucide/svelte';
 
   import type { LoggingConfigSchema } from '$lib/validators/logging';
 
@@ -113,11 +113,25 @@
       <p class="text-base text-zinc-400">{logTypeStrings[logType][1]}</p>
     </div>
 
-    <ChannelButton
-      categories={data.serverInfo.categories}
-      bind:channel={dataState.pageSettings[logType as keyof LoggingConfigSchema] as string}
-      class="bg-zinc-800"
-    />
+    <div class="flex shrink-0 flex-wrap items-center gap-2 overflow-auto">
+      {#if dataState.pageSettings[logType as keyof LoggingConfigSchema]}
+        <Button
+          onclick={() => {
+            dataState.pageSettings[logType as keyof LoggingConfigSchema] = undefined;
+          }}
+          class="bg-zinc-800 p-2"
+          border={false}
+        >
+          <X size={20} />
+        </Button>
+      {/if}
+
+      <ChannelButton
+        categories={data.serverInfo.categories}
+        bind:channel={dataState.pageSettings[logType as keyof LoggingConfigSchema] as string}
+        class="bg-zinc-800"
+      />
+    </div>
   </li>
 {/snippet}
 
