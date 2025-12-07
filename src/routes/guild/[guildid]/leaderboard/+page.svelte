@@ -102,14 +102,14 @@
     <Row>
       <div>
         <h2 class="text-xl font-bold">Minimum XP</h2>
-        <p>Enter the minimum amount of XP users can receive for each message they send in the server.</p>
+        <p>Enter the minimum amount of XP that users can receive for each message they send in the server.</p>
       </div>
       <NumberInput bind:value={dataState.pageSettings.min_xp} min={1} class="mt-2" />
     </Row>
     <Row>
       <div>
         <h2 class="text-xl font-bold">Maximum XP</h2>
-        <p>Enter the maximum amount of XP users can receive for each message they send in the server.</p>
+        <p>Enter the maximum amount of XP that users can receive for each message they send in the server.</p>
       </div>
       <NumberInput bind:value={dataState.pageSettings.max_xp} min={1} class="mt-2" />
     </Row>
@@ -122,7 +122,23 @@
           their message.
         </p>
       </div>
-      <NumberInput bind:value={dataState.pageSettings.xp_mult} min={0} max={10} integer={false} class="mt-2" />
+      <NumberInput bind:value={dataState.pageSettings.xp_mult} min={0.1} max={10} integer={false} class="mt-2" />
+    </Row>
+
+    <Row>
+      <div>
+        <h2 class="text-xl font-bold">Minimum XP</h2>
+        <p>Enter the minimum amount of XP that users can receive per message, regardless of length.</p>
+      </div>
+      <NumberInput bind:value={dataState.pageSettings.min_xp} min={1} class="mt-2" />
+    </Row>
+
+    <Row>
+      <div>
+        <h2 class="text-xl font-bold">Maximum XP</h2>
+        <p>Enter the maximum amount of XP that users can receive per message, regardless of length.</p>
+      </div>
+      <NumberInput bind:value={dataState.pageSettings.max_xp} min={1} class="mt-2" />
     </Row>
   {/if}
 

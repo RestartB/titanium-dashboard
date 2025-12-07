@@ -15,7 +15,7 @@ export const leaderboardConfigSchema = z.object({
   max_xp: z.number().int().nonnegative().optional(),
   xp_mult: z.number().nonnegative().optional(),
   levelup_notifications: z.boolean().default(true),
-  notification_channel: z.string().optional().nullable(),
+  notification_channel: z.string().optional(),
   web_leaderboard_enabled: z.boolean().default(false),
   web_login_required: z.boolean().default(false),
   delete_leavers: z.boolean().default(false),
