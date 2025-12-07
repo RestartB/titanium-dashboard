@@ -3,6 +3,7 @@
   import { cubicOut } from 'svelte/easing';
 
   import RoleButton from '$lib/components/ui/discord/RoleButton.svelte';
+  import Duration from '$lib/components/ui/inputs/Duration.svelte';
   import { X } from '@lucide/svelte';
 
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
@@ -24,34 +25,6 @@
     action = $bindable(),
     overlayOpen = $bindable(true)
   }: { roles: RoleInfo[]; action: AutomodActionSchema | BouncerActionSchema; overlayOpen?: boolean } = $props();
-
-  let durationInput = $state('');
-
-  $effect(() => {
-    if (!durationInput) {
-      action.duration = null;
-      return;
-    }
-
-    let newDuration = 0;
-    const regex = /(\d+)(s|m|h|d|w|mon|y)/g;
-    const matches = [...durationInput.matchAll(regex)];
-
-    if (matches.length === 0) {
-      action.duration = null;
-      return;
-    }
-
-    for (const match of matches) {
-      const value = parseInt(match[1]);
-      const unit = match[2];
-
-      if (isNaN(value)) continue;
-      newDuration += value * (multipliers[unit as keyof typeof multipliers] || 0);
-    }
-
-    action.duration = newDuration;
-  });
 </script>
 
 <div
@@ -75,29 +48,20 @@
       {#if action.type === 'mute' || action.type === 'ban'}
         <div class="w-full text-left">
           <p class="font-medium">Duration</p>
-          <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment (e.g., 1d5h30m).</p>
-          <input
-            type="text"
-            class="w-full rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2"
-            bind:value={durationInput}
-            placeholder="e.g. 5m, 1h30m, 2d"
-          />
+          <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment.</p>
+          <Duration class="w-full p-2" border={false} bind:seconds={action.duration} />
         </div>
       {:else if action.type.includes('role')}
         <div class="w-full text-left">
           <p class="font-medium">Role</p>
           <p class="mb-2 text-sm text-zinc-400">Set the role to add, remove or toggle.</p>
-          <RoleButton {roles} bind:role={action.role_id} />
+          <RoleButton class="w-full bg-zinc-800 p-2" {roles} bind:role={action.role_id} />
         </div>
       {/if}
       <div class="w-full text-left">
         <p class="font-medium">Reason</p>
         <p class="mb-2 text-sm text-zinc-400">Set the reason for the punishment.</p>
-        <input
-          type="text"
-          class="w-full rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2"
-          bind:value={action.reason}
-        />
+        <input type="text" class="w-full rounded-lg bg-zinc-800 p-2" bind:value={action.reason} />
       </div>
     </div>
   </div>

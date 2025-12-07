@@ -3,6 +3,7 @@
   import { cubicOut } from 'svelte/easing';
 
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Duration from '$lib/components/ui/inputs/Duration.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import { X, Plus } from '@lucide/svelte';
   import type { BouncerCriterionSchema } from '$lib/validators/bouncer';
@@ -13,42 +14,6 @@
   }: { criterion: BouncerCriterionSchema; overlayOpen?: boolean } = $props();
 
   let newWordInput = $state('');
-  let durationInput = $state('');
-  const multipliers = {
-    s: 1,
-    m: 60,
-    h: 3600,
-    d: 86400,
-    w: 604800,
-    mon: 2592000,
-    y: 31536000
-  };
-
-  $effect(() => {
-    if (!durationInput) {
-      criterion.account_age = null;
-      return;
-    }
-
-    let newDuration = 0;
-    const regex = /(\d+)(s|m|h|d|w|mon|y)/g;
-    const matches = [...durationInput.matchAll(regex)];
-
-    if (matches.length === 0) {
-      criterion.account_age = null;
-      return;
-    }
-
-    for (const match of matches) {
-      const value = parseInt(match[1]);
-      const unit = match[2];
-
-      if (isNaN(value)) continue;
-      newDuration += value * (multipliers[unit as keyof typeof multipliers] || 0);
-    }
-
-    criterion.account_age = newDuration;
-  });
 </script>
 
 <div
@@ -129,12 +94,7 @@
             Set account age requirement (e.g., 1d5h30m). If the account is younger than this duration, the criterion
             will match.
           </p>
-          <input
-            type="text"
-            class="w-full rounded-lg border-2 border-zinc-700 bg-zinc-800 p-2"
-            bind:value={durationInput}
-            placeholder="e.g. 5m, 1h30m, 2d"
-          />
+          <Duration class="w-full p-2" border={false} bind:seconds={criterion.account_age} />
         </div>
       {/if}
     </div>
