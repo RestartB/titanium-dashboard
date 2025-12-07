@@ -175,7 +175,7 @@
   <hr class=" border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Old Members</p>
 
-  <ToggleRow bind:toggled={dataState.pageSettings.levelup_notifications}>
+  <ToggleRow bind:toggled={dataState.pageSettings.delete_leavers}>
     <div>
       <h2 class="text-xl font-bold">Delete XP for leavers</h2>
       <p>
