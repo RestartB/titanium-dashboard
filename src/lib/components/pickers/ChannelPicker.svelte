@@ -14,7 +14,7 @@
     overlayOpen = $bindable(false)
   }: {
     categories: CategoryInfo[];
-    selectedChannel?: string;
+    selectedChannel?: string | null;
     overlayOpen?: boolean;
   } = $props();
 

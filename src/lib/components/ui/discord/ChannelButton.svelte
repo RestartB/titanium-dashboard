@@ -13,7 +13,7 @@
     class: className = ''
   }: {
     categories?: CategoryInfo[];
-    channel?: string;
+    channel?: string | null;
     class?: string;
   } = $props();
   const channelTypeIcons: Record<string, Component> = {
