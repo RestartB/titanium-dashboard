@@ -1,7 +1,7 @@
 <script lang="ts">
   import { scale } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
-  
+
   import { X, Hash, Megaphone, MessagesSquare, Volume2, Podcast } from '@lucide/svelte';
 
   import Fuse from 'fuse.js';

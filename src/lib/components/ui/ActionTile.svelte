@@ -14,7 +14,7 @@
     overlayOpen = $bindable(false)
   }: {
     action: AutomodActionSchema | BouncerActionSchema;
-    roles: RoleInfo[]; 
+    roles: RoleInfo[];
     deleteThis: () => void;
     overlayOpen?: boolean;
   } = $props();

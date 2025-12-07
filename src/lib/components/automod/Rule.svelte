@@ -4,7 +4,6 @@
   import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
-  import NumberInput from '$lib/components/ui/inputs/Number.svelte';
 
   import { ChevronDown, X, Plus } from '@lucide/svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';
@@ -23,13 +22,13 @@
     badword_detection: 'flagged words',
     malicious_link: 'flagged links',
     phishing_link: 'flagged links',
-    message_spam: 'messages',
-    mention_spam: 'mentions',
-    word_spam: 'words',
-    newline_spam: 'new lines',
-    link_spam: 'links',
-    attachment_spam: 'attachments',
-    emoji_spam: 'emojis'
+    message: 'messages',
+    mention: 'mentions',
+    word: 'words',
+    newline: 'new lines',
+    link: 'links',
+    attachment: 'attachments',
+    emoji: 'emojis'
   };
 
   let thresholdString = $state('');
