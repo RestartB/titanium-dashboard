@@ -34,6 +34,7 @@
     guild_afk_channel_update_id: ['Guild AFK Channel Updated', "When the server's AFK channel is changed."],
     guild_afk_timeout_update_id: ['Guild AFK Timeout Updated', "When the server's AFK timeout is changed."],
     guild_icon_update_id: ['Guild Icon Updated', "When the guild's icon is changed."],
+    guild_features_update_id: ['Guild Features Updated', "When the guild's features are updated."],
     guild_emoji_create_id: ['Guild Emoji Created', 'When a new guild emoji is created.'],
     guild_emoji_delete_id: ['Guild Emoji Deleted', 'When a guild emoji is deleted.'],
     guild_sticker_create_id: ['Guild Sticker Created', 'When a new guild sticker is created.'],

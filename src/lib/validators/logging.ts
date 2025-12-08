@@ -19,6 +19,7 @@ export const loggingConfigSchema = z.object({
   guild_afk_channel_update_id: z.string().nullable().optional(),
   guild_afk_timeout_update_id: z.string().nullable().optional(),
   guild_icon_update_id: z.string().nullable().optional(),
+  guild_features_update_id: z.string().nullable().optional(),
   guild_emoji_create_id: z.string().nullable().optional(),
   guild_emoji_delete_id: z.string().nullable().optional(),
   guild_sticker_create_id: z.string().nullable().optional(),
