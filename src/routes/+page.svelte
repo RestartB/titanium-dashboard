@@ -2,6 +2,7 @@
   import { resolve } from '$app/paths';
 
   import Row from '$lib/components/ui/row/Row.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
   import logo from '$lib/assets/logo.svg';
   import discord from '$lib/assets/discord.svg';
@@ -52,6 +53,11 @@
   <div
     class="absolute right-0 left-0 -z-50 h-full w-full bg-[url('/images/background_blur.svg')] bg-cover bg-center bg-no-repeat brightness-50"
   ></div>
+
+  <Alert class="mb-4 bg-red-800/50">
+    <p>You must have access to the Titanium v2 private beta to use this dashboard.</p>
+  </Alert>
+
   <Row class="flex h-auto max-h-156 w-full max-w-lg flex-col items-center gap-4 overflow-hidden p-4">
     <div class="flex items-center justify-center gap-2">
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />

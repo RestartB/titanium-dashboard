@@ -20,6 +20,6 @@
     style="width: {size}px; height: {size}px; font-size: {size / 2}px;"
     translate="no"
   >
-    {name ? name.charAt(0) : ''}
+    <p class="select-none">{name ? name.charAt(0) : ''}</p>
   </div>
 {/if}
