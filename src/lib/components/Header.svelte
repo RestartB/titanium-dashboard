@@ -24,7 +24,7 @@
 </script>
 
 <header
-  class="fixed z-100 h-12 w-full border-b-4 border-b-zinc-700 bg-zinc-800 text-base"
+  class="fixed z-100 h-12 w-full border-b-2 border-b-zinc-700 bg-zinc-800 text-base"
   style="view-transition-name: header"
 >
   <div class="mx-auto flex h-full max-w-7xl items-center">

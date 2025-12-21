@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { toggled = $bindable(false), class: className = '' } = $props();
+  let { toggled = $bindable(false), class: className = '' }: { toggled?: boolean | null; class?: string } = $props();
 </script>
 
 <button

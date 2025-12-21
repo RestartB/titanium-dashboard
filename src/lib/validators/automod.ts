@@ -2,10 +2,17 @@ import { z } from 'zod';
 
 export const automodActionSchema = z
   .object({
-    type: z.enum(['warn', 'mute', 'kick', 'ban', 'delete', 'add_role', 'remove_role', 'toggle_role']),
+    type: z.enum(['warn', 'mute', 'kick', 'ban', 'delete', 'add_role', 'remove_role', 'toggle_role', 'send_message']),
+    reason: z.string().nullable().optional(),
     duration: z.number().int().nullable().optional(),
+
     role_id: z.string().nullable().optional(),
-    reason: z.string().nullable().optional()
+
+    message_content: z.string().nullable().optional(),
+    message_reply: z.boolean().nullable().optional(),
+    message_mention: z.boolean().nullable().optional(),
+    message_embed: z.boolean().nullable().optional(),
+    embed_colour: z.string().nullable().optional()
   })
   .refine(
     (data) => {

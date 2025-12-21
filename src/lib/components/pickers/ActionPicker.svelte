@@ -2,7 +2,19 @@
   import { cubicOut } from 'svelte/easing';
   import { scale } from 'svelte/transition';
 
-  import { Trash, TriangleAlert, Clock, UserRoundX, Hammer, Plus, Minus, ToggleRight, X } from '@lucide/svelte';
+  import {
+    Trash,
+    TriangleAlert,
+    Clock,
+    UserRoundX,
+    Hammer,
+    Plus,
+    Minus,
+    ToggleRight,
+    X,
+    MessageCircle,
+    Eraser
+  } from '@lucide/svelte';
 
   import type { Component } from 'svelte';
   import type { AutomodActionSchema, AutomodRuleSchema } from '$lib/validators/automod';
@@ -20,7 +32,12 @@
     return {
       type: type,
       duration: null,
-      reason: ''
+      reason: '',
+      message_content: '',
+      message_reply: true,
+      message_mention: true,
+      message_embed: false,
+      embed_colour: ''
     };
   }
 </script>
@@ -68,13 +85,14 @@
     <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
       {#if type === 'automod'}
         {@render actionRow('delete', 'Delete Message', 'Remove the messages.', Trash)}
+        {@render actionRow('send_message', 'Send Message', 'Send a message.', MessageCircle)}
       {/if}
       {@render actionRow('warn', 'Warn User', 'Add a warning to the user.', TriangleAlert)}
       {@render actionRow('mute', 'Timeout User', 'Prevent the user from sending messages for a duration.', Clock)}
       {@render actionRow('kick', 'Kick User', 'Kick the user from the server.', UserRoundX)}
       {@render actionRow('ban', 'Ban User', 'Permanently ban the user from the server.', Hammer)}
       {#if type === 'bouncer'}
-        {@render actionRow('reset_nick', 'Reset Nickname', "Reset the user's nickname.", Hammer)}
+        {@render actionRow('reset_nick', 'Reset Nickname', "Reset the user's nickname.", Eraser)}
       {/if}
       {@render actionRow('add_role', 'Add Role', 'Add a role to the user.', Plus)}
       {@render actionRow('remove_role', 'Remove Role', 'Remove a role from the user.', Minus)}

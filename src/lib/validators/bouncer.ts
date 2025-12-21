@@ -14,9 +14,7 @@ export const bouncerActionSchema = z.object({
   type: z.enum(['warn', 'mute', 'kick', 'ban', 'reset_nick', 'add_role', 'remove_role', 'toggle_role']),
   duration: z.number().int().positive().nullable().optional(),
   role_id: z.string().nullable().optional(),
-  reason: z.string().nullable().optional(),
-  message_content: z.string().nullable().optional(),
-  dm_user: z.boolean().nullable().optional()
+  reason: z.string().nullable().optional()
 });
 
 export type BouncerActionSchema = z.infer<typeof bouncerActionSchema>;
