@@ -38,8 +38,6 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.fireboard}>
-  <Alert>Custom emojis are currently not supported</Alert>
-
   <div class="flex flex-col gap-4">
     <Button
       onclick={() => {
