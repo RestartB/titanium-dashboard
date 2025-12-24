@@ -4,7 +4,6 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Board from '$lib/components/fireboard/Board.svelte';
   import Saver from '$lib/components/Saver.svelte';
-  import Alert from '$lib/components/ui/Alert.svelte';
 
   import { Plus } from '@lucide/svelte';
 
