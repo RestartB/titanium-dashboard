@@ -11,6 +11,7 @@ const config = {
     adapter: adapter(),
     csp: {
       directives: {
+        'object-src': ['none'],
         'script-src': ['self'],
         'frame-ancestors': ['self'],
         'upgrade-insecure-requests': true
