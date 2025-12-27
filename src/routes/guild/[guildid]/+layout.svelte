@@ -25,7 +25,7 @@
   <div class="flex w-full max-w-7xl">
     {#if !data.cases_only}
       {#if width >= 840}
-        <div class="hidden w-full max-w-2xs sidebar:block">
+        <div class="hidden w-full max-w-2xs overflow-y-auto sidebar:block">
           <Sidebar {serverInfo} />
         </div>
       {:else if sidebarState.open}
