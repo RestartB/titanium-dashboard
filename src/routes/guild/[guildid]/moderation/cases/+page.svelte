@@ -38,12 +38,16 @@
   <p>View and manage cases that have been created in your server.</p>
 </div>
 
-{#if casesData.cases.length === 0}
-  <p class="text-zinc-400">No cases found.</p>
-{:else}
-  {#each casesData.cases as caseData}
-    <CaseRow case={caseData} />
-  {/each}
-{/if}
+<ul>
+  {#if casesData.cases.length === 0}
+    <p class="text-zinc-400">No cases found.</p>
+  {:else}
+    {#each casesData.cases as caseData}
+      <CaseRow case={caseData} />
+
+      <hr class="mt-2 border-zinc-500 last:hidden" />
+    {/each}
+  {/if}
+</ul>
 
 <Pagination bind:currentPage {pageCount} {changePage} />
