@@ -10,6 +10,11 @@ import { apiLimit } from '$lib/limits';
 export const handle: Handle = async ({ event, resolve }) => {
   console.log(`Handling request for ${event.url.pathname}`);
 
+  event.setHeaders({
+    'X-Content-Type-Options': 'nosniff',
+    'X-Frame-Options': 'SAMEORIGIN'
+  });
+
   const pathParts = event.url.pathname.split('/');
   const guildIndex = pathParts.indexOf('guild');
   const guildId = guildIndex !== -1 ? pathParts[guildIndex + 1] : event.params.guildid;

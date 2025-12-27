@@ -8,7 +8,14 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter()
+    adapter: adapter(),
+    csp: {
+      directives: {
+        'script-src': ['self'],
+        'frame-ancestors': ['self'],
+        'upgrade-insecure-requests': true
+      }
+    }
   }
 };
 
