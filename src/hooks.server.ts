@@ -12,7 +12,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   event.setHeaders({
     'X-Content-Type-Options': 'nosniff',
-    'X-Frame-Options': 'SAMEORIGIN'
+    'X-Frame-Options': 'SAMEORIGIN',
+    'Strict-Transport-Security': 'max-age=604800; includeSubDomains'
   });
 
   const pathParts = event.url.pathname.split('/');
