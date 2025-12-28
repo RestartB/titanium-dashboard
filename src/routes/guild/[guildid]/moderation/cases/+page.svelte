@@ -45,7 +45,7 @@
     {#each casesData.cases as caseData}
       <CaseRow case={caseData} />
 
-      <hr class="mt-2 border-zinc-500 last:hidden" />
+      <hr class="my-2 border-zinc-500 last:hidden" />
     {/each}
   {/if}
 </ul>
