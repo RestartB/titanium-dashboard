@@ -20,6 +20,7 @@
       threshold: 5,
       ignore_bots: true,
       ignore_self_reactions: true,
+      send_notifications: true,
       ignored_channels: [],
       ignored_roles: []
     };

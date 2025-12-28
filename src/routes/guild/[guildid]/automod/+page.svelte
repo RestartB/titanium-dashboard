@@ -107,7 +107,7 @@
       )}
       {@render rulesCard(
         'Mention Spam',
-        'Detect when users are mentioning too many users.',
+        'Detect when users are mentioning too many users. Note that having the mention turned on when replying counts as a mention.',
         'spam_detection',
         dataState.pageSettings.spam_detection,
         'mention'

@@ -76,5 +76,9 @@
       <Toggle bind:toggled={board.ignore_self_reactions} />
       <span>Ignore reactions from the message author</span>
     </label>
+    <label class="inline-flex items-center gap-2">
+      <Toggle bind:toggled={board.send_notifications} />
+      <span>Reply to user's message when it is highlighted</span>
+    </label>
   </div>
 </Row>
