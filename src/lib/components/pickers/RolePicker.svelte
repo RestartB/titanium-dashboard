@@ -52,7 +52,7 @@
   </button>
 {/snippet}
 
-<FullscreenOverlay bind:overlayOpen title="Select a Role">
+<FullscreenOverlay bind:overlayOpen title="Select a Role" zIndex={60}>
   <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
     <input
       type="text"

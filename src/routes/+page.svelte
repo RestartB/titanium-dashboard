@@ -102,5 +102,5 @@
     </div>
   </Row>
 
-  <p class="mt-4 font-semibold opacity-80">© 2025, Restart</p>
+  <p class="mt-4 font-semibold opacity-80">© 2026, Restart</p>
 </div>
