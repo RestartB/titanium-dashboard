@@ -35,7 +35,7 @@ export const PUT: RequestHandler = async (event) => {
     throw error(400, 'Missing module name');
   }
 
-  const schemaKey = module + 'ConfigSchema';
+  const schemaKey = module.replaceAll('server_counters', 'serverCounters') + 'ConfigSchema';
   const validator = validators[schemaKey as keyof typeof validators];
 
   if (!validator) {
