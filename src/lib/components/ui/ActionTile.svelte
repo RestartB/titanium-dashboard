@@ -21,9 +21,7 @@
 </script>
 
 {#if overlayOpen}
-  <FullscreenOverlay bind:overlayOpen>
-    <ActionPreferences {roles} bind:action bind:overlayOpen />
-  </FullscreenOverlay>
+  <ActionPreferences {roles} bind:action bind:overlayOpen />
 {/if}
 
 <div class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base">

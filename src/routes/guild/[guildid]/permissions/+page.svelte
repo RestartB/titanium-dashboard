@@ -34,23 +34,19 @@
 <Saver {data} page="permissions" bind:dataState />
 
 {#if dashboardOverlayOpen}
-  <FullscreenOverlay bind:overlayOpen={dashboardOverlayOpen}>
-    <RolePicker
-      roles={dataState.serverInfo.roles}
-      bind:selectedRole={dashboardSelectedRole}
-      bind:overlayOpen={dashboardOverlayOpen}
-    />
-  </FullscreenOverlay>
+  <RolePicker
+    roles={dataState.serverInfo.roles}
+    bind:selectedRole={dashboardSelectedRole}
+    bind:overlayOpen={dashboardOverlayOpen}
+  />
 {/if}
 
 {#if caseOverlayOpen}
-  <FullscreenOverlay bind:overlayOpen={caseOverlayOpen}>
-    <RolePicker
-      roles={dataState.serverInfo.roles}
-      bind:selectedRole={caseSelectedRole}
-      bind:overlayOpen={caseOverlayOpen}
-    />
-  </FullscreenOverlay>
+  <RolePicker
+    roles={dataState.serverInfo.roles}
+    bind:selectedRole={caseSelectedRole}
+    bind:overlayOpen={caseOverlayOpen}
+  />
 {/if}
 
 <div>

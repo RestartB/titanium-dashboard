@@ -12,16 +12,12 @@ export const serverCounterChannelSchema = z.object({
     'users',
     'bots',
     'online_members',
-    'members_status_online',
-    'members_status_idle',
-    'members_status_dnd',
-    'members_activity',
-    'members_custom_status',
     'offline_members',
     'channels',
-    'activity'
-  ]),
-  activity_name: z.string().nullable().optional()
+    'categories',
+    'roles',
+    'total_xp'
+  ])
 });
 
 export type ServerCounterChannelSchema = z.infer<typeof serverCounterChannelSchema>;

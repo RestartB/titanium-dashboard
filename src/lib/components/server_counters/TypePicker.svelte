@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { scale } from 'svelte/transition';
-  import { cubicOut } from 'svelte/easing';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
-  import { X } from '@lucide/svelte';
-  import { typeDisplayNames } from '$lib/strings/server_counters';
+  import { typeDisplayNames } from '$lib/strings/serverCounters';
   import type { ServerCounterChannelSchema } from '$lib/validators/serverCounters';
 
   let {
@@ -28,38 +26,10 @@
   </button>
 {/snippet}
 
-<div
-  class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
-  transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
->
-  <div class="flex w-full items-center justify-between gap-2">
-    <h2 class="text-xl font-bold">Select a Type</h2>
-    <button
-      class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
-      onclick={() => (overlayOpen = false)}
-      aria-label="Close type selector"
-    >
-      <X class="h-6 w-6" />
-    </button>
-  </div>
-  <div
-    class="flex h-full max-h-104 min-h-104 w-full max-w-96 shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
-  >
-    <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
-      {@render typeRow('total_members', 'The total amount of users and bots in the server.')}
-      {@render typeRow('users', 'The total amount of human users in the server.')}
-      {@render typeRow('bots', 'The total amount of bots in the server.')}
-      {@render typeRow('online_members', 'The total amount of users and bots that are not offline.')}
-      {@render typeRow('offline_members', 'The total amount of users and bots that are offline.')}
-      {@render typeRow('members_status_online', 'The total amount of users and bots that are online.')}
-      {@render typeRow('members_status_idle', 'The total amount of users and bots that are idle.')}
-      {@render typeRow('members_status_dnd', 'The total amount of users and bots that are set to Do Not Disturb.')}
-      {@render typeRow(
-        'members_activity',
-        'The total amount of users and bots that are in an activity (playing a game, listening to Spotify, etc).'
-      )}
-      {@render typeRow('members_custom_status', 'The total amount of users and bots that have a custom status set.')}
-      {@render typeRow('activity', 'The amount of users doing a specific activity.')}
-    </div>
-  </div>
-</div>
+<FullscreenOverlay title="Select a Type" padding={8} gap={8} bind:overlayOpen>
+  {@render typeRow('total_members', 'The total amount of users and bots in the server.')}
+  {@render typeRow('users', 'The total amount of human users in the server.')}
+  {@render typeRow('bots', 'The total amount of bots in the server.')}
+  {@render typeRow('online_members', 'The total amount of users and bots that are online.')}
+  {@render typeRow('offline_members', 'The total amount of users and bots that are offline.')}
+</FullscreenOverlay>

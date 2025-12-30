@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { scale } from 'svelte/transition';
-  import { cubicOut } from 'svelte/easing';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
-  import { X, Hash, Megaphone, MessagesSquare, Volume2, Podcast } from '@lucide/svelte';
+  import { Hash, Megaphone, MessagesSquare, Volume2, Podcast } from '@lucide/svelte';
 
   import Fuse from 'fuse.js';
   import type { ChannelInfo, CategoryInfo } from '$lib/interfaces/serverInfo';
@@ -65,48 +64,31 @@
   </button>
 {/snippet}
 
-<div
-  class="flex w-full max-w-104 flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
-  transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
->
-  <div class="flex w-full items-center justify-between gap-2">
-    <h2 class="text-xl font-bold">Select a Channel</h2>
-    <button
-      class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
-      onclick={() => (overlayOpen = false)}
-      aria-label="Close channel selector"
-    >
-      <X class="h-6 w-6" />
-    </button>
+<FullscreenOverlay bind:overlayOpen title="Select a Channel">
+  <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
+    <input
+      type="text"
+      placeholder="Search channels..."
+      class="w-full rounded-md border-2 border-zinc-600 bg-zinc-800 p-2 text-zinc-200 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+      bind:value={searchInput}
+    />
   </div>
-  <div
-    class="flex h-full max-h-120 min-h-120 w-full max-w-96 shrink-0 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
-  >
-    <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
-      <input
-        type="text"
-        placeholder="Search channels..."
-        class="w-full rounded-md border-2 border-zinc-600 bg-zinc-800 p-2 text-zinc-200 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
-        bind:value={searchInput}
-      />
-    </div>
 
-    <div class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-2">
-      {#each categories as category (category.id)}
-        {@const categoryChannels = filteredChannels.filter((channel) => channel.category === category.id)}
-        {#if categoryChannels.length > 0}
-          <div class="flex flex-col gap-1">
-            {#if category.id !== null}
-              <h3 class="text-base font-semibold text-zinc-400">
-                {category.name}
-              </h3>
-            {/if}
-            {#each categoryChannels as channel (channel.id)}
-              {@render channelRow(channel)}
-            {/each}
-          </div>
-        {/if}
-      {/each}
-    </div>
+  <div class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-2">
+    {#each categories as category (category.id)}
+      {@const categoryChannels = filteredChannels.filter((channel) => channel.category === category.id)}
+      {#if categoryChannels.length > 0}
+        <div class="flex flex-col gap-1">
+          {#if category.id !== null}
+            <h3 class="text-base font-semibold text-zinc-400">
+              {category.name}
+            </h3>
+          {/if}
+          {#each categoryChannels as channel (channel.id)}
+            {@render channelRow(channel)}
+          {/each}
+        </div>
+      {/if}
+    {/each}
   </div>
-</div>
+</FullscreenOverlay>

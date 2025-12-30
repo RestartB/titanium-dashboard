@@ -129,57 +129,40 @@
   }
 </script>
 
-{#if overlayOpen}
-  <FullscreenOverlay {overlayOpen}>
-    <div
-      class="flex w-full max-w-lg flex-col items-center justify-center gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
-      transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
-    >
-      <div class="flex w-full items-center justify-between gap-2">
-        <h2 class="text-xl font-bold">Error</h2>
-        <button
-          class="ml-auto flex h-8 w-24 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
-          onclick={() =>
-            navigator.clipboard
-              .writeText(
-                JSON.stringify({
-                  serverId: dataState.serverInfo.id,
-                  pageSettings: dataState.pageSettings,
-                  serverSettings: dataState.serverSettings
-                })
-              )
-              .then(() => {
-                isCopied = true;
-                setTimeout(() => (isCopied = false), 3000);
-              })}
-          aria-label="Copy data to clipboard"
-        >
-          {#if isCopied}
-            <p class="mr-2">Done</p>
-            <Check size={20} />
-          {:else}
-            <p class="mr-2">Copy</p>
-            <Copy size={20} />
-          {/if}
-        </button>
-        <button
-          class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
-          onclick={() => (overlayOpen = false)}
-          aria-label="Close error popup"
-        >
-          <X size={24} />
-        </button>
-      </div>
+{#snippet extraButton()}
+  <button
+    class="ml-auto flex h-8 w-24 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
+    onclick={() =>
+      navigator.clipboard
+        .writeText(
+          JSON.stringify({
+            serverId: dataState.serverInfo.id,
+            pageSettings: dataState.pageSettings,
+            serverSettings: dataState.serverSettings
+          })
+        )
+        .then(() => {
+          isCopied = true;
+          setTimeout(() => (isCopied = false), 3000);
+        })}
+    aria-label="Copy data to clipboard"
+  >
+    {#if isCopied}
+      <p class="mr-2">Done</p>
+      <Check size={20} />
+    {:else}
+      <p class="mr-2">Copy</p>
+      <Copy size={20} />
+    {/if}
+  </button>
+{/snippet}
 
-      <div
-        class="flex h-full max-h-40 min-h-40 w-full max-w-120 shrink-0 flex-col gap-4 overflow-auto rounded-xl border-2 border-zinc-600 bg-zinc-700 p-4"
-      >
-        <p>An error occurred while saving your changes. Please try again later.</p>
-        <p class="mt-auto text-center font-mono text-sm text-zinc-400">
-          Got code {errorCode} in stage {errorStage}
-        </p>
-      </div>
-    </div>
+{#if overlayOpen}
+  <FullscreenOverlay bind:overlayOpen title="Error" {extraButton} height={200} padding={16} gap={16}>
+    <p>An error occurred while saving your changes. Please try again later.</p>
+    <p class="mt-auto text-center font-mono text-sm text-zinc-400">
+      Got code {errorCode} in stage {errorStage}
+    </p>
   </FullscreenOverlay>
 {/if}
 

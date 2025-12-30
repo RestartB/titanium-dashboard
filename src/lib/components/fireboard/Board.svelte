@@ -24,9 +24,7 @@
 </script>
 
 {#if emojiPickerOpen}
-  <FullscreenOverlay bind:overlayOpen={emojiPickerOpen}>
-    <EmojiPicker {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={board.reaction} />
-  </FullscreenOverlay>
+  <EmojiPicker {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={board.reaction} />
 {/if}
 
 <Row class="flex flex-col gap-2">

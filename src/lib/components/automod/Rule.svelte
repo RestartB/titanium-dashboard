@@ -42,9 +42,7 @@
 </script>
 
 {#if createNewOpen}
-  <FullscreenOverlay bind:overlayOpen={createNewOpen}>
-    <ActionPicker type="automod" bind:rule bind:overlayOpen={createNewOpen} />
-  </FullscreenOverlay>
+  <ActionPicker type="automod" bind:rule bind:overlayOpen={createNewOpen} />
 {/if}
 
 <div class="w-full rounded-lg border-2 border-zinc-800 bg-zinc-700 p-2">

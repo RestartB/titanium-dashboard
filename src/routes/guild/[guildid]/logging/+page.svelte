@@ -149,9 +149,7 @@
 <Saver page="logging" {data} bind:dataState />
 
 {#if overlayOpen}
-  <FullscreenOverlay bind:overlayOpen>
-    <ChannelPicker categories={data.serverInfo.categories} bind:selectedChannel={selectAllChannel} bind:overlayOpen />
-  </FullscreenOverlay>
+  <ChannelPicker categories={data.serverInfo.categories} bind:selectedChannel={selectAllChannel} bind:overlayOpen />
 {/if}
 
 <div class="flex items-center justify-between gap-4">

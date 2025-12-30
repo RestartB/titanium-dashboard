@@ -21,9 +21,7 @@
 </script>
 
 {#if overlayOpen}
-  <FullscreenOverlay bind:overlayOpen>
-    <RolePicker {roles} bind:selectedRole={role} bind:overlayOpen />
-  </FullscreenOverlay>
+  <RolePicker {roles} bind:selectedRole={role} bind:overlayOpen />
 {/if}
 
 {#snippet roleContent()}

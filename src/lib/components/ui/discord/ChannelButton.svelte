@@ -35,9 +35,7 @@
 </script>
 
 {#if overlayOpen}
-  <FullscreenOverlay bind:overlayOpen>
-    <ChannelPicker {categories} bind:selectedChannel={channel} bind:overlayOpen />
-  </FullscreenOverlay>
+  <ChannelPicker {categories} bind:selectedChannel={channel} bind:overlayOpen />
 {/if}
 
 {#snippet channelContent()}

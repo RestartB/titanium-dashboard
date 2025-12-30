@@ -22,15 +22,11 @@
 </script>
 
 {#if createCriterionOpen}
-  <FullscreenOverlay bind:overlayOpen={createCriterionOpen}>
-    <CriterionPicker bind:rule bind:overlayOpen={createCriterionOpen} />
-  </FullscreenOverlay>
+  <CriterionPicker bind:rule bind:overlayOpen={createCriterionOpen} />
 {/if}
 
 {#if createActionOpen}
-  <FullscreenOverlay bind:overlayOpen={createActionOpen}>
-    <ActionPicker type="bouncer" bind:rule bind:overlayOpen={createActionOpen} />
-  </FullscreenOverlay>
+  <ActionPicker type="bouncer" bind:rule bind:overlayOpen={createActionOpen} />
 {/if}
 
 <Row>
