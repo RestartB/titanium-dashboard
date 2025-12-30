@@ -26,9 +26,23 @@
 <div class="flex w-full shrink-0 flex-col gap-2 p-4" style="view-transition-name: sidebar">
   <div class="flex items-center gap-2">
     <Avatar src={serverInfo.icon} name={serverInfo.name} size={40} />
-    <h2 class="font-bold" translate="no">{serverInfo.name}</h2>
+    <div class="overflow-hidden">
+      <h2 class="overflow-hidden font-bold text-nowrap text-ellipsis" translate="no">{serverInfo.name}</h2>
+      {#if serverInfo.member_count}
+        <p class="overflow-hidden text-sm text-nowrap text-ellipsis">
+          {serverInfo.member_count.toLocaleString()} members
+        </p>
+      {/if}
+    </div>
   </div>
-  <Tile title="Home" href="/guild/{serverId}" Icon={House} active={page.url.pathname.endsWith(serverId)} />
+
+  <!-- prettier-ignore -->
+  <Tile
+    title="Home"
+    href="/guild/{serverId}"
+    Icon={House}
+    active={page.url.pathname.endsWith(serverId)}
+  />
   <Tile
     title="General Settings"
     href="/guild/{serverId}/general"
@@ -47,6 +61,7 @@
     Icon={TriangleAlert}
     active={page.url.pathname.endsWith('/errors')}
   />
+
   <p class="ml-2 text-base font-bold text-zinc-300/60">FEATURES</p>
   <Tile
     title="Moderation"
