@@ -18,7 +18,7 @@
     {#if caseData.type in icons}
       {@const Icon = icons[caseData.type as keyof typeof icons]}
       <p class="text-base text-zinc-300">
-        <Icon class="inline-block h-5 w-5" size={20} />
+        <Icon class="inline-block h-5 w-5 align-middle" size={20} />
         <strong>{caseData.type.toLocaleUpperCase()}</strong>
         {new Date(caseData.time_created).toLocaleString()} by
         <img
@@ -26,7 +26,7 @@
           alt="{caseData.creator_name}'s PFP"
           width="20"
           height="20"
-          class="inline-block h-5 w-5 rounded-full"
+          class="inline-block h-5 w-5 rounded-full align-middle"
         />
         @{caseData.creator_name}
       </p>

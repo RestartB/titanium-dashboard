@@ -44,11 +44,11 @@
       bind:value={board.threshold}
       min={1}
       max={99}
-      class="inline-block w-10 text-center"
+      class="inline-block w-10 text-center align-middle"
     />
     or more
     <button
-      class="inline-flex h-10 w-10 items-center justify-center rounded-lg border-2 border-zinc-700 bg-zinc-800 text-center text-xl"
+      class="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border-2 border-zinc-700 bg-zinc-800 text-center align-middle text-xl transition-colors hover:bg-zinc-600"
       aria-label="Select reaction"
       onclick={() => {
         emojiPickerOpen = true;
@@ -66,15 +66,15 @@
     reactions, the message will be highlighted in the selected channel.
   </span>
   <div class="flex flex-col gap-2">
-    <label class="inline-flex items-center gap-2">
+    <label class="inline-flex items-center gap-2 align-middle">
       <Toggle bind:toggled={board.ignore_bots} />
       <span>Ignore reactions from bots</span>
     </label>
-    <label class="inline-flex items-center gap-2">
+    <label class="inline-flex items-center gap-2 align-middle">
       <Toggle bind:toggled={board.ignore_self_reactions} />
       <span>Ignore reactions from the message author</span>
     </label>
-    <label class="inline-flex items-center gap-2">
+    <label class="inline-flex items-center gap-2 align-middle">
       <Toggle bind:toggled={board.send_notifications} />
       <span>Reply to user's message when it is highlighted</span>
     </label>

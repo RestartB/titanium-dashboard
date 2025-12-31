@@ -41,7 +41,7 @@
 
     <div class="flex w-full flex-col gap-4 overflow-y-auto p-4 {isHome ? 'pb-35' : ''}">
       <noscript>
-        <Alert>
+        <Alert class="bg-yellow-800/50">
           <p>
             <strong>Javascript is disabled in your browser.</strong> The dashboard will function in a limited read only mode.
           </p>

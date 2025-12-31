@@ -49,13 +49,13 @@
   <div class="flex w-full items-center justify-between gap-2">
     <span class="text-base">
       <Number
-        class="inline w-10 shrink-0 rounded-lg border-2 p-1 px-1 text-center font-mono"
+        class="inline w-10 shrink-0 rounded-lg border-2 p-1 px-1 text-center align-middle font-mono"
         bind:value={rule.threshold}
         min={1}
       />
       {thresholdString} in
       <Number
-        class="inline w-10 shrink-0 rounded-lg border-2 p-1 px-1 text-center font-mono"
+        class="inline w-10 shrink-0 rounded-lg border-2 p-1 px-1 text-center align-middle font-mono"
         bind:value={rule.duration}
         min={1}
       />

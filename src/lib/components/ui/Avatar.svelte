@@ -14,7 +14,7 @@
   />
 {:else}
   <div
-    class="inline-flex items-center justify-center {circle
+    class="inline-flex items-center justify-center align-middle {circle
       ? 'rounded-full'
       : 'rounded-md'} border-2 border-zinc-600 bg-zinc-700 text-zinc-400"
     style="width: {size}px; height: {size}px; font-size: {size / 2}px;"
