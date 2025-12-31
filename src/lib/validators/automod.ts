@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { validateID } from '$lib/helpers/discord';
 
 export const automodActionSchema = z
   .object({
@@ -24,6 +25,18 @@ export const automodActionSchema = z
     {
       message: 'Mute actions must have a positive duration',
       path: ['duration']
+    }
+  )
+  .refine(
+    (data) => {
+      if (['add_role', 'remove_role', 'toggle_role'].includes(data.type)) {
+        return data.role_id !== null && data.role_id !== undefined && validateID(data.role_id);
+      }
+      return true;
+    },
+    {
+      message: 'Role ID must be between 15 and 20 digits',
+      path: ['role_id']
     }
   );
 

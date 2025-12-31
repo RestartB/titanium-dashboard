@@ -1,19 +1,30 @@
 import { z } from 'zod';
+import { validateID } from '$lib/helpers/discord';
 
-export const fireboardBoardSchema = z.object({
-  id: z.uuid().nullable().optional(),
+export const fireboardBoardSchema = z
+  .object({
+    id: z.uuid().nullable().optional(),
 
-  channel_id: z.string(),
-  reaction: z.string(),
-  threshold: z.number().int().positive(),
+    channel_id: z.string(),
+    reaction: z.string(),
+    threshold: z.number().int().positive(),
 
-  ignore_bots: z.boolean(),
-  ignore_self_reactions: z.boolean(),
-  send_notifications: z.boolean(),
+    ignore_bots: z.boolean(),
+    ignore_self_reactions: z.boolean(),
+    send_notifications: z.boolean(),
 
-  ignored_roles: z.array(z.string()).default([]),
-  ignored_channels: z.array(z.string()).default([])
-});
+    ignored_roles: z.array(z.string()).default([]),
+    ignored_channels: z.array(z.string()).default([])
+  })
+  .refine(
+    (data) => {
+      return validateID(data.channel_id);
+    },
+    {
+      message: 'Channel ID must be between 15 and 20 digits',
+      path: ['channel_id']
+    }
+  );
 
 export type FireboardBoardSchema = z.infer<typeof fireboardBoardSchema>;
 

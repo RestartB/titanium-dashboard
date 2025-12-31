@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { validateID } from '$lib/helpers/discord';
 
 export const moduleSchema = z.object({
   moderation: z.boolean(),
@@ -36,9 +37,38 @@ export const guildSettingsSchema = z.object({
 
 export type GuildSettingsSchema = z.infer<typeof guildSettingsSchema>;
 
-export const guildPermissionsSchema = z.object({
-  dashboard_managers: z.array(z.string()),
-  case_managers: z.array(z.string())
-});
+export const guildPermissionsSchema = z
+  .object({
+    dashboard_managers: z.array(z.string()),
+    case_managers: z.array(z.string())
+  })
+  .refine(
+    (data) => {
+      for (const userId of data.dashboard_managers) {
+        if (!/^\d{15,20}$/.test(userId)) {
+          return false;
+        }
+      }
+      return true;
+    },
+    {
+      message: 'Dashboard Manager IDs must be between 15 and 20 digits',
+      path: ['dashboard_managers']
+    }
+  )
+  .refine(
+    (data) => {
+      for (const userId of data.case_managers) {
+        if (!validateID(userId)) {
+          return false;
+        }
+      }
+      return true;
+    },
+    {
+      message: 'Case Manager IDs must be between 15 and 20 digits',
+      path: ['case_managers']
+    }
+  );
 
 export type GuildPermissionsSchema = z.infer<typeof guildPermissionsSchema>;

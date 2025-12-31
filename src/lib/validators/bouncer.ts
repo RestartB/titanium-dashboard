@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { validateID } from '$lib/helpers/discord';
 
 export const bouncerCriterionSchema = z.object({
   type: z.enum(['username', 'tag', 'age', 'avatar']),
@@ -10,12 +11,25 @@ export const bouncerCriterionSchema = z.object({
 
 export type BouncerCriterionSchema = z.infer<typeof bouncerCriterionSchema>;
 
-export const bouncerActionSchema = z.object({
-  type: z.enum(['warn', 'mute', 'kick', 'ban', 'reset_nick', 'add_role', 'remove_role', 'toggle_role']),
-  duration: z.number().int().positive().nullable().optional(),
-  role_id: z.string().nullable().optional(),
-  reason: z.string().nullable().optional()
-});
+export const bouncerActionSchema = z
+  .object({
+    type: z.enum(['warn', 'mute', 'kick', 'ban', 'reset_nick', 'add_role', 'remove_role', 'toggle_role']),
+    duration: z.number().int().positive().nullable().optional(),
+    role_id: z.string().nullable().optional(),
+    reason: z.string().nullable().optional()
+  })
+  .refine(
+    (data) => {
+      if (['add_role', 'remove_role', 'toggle_role'].includes(data.type)) {
+        return data.role_id !== null && data.role_id !== undefined && validateID(data.role_id);
+      }
+      return true;
+    },
+    {
+      message: 'Role ID must be between 15 and 20 digits',
+      path: ['role_id']
+    }
+  );
 
 export type BouncerActionSchema = z.infer<typeof bouncerActionSchema>;
 
