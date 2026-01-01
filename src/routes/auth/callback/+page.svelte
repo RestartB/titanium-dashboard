@@ -90,9 +90,11 @@
       {/if}
     </div>
 
-    <div>
-      <p class="text-center font-mono text-sm text-zinc-400">{failed}</p>
-      <LogIn class="mt-2" />
-    </div>
+    {#if failed}
+      <div>
+        <p class="text-center font-mono text-sm text-zinc-400">{failed}</p>
+        <LogIn class="mt-2" />
+      </div>
+    {/if}
   </Row>
 </div>

@@ -55,13 +55,16 @@
         </div>
       </div>
 
-      {#if userData}
-        <a
-          href={resolve('/')}
-          class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xxs:flex"
-          >Servers</a
-        >
-      {/if}
+      <a
+        href={resolve('/')}
+        class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xxs:flex"
+      >
+        {#if userData}
+          Servers
+        {:else}
+          Log in
+        {/if}
+      </a>
       <a
         href="https://titaniumbot.me/server"
         target="_blank"
