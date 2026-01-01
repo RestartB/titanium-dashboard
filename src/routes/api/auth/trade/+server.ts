@@ -6,7 +6,7 @@ import { token } from '$lib/server/db/schema';
 
 import crypto from 'crypto';
 
-import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI } from '$env/static/private';
+import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI, MODE } from '$env/static/private';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
   const body = await request.json();
@@ -61,8 +61,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   });
 
   cookies.set('titanium_token', tokenData, {
-    httpOnly: false,
-    secure: false,
+    httpOnly: true,
+    secure: MODE.toLowerCase() === 'production',
     sameSite: 'strict',
     path: '/',
     maxAge: 60 * 60 * 24 * 7

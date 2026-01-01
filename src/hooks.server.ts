@@ -1,9 +1,7 @@
 import { redirect, json, error } from '@sveltejs/kit';
 import type { Handle } from '@sveltejs/kit';
 
-import { eq } from 'drizzle-orm';
-import { db } from '$lib/server/db';
-import { token } from '$lib/server/db/schema';
+import { checkToken } from '$lib/helpers/token';
 
 import { apiLimit } from '$lib/limits';
 
@@ -25,6 +23,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.url.pathname === '/' ||
     (event.url.pathname.startsWith('/auth') && event.url.pathname !== '/auth/logout') ||
     event.url.pathname.startsWith('/api/auth') ||
+    event.url.pathname.startsWith('/_app/remote') ||
     event.url.pathname.startsWith('/emojis')
   ) {
     const response = await resolve(event);
@@ -32,9 +31,10 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
 
   // token present check
-  const titaniumToken = event.cookies.get('titanium_token');
+  const titaniumToken = await checkToken(event);
   if (!titaniumToken) {
-    console.log('No titanium token');
+    console.log('Invalid / missing Titanium token');
+
     if (event.url.pathname.startsWith('/api')) {
       return json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -42,22 +42,9 @@ export const handle: Handle = async ({ event, resolve }) => {
     return redirect(302, '/auth/login?redirect=' + encodeURIComponent(event.url.pathname));
   }
 
-  // token valid check
-  const tokenRecord = await db.select().from(token).where(eq(token.token, titaniumToken)).get();
-  if (!tokenRecord) {
-    console.log('Invalid Titanium token');
-    event.cookies.delete('titanium_token', { path: '/' });
-
-    if (event.url.pathname.startsWith('/api')) {
-      return json({ error: 'Invalid Token' }, { status: 401 });
-    }
-
-    return redirect(302, '/auth/login?redirect=' + encodeURIComponent(event.url.pathname));
-  }
-
-  event.locals.token = titaniumToken;
-  event.locals.discordToken = tokenRecord.discordToken;
-  event.locals.discordId = tokenRecord.discordUserId;
+  event.locals.token = titaniumToken.token;
+  event.locals.discordToken = titaniumToken.discordToken;
+  event.locals.discordId = titaniumToken.discordUserId;
 
   // rate limiting
   if (event.url.pathname.startsWith('/api/guild/')) {

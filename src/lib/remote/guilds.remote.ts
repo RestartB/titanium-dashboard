@@ -1,15 +1,22 @@
-import { error, json } from '@sveltejs/kit';
+import { getRequestEvent, query } from '$app/server';
+import { error } from '@sveltejs/kit';
+
+import { checkToken } from '$lib/helpers/token';
+
 import { guildsLimit } from '$lib/limits';
 import { TITANIUM_API_URL } from '$env/static/private';
 
-import type { RequestHandler } from './$types';
+export const getUserGuilds = query(async () => {
+  const event = getRequestEvent();
 
-export const GET: RequestHandler = async (event) => {
+  const tokenRecord = await checkToken(event);
+  if (!tokenRecord) throw error(401, 'Unauthorized');
+
   if (await guildsLimit.isLimited(event)) throw error(429);
 
   const request = await fetch('https://discord.com/api/users/@me/guilds', {
     headers: {
-      Authorization: `Bearer ${event.locals.discordToken}`
+      Authorization: `Bearer ${tokenRecord.discordToken}`
     }
   });
 
@@ -24,7 +31,7 @@ export const GET: RequestHandler = async (event) => {
     return permissions & 0x20 || permissions & 0x8;
   });
 
-  const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${event.locals.discordId}/guilds`);
+  const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${tokenRecord.discordUserId}/guilds`);
 
   if (!mutualRequest.ok) {
     console.error('Failed to fetch mutual guilds:', await mutualRequest.text());
@@ -36,5 +43,5 @@ export const GET: RequestHandler = async (event) => {
   const nonMutualGuilds = guilds.filter((guild: { id: string }) => !mutualGuildIds.includes(guild.id));
   const mutualGuilds = guilds.filter((guild: { id: string }) => mutualGuildIds.includes(guild.id));
 
-  return json({ nonMutualGuilds, mutualGuilds });
-};
+  return { nonMutualGuilds, mutualGuilds };
+});

@@ -1,8 +1,14 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
   import Row from '$lib/components/ui/row/Row.svelte';
   import logo from '$lib/assets/logo.svg';
-  import { LoaderCircle } from '@lucide/svelte';
-  import { onMount } from 'svelte';
+
+  import { LoaderCircle, X } from '@lucide/svelte';
+  import LogIn from '$lib/components/ui/discord/LogIn.svelte';
+
+  const { data } = $props();
+  let failed: string | undefined = $state();
 
   const getCookie = (name: string): string | null => {
     const value = `; ${document.cookie}`;
@@ -14,12 +20,17 @@
   };
 
   onMount(() => {
+    if (data.tokenValid) {
+      // already logged in, redirect to home
+      window.location.href = '/';
+      return;
+    }
+
     const params = new URLSearchParams(window.location.search);
     const code = params.get('code');
 
     if (!code) {
-      // window.location.href = '/';
-      alert('No code parameter found. Please try logging in again.');
+      failed = 'Missing Code';
       return;
     }
 
@@ -27,8 +38,7 @@
     const stateCookie = getCookie('titanium_state');
 
     if (!state || !stateCookie || state !== stateCookie) {
-      // window.location.href = '/';
-      alert('Invalid state parameter. Please try logging in again.');
+      failed = 'Invalid State';
       return;
     }
 
@@ -38,9 +48,7 @@
     const redirectTo = redirectPart ? decodeURIComponent(atob(redirectPart)) : '/';
 
     if (!redirectTo.startsWith('/')) {
-      // window.location.href = '/';
-      alert('Invalid redirect URL. Please try logging in again.');
-      return;
+      window.location.href = '/';
     }
 
     fetch('/api/auth/trade', {
@@ -54,24 +62,37 @@
         if (res.ok) {
           window.location.href = `${window.location.origin}${redirectTo}`;
         } else {
-          // window.location.href = '/';
-          alert('An error occurred. Please try logging in again.');
+          failed = 'Trade Failed';
         }
       })
       .catch(() => {
-        // window.location.href = '/';
-        alert('An error occurred. Please try logging in again.');
+        failed = 'Trade Failed';
       });
   });
 </script>
 
 <div class="flex h-full flex-col items-center justify-center p-4">
-  <Row class="m-4 flex flex-col items-center justify-center gap-4 p-4">
+  <Row class="flex h-full max-h-156 w-full max-w-lg flex-col items-center gap-4 overflow-hidden p-4">
     <div class="flex items-center justify-center gap-2">
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
-      <h1 class="text-2xl font-bold" translate="no">Titanium Dashboard</h1>
+      <h1 class="text-2xl font-bold" translate="no">Titanium</h1>
     </div>
 
-    <LoaderCircle size={24} class="animate-spin" />
+    <div class="my-auto flex h-full w-full items-center justify-center gap-2" class:flex-col={failed}>
+      {#if failed}
+        <div class="flex gap-2">
+          <X size={28} class="text-red-400" />
+          <p class="text-xl font-semibold">Login failed. Please try again.</p>
+        </div>
+      {:else}
+        <LoaderCircle size={28} class="animate-spin" />
+        <p class="text-xl font-semibold">Logging in...</p>
+      {/if}
+    </div>
+
+    <div>
+      <p class="text-center font-mono text-sm text-zinc-400">{failed}</p>
+      <LogIn class="mt-2" />
+    </div>
   </Row>
 </div>

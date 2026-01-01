@@ -1,31 +1,18 @@
-import { TEST_MODE } from '$env/static/private';
 import type { LayoutServerLoad } from './$types';
 import type { UserInfo } from '$lib/interfaces/userInfo';
-import { redirect } from '@sveltejs/kit';
 
 export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
-  const titaniumToken = cookies.get('titanium_token');
-  if (!titaniumToken) {
-    return { userData: null };
-  }
-
   let userData: UserInfo | null = null;
 
-  if (TEST_MODE === 'true') {
-    userData = {
-      userData: {
-        id: '123456789012345678',
-        username: 'TestUser',
-        avatar: null
-      }
-    };
+  const titaniumToken = cookies.get('titanium_token');
+  if (!titaniumToken) {
     return { userData };
   }
 
   const userRequest = await fetch('/api/identify');
 
   if (userRequest.status === 401) {
-    redirect(302, '/logout');
+    return { userData };
   }
 
   if (!userRequest.ok) {

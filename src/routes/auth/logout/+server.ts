@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { token } from '$lib/server/db/schema';
 
-export const GET: RequestHandler = async ({ locals, cookies }) => {
+export const GET: RequestHandler = async ({ url, locals, cookies }) => {
   if (!locals.token) {
     console.log('No token found', locals);
     return redirect(302, '/');
@@ -40,6 +40,13 @@ export const GET: RequestHandler = async ({ locals, cookies }) => {
   cookies.delete('titanium_state', { path: '/' });
 
   console.log('Deleted cookies');
+
+  // check for reenter query param
+  const reenter = url.searchParams.get('reenter');
+
+  if (reenter) {
+    return redirect(302, '/auth/login?redirect=' + encodeURIComponent(reenter));
+  }
 
   return redirect(302, '/');
 };

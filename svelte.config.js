@@ -16,6 +16,9 @@ const config = {
         'frame-ancestors': ['self'],
         'upgrade-insecure-requests': true
       }
+    },
+    experimental: {
+      remoteFunctions: true
     }
   }
 };

@@ -1,18 +1,33 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import { resolve } from '$app/paths';
+  import { getUserGuilds } from '$lib/remote/guilds.remote';
 
   import Row from '$lib/components/ui/row/Row.svelte';
   import Alert from '$lib/components/ui/Alert.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
+  import LogIn from '$lib/components/ui/discord/LogIn.svelte';
   import logo from '$lib/assets/logo.svg';
-  import discord from '$lib/assets/discord.svg';
+
+  import { LoaderCircle, RefreshCw } from '@lucide/svelte';
 
   import verified from '$lib/assets/verified.png';
   import partner from '$lib/assets/partner.webp';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
+  import type { RemoteQuery } from '@sveltejs/kit';
 
   let { data } = $props();
+  let guildsQuery:
+    | RemoteQuery<{
+        nonMutualGuilds: any;
+        mutualGuilds: any;
+      }>
+    | undefined = $state();
+
+  onMount(() => {
+    guildsQuery = getUserGuilds();
+  });
 </script>
 
 {#snippet guildRow(guild: ServerInfo, invite = false)}
@@ -58,46 +73,68 @@
     <p>You must have access to the Titanium v2 private beta to use this dashboard.</p>
   </Alert>
 
-  <Row class="flex h-auto max-h-156 w-full max-w-lg flex-col items-center gap-4 overflow-hidden p-4">
-    <div class="flex items-center justify-center gap-2">
+  <Row class="flex h-full max-h-156 w-full max-w-lg flex-col items-center gap-4 overflow-hidden p-4">
+    <div class="flex w-full items-center justify-center gap-2">
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
-      <h1 class="text-2xl font-bold" translate="no">Titanium Dashboard</h1>
+      <h1 class="text-2xl font-bold" translate="no">Titanium</h1>
+
+      {#if data.userData}
+        <button
+          class="ml-auto cursor-pointer rounded-lg bg-zinc-700 p-2 transition-colors hover:bg-zinc-600"
+          class:cursor-not-allowed={guildsQuery?.loading}
+          class:opacity-50={guildsQuery?.loading}
+          onclick={async () => await guildsQuery?.refresh()}
+          disabled={guildsQuery?.loading}
+        >
+          <RefreshCw size={16} class={guildsQuery?.loading ? 'animate-spin' : ''} />
+        </button>
+      {/if}
     </div>
 
     <div class="flex w-full flex-1 flex-col gap-2 overflow-y-auto">
       {#if data.userData}
-        {#if !data.guildsData || !data.guildsData.mutualGuilds || !data.guildsData.nonMutualGuilds}
-          <p class="text-center text-zinc-300/60">An error occurred while loading servers. Try again later.</p>
-        {:else if data.guildsData.mutualGuilds.length === 0 && data.guildsData.nonMutualGuilds.length === 0}
-          <p class="text-center text-zinc-300/60">
-            You do not have permission to control or add Titanium to any servers.
-          </p>
+        <noscript>
+          <Alert class="bg-yellow-800/50">
+            <p><strong>JavaScript is disabled in your browser.</strong> Please enable it to use the dashboard.</p>
+          </Alert>
+        </noscript>
+        {#if !guildsQuery || guildsQuery.loading}
+          <div class="my-auto flex items-center justify-center gap-2">
+            <LoaderCircle size={28} class="animate-spin" />
+            <p class="text-xl font-semibold">Loading...</p>
+          </div>
+        {:else if guildsQuery.error}
+          <Alert class="bg-red-800/50">
+            <p>Error loading your guilds: {guildsQuery.error}</p>
+          </Alert>
+        {:else if guildsQuery.current?.nonMutualGuilds.length === 0 && guildsQuery.current?.mutualGuilds.length === 0}
+          <Alert class="bg-yellow-800/50">
+            <p>You don't have any guilds where you are an administrator.</p>
+          </Alert>
         {:else}
-          {#if data.guildsData.mutualGuilds.length > 0}
+          {#if guildsQuery.current?.mutualGuilds.length > 0}
             <p class="text-base font-bold text-zinc-300/60">
-              Servers with Titanium <span class="text-zinc-400">({data.guildsData.mutualGuilds.length})</span>
+              Servers with Titanium <span class="text-zinc-400">({guildsQuery.current?.mutualGuilds.length})</span>
             </p>
+
+            {#each guildsQuery.current?.mutualGuilds as guild (guild.id)}
+              {@render guildRow(guild)}
+            {/each}
           {/if}
-          {#each data.guildsData.mutualGuilds as guild (guild.id)}
-            {@render guildRow(guild)}
-          {/each}
-          {#if data.guildsData.nonMutualGuilds.length > 0}
-            <p class="mt-2 text-base font-bold text-zinc-300/60">
-              Servers without Titanium <span class="text-zinc-400">({data.guildsData.nonMutualGuilds.length})</span>
+
+          {#if guildsQuery.current?.nonMutualGuilds.length > 0}
+            <p class="text-base font-bold text-zinc-300/60">
+              Servers without Titanium <span class="text-zinc-400">({guildsQuery.current?.nonMutualGuilds.length})</span
+              >
             </p>
+
+            {#each guildsQuery.current?.nonMutualGuilds as guild (guild.id)}
+              {@render guildRow(guild, true)}
+            {/each}
           {/if}
-          {#each data.guildsData.nonMutualGuilds as guild (guild.id)}
-            {@render guildRow(guild, true)}
-          {/each}
         {/if}
       {:else}
-        <a
-          class="flex items-center justify-center gap-2 rounded-md bg-blurple p-2 px-4 text-white transition-all hover:brightness-150"
-          href={resolve('/auth/login')}
-        >
-          <img src={discord} alt="Discord" class="h-6 w-6" />
-          Log in with Discord</a
-        >
+        <LogIn class="m-auto" />
       {/if}
     </div>
   </Row>
