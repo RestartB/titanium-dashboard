@@ -23,7 +23,9 @@
     overlayOpen?: boolean;
   } = $props();
 
+  let loading = $state(true);
   let searchInput = $state('');
+
   let hoveredEmoji: Emoji | EmojiInfo | undefined = $state();
   let emojiScrollDiv: HTMLDivElement | undefined = $state();
   let activeSection = $state('');
@@ -67,6 +69,18 @@
   function getFilteredCustomEmojis(search: string | undefined = '') {
     if (!search || search.trim() === '') return serverInfo.emojis;
     return customEmojiFuse.search(search).map((result) => result.item);
+  }
+
+  function loadEmojis() {
+    if (overlayOpen) {
+      loading = true;
+
+      setTimeout(() => {
+        filteredEmojis = getFilteredEmojis(searchInput);
+        filteredCustomEmojis = getFilteredCustomEmojis(searchInput);
+        loading = false;
+      }, 0);
+    }
   }
 
   const sectionIcons: Record<string, Component> = {
@@ -123,8 +137,12 @@
     }
   }
 
-  let filteredEmojis: Emoji[] = $state(getFilteredEmojis());
-  let filteredCustomEmojis: EmojiInfo[] = $state(getFilteredCustomEmojis());
+  let filteredEmojis: Emoji[] = $state([]);
+  let filteredCustomEmojis: EmojiInfo[] = $state([]);
+
+  $effect(() => {
+    loadEmojis();
+  });
 </script>
 
 {#snippet emojiJumper(section: string, ButtonIcon: Component)}
@@ -149,12 +167,10 @@
       onkeydown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          filteredEmojis = getFilteredEmojis(searchInput);
-          filteredCustomEmojis = getFilteredCustomEmojis(searchInput);
+          loadEmojis();
         }
       }}
     />
-
     <div class="flex items-center gap-2 overflow-x-auto">
       {#if serverInfo.emojis.length > 0}
         <button
@@ -181,67 +197,39 @@
     </div>
   </div>
 
-  <div
-    class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2"
-    bind:this={emojiScrollDiv}
-    onscroll={handleScroll}
-  >
-    {#if filteredCustomEmojis.length > 0}
-      <div class="flex items-center justify-center gap-2" id="custom">
-        <img
-          src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
-          alt={serverInfo.name}
-          class="h-6 w-6 rounded-lg"
-          loading="lazy"
-          decoding="async"
-        />
-        <h3 class="text-md font-semibold capitalize">{serverInfo.name}</h3>
-      </div>
-      <div class="grid grid-cols-7 place-items-center gap-2">
-        {#each filteredCustomEmojis as emoji (emoji.id)}
-          <button
-            onclick={() => {
-              selectedEmoji = emoji.id;
-              overlayOpen = false;
-            }}
-            aria-label={emoji.label}
-            class="cursor-pointer"
-          >
-            <img
-              src={emoji.url}
-              alt={emoji.label}
-              class="h-8 w-8"
-              loading="lazy"
-              decoding="async"
-              onmouseover={() => (hoveredEmoji = emoji)}
-              onfocus={() => (hoveredEmoji = emoji)}
-            />
-          </button>
-        {/each}
-      </div>
-    {/if}
-    {#each groupsSubgroups.groups as group (group.key)}
-      {@const groupEmojis = filteredEmojis.filter((emoji) => emoji.group === group.order)}
-      {#if groupEmojis.length > 0 && group.message !== 'components'}
-        {@const IconComponent = sectionIcons[group.message]}
-        <div class="flex items-center justify-center gap-2" id={group.message}>
-          {#if IconComponent}
-            <IconComponent size={24} />
-          {/if}
-          <h3 class="text-md font-semibold capitalize">{group.message}</h3>
+  {#if loading}
+    <div class="flex flex-1 items-center justify-center p-4">
+      <p class="text-zinc-400">Loading...</p>
+    </div>
+  {:else}
+    <div
+      class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2"
+      bind:this={emojiScrollDiv}
+      onscroll={handleScroll}
+    >
+      {#if filteredCustomEmojis.length > 0}
+        <div class="flex items-center justify-center gap-2" id="custom">
+          <img
+            src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
+            alt={serverInfo.name}
+            class="h-6 w-6 rounded-lg"
+            loading="lazy"
+            decoding="async"
+          />
+          <h3 class="text-md font-semibold capitalize">{serverInfo.name}</h3>
         </div>
         <div class="grid grid-cols-7 place-items-center gap-2">
-          {#each groupEmojis as emoji (emoji.hexcode)}
+          {#each filteredCustomEmojis as emoji (emoji.id)}
             <button
               onclick={() => {
-                selectedEmoji = emoji.emoji;
+                selectedEmoji = emoji.id;
                 overlayOpen = false;
               }}
               aria-label={emoji.label}
               class="cursor-pointer"
             >
               <img
-                src={getEmojiFilename(emoji.hexcode)}
+                src={emoji.url}
                 alt={emoji.label}
                 class="h-8 w-8"
                 loading="lazy"
@@ -253,8 +241,42 @@
           {/each}
         </div>
       {/if}
-    {/each}
-  </div>
+      {#each groupsSubgroups.groups as group (group.key)}
+        {@const groupEmojis = filteredEmojis.filter((emoji) => emoji.group === group.order)}
+        {#if groupEmojis.length > 0 && group.message !== 'components'}
+          {@const IconComponent = sectionIcons[group.message]}
+          <div class="flex items-center justify-center gap-2" id={group.message}>
+            {#if IconComponent}
+              <IconComponent size={24} />
+            {/if}
+            <h3 class="text-md font-semibold capitalize">{group.message}</h3>
+          </div>
+          <div class="grid grid-cols-7 place-items-center gap-2">
+            {#each groupEmojis as emoji (emoji.hexcode)}
+              <button
+                onclick={() => {
+                  selectedEmoji = emoji.emoji;
+                  overlayOpen = false;
+                }}
+                aria-label={emoji.label}
+                class="cursor-pointer"
+              >
+                <img
+                  src={getEmojiFilename(emoji.hexcode)}
+                  alt={emoji.label}
+                  class="h-8 w-8"
+                  loading="lazy"
+                  decoding="async"
+                  onmouseover={() => (hoveredEmoji = emoji)}
+                  onfocus={() => (hoveredEmoji = emoji)}
+                />
+              </button>
+            {/each}
+          </div>
+        {/if}
+      {/each}
+    </div>
+  {/if}
 
   <div class="flex h-16 shrink-0 items-center gap-2 overflow-hidden border-t-2 border-zinc-500 p-2">
     {#if hoveredEmoji}

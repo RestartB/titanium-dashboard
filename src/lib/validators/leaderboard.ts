@@ -40,11 +40,9 @@ export const leaderboardConfigSchema = z
   })
   .refine(
     (data) => {
-      return (
-        data.notification_channel !== null &&
-        data.notification_channel !== undefined &&
-        validateID(data.notification_channel)
-      );
+      return data.notification_channel !== null && data.notification_channel !== undefined
+        ? validateID(data.notification_channel)
+        : true;
     },
     {
       message: 'Channel ID must be between 15 and 20 digits',

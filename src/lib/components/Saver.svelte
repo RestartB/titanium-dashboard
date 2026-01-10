@@ -158,7 +158,7 @@
 {/snippet}
 
 {#if overlayOpen}
-  <FullscreenOverlay bind:overlayOpen title="Error" {extraButton} height={200} padding={16} gap={16}>
+  <FullscreenOverlay bind:overlayOpen title="Error" {extraButton} height={250} padding={16} gap={16}>
     <p>An error occurred while saving your changes. Please try again later.</p>
     <p class="mt-auto text-center font-mono text-sm text-zinc-400">
       Got code {errorCode} in stage {errorStage}
