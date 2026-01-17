@@ -12,8 +12,18 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const body = await request.json();
 
   if (!body || !body.code) {
-    throw error(400, 'Missing code in request body');
+    throw error(400, 'Authentication failed');
   }
+
+  if (!body.state) {
+    throw error(400, 'Authentication failed');
+  }
+
+  if (body.state !== cookies.get('titanium_state')) {
+    throw error(400, 'Authentication failed');
+  }
+
+  cookies.delete('titanium_state', { path: '/' });
 
   const newRequest = await fetch('https://discord.com/api/oauth2/token', {
     method: 'POST',
@@ -30,7 +40,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   });
 
   if (!newRequest.ok) {
-    throw error(newRequest.status, 'Failed to exchange code for token');
+    throw error(500, 'Authentication failed');
   }
 
   const data = await newRequest.json();
@@ -43,7 +53,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   });
 
   if (!userRequest.ok) {
-    throw error(userRequest.status, 'Failed to fetch user data from Discord');
+    throw error(500, 'Failed to fetch user data from Discord');
   }
 
   const userData = await userRequest.json();
@@ -68,5 +78,5 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     maxAge: 60 * 60 * 24 * 7
   });
 
-  return json({ success: true, token: tokenData });
+  return json({ success: true });
 };

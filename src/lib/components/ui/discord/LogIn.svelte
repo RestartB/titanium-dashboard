@@ -2,7 +2,7 @@
   import { resolve } from '$app/paths';
   import discord from '$lib/assets/discord.svg';
 
-  const { class: className = "" } = $props();
+  const { class: className = '' } = $props();
 </script>
 
 <a

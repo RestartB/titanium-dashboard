@@ -56,7 +56,7 @@
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ code })
+      body: JSON.stringify({ code, state })
     })
       .then((res) => {
         if (res.ok) {
