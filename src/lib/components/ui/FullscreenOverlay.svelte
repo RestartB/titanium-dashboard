@@ -48,7 +48,7 @@
       <button
         class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
         onclick={() => (overlayOpen = false)}
-        aria-label="Close error popup"
+        aria-label="Close popup"
       >
         <X size={24} />
       </button>

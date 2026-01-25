@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { slide } from 'svelte/transition';
   import { ChevronDown } from '@lucide/svelte';
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -20,13 +21,12 @@
     aria-label="Toggle {title} section"
   >
     <h3 class="font-bold">{title}</h3>
-    <ChevronDown class="shrink-0 transition-transform duration-300 {isOpen ? 'rotate-180' : ''}" />
+    <ChevronDown class="shrink-0 transition-transform duration-400 {isOpen ? 'rotate-180' : ''}" />
   </button>
-  <div class="grid transition-all duration-300 ease-in-out {isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}">
-    <div class="overflow-hidden">
-      <div class="mt-2">
-        {@render children?.()}
-      </div>
+
+  {#if isOpen}
+    <div class="mt-2" transition:slide>
+      {@render children?.()}
     </div>
-  </div>
+  {/if}
 </div>

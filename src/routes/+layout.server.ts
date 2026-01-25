@@ -1,15 +1,16 @@
+import { checkToken } from '$lib/helpers/token';
+
 import type { LayoutServerLoad } from './$types';
 import type { UserInfo } from '$lib/interfaces/userInfo';
 
-export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
+export const load: LayoutServerLoad = async (event) => {
   let userData: UserInfo | null = null;
 
-  const titaniumToken = cookies.get('titanium_token');
-  if (!titaniumToken) {
+  if (!checkToken(event)) {
     return { userData };
   }
 
-  const userRequest = await fetch('/api/identify');
+  const userRequest = await event.fetch('/api/identify');
 
   if (userRequest.status === 401) {
     return { userData };
