@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { slide } from 'svelte/transition';
+  import { cubicInOut } from 'svelte/easing';
+
   import { ChevronDown } from '@lucide/svelte';
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -25,7 +27,7 @@
   </button>
 
   {#if isOpen}
-    <div class="mt-2" transition:slide>
+    <div class="mt-2" transition:slide={{ easing: cubicInOut }}>
       {@render children?.()}
     </div>
   {/if}

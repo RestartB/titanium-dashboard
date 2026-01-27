@@ -1,5 +1,7 @@
 <script lang="ts">
-  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import { slide } from 'svelte/transition';
+  import { cubicInOut } from 'svelte/easing';
+
   import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
   import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
@@ -74,18 +76,14 @@
         aria-label="Expand rule details"
         onclick={() => (expanded = !expanded)}
       >
-        <ChevronDown size={18} class={`transition-transform duration-200 ${expanded ? 'rotate-180' : 'rotate-0'}`} />
+        <ChevronDown size={18} class={`transition-transform duration-400 ${expanded ? 'rotate-180' : 'rotate-0'}`} />
       </button>
     </div>
   </div>
-  <div
-    class="grid overflow-hidden transition-all duration-300 ease-in-out {expanded
-      ? 'grid-rows-[1fr]'
-      : 'grid-rows-[0fr]'}"
-  >
-    <div class="min-h-0">
+  {#if expanded}
+    <div transition:slide={{ easing: cubicInOut }} class="mt-2 flex flex-col gap-2">
       {#if rule.rule_type === 'badword_detection'}
-        <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
+        <div class="flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
           <div
             class="flex max-w-40 items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
           >
@@ -121,7 +119,7 @@
           {/if}
         </div>
 
-        <div class="mt-2 flex flex-wrap items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
           <div class="flex items-center gap-2">
             <Toggle bind:toggled={rule.match_whole_word} />
             <p class="text-sm text-zinc-300/60">Match Whole Word</p>
@@ -133,7 +131,7 @@
           </div>
         </div>
       {/if}
-      <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
+      <div class="flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
         {#each rule.actions as _, index (index)}
           <ActionTile {roles} deleteThis={() => rule.actions.splice(index, 1)} bind:action={rule.actions[index]} />
         {/each}
@@ -146,5 +144,5 @@
         </button>
       </div>
     </div>
-  </div>
+  {/if}
 </div>

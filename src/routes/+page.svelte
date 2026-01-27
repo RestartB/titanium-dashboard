@@ -15,7 +15,7 @@
   import partner from '$lib/assets/partner.webp';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
-  import type { RemoteQuery } from '@sveltejs/kit';
+  import type { HttpError, RemoteQuery } from '@sveltejs/kit';
 
   let { data } = $props();
   let guildsQuery:
@@ -105,7 +105,7 @@
           </div>
         {:else if guildsQuery.error}
           <Alert class="bg-red-800/50">
-            <p>Error loading your guilds: {guildsQuery.error}</p>
+            <p>Error loading your guilds: {(guildsQuery.error as HttpError).body.message}</p>
           </Alert>
         {:else if guildsQuery.current?.nonMutualGuilds.length === 0 && guildsQuery.current?.mutualGuilds.length === 0}
           <Alert class="bg-yellow-800/50">
