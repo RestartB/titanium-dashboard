@@ -42,10 +42,10 @@
     }}
     aria-label="Select {role.name} role"
   >
-    {#if role.color}
+    {#if role.colour}
       <span
         class="h-4 w-4 shrink-0 rounded-full"
-        style="background-color: {role.color === '#000000' ? '#99A9B5' : role.color}"
+        style="background-color: {role.colour === '#000000' ? '#99A9B5' : role.colour}"
       ></span>
     {/if}
     <p class="text-zinc-200 select-none">{role.name}</p>

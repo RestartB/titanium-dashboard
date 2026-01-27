@@ -26,10 +26,10 @@
 
 {#snippet roleContent()}
   {#if selectedRole}
-    {#if selectedRole.color}
+    {#if selectedRole.colour}
       <span
         class="h-4 w-4 shrink-0 rounded-full"
-        style="background-color: {selectedRole.color === '#000000' ? '#99A9B5' : selectedRole.color}"
+        style="background-color: {selectedRole.colour === '#000000' ? '#99A9B5' : selectedRole.colour}"
       ></span>
     {/if}
     <p class="text-zinc-200 select-none">{selectedRole.name}</p>

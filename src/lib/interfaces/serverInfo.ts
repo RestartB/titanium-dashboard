@@ -13,7 +13,7 @@ export interface ServerInfo {
 export interface RoleInfo {
   id: string;
   name: string;
-  color: string;
+  colour: string;
   hoist: boolean;
   position: number;
 }
