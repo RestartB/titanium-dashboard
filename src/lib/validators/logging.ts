@@ -76,7 +76,6 @@ export const loggingConfigSchema = z
     // Thread events
     thread_create_id: z.string().nullable().optional(),
     thread_update_id: z.string().nullable().optional(),
-    thread_remove_id: z.string().nullable().optional(),
     thread_delete_id: z.string().nullable().optional(),
 
     // Voice events
