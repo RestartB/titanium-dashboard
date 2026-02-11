@@ -5,8 +5,6 @@
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
-
-  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
 
   import { ListPlus, ListX, X } from '@lucide/svelte';

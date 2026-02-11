@@ -1,7 +1,6 @@
 <script lang="ts">
-  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
-  import { Hash, Megaphone, MessagesSquare, Volume2, Podcast } from '@lucide/svelte';
+  import { Hash, Megaphone, MessagesSquare, Volume2, Podcast, CircleQuestionMark } from '@lucide/svelte';
   import type { Component } from 'svelte';
   import type { CategoryInfo } from '$lib/interfaces/serverInfo';
 
@@ -29,7 +28,8 @@
       .flatMap((category) => category.channels)
       .concat(categories.filter((c) => c.id === null).flatMap((c) => c.channels))
   );
-  const selectedChannel = $derived.by(() => {
+
+  const channelInfo = $derived.by(() => {
     return allChannels.find((c) => c.id === channel);
   });
 </script>
@@ -39,14 +39,17 @@
 {/if}
 
 {#snippet channelContent()}
-  {#if selectedChannel}
-    {#if channelTypeIcons[selectedChannel.type]}
-      {@const Icon = channelTypeIcons[selectedChannel.type]}
+  {#if channel && channelInfo}
+    {#if channelTypeIcons[channelInfo.type]}
+      {@const Icon = channelTypeIcons[channelInfo.type]}
       <Icon class="h-4 w-4 text-zinc-400" />
     {:else}
       <Hash class="h-4 w-4 text-zinc-400" />
     {/if}
-    <p class="text-zinc-200 select-none">{selectedChannel.name}</p>
+    <p class="text-zinc-200 select-none">{channelInfo.name}</p>
+  {:else if channel}
+    <CircleQuestionMark class="h-4 w-4 text-zinc-400" />
+    <p class="text-zinc-200 select-none">{channel}</p>
   {:else}
     <p class="text-zinc-500 select-none">No channel set</p>
   {/if}
