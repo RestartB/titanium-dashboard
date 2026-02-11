@@ -1,4 +1,4 @@
-import { checkToken } from '$lib/helpers/token';
+import { checkToken } from '$lib/server/token';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {

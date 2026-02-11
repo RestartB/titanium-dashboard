@@ -1,8 +1,7 @@
 import { redirect, json, error } from '@sveltejs/kit';
 import type { Handle } from '@sveltejs/kit';
 
-import { checkToken } from '$lib/helpers/token';
-
+import { checkToken } from '$lib/server/token';
 import { apiLimit } from '$lib/limits';
 
 export const handle: Handle = async ({ event, resolve }) => {

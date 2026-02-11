@@ -1,7 +1,7 @@
 import { getRequestEvent, query } from '$app/server';
 import { error } from '@sveltejs/kit';
 
-import { checkToken } from '$lib/helpers/token';
+import { checkToken } from '$lib/server/token';
 
 import { guildsLimit } from '$lib/limits';
 import { TITANIUM_API_URL } from '$env/static/private';

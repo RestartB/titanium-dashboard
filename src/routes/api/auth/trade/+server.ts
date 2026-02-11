@@ -5,6 +5,7 @@ import { db } from '$lib/server/db';
 import { token } from '$lib/server/db/schema';
 
 import crypto from 'crypto';
+import { encrypt } from '$lib/server/crypto';
 
 import { DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI, MODE } from '$env/static/private';
 
@@ -59,13 +60,17 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const userData = await userRequest.json();
   const discordUserId = userData.id;
 
-  // FIXME: implement encryption - this is just a test implementation for now
+  const { encrypted: discordToken, iv: discordTokenIV, authTag: discordTokenAuthTag } = encrypt(data.access_token);
+
   await db.insert(token).values({
     token: tokenData,
-    hash: '',
     createdAt: new Date(),
     tokenExpiresAt: new Date(Date.now() + data.expires_in * 1000),
-    discordToken: data.access_token,
+
+    discordToken: discordToken,
+    discordTokenIV: discordTokenIV,
+    discordTokenAuthTag: discordTokenAuthTag,
+
     discordExpiresIn: data.expires_in,
     discordUserId: discordUserId
   });

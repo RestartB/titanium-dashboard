@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { checkToken } from '$lib/helpers/token';
+import { checkToken } from '$lib/server/token';
 
 import type { RequestHandler } from './$types';
 

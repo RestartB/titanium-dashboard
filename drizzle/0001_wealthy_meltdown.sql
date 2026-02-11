@@ -1,0 +1,1 @@
+ALTER TABLE `token` ADD `discord_token_auth_tag` text NOT NULL;
