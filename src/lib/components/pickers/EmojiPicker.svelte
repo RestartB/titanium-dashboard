@@ -33,6 +33,11 @@
   for (const emoji of emojis) {
     const sc = shortcodes[emoji.hexcode];
     emoji.shortcodes = Array.isArray(sc) ? sc : sc ? [sc] : undefined;
+
+    if (!emoji.shortcodes) {
+      console.warn(`Emoji ${emoji.label} does not exist in Discord, skipping`);
+      emojis.splice(emojis.indexOf(emoji), 1);
+    }
   }
 
   const fuse = new Fuse(emojis, {
@@ -55,7 +60,7 @@
 
     // Override for eye in speech bubble
     if (cleanHexcode === '1f441-fe0f-200d-1f5e8-fe0f') {
-      return `/emojis//1f441-200d-1f5e8.svg`;
+      return `/emojis/1f441-200d-1f5e8.svg`;
     }
 
     return `/emojis/${cleanHexcode}.svg`;
@@ -201,6 +206,10 @@
     <div class="flex flex-1 items-center justify-center p-4">
       <p class="text-zinc-400">Loading...</p>
     </div>
+  {:else if filteredEmojis.length === 0 && filteredCustomEmojis.length === 0}
+    <div class="flex flex-1 items-center justify-center p-4">
+      <p class="text-zinc-400">No results found</p>
+    </div>
   {:else}
     <div
       class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2"
@@ -212,7 +221,7 @@
           <img
             src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
             alt={serverInfo.name}
-            class="h-6 w-6 rounded-lg"
+            class="h-6 w-fit rounded-lg"
             loading="lazy"
             decoding="async"
           />
@@ -231,7 +240,7 @@
               <img
                 src={emoji.url}
                 alt={emoji.label}
-                class="h-8 w-8"
+                class="h-8 w-fit"
                 loading="lazy"
                 decoding="async"
                 onmouseover={() => (hoveredEmoji = emoji)}
@@ -264,7 +273,7 @@
                 <img
                   src={getEmojiFilename(emoji.hexcode)}
                   alt={emoji.label}
-                  class="h-8 w-8"
+                  class="h-8 w-fit"
                   loading="lazy"
                   decoding="async"
                   onmouseover={() => (hoveredEmoji = emoji)}
@@ -280,17 +289,14 @@
 
   <div class="flex h-16 shrink-0 items-center gap-2 overflow-hidden border-t-2 border-zinc-500 p-2">
     {#if hoveredEmoji}
-      {#if 'hexcode' in hoveredEmoji}
-        <img
-          src={getEmojiFilename(hoveredEmoji.hexcode)}
-          alt={hoveredEmoji.label}
-          class="h-8 w-8"
-          loading="lazy"
-          decoding="async"
-        />
-      {:else if 'url' in hoveredEmoji}
-        <img src={hoveredEmoji.url} alt={hoveredEmoji.label} class="h-8 w-8" loading="lazy" decoding="async" />
-      {/if}
+      <img
+        src={'hexcode' in hoveredEmoji ? getEmojiFilename(hoveredEmoji.hexcode) : hoveredEmoji.url}
+        alt={hoveredEmoji.label}
+        class="h-8 w-fit"
+        loading="lazy"
+        decoding="async"
+      />
+
       <div class="max-w-full overflow-hidden">
         {#if 'shortcodes' in hoveredEmoji}
           <p class="w-full truncate font-medium">{hoveredEmoji.label}</p>
