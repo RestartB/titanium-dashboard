@@ -1,5 +1,4 @@
 <script lang="ts">
-  import AnchorRow from '$lib/components/ui/row/AnchorRow.svelte';
   import { TriangleAlert, VolumeOff, UserRoundX, Hammer } from '@lucide/svelte';
   import type { ModerationCase } from '$lib/interfaces/moderation';
 
@@ -10,11 +9,11 @@
     ban: Hammer
   };
 
-  const { case: caseData }: { case: ModerationCase } = $props();
+  const { case: caseData, guild }: { case: ModerationCase; guild: string } = $props();
 </script>
 
 <li>
-  <div>
+  <a href={`/guild/${guild}/moderation/cases/${caseData.id}`} class="w-full">
     {#if caseData.type in icons}
       {@const Icon = icons[caseData.type as keyof typeof icons]}
       <p class="text-base text-zinc-300">
@@ -46,5 +45,5 @@
       </div>
     </div>
     <p class="mt-1">{caseData.description || 'No description provided.'}</p>
-  </div>
+  </a>
 </li>

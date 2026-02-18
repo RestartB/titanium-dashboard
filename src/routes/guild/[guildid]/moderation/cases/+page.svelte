@@ -43,7 +43,7 @@
     <p class="text-zinc-400">No cases found.</p>
   {:else}
     {#each casesData.cases as caseData}
-      <CaseRow case={caseData} />
+      <CaseRow case={caseData} guild={data.serverInfo.id} />
 
       <hr class="my-2 border-zinc-500 last:hidden" />
     {/each}
