@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { token } from '$lib/server/db/schema';
 
-export const GET: RequestHandler = async ({ url, locals, cookies }) => {
+export const POST: RequestHandler = async ({ url, locals, cookies }) => {
   if (!locals.token) {
     console.log('No token found', locals);
     return redirect(302, '/');

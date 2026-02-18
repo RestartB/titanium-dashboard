@@ -16,12 +16,21 @@
   const shortUserData = userData?.userData;
 
   let menuOpen = $state(false);
+  let width = $state(0);
   let pageWithSidebar = $derived(page.url.pathname.startsWith('/guild/'));
 
   afterNavigate(() => {
     menuOpen = false;
   });
+
+  $effect(() => {
+    if (menuOpen && width > 480) {
+      menuOpen = false;
+    }
+  });
 </script>
+
+<svelte:window bind:innerWidth={width} />
 
 <header
   class="fixed z-100 h-12 w-full border-b-2 border-b-zinc-700 bg-zinc-800 text-base"
@@ -140,25 +149,31 @@
               Support
             </a>
             {#if userData}
-              <a
-                class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
-                href={resolve('/auth/logout')}
-              >
-                <LogOut size={30} class="shrink-0" />
-                Logout
-              </a>
+              <form action="/auth/logout" method="POST" class="h-full w-full">
+                <button
+                  class="flex h-full w-full cursor-pointer items-center justify-start gap-2 rounded-lg text-xl font-semibold"
+                  title="Log out"
+                  type="submit"
+                >
+                  <LogOut size={30} class="shrink-0" />
+                  Logout
+                </button>
+              </form>
             {/if}
           </nav>
         </div>
       </div>
     {/if}
     {#if userData}
-      <a
-        class="hidden h-full items-center justify-center gap-2 border-y-transparent border-b-zinc-500 px-4 text-xl font-semibold transition-all hover:border-y-4 xxs:flex"
-        href={resolve('/auth/logout')}
-      >
-        <LogOut size={20} class="shrink-0" />
-      </a>
+      <form action="/auth/logout" method="POST" class="h-full">
+        <button
+          class="hidden h-full cursor-pointer items-center justify-center gap-2 border-y-transparent border-b-zinc-500 px-4 text-xl font-semibold transition-all hover:border-y-4 xxs:flex"
+          title="Log out"
+          type="submit"
+        >
+          <LogOut size={20} class="shrink-0" />
+        </button>
+      </form>
     {/if}
   </div>
 </header>

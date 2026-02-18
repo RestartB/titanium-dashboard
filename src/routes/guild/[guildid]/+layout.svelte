@@ -17,6 +17,12 @@
   });
 
   let isHome = $derived(page.url.pathname.split('/')[page.url.pathname.split('/').length - 1] !== data.serverInfo.id);
+
+  $effect(() => {
+    if (sidebarState.open && width >= 840) {
+      sidebarState.open = false;
+    }
+  });
 </script>
 
 <svelte:window bind:innerWidth={width} />
