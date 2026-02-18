@@ -3,15 +3,18 @@ import type { Handle } from '@sveltejs/kit';
 
 import { checkToken } from '$lib/server/token';
 import { apiLimit } from '$lib/limits';
+import { dev } from '$app/environment';
 
 export const handle: Handle = async ({ event, resolve }) => {
   console.log(`Handling request for ${event.url.pathname}`);
 
-  event.setHeaders({
-    'X-Content-Type-Options': 'nosniff',
-    'X-Frame-Options': 'SAMEORIGIN',
-    'Strict-Transport-Security': 'max-age=604800; includeSubDomains'
-  });
+  if (!dev) {
+    event.setHeaders({
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'SAMEORIGIN',
+      'Strict-Transport-Security': 'max-age=604800; includeSubDomains'
+    });
+  }
 
   const pathParts = event.url.pathname.split('/');
   const guildIndex = pathParts.indexOf('guild');

@@ -221,7 +221,7 @@
           <img
             src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
             alt={serverInfo.name}
-            class="h-6 w-fit rounded-lg"
+            class="h-6 w-6 rounded-lg"
             loading="lazy"
             decoding="async"
           />
@@ -240,7 +240,7 @@
               <img
                 src={emoji.url}
                 alt={emoji.label}
-                class="h-8 w-fit"
+                class="h-8 max-w-8 object-contain"
                 loading="lazy"
                 decoding="async"
                 onmouseover={() => (hoveredEmoji = emoji)}
@@ -273,7 +273,7 @@
                 <img
                   src={getEmojiFilename(emoji.hexcode)}
                   alt={emoji.label}
-                  class="h-8 w-fit"
+                  class="h-8 max-w-8 object-contain"
                   loading="lazy"
                   decoding="async"
                   onmouseover={() => (hoveredEmoji = emoji)}
@@ -292,14 +292,14 @@
       <img
         src={'hexcode' in hoveredEmoji ? getEmojiFilename(hoveredEmoji.hexcode) : hoveredEmoji.url}
         alt={hoveredEmoji.label}
-        class="h-8 w-fit"
+        class="h-8 max-w-8 object-contain"
         loading="lazy"
         decoding="async"
       />
 
       <div class="max-w-full overflow-hidden">
         {#if 'shortcodes' in hoveredEmoji}
-          <p class="w-full truncate font-medium">{hoveredEmoji.label}</p>
+          <p class="w-full truncate font-medium">{hoveredEmoji.label.replace('flag: ', '')}</p>
           <p class="w-full truncate text-sm text-zinc-400">
             :{hoveredEmoji.shortcodes?.join(': :')}:
           </p>
