@@ -25,9 +25,7 @@
   {href}
   bind:this={thisElement}
 >
-  <div>
-    {@render children?.()}
-  </div>
+  {@render children?.()}
 
   {#if Icon}
     <Icon size={24} class="shrink-0" />

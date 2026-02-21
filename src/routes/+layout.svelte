@@ -14,7 +14,8 @@
     permissions: { depth: 0, order: 2 },
     errors: { depth: 0, order: 3 },
     moderation: { depth: 0, order: 4 },
-    'moderation/cases': { depth: 1, order: 0 },
+    'moderation/cases': { depth: 1, order: 4 },
+    'moderation/cases/': { depth: 2, order: 4 },
     automod: { depth: 0, order: 5 },
     bouncer: { depth: 0, order: 6 },
     logging: { depth: 0, order: 7 },
@@ -35,6 +36,9 @@
     if (pagePath === `/guild/${params.guildid}`) {
       return pageHierarchy['home'] || null;
     } else {
+      if (pagePath.startsWith('moderation/cases/')) {
+        return pageHierarchy['moderation/cases/'];
+      }
       return pageHierarchy[pagePath] || null;
     }
   }
@@ -63,16 +67,16 @@
     let newAnim = 'fade-in';
 
     // compare depths
-    if (toPage.depth > fromPage.depth) {
+    if (toPage.depth > fromPage.depth && toPage.order === fromPage.order) {
       // going into a subpage
       oldAnim = 'slide-to-left';
       newAnim = 'slide-from-right';
-    } else if (toPage.depth < fromPage.depth) {
+    } else if (toPage.depth < fromPage.depth && toPage.order === fromPage.order) {
       // coming out
       oldAnim = 'slide-to-right';
       newAnim = 'slide-from-left';
-    } else if (toPage.depth === fromPage.depth) {
-      // same depth
+    } else {
+      // same depth / different page
       const isForward = toPage.order > fromPage.order;
       oldAnim = isForward ? 'slide-to-top' : 'slide-to-bottom';
       newAnim = isForward ? 'slide-from-bottom' : 'slide-from-top';

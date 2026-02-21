@@ -1,6 +1,7 @@
 <script lang="ts">
   import CaseRow from '$lib/components/cases/CaseRow.svelte';
   import Pagination from '$lib/components/ui/Pagination.svelte';
+  import Beta from '$lib/components/ui/Beta.svelte';
   import { ChevronLeft } from '@lucide/svelte';
 
   import type { CasesResponse } from '$lib/interfaces/moderation';
@@ -15,7 +16,7 @@
     if (newPage < 1 || newPage > pageCount) return;
     currentPage = newPage;
 
-    const response = await fetch(`/api/guild/${data.serverInfo.id}/errors?offset=${(currentPage - 1) * 50}&limit=50`);
+    const response = await fetch(`/api/guild/${data.serverInfo.id}/cases?offset=${(currentPage - 1) * 50}&limit=50`);
     const newData: CasesResponse = await response.json();
 
     casesData = newData;
@@ -34,7 +35,7 @@
 {/if}
 
 <div>
-  <h2 class="text-4xl font-bold">Cases</h2>
+  <h2 class="text-4xl font-bold">Cases <Beta class="inline-block w-fit align-middle" /></h2>
   <p>View and manage cases that have been created in your server.</p>
 </div>
 

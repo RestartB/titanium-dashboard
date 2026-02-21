@@ -24,3 +24,7 @@ export const apiLimit = new RetryAfterRateLimiter({
 export const guildsLimit = new RateLimiter({
   plugins: [new TitaniumTokenRateLimiter([1, '2s'])]
 });
+
+export const commentsLimit = new RateLimiter({
+  plugins: [new TitaniumTokenRateLimiter([1, '5s'])]
+});
