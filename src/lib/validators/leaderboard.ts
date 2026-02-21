@@ -3,6 +3,7 @@ import { validateID } from '$lib/helpers/discord';
 
 export const leaderboardLevelSchema = z
   .object({
+    id: z.string().default('').optional(),
     xp_required: z.number().int().nonnegative(),
     reward_roles: z.array(z.string()).default([])
   })

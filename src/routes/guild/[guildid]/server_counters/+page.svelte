@@ -41,7 +41,7 @@
       <Plus size={20} />
       Add Channel
     </Button>
-    {#each dataState.pageSettings.channels as _, index (index)}
+    {#each dataState.pageSettings.channels as _, index}
       <Channel
         {index}
         bind:channel={dataState.pageSettings.channels[index]}

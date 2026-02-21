@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { flip } from 'svelte/animate';
+
   import Rule from '$lib/components/bouncer/Rule.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
@@ -12,7 +14,7 @@
 
   function createBlankRule(): BouncerRuleSchema {
     return {
-      id: '',
+      id: crypto.randomUUID(),
       enabled: true,
       evaluate_for_existing_members: true,
       actions: [],
@@ -41,11 +43,13 @@
     Add Rule
   </Button>
 
-  {#each dataState.pageSettings.rules as _, index (index)}
-    <Rule
-      roles={dataState.serverInfo.roles}
-      bind:rule={dataState.pageSettings.rules[index]}
-      deleteThis={() => dataState.pageSettings.rules.splice(index, 1)}
-    />
+  {#each dataState.pageSettings.rules as rule, index (rule.id)}
+    <div animate:flip={{ duration: 400 }}>
+      <Rule
+        roles={dataState.serverInfo.roles}
+        bind:rule={dataState.pageSettings.rules[index]}
+        deleteThis={() => dataState.pageSettings.rules.splice(index, 1)}
+      />
+    </div>
   {/each}
 </ToggledContent>

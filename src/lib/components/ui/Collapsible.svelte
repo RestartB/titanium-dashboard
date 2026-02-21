@@ -9,7 +9,7 @@
   const { children, title, defaultState = false }: { children?: any; title: string; defaultState?: boolean } = $props();
 
   // default open when there's no client side js
-  let isOpen = $state(true);
+  let isOpen = $state(false);
 
   onMount(() => {
     isOpen = defaultState;

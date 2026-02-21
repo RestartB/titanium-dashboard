@@ -77,15 +77,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       return redirect(302, '/');
     }
 
-    const permCheckRequest = await fetch(
-      'http://localhost:5100/guild/' + guildId + '/perms/' + event.locals.discordId,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-    );
+    const permCheckRequest = await fetch('http://localhost:5100/guild/' + guildId + '/perms/' + event.locals.discordId);
 
     if (!permCheckRequest.ok) {
       if (permCheckRequest.status === 404) {

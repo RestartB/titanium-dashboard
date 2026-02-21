@@ -17,6 +17,9 @@
   let dataState = $state(data);
 
   const sortedLevels = $derived([...dataState.pageSettings.levels].sort((a, b) => a.xp_required - b.xp_required));
+  const sortedLevelsDecending = $derived(
+    [...dataState.pageSettings.levels].sort((a, b) => b.xp_required - a.xp_required)
+  );
 </script>
 
 <Saver page="leaderboard" {data} bind:dataState />
@@ -155,19 +158,23 @@
 
   <Button
     onclick={() => {
-      dataState.pageSettings.levels.push({ xp_required: 1000, reward_roles: [] });
+      dataState.pageSettings.levels.push({
+        id: crypto.randomUUID(),
+        xp_required: dataState.pageSettings.levels.length > 0 ? sortedLevelsDecending[0].xp_required + 1000 : 1000,
+        reward_roles: []
+      });
     }}
   >
     <Plus size={20} />
     Add Level
   </Button>
 
-  {#each sortedLevels as level, i}
+  {#each sortedLevels as level, i (level.id)}
     <Level
-      bind:level={dataState.pageSettings.levels[dataState.pageSettings.levels.indexOf(level)]}
+      bind:level={dataState.pageSettings.levels[i]}
       id={i + 1}
       deleteLevel={() => {
-        dataState.pageSettings.levels.splice(dataState.pageSettings.levels.indexOf(level), 1);
+        dataState.pageSettings.levels.splice(i, 1);
       }}
     />
   {/each}

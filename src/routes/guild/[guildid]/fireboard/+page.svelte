@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { flip } from 'svelte/animate';
+
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
@@ -47,14 +49,16 @@
       <Plus size={20} />
       Add Board
     </Button>
-    {#each dataState.pageSettings.boards as _, index (index)}
-      <Board
-        bind:board={dataState.pageSettings.boards[index]}
-        serverInfo={data.serverInfo}
-        deleteThis={() => {
-          dataState.pageSettings.boards.splice(index, 1);
-        }}
-      />
+    {#each dataState.pageSettings.boards as board, index (board.id)}
+      <div animate:flip={{ duration: 400 }}>
+        <Board
+          bind:board={dataState.pageSettings.boards[index]}
+          serverInfo={data.serverInfo}
+          deleteThis={() => {
+            dataState.pageSettings.boards.splice(index, 1);
+          }}
+        />
+      </div>
     {/each}
   </div>
 </ToggledContent>

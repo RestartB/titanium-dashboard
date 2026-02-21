@@ -98,4 +98,9 @@
   --animate-warning: shake 0.2s ease-in-out 0s 2;
   --animate-slide-to-bottom: slide-to-bottom 0.2s ease-in-out 0s 1;
   --animate-slide-from-top: slide-from-top 0.2s ease-in-out 0s 1;
+  --animate-slow-ping: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+* {
+  scrollbar-color: rgba(161, 161, 170, 0.5) transparent;
 }
