@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte';
+
   const {
     onclick = () => {},
     type,
@@ -14,7 +16,7 @@
     border?: boolean;
     smallPadding?: boolean;
     aria?: string;
-    children: any;
+    children: Snippet<[]>;
   } = $props();
 </script>
 

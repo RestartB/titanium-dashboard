@@ -20,7 +20,6 @@ This repo contains [Titanium](https://github.com/RestartB/titanium/tree/v2)'s we
 3. run `pnpm run db:push` to create the database and required tables
 4. run `pnpm run dev` to start the dev server
 
-
 ## Emojis
 
 You will need to download Twimojis separately as I do not ship these with the dashboard. You can download all emoji SVG files from the [Twimoji GitHub repo.](https://github.com/jdecked/twemoji/tree/main/assets/svg).

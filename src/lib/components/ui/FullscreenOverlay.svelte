@@ -3,8 +3,8 @@
   import { cubicOut } from 'svelte/easing';
 
   import { X } from '@lucide/svelte';
+  import type { Snippet } from 'svelte';
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   let {
     children,
     extraButton,
@@ -17,8 +17,8 @@
     class: className = '',
     overlayOpen = $bindable(false)
   }: {
-    children?: any;
-    extraButton?: any;
+    children?: Snippet<[]>;
+    extraButton?: Snippet<[]>;
     title?: string;
     width?: number;
     height?: number;
