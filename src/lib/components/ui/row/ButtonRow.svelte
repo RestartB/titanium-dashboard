@@ -1,7 +1,6 @@
 <script lang="ts">
-  import type { Component } from 'svelte';
+  import type { Component, Snippet } from 'svelte';
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   let {
     children,
     class: className = '',
@@ -10,7 +9,7 @@
     thisElement = $bindable(),
     onclick
   }: {
-    children?: any;
+    children?: Snippet<[]>;
     class?: string;
     label?: string;
     Icon?: Component;

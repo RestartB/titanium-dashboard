@@ -1,7 +1,6 @@
 <script lang="ts">
   import { beforeNavigate, invalidateAll } from '$app/navigation';
-  import { fly, scale } from 'svelte/transition';
-  import { cubicOut } from 'svelte/easing';
+  import { fly } from 'svelte/transition';
 
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import Row from '$lib/components/ui/row/Row.svelte';

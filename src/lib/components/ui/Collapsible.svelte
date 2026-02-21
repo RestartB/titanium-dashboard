@@ -1,12 +1,15 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, type Snippet } from 'svelte';
   import { slide } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
 
   import { ChevronDown } from '@lucide/svelte';
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const { children, title, defaultState = false }: { children?: any; title: string; defaultState?: boolean } = $props();
+  const {
+    children,
+    title,
+    defaultState = false
+  }: { children?: Snippet<[]>; title: string; defaultState?: boolean } = $props();
 
   // default open when there's no client side js
   let isOpen = $state(false);
