@@ -7,6 +7,7 @@
   import { sidebarState } from '$lib/states/sidebar.svelte';
 
   import Avatar from '$lib/components/ui/Avatar.svelte';
+  import Beta from '$lib/components/ui/Beta.svelte';
   import { PanelLeft, X, Menu, Server, LifeBuoy, LogOut, LogIn } from '@lucide/svelte';
   import logo from '$lib/assets/logo.svg';
 
@@ -59,9 +60,7 @@
       <div class="mr-2 flex items-center gap-2 {pageWithSidebar ? 'sidebar:pl-4' : 'pl-4'}">
         <img src={logo} alt="Titanium" class="h-8 w-8 rounded-md" translate="no" />
         <h1 class="text-lg font-bold" translate="no">Titanium</h1>
-        <div class="rounded-lg bg-zinc-700 p-1 px-2 text-base font-semibold text-zinc-400 select-none" translate="no">
-          Beta
-        </div>
+        <Beta />
       </div>
 
       <a

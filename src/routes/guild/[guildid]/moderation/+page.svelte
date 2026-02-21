@@ -2,6 +2,7 @@
   import { ToggleRow, AnchorRow } from '$lib/components/ui/row';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Saver from '$lib/components/Saver.svelte';
+  import Beta from '$lib/components/ui/Beta.svelte';
   import { ChevronRight, Book } from '@lucide/svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
 
@@ -21,7 +22,7 @@
 
 <ToggledContent enabled={dataState.serverSettings.modules.moderation}>
   <AnchorRow href="/guild/{dataState.serverInfo.id}/moderation/cases" Icon={ChevronRight} title="View Cases">
-    <div class="flex h-full items-center gap-4">
+    <div class="flex h-full w-full items-center gap-4">
       <div class=" hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">
         <Book size={28} />
       </div>
@@ -29,6 +30,7 @@
         <h2 class="text-xl font-bold">Cases</h2>
         <p>View moderation cases that have been created in this server.</p>
       </div>
+      <Beta class="ml-auto w-fit shrink-0" />
     </div>
   </AnchorRow>
 

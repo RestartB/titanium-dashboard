@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { page } from '$app/state';
+
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
   import Collapsible from '$lib/components/ui/Collapsible.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
@@ -180,7 +182,7 @@
     </Button>
   </div>
 
-  <Collapsible title="Titanium">
+  <Collapsible title="Titanium" defaultState={page.url.hash === '#titanium' ? true : false}>
     {@render logCategoryList('titanium_')}
   </Collapsible>
 
