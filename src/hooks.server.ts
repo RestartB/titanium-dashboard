@@ -113,6 +113,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       event.url.pathname === `/api/guild/${guildId}` ||
       event.url.pathname === `/api/guild/${guildId}/settings` ||
       event.url.pathname === `/api/guild/${guildId}/cases` ||
+      event.url.pathname.startsWith(`/api/guild/${guildId}/cases/`) ||
       event.url.pathname === `/guild/${guildId}/moderation/cases` ||
       event.url.pathname.startsWith(`/guild/${guildId}/moderation/cases/`)
     ) {
@@ -120,6 +121,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         return redirect(302, '/');
       }
     } else if (!permCheck.dashboard_manager) {
+      console.log(`Not a case manager whitelisted link, redirecting (${event.url.href})`);
       return redirect(302, `/guild/${guildId}/moderation/cases`);
     }
 
