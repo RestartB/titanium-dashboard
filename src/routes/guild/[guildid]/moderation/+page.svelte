@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { ToggleRow, AnchorRow } from '$lib/components/ui/row';
+  import { Row, ToggleRow, AnchorRow } from '$lib/components/ui/row';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import NumberInput from '$lib/components/ui/inputs/Number.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import Beta from '$lib/components/ui/Beta.svelte';
   import { ChevronRight, Book } from '@lucide/svelte';
@@ -82,14 +83,17 @@
     </ToggleRow>
   </ToggledContent>
 
-  <!-- <Row>
+  <hr class=" border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Punishment Defaults</p>
+
+  <Row>
     <div>
-      <h2 class="text-xl font-bold">Immune Roles</h2>
+      <h2 class="text-xl font-bold">Ban Delete Days</h2>
       <p>
-        By default, Titanium will respect the role hierarchy when performing moderation actions.
-        However, you can set specific roles to be immune from all moderation actions that are
-        performed with Titanium.
+        Enter the amount of days of a user's messages that should be purged when a user is banned from the server. A max
+        of 7 days is allowed. Enter 0 to disable.
       </p>
     </div>
-  </Row> -->
+    <NumberInput bind:value={dataState.pageSettings.ban_days} min={0} max={7} class="mt-2" />
+  </Row>
 </ToggledContent>
