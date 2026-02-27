@@ -148,6 +148,13 @@
 <hr class=" border-zinc-500" />
 <p class="text-base font-bold text-zinc-300/60">Comments</p>
 
+<Alert
+  ><span
+    >Comments cannot be edited from the dashboard currently. Please use the <code>case comments</code> command in Discord
+    to edit comments.</span
+  ></Alert
+>
+
 {#if caseData.comments.length === 0}
   <p class="opacity-80">There are no comments yet.</p>
 {:else}
