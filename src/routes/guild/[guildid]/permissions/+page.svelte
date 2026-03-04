@@ -59,7 +59,8 @@
     <h2 class="text-xl font-bold">Dashboard Managers</h2>
     <p class="mb-2">
       Dashboard Managers can fully manage Titanium from the dashboard, however, they will not have any special access to
-      Titanium's commands past what their roles already provide.
+      Titanium's commands past what their roles already provide. Roles with the Administrator permission will
+      automatically be Dashboard Managers, but you can also add roles manually below.
     </p>
     <div class="flex flex-wrap gap-2">
       <Button onclick={() => (dashboardOverlayOpen = true)}><Plus size={20} /> Add Role</Button>
