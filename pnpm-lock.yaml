@@ -18,8 +18,8 @@ importers:
         specifier: 16.0.0
         version: 16.0.0
       emojibase-data:
-        specifier: 16.0.3
-        version: 16.0.3(emojibase@16.0.0)
+        specifier: 17.0.0
+        version: 17.0.0(emojibase@16.0.0)
       fuse.js:
         specifier: ^7.1.0
         version: 7.1.0
@@ -1411,8 +1411,8 @@ packages:
       sqlite3:
         optional: true
 
-  emojibase-data@16.0.3:
-    resolution: {integrity: sha512-MopInVCDZeXvqBMPJxnvYUyKw9ImJZqIDr2sABo6acVSPev5IDYX+mf+0tsu96JJyc3INNvgIf06Eso7bdTX2Q==}
+  emojibase-data@17.0.0:
+    resolution: {integrity: sha512-Yvgb5AWoHViHV/gq1qr5ZAarcBip+B27/ZLRsUJkbgAEaLlZ/fof9g882LTpmEpyhBNEC0m2SEmItljHsTygjA==}
     peerDependencies:
       emojibase: '*'
 
@@ -3125,7 +3125,7 @@ snapshots:
       '@libsql/client': 0.15.15
       gel: 2.1.1
 
-  emojibase-data@16.0.3(emojibase@16.0.0):
+  emojibase-data@17.0.0(emojibase@16.0.0):
     dependencies:
       emojibase: 16.0.0
 
