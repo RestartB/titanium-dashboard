@@ -58,7 +58,7 @@
   "dependencies": {
     "@libsql/client": "^0.15.15",
     "@lucide/svelte": "^0.577.0",
-    "emojibase": "16.0.0",
+    "emojibase": "17.0.0",
     "emojibase-data": "17.0.0",
     "fuse.js": "^7.1.0",
     "zod": "^4.3.6"
