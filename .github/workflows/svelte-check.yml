@@ -1,0 +1,31 @@
+name: Svelte Check
+
+on:
+  push:
+    paths:
+      - '**.svelte'
+      - '**.ts'
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 25
+          cache: "pnpm"
+      - name: Install dependencies
+        run: |
+          pnpm install
+          pnpm svelte-kit sync
+      - name: Add Svelte Check annotator
+        uses: prgm-dev/svelte-check-pr-annotator@main
+      - name: Run Svelte Check
+        run: pnpm run check --output machine
