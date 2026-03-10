@@ -145,7 +145,7 @@
   <p>{caseData.description}</p>
 </div>
 
-<hr class=" border-zinc-500" />
+<hr class="border-zinc-500" />
 <p class="text-base font-bold text-zinc-300/60">Comments</p>
 
 <Alert

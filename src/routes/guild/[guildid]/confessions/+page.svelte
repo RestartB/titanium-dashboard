@@ -51,7 +51,7 @@
     </Row>
   </ToggledContent>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Confession Logs</p>
 
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">

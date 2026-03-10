@@ -153,7 +153,7 @@
     <NumberInput bind:value={dataState.pageSettings.cooldown} min={0} max={600} class="mt-2" />
   </Row>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Levels</p>
 
   <Button
@@ -179,7 +179,7 @@
     />
   {/each}
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Old Members</p>
 
   <ToggleRow bind:toggled={dataState.pageSettings.delete_leavers}>
@@ -192,7 +192,7 @@
     </div>
   </ToggleRow>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Notifications</p>
 
   <ToggleRow bind:toggled={dataState.pageSettings.levelup_notifications}>
@@ -220,7 +220,7 @@
     </Row>
   </ToggledContent>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Web Leaderboard</p>
 
   <Alert>

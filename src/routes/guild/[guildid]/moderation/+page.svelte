@@ -35,7 +35,7 @@
     </div>
   </AnchorRow>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">General Settings</p>
 
   <ToggleRow bind:toggled={dataState.pageSettings.delete_confirmation}>
@@ -58,7 +58,7 @@
     </div>
   </ToggleRow>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">External Cases</p>
 
   <ToggleRow bind:toggled={dataState.pageSettings.external_cases}>
@@ -83,7 +83,7 @@
     </ToggleRow>
   </ToggledContent>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Punishment Defaults</p>
 
   <Row>

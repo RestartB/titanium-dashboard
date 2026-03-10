@@ -186,85 +186,85 @@
     {@render logCategoryList('titanium_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="App Commands">
     {@render logCategoryList('app_command_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Discord AutoMod">
     {@render logCategoryList('dc_automod_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Channels">
     {@render logCategoryList('channel_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Server Settings">
     {@render logCategoryList('guild_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Members">
     {@render logCategoryList('member_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Messages">
     {@render logCategoryList('message_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Polls">
     {@render logCategoryList('poll_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Reactions">
     {@render logCategoryList('reaction_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Roles">
     {@render logCategoryList('role_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Scheduled Events">
     {@render logCategoryList('scheduled_event_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Soundboard">
     {@render logCategoryList('soundboard_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Stage Instances">
     {@render logCategoryList('stage_instance_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Threads">
     {@render logCategoryList('thread_')}
   </Collapsible>
 
-  <hr class=" border-zinc-500" />
+  <hr class="border-zinc-500" />
 
   <Collapsible title="Voice">
     {@render logCategoryList('voice_')}
