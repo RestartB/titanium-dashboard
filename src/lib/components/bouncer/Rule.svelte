@@ -53,7 +53,7 @@
         <Plus size={16} />
         <p>Add Criterion...</p>
       </button>
-      {#each rule.criteria as _, index (index)}
+      {#each rule?.criteria as _, index (index)}
         <CriterionTile bind:criterion={rule.criteria[index]} deleteThis={() => rule.criteria.splice(index, 1)} />
       {/each}
     </div>
@@ -68,7 +68,7 @@
         <Plus size={16} />
         <p>Add Action...</p>
       </button>
-      {#each rule.actions as _, index (index)}
+      {#each rule?.actions as _, index (index)}
         <ActionTile {roles} bind:action={rule.actions[index]} deleteThis={() => rule.actions.splice(index, 1)} />
       {/each}
     </div>
