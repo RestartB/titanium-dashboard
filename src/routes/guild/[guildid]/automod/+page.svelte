@@ -5,7 +5,7 @@
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
-  import { ScrollText } from '@lucide/svelte';
+  import { ScrollText, ChevronRight } from '@lucide/svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';
 
   const { data } = $props();

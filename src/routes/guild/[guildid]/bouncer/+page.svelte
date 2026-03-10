@@ -7,7 +7,7 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import { AnchorRow } from '$lib/components/ui/row';
-  import { Plus, ScrollText } from '@lucide/svelte';
+  import { Plus, ScrollText, ChevronRight } from '@lucide/svelte';
   import type { BouncerRuleSchema } from '$lib/validators/bouncer';
 
   const { data } = $props();
