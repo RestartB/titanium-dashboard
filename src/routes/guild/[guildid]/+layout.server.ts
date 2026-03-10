@@ -6,7 +6,7 @@ import type { GuildSettingsSchema } from '$lib/validators/settings';
 
 export const load: LayoutServerLoad = async ({ locals, fetch }) => {
   // Get data
-  const infoRequest = await fetch('/api/guild/' + locals.guildId);
+  const infoRequest = await fetch('/api/guild/' + locals.guildId + '?user=' + locals.discordId);
 
   if (!infoRequest.ok) {
     if (infoRequest.status === 404 || infoRequest.status === 403) {

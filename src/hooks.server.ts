@@ -77,32 +77,46 @@ export const handle: Handle = async ({ event, resolve }) => {
       return redirect(302, '/');
     }
 
-    const permCheckRequest = await fetch('http://localhost:5100/guild/' + guildId + '/perms/' + event.locals.discordId);
+    try {
+      const permCheckRequest = await fetch(
+        'http://localhost:5100/guild/' + guildId + '/perms/' + event.locals.discordId
+      );
 
-    if (!permCheckRequest.ok) {
-      if (permCheckRequest.status === 404) {
-        console.log('Guild not found');
+      if (!permCheckRequest.ok) {
+        if (permCheckRequest.status === 404) {
+          console.log('Guild not found');
+          if (event.url.pathname.startsWith('/api')) {
+            return json({ error: 'Guild not found' }, { status: 404 });
+          }
+
+          return redirect(302, '/');
+        }
+
+        console.log('Failed to fetch guild permissions from Titanium');
         if (event.url.pathname.startsWith('/api')) {
-          return json({ error: 'Guild not found' }, { status: 404 });
+          return json(
+            { error: 'Failed to fetch guild permissions from Titanium' },
+            { status: permCheckRequest.status }
+          );
         }
 
         return redirect(302, '/');
       }
 
-      console.log('Failed to fetch guild permissions from Titanium');
-      if (event.url.pathname.startsWith('/api')) {
-        return json({ error: 'Failed to fetch guild permissions from Titanium' }, { status: permCheckRequest.status });
+      const permCheck = await permCheckRequest.json();
+
+      event.locals.dashboard_manager = permCheck.dashboard_manager;
+      event.locals.case_manager = permCheck.case_manager;
+    } catch (err) {
+      if (err instanceof TypeError) {
+        console.error('Network error:', err.message);
+        throw error(503, 'Titanium is unavailable. Please try again later.');
       }
 
-      return redirect(302, '/');
+      throw err;
     }
 
-    const permCheck = await permCheckRequest.json();
-
-    event.locals.dashboard_manager = permCheck.dashboard_manager;
-    event.locals.case_manager = permCheck.case_manager;
-
-    if (!permCheck.dashboard_manager && !permCheck.case_manager) {
+    if (!event.locals.dashboard_manager && !event.locals.case_manager) {
       console.log('Insufficient guild permissions');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Insufficient Permissions' }, { status: 403 });
@@ -117,10 +131,10 @@ export const handle: Handle = async ({ event, resolve }) => {
       event.url.pathname === `/guild/${guildId}/moderation/cases` ||
       event.url.pathname.startsWith(`/guild/${guildId}/moderation/cases/`)
     ) {
-      if (!permCheck.case_manager && !permCheck.dashboard_manager) {
+      if (!event.locals.case_manager && !event.locals.dashboard_manager) {
         return redirect(302, '/');
       }
-    } else if (!permCheck.dashboard_manager) {
+    } else if (!event.locals.dashboard_manager) {
       console.log(`Not a case manager whitelisted link, redirecting (${event.url.href})`);
       return redirect(302, `/guild/${guildId}/moderation/cases`);
     }

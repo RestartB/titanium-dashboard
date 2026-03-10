@@ -4,7 +4,7 @@
 
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import Row from '$lib/components/ui/row/Row.svelte';
-  import { TriangleAlert, LoaderCircle, Copy, Check, X } from '@lucide/svelte';
+  import { TriangleAlert, LoaderCircle, Copy, Check } from '@lucide/svelte';
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   let { page = '', data, dataState = $bindable() }: { page?: string; data: any; dataState: any } = $props();
@@ -17,6 +17,7 @@
   let overlayOpen = $state(false);
   let errorCode: number = $state(0);
   let errorStage: string = $state('');
+  let errorMessage: string = $state('');
   let isCopied = $state(false);
 
   $effect(() => {
@@ -60,6 +61,9 @@
       });
 
       if (!permissionsReq.ok) {
+        errorMessage =
+          (await permissionsReq.json())['message'] ||
+          'Failed to update settings on Titanium server. Please try again later.';
         errorCode = permissionsReq.status;
         errorStage = '1';
 
@@ -87,8 +91,11 @@
     });
 
     if (!generalSettingsReq.ok) {
+      errorMessage =
+        (await generalSettingsReq.json())['message'] ||
+        'Failed to update settings on Titanium server. Please try again later.';
       errorCode = generalSettingsReq.status;
-      errorStage = '1';
+      errorStage = '2';
 
       overlayOpen = true;
       loading = false;
@@ -105,8 +112,11 @@
       });
 
       if (!pageSettingsReq.ok) {
+        errorMessage =
+          (await pageSettingsReq.json())['message'] ||
+          'Failed to update settings on Titanium server. Please try again later.';
         errorCode = pageSettingsReq.status;
-        errorStage = '2';
+        errorStage = '3';
 
         overlayOpen = true;
         loading = false;
@@ -158,7 +168,7 @@
 
 {#if overlayOpen}
   <FullscreenOverlay bind:overlayOpen title="Error" {extraButton} height={250} padding={16} gap={16}>
-    <p>An error occurred while saving your changes. Please try again later.</p>
+    <p>{errorMessage}</p>
     <p class="mt-auto text-center font-mono text-sm text-zinc-400">
       Got code {errorCode} in stage {errorStage}
     </p>

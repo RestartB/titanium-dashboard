@@ -8,20 +8,29 @@ export const GET: RequestHandler = async (event) => {
   const limit = Math.max(Math.min(Number(event.url.searchParams.get('limit') || 50), 100), 1);
   const offset = Math.max(Number(event.url.searchParams.get('offset') || 0), 0);
 
-  const request = await fetch(
-    `${TITANIUM_API_URL}/guild/${event.locals.guildId}/cases?limit=${limit}&offset=${offset}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
+  try {
+    const request = await fetch(
+      `${TITANIUM_API_URL}/guild/${event.locals.guildId}/cases?limit=${limit}&offset=${offset}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
+    );
+
+    if (!request.ok) {
+      error(request.status, 'Failed to fetch cases from Titanium');
     }
-  );
 
-  if (!request.ok) {
-    error(request.status, 'Failed to fetch cases from Titanium');
+    const data = await request.json();
+    return json(data);
+  } catch (err) {
+    if (err instanceof TypeError) {
+      console.error('Network error:', err.message);
+      throw error(503, 'Titanium is unavailable. Please try again later.');
+    }
+
+    throw err;
   }
-
-  const data = await request.json();
-  return json(data);
 };
