@@ -24,7 +24,7 @@
 <ToggledContent enabled={dataState.serverSettings.modules.moderation}>
   <AnchorRow href="/guild/{dataState.serverInfo.id}/moderation/cases" Icon={ChevronRight} title="View Cases">
     <div class="flex h-full w-full items-center gap-4">
-      <div class=" hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">
+      <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">
         <Book size={28} />
       </div>
       <div>
