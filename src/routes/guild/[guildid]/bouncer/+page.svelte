@@ -6,7 +6,8 @@
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
-  import { Plus } from '@lucide/svelte';
+  import { AnchorRow } from '$lib/components/ui/row';
+  import { Plus, ScrollText } from '@lucide/svelte';
   import type { BouncerRuleSchema } from '$lib/validators/bouncer';
 
   const { data } = $props();
@@ -34,6 +35,18 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.bouncer}>
+  <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
+    <div class="flex h-full items-center gap-4">
+      <div class=" hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">
+        <ScrollText size={28} />
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">Log Channel</h2>
+        <p>Go to the Titanium category on the logging page to add a channel for bouncer logs.</p>
+      </div>
+    </div>
+  </AnchorRow>
+
   <Button
     onclick={() => {
       dataState.pageSettings.rules.push(createBlankRule());

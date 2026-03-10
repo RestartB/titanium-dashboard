@@ -1,10 +1,11 @@
 <script lang="ts">
-  import Row from '$lib/components/ui/row/Row.svelte';
+  import { AnchorRow, Row } from '$lib/components/ui/row';
   import Rule from '$lib/components/automod/Rule.svelte';
   import Collapsible from '$lib/components/ui/Collapsible.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
+  import { ScrollText } from '@lucide/svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';
 
   const { data } = $props();
@@ -70,6 +71,18 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.automod}>
+  <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
+    <div class="flex h-full items-center gap-4">
+      <div class=" hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">
+        <ScrollText size={28} />
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">Log Channel</h2>
+        <p>Go to the Titanium category on the logging page to add a channel for automod logs.</p>
+      </div>
+    </div>
+  </AnchorRow>
+
   <Collapsible title="Word Filters" defaultState={true}>
     <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 xs:grid-cols-2 lg:grid-cols-2">
       {@render rulesCard(
@@ -80,6 +93,7 @@
       )}
     </div>
   </Collapsible>
+
   <Collapsible title="Link Filters" defaultState={true}>
     <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 xs:grid-cols-2 lg:grid-cols-2">
       {@render rulesCard(
@@ -96,6 +110,7 @@
       )}
     </div>
   </Collapsible>
+
   <Collapsible title="Spam Filters" defaultState={true}>
     <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 xs:grid-cols-2 lg:grid-cols-2">
       {@render rulesCard(
