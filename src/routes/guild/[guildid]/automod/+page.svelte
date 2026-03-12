@@ -5,6 +5,7 @@
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import { ScrollText, ChevronRight } from '@lucide/svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';
 
@@ -70,7 +71,11 @@
   <Toggle bind:toggled={dataState.serverSettings.modules.automod} />
 </div>
 
-<ToggledContent enabled={dataState.serverSettings.modules.automod}>
+{#if !dataState.serverSettings.modules.moderation}
+  <Alert>To enable this module, enable the Moderation module first.</Alert>
+{/if}
+
+<ToggledContent enabled={dataState.serverSettings.modules.automod && dataState.serverSettings.modules.moderation}>
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
       <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">
