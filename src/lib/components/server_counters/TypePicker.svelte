@@ -32,4 +32,8 @@
   {@render typeRow('bots', 'The total amount of bots in the server.')}
   {@render typeRow('online_members', 'The total amount of users and bots that are online.')}
   {@render typeRow('offline_members', 'The total amount of users and bots that are offline.')}
+  {@render typeRow('channels', 'The total amount of channels in the server.')}
+  {@render typeRow('categories', 'The total amount of channel categories in the server.')}
+  {@render typeRow('roles', 'The total amount of roles in the server.')}
+  {@render typeRow('total_xp', 'The total amount of XP earned on the Titanium leaderboard in this server.')}
 </FullscreenOverlay>
