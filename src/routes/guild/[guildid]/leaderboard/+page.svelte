@@ -203,6 +203,13 @@
   </ToggleRow>
 
   <ToggledContent bind:enabled={dataState.pageSettings.levelup_notifications}>
+    <ToggleRow bind:toggled={dataState.pageSettings.notification_ping}>
+      <div>
+        <h2 class="text-xl font-bold">Notification Pings</h2>
+        <p>Whether to ping the user when sending a level up notification.</p>
+      </div>
+    </ToggleRow>
+
     <Row>
       <div>
         <h2 class="text-xl font-bold">Notification Channel</h2>
