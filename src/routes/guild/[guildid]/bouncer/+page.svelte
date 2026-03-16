@@ -30,7 +30,7 @@
 <div class="flex items-center justify-between gap-4">
   <div class="flex-1">
     <h2 class="text-4xl font-bold">Bouncer</h2>
-    <p>Allow Titanium to monitor users as they join.</p>
+    <p>Monitor users as they join and update their profiles.</p>
   </div>
   <Toggle bind:toggled={dataState.serverSettings.modules.bouncer} />
 </div>

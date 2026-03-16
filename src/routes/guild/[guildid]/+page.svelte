@@ -90,7 +90,7 @@
   )}
   {@render featureCard(
     'Bouncer',
-    'Allow Titanium to monitor users as they join.',
+    'Monitor users as they join and update their profiles.',
     `/guild/${serverId}/bouncer`,
     DoorClosedLocked
   )}
