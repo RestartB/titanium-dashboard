@@ -11,7 +11,7 @@
 
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
 
-  import { Dice6, Star, Brain, Plus } from '@lucide/svelte';
+  import { Dice6, Star, Brain, Plus, X } from '@lucide/svelte';
 
   const { data } = $props();
   let dataState = $state(data);
@@ -219,11 +219,18 @@
         </p>
       </div>
 
-      <ChannelButton
-        categories={data.serverInfo.categories}
-        bind:channel={dataState.pageSettings.notification_channel}
-        class="mt-2 bg-zinc-700"
-      />
+      <div class="mt-2 flex flex-wrap gap-2">
+        <ChannelButton
+          categories={data.serverInfo.categories}
+          bind:channel={dataState.pageSettings.notification_channel}
+          class="bg-zinc-700"
+        />
+
+        {#if dataState.pageSettings.notification_channel}
+          <Button onclick={() => (dataState.pageSettings.notification_channel = null)} smallPadding={true}><X /></Button
+          >
+        {/if}
+      </div>
     </Row>
   </ToggledContent>
 
