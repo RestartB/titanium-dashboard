@@ -22,7 +22,7 @@
 
 {#snippet featureCard(title: string, description: string, href: string, Icon: Component)}
   <a
-    class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4 shadow-lg transition-all hover:scale-102 hover:bg-zinc-700"
+    class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4 shadow-lg transition-all hover:scale-102 hover:bg-zinc-700 active:scale-98"
     {href}
   >
     <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-600">

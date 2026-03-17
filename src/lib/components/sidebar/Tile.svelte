@@ -5,9 +5,10 @@
 </script>
 
 <a
-  class="flex w-full items-center gap-2 rounded-xl p-2 {!active ? 'hover:bg-zinc-800' : ''} {active
-    ? 'bg-zinc-700'
-    : ''}"
+  class="flex w-full items-center gap-2 rounded-xl p-2
+  {!active ? 'hover:bg-zinc-800' : ''} {active ? 'bg-zinc-700' : ''}
+  transition-all active:scale-98
+  "
   {href}
 >
   <Icon size={20} />
