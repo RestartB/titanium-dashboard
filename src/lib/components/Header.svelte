@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { page } from '$app/state';
+  import { navigating, page } from '$app/state';
   import { resolve } from '$app/paths';
   import { afterNavigate } from '$app/navigation';
   import { fade, fly } from 'svelte/transition';
@@ -8,7 +8,7 @@
 
   import Avatar from '$lib/components/ui/Avatar.svelte';
   import Beta from '$lib/components/ui/Beta.svelte';
-  import { PanelLeft, X, Menu, Server, LifeBuoy, LogOut, LogIn } from '@lucide/svelte';
+  import { PanelLeft, X, Menu, Server, LifeBuoy, LogOut, LogIn, LoaderCircle } from '@lucide/svelte';
   import logo from '$lib/assets/logo.svg';
 
   import type { UserInfo } from '$lib/interfaces/userInfo';
@@ -38,7 +38,7 @@
   style="view-transition-name: header"
 >
   <div class="mx-auto flex h-full max-w-7xl items-center">
-    <div class="flex h-full items-center">
+    <div class="flex h-full shrink-0 items-center">
       {#if pageWithSidebar}
         <button
           class="cursor-pointer p-4 sidebar:hidden"
@@ -81,7 +81,13 @@
       >
     </div>
 
-    <div class="ml-auto flex items-center gap-2">
+    <div class="ml-auto flex max-w-fit items-center gap-2 overflow-hidden">
+      {#if navigating.type && navigating.from && navigating.to && navigating.from.url.href !== navigating.to.url.href}
+        <span class="shrink-0" transition:fade={{ duration: 100 }}>
+          <LoaderCircle size={20} class="animate-spin" />
+        </span>
+      {/if}
+
       {#if shortUserData}
         <Avatar
           src={shortUserData.avatar
@@ -90,12 +96,13 @@
           name={shortUserData?.global_name || shortUserData?.username}
           size={24}
           circle={true}
+          class="shrink-0"
         />
-        <p class="truncate font-bold" translate="no">
+        <p class="hidden truncate font-bold xxxs:block" translate="no">
           {shortUserData?.global_name || shortUserData?.username}
         </p>
       {:else}
-        <p class="font-bold opacity-70 xxs:pr-4">Not logged in</p>
+        <p class="hidden truncate font-bold opacity-70 xxxs:block xxs:pr-4">Not logged in</p>
       {/if}
     </div>
 

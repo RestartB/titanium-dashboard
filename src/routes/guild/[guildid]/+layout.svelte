@@ -1,7 +1,7 @@
 <script lang="ts">
   import { sidebarState } from '$lib/states/sidebar.svelte';
   import { afterNavigate } from '$app/navigation';
-  import { page } from '$app/state';
+  import { page, navigating } from '$app/state';
   import { fade } from 'svelte/transition';
 
   import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
@@ -45,7 +45,17 @@
       {/if}
     {/if}
 
-    <div class="flex w-full flex-col gap-4 overflow-y-auto p-4 {isHome ? 'pb-35' : ''}">
+    <div
+      class="flex w-full flex-col gap-4 overflow-y-auto p-4 transition-opacity {isHome ? 'pb-35' : ''}"
+      class:opacity-50={navigating.type &&
+        navigating.from &&
+        navigating.to &&
+        navigating.from.url.href !== navigating.to.url.href}
+      class:pointer-events-none={navigating.type &&
+        navigating.from &&
+        navigating.to &&
+        navigating.from.url.href !== navigating.to.url.href}
+    >
       <noscript>
         <Alert class="bg-yellow-800/50">
           <p>
