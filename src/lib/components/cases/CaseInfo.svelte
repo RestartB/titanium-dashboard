@@ -38,7 +38,10 @@
     <div>
       <div class="flex items-center gap-2">
         <p class="font-bold">
-          {comment.creator_display} <span class="font-normal">(@{comment.creator_name})</span>
+          {comment.creator_display}
+          <span class="font-normal"
+            >(@{comment.creator_name}{comment.creator_discrim ? `#${comment.creator_discrim}` : ''})</span
+          >
           <span class="align-middle text-sm font-normal text-zinc-300">
             {new Date(comment.time_created).toLocaleString()}
           </span>
@@ -114,7 +117,11 @@
       class="h-8 w-8 rounded-full"
     />
     <div>
-      <p class="font-semibold">{caseData.creator_display} (@{caseData.creator_name})</p>
+      <p class="font-semibold">
+        {caseData.creator_display} (@{caseData.creator_name}{caseData.creator_discrim
+          ? `#${caseData.creator_discrim}`
+          : ''})
+      </p>
       <p class="font-mono text-sm text-zinc-300">{caseData.creator_id}</p>
     </div>
   </div>
@@ -125,7 +132,9 @@
   <div class="mt-1 flex items-center gap-2">
     <img src={caseData.user_pfp} alt="{caseData.user_name}'s PFP" width="32" height="32" class="h-8 w-8 rounded-full" />
     <div>
-      <p class="font-semibold">{caseData.user_display} (@{caseData.user_name})</p>
+      <p class="font-semibold">
+        {caseData.user_display} (@{caseData.user_name}{caseData.user_discrim ? `#${caseData.user_discrim}` : ''})
+      </p>
       <p class="font-mono text-sm text-zinc-300">{caseData.user_id}</p>
     </div>
   </div>
@@ -142,7 +151,7 @@
 
 <div>
   <h3 class="mb-1 text-base font-bold opacity-60">Reason</h3>
-  <p>{caseData.description}</p>
+  <p class:opacity-80={!caseData.description}>{caseData.description || 'No description provided.'}</p>
 </div>
 
 <hr class="border-zinc-500" />
@@ -158,7 +167,7 @@
 {#if caseData.comments.length === 0}
   <p class="opacity-80">There are no comments yet.</p>
 {:else}
-  {#each caseData.comments as comment}
+  {#each caseData.comments as comment (comment.id)}
     {@render commentRow(comment)}
   {/each}
 {/if}
@@ -181,7 +190,7 @@
     </button>
   </div>
 
-  {#each createComment.fields.content.issues() as issue}
+  {#each createComment.fields.content.issues() as issue (issue.message)}
     <div class="flex items-center gap-1">
       <CircleAlert class="inline-block shrink-0 align-middle" size={20} />
       <p>{issue.message}</p>

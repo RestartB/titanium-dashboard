@@ -27,9 +27,9 @@
             ></span>
           </span>
         {/if}
-        <Tooltip type="dark" class="border-2 border-zinc-700 p-2 px-4 dark:bg-zinc-800"
-          >{caseData.resolved ? 'Resolved' : 'Open'}</Tooltip
-        >
+        <Tooltip type="dark" class="border-2 border-zinc-700 p-2 px-4 dark:bg-zinc-800">
+          {caseData.resolved ? 'Resolved' : 'Open'}
+        </Tooltip>
 
         <p class="text-base text-zinc-300">
           {#if caseData.type in icons}
@@ -44,7 +44,9 @@
             height="20"
             class="inline-block h-5 w-5 rounded-full align-middle"
           />
-          @{caseData.creator_name} - {new Date(caseData.time_created).toLocaleString()}
+          @{caseData.creator_name}{caseData.creator_discrim ? `#${caseData.creator_discrim}` : ''} - {new Date(
+            caseData.time_created
+          ).toLocaleString()}
         </p>
       </div>
 
@@ -57,12 +59,14 @@
           class="h-8 w-8 rounded-full"
         />
         <div>
-          <p class="font-semibold">{caseData.user_display} (@{caseData.user_name})</p>
+          <p class="font-semibold">
+            {caseData.user_display} (@{caseData.user_name}{caseData.user_discrim ? `#${caseData.user_discrim}` : ''})
+          </p>
           <p class="font-mono text-sm text-zinc-300">{caseData.user_id}</p>
         </div>
       </div>
 
-      <p>{caseData.description || 'No description provided.'}</p>
+      <p class:opacity-80={!caseData.description}>{caseData.description || 'No description provided.'}</p>
     </div>
   </a>
 </li>

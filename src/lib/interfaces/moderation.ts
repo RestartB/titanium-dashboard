@@ -8,10 +8,12 @@ export type ModerationCase = {
   type: string;
   user_id: string;
   user_name: string;
+  user_discrim?: string | null;
   user_display: string;
   user_pfp: string;
   creator_id: string;
   creator_name: string;
+  creator_discrim?: string | null;
   creator_display: string;
   creator_pfp: string;
   description: string;
@@ -27,6 +29,7 @@ export type ModerationCaseComment = {
   id: string;
   creator_id: string;
   creator_name: string;
+  creator_discrim?: string | null;
   creator_display: string;
   creator_pfp: string;
   content: string;
