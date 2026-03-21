@@ -71,18 +71,6 @@
     </div>
   </ToggleRow>
 
-  <ToggledContent bind:enabled={dataState.pageSettings.external_cases}>
-    <ToggleRow bind:toggled={dataState.pageSettings.external_case_dms}>
-      <div>
-        <h2 class="text-xl font-bold">Send External Cases DMs</h2>
-        <p>
-          When a external case is created, Titanium will attempt to DM the user informing them of the action taken.
-          Enable with caution - this can cause the user to recieve a DM from the original bot, and a DM from Titanium.
-        </p>
-      </div>
-    </ToggleRow>
-  </ToggledContent>
-
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Punishment Defaults</p>
 
