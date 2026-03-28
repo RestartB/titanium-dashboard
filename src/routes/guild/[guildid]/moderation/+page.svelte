@@ -65,8 +65,8 @@
     <div>
       <h2 class="text-xl font-bold">Create External Cases</h2>
       <p>
-        When someone is punished using the built in Discord mod tools or another bot, Titanium will create a case for
-        the user.
+        Titanium will monitor the server's audit log, and create cases for users punished not using Titanium - for
+        example, using the built in Discord tools or a different moderation bot.
       </p>
     </div>
   </ToggleRow>

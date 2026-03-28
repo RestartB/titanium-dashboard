@@ -15,7 +15,8 @@ export const moduleSchema = z.object({
 export type ModuleSchema = z.infer<typeof moduleSchema>;
 
 export const settingsSchema = z.object({
-  loading_reaction: z.boolean()
+  loading_reaction: z.boolean(),
+  delete_after_3_days: z.boolean()
 });
 
 export type SettingsSchema = z.infer<typeof settingsSchema>;

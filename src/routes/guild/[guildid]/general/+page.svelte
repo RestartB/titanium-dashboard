@@ -72,3 +72,18 @@
     </p>
   </div>
 </ToggleRow>
+
+<hr class="border-zinc-500" />
+<p class="text-base font-bold text-zinc-300/60">Data Retention</p>
+
+<ToggleRow bind:toggled={dataState.serverSettings.settings.delete_after_3_days}>
+  <div>
+    <h2 class="text-xl font-bold">Delete data after 3 days</h2>
+    <p>
+      When Titanium leaves your server, any configuration or other data stored on Titanium's server will be kept for
+      around 3 days before it is deleted. This means that if you accidentally kick Titanium, or change your mind, your
+      data will be retained. By disabling this option, any data about your server will be deleted from Titanium's server
+      immediately when the bot leaves your server.
+    </p>
+  </div>
+</ToggleRow>
