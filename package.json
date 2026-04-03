@@ -56,7 +56,7 @@
     ]
   },
   "dependencies": {
-    "@libsql/client": "^0.17.0",
+    "@libsql/client": "^0.17.2",
     "@lucide/svelte": "^1.7.0",
     "emojibase": "17.0.0",
     "emojibase-data": "17.0.0",
