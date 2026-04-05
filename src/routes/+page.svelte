@@ -84,10 +84,10 @@
   </a>
 {/snippet}
 
-<div class="relative flex h-full flex-col items-center justify-center p-4">
-  <div
+<div class="flex h-full flex-col items-center justify-center p-4">
+  <!-- <div
     class="absolute right-0 left-0 -z-50 h-full w-full bg-[url('/images/background_blur.svg')] bg-cover bg-center bg-no-repeat brightness-50"
-  ></div>
+  ></div> -->
 
   <!-- <Alert class="mb-4 bg-red-800/50">
     <p>You must have access to the Titanium v2 private beta to use this dashboard.</p>
@@ -127,7 +127,7 @@
 
         {#if !guildsQuery || guildsQuery.loading}
           <div class="grid w-full gap-2 overflow-hidden xs:grid-cols-2 md:grid-cols-3">
-            {#each Array.from({ length: 18 }, (_, i) => i) as i (i)}
+            {#each Array.from({ length: 21 }, (_, i) => i) as i (i)}
               <div class="block h-20 w-full animate-pulse rounded-md bg-zinc-700 xs:h-32"></div>
             {/each}
           </div>
@@ -176,5 +176,5 @@
     </div>
   </Row>
 
-  <p class="mt-4 font-semibold opacity-80">© 2026, Restart</p>
+  <p class="mt-4 font-semibold opacity-50">© 2026, Restart</p>
 </div>
