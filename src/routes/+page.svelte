@@ -11,8 +11,8 @@
 
   import { RefreshCw, Plus, ChevronRight, Wrench } from '@lucide/svelte';
 
-  import verified from '$lib/assets/verified.png';
-  import partner from '$lib/assets/partner.webp';
+  import verified from '$lib/assets/verified.svg';
+  import partner from '$lib/assets/partner.svg';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
   import type { HttpError, RemoteQuery } from '@sveltejs/kit';
@@ -64,9 +64,9 @@
       />
       <div class="flex items-center gap-1" class:brightness-50={invite}>
         {#if guild.features?.includes('PARTNERED')}
-          <img src={partner} alt="Partnered Server" class="h-4 w-4" translate="no" />
+          <img src={partner} alt="Partnered Server" class="h-5 w-5" translate="no" />
         {:else if guild.features?.includes('VERIFIED')}
-          <img src={verified} alt="Verified Server" class="h-4 w-4" translate="no" />
+          <img src={verified} alt="Verified Server" class="h-5 w-5" translate="no" />
         {/if}
         <p>{guild.name}</p>
       </div>
