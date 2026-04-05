@@ -20,8 +20,8 @@
   let { data } = $props();
   let guildsQuery:
     | RemoteQuery<{
-        nonMutualGuilds: any;
-        mutualGuilds: any;
+        nonMutualGuilds: ServerInfo[];
+        mutualGuilds: ServerInfo[];
       }>
     | undefined = $state();
 
@@ -32,35 +32,55 @@
 
 {#snippet guildRow(guild: ServerInfo, invite = false)}
   <a
-    class="flex w-full items-center gap-4 rounded-md border border-zinc-700 p-4 transition-all"
+    class="overflow-hidden rounded-md border border-zinc-700 transition-all"
     class:cursor-default={invite}
     class:hover:bg-zinc-700={!invite}
     href={resolve(`/guild/${guild.id}`)}
     title={guild.name}
     data-sveltekit-preload-data={false}
   >
-    <Avatar
-      src={guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : undefined}
-      name={guild.name}
-      size={40}
-      class={invite ? 'opacity-50' : ''}
-    />
-    <div class="flex items-center gap-1" class:opacity-50={invite}>
-      {#if guild.features?.includes('PARTNERED')}
-        <img src={partner} alt="Partnered Server" class="h-4 w-4" translate="no" />
-      {:else if guild.features?.includes('VERIFIED')}
-        <img src={verified} alt="Verified Server" class="h-4 w-4" translate="no" />
-      {/if}
-      <p>{guild.name}</p>
-    </div>
-
-    {#if invite}
-      <span
-        class="ml-auto shrink-0 cursor-pointer rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600"
-      >
-        Add Bot
-      </span>
+    {#if guild.banner}
+      <img
+        src="https://cdn.discordapp.com/banners/{guild.id}/{guild.banner}.webp?size=512"
+        alt="{guild.name} server banner"
+        class="hidden h-25 w-full mask-b-from-70% object-cover xs:block"
+        class:brightness-50={invite}
+      />
+    {:else if guild.icon}
+      <img
+        src="https://cdn.discordapp.com/icons/{guild.id}/{guild.icon}.webp?size=512"
+        alt="{guild.name} server banner"
+        class="hidden h-25 w-full mask-b-from-70% object-cover opacity-50 blur-xl xs:block"
+        class:brightness-50={invite}
+      />
+    {:else}
+      <span class="hidden h-25 w-full bg-zinc-700 mask-b-from-70% xs:block" class:brightness-50={invite}></span>
     {/if}
+
+    <div class="relative flex items-center gap-4 p-4 xs:flex-col xs:items-start xs:gap-2 xs:pt-7">
+      <Avatar
+        src={guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : undefined}
+        name={guild.name}
+        size={40}
+        class="xs:absolute xs:-top-5 {invite ? 'brightness-50' : ''}"
+      />
+      <div class="flex items-center gap-1" class:brightness-50={invite}>
+        {#if guild.features?.includes('PARTNERED')}
+          <img src={partner} alt="Partnered Server" class="h-4 w-4" translate="no" />
+        {:else if guild.features?.includes('VERIFIED')}
+          <img src={verified} alt="Verified Server" class="h-4 w-4" translate="no" />
+        {/if}
+        <p>{guild.name}</p>
+      </div>
+
+      {#if invite}
+        <span
+          class="ml-auto h-fit w-fit shrink-0 cursor-pointer rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600 xs:ml-0"
+        >
+          Add Bot
+        </span>
+      {/if}
+    </div>
   </a>
 {/snippet}
 
@@ -69,11 +89,11 @@
     class="absolute right-0 left-0 -z-50 h-full w-full bg-[url('/images/background_blur.svg')] bg-cover bg-center bg-no-repeat brightness-50"
   ></div>
 
-  <Alert class="mb-4 bg-red-800/50">
+  <!-- <Alert class="mb-4 bg-red-800/50">
     <p>You must have access to the Titanium v2 private beta to use this dashboard.</p>
-  </Alert>
+  </Alert> -->
 
-  <Row class="flex h-full max-h-156 w-full max-w-lg flex-col items-center gap-4 overflow-hidden p-4">
+  <Row class="flex h-full max-h-250 max-w-312 flex-col items-center gap-4 overflow-hidden p-4">
     <div class="flex w-full items-center justify-center gap-2">
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
       <h1 class="text-2xl font-bold" translate="no">Titanium</h1>
@@ -91,7 +111,7 @@
       {/if}
     </div>
 
-    <div class="flex w-full flex-1 flex-col gap-2 overflow-y-auto">
+    <div class="flex w-full flex-1 flex-col gap-4 overflow-y-auto">
       {#if data.userData}
         <noscript>
           <Alert class="bg-yellow-800/50">
@@ -107,30 +127,33 @@
           <Alert class="bg-red-800/50">
             <p>Error loading your guilds: {(guildsQuery.error as HttpError).body.message}</p>
           </Alert>
-        {:else if guildsQuery.current?.nonMutualGuilds.length === 0 && guildsQuery.current?.mutualGuilds.length === 0}
+        {:else if !guildsQuery.current || (guildsQuery.current?.nonMutualGuilds.length === 0 && guildsQuery.current?.mutualGuilds.length === 0)}
           <Alert class="bg-yellow-800/50">
             <p>You don't have any guilds where you are an administrator.</p>
           </Alert>
         {:else}
           {#if guildsQuery.current?.mutualGuilds.length > 0}
             <p class="text-base font-bold text-zinc-300/60">
-              Servers with Titanium <span class="text-zinc-400">({guildsQuery.current?.mutualGuilds.length})</span>
+              Servers with Titanium ({guildsQuery.current?.mutualGuilds.length})
             </p>
 
-            {#each guildsQuery.current?.mutualGuilds as guild (guild.id)}
-              {@render guildRow(guild)}
-            {/each}
+            <div class="grid w-full gap-2 xs:grid-cols-2 md:grid-cols-3">
+              {#each guildsQuery.current?.mutualGuilds as guild (guild.id)}
+                {@render guildRow(guild)}
+              {/each}
+            </div>
           {/if}
 
           {#if guildsQuery.current?.nonMutualGuilds.length > 0}
             <p class="text-base font-bold text-zinc-300/60">
-              Servers without Titanium <span class="text-zinc-400">({guildsQuery.current?.nonMutualGuilds.length})</span
-              >
+              Servers without Titanium ({guildsQuery.current?.nonMutualGuilds.length})
             </p>
 
-            {#each guildsQuery.current?.nonMutualGuilds as guild (guild.id)}
-              {@render guildRow(guild, true)}
-            {/each}
+            <div class="grid w-full gap-2 xs:grid-cols-2 md:grid-cols-3">
+              {#each guildsQuery.current?.nonMutualGuilds as guild (guild.id)}
+                {@render guildRow(guild, true)}
+              {/each}
+            </div>
           {/if}
         {/if}
       {:else}
