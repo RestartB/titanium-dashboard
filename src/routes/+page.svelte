@@ -9,7 +9,7 @@
   import LogIn from '$lib/components/ui/discord/LogIn.svelte';
   import logo from '$lib/assets/logo.svg';
 
-  import { RefreshCw } from '@lucide/svelte';
+  import { RefreshCw, Plus, ChevronRight, Wrench } from '@lucide/svelte';
 
   import verified from '$lib/assets/verified.png';
   import partner from '$lib/assets/partner.webp';
@@ -33,8 +33,6 @@
 {#snippet guildRow(guild: ServerInfo, invite = false)}
   <a
     class="overflow-hidden rounded-md border border-zinc-700 transition-all"
-    class:cursor-default={invite}
-    class:hover:bg-zinc-700={!invite}
     href={resolve(`/guild/${guild.id}`)}
     title={guild.name}
     data-sveltekit-preload-data={false}
@@ -57,12 +55,12 @@
       <span class="hidden h-25 w-full bg-zinc-700 mask-b-from-70% xs:block" class:brightness-50={invite}></span>
     {/if}
 
-    <div class="relative flex items-center gap-4 p-4 xs:flex-col xs:items-start xs:gap-2 xs:pt-7">
+    <div class="relative flex items-center gap-4 p-4 xs:flex-col xs:items-start xs:gap-2 xs:pt-9">
       <Avatar
         src={guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : undefined}
         name={guild.name}
-        size={40}
-        class="xs:absolute xs:-top-5 {invite ? 'brightness-50' : ''}"
+        size={50}
+        class="xs:absolute xs:-top-7 {invite ? 'brightness-50' : ''}"
       />
       <div class="flex items-center gap-1" class:brightness-50={invite}>
         {#if guild.features?.includes('PARTNERED')}
@@ -73,25 +71,31 @@
         <p>{guild.name}</p>
       </div>
 
-      {#if invite}
-        <span
-          class="ml-auto h-fit w-fit shrink-0 cursor-pointer rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600 xs:ml-0"
-        >
+      <span
+        class="hidden h-fit w-fit shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600 xs:flex"
+      >
+        {#if invite}
+          <Plus size={15} />
           Add Bot
-        </span>
+        {:else}
+          <Wrench size={15} />
+          Manage Bot
+        {/if}
+      </span>
+
+      {#if invite}
+        <Plus class="ml-auto shrink-0 xs:hidden" />
+      {:else}
+        <ChevronRight class="ml-auto shrink-0 xs:hidden" />
       {/if}
     </div>
   </a>
 {/snippet}
 
 <div class="flex h-full flex-col items-center justify-center p-4">
-  <!-- <div
-    class="absolute right-0 left-0 -z-50 h-full w-full bg-[url('/images/background_blur.svg')] bg-cover bg-center bg-no-repeat brightness-50"
-  ></div> -->
-
-  <!-- <Alert class="mb-4 bg-red-800/50">
+  <Alert class="mb-4 bg-red-800/50">
     <p>You must have access to the Titanium v2 private beta to use this dashboard.</p>
-  </Alert> -->
+  </Alert>
 
   <Row
     class="flex h-full {data.userData
@@ -115,7 +119,7 @@
       {/if}
     </div>
 
-    <div class="flex w-full flex-1 flex-col gap-2 overflow-y-auto">
+    <div class="flex w-full flex-1 flex-col gap-4 overflow-y-auto">
       {#if data.userData}
         <noscript>
           <Alert class="bg-yellow-800/50">
@@ -128,7 +132,7 @@
         {#if !guildsQuery || guildsQuery.loading}
           <div class="grid w-full gap-2 overflow-hidden xs:grid-cols-2 md:grid-cols-3">
             {#each Array.from({ length: 21 }, (_, i) => i) as i (i)}
-              <div class="block h-20 w-full animate-pulse rounded-md bg-zinc-700 xs:h-32"></div>
+              <div class="block h-20 w-full animate-pulse rounded-md bg-zinc-700 xs:h-40"></div>
             {/each}
           </div>
         {:else if guildsQuery.error}
@@ -147,11 +151,11 @@
           </Alert>
         {:else}
           {#if guildsQuery.current?.mutualGuilds.length > 0}
-            <p class="text-base font-bold text-zinc-300/60">
+            <p class="text-base font-bold">
               Servers with Titanium ({guildsQuery.current?.mutualGuilds.length})
             </p>
 
-            <div class="grid w-full gap-2 xs:grid-cols-2 md:grid-cols-3">
+            <div class="grid w-full gap-4 xs:grid-cols-2 md:grid-cols-3">
               {#each guildsQuery.current?.mutualGuilds as guild (guild.id)}
                 {@render guildRow(guild)}
               {/each}
@@ -159,11 +163,11 @@
           {/if}
 
           {#if guildsQuery.current?.nonMutualGuilds.length > 0}
-            <p class="mt-2 text-base font-bold text-zinc-300/60">
+            <p class="mt-4 text-base font-bold">
               Servers without Titanium ({guildsQuery.current?.nonMutualGuilds.length})
             </p>
 
-            <div class="grid w-full gap-2 xs:grid-cols-2 md:grid-cols-3">
+            <div class="grid w-full gap-4 xs:grid-cols-2 md:grid-cols-3">
               {#each guildsQuery.current?.nonMutualGuilds as guild (guild.id)}
                 {@render guildRow(guild, true)}
               {/each}

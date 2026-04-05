@@ -4,7 +4,7 @@
 
 {#if src}
   <img
-    class="inline-block {circle
+    class="inline-block shrink-0 {circle
       ? 'rounded-full'
       : 'rounded-md'} border-2 border-zinc-600 bg-zinc-700 object-cover {customClass}"
     translate="no"
@@ -16,7 +16,7 @@
   />
 {:else}
   <div
-    class="inline-flex items-center justify-center align-middle {circle
+    class="inline-flex shrink-0 items-center justify-center align-middle {circle
       ? 'rounded-full'
       : 'rounded-md'} border-2 border-zinc-600 bg-zinc-700 text-zinc-400 {customClass}"
     style="width: {size}px; height: {size}px; font-size: {size / 2}px;"

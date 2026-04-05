@@ -96,13 +96,12 @@
           name={shortUserData?.global_name || shortUserData?.username}
           size={24}
           circle={true}
-          class="shrink-0"
         />
-        <p class="xxs:block hidden truncate font-bold" translate="no">
+        <p class="hidden truncate font-bold xxs:block" translate="no">
           {shortUserData?.global_name || shortUserData?.username}
         </p>
       {:else}
-        <p class="xxs:block hidden truncate font-bold opacity-70 xs:pr-4">Not logged in</p>
+        <p class="hidden truncate font-bold opacity-70 xxs:block xs:pr-4">Not logged in</p>
       {/if}
     </div>
 
