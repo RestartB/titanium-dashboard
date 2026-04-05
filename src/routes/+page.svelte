@@ -9,7 +9,7 @@
   import LogIn from '$lib/components/ui/discord/LogIn.svelte';
   import logo from '$lib/assets/logo.svg';
 
-  import { LoaderCircle, RefreshCw } from '@lucide/svelte';
+  import { RefreshCw } from '@lucide/svelte';
 
   import verified from '$lib/assets/verified.png';
   import partner from '$lib/assets/partner.webp';
@@ -93,7 +93,11 @@
     <p>You must have access to the Titanium v2 private beta to use this dashboard.</p>
   </Alert> -->
 
-  <Row class="flex h-full max-h-250 max-w-312 flex-col items-center gap-4 overflow-hidden p-4">
+  <Row
+    class="flex h-full {data.userData
+      ? 'max-h-250 max-w-312'
+      : 'max-h-156 max-w-lg'} w-full flex-col items-center gap-4 overflow-hidden p-4"
+  >
     <div class="flex w-full items-center justify-center gap-2">
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
       <h1 class="text-2xl font-bold" translate="no">Titanium</h1>
@@ -111,25 +115,35 @@
       {/if}
     </div>
 
-    <div class="flex w-full flex-1 flex-col gap-4 overflow-y-auto">
+    <div class="flex w-full flex-1 flex-col gap-2 overflow-y-auto">
       {#if data.userData}
         <noscript>
           <Alert class="bg-yellow-800/50">
-            <p><strong>JavaScript is disabled in your browser.</strong> Please enable it to use the dashboard.</p>
+            <p>
+              <strong>JavaScript is disabled in your browser.</strong> Please enable it to use all dashboard features.
+            </p>
           </Alert>
         </noscript>
+
         {#if !guildsQuery || guildsQuery.loading}
-          <div class="my-auto flex items-center justify-center gap-2">
-            <LoaderCircle size={28} class="animate-spin" />
-            <p class="text-xl font-semibold">Loading...</p>
+          <div class="grid w-full gap-2 overflow-hidden xs:grid-cols-2 md:grid-cols-3">
+            {#each Array.from({ length: 18 }, (_, i) => i) as i (i)}
+              <div class="block h-20 w-full animate-pulse rounded-md bg-zinc-700 xs:h-32"></div>
+            {/each}
           </div>
         {:else if guildsQuery.error}
-          <Alert class="bg-red-800/50">
-            <p>Error loading your guilds: {(guildsQuery.error as HttpError).body.message}</p>
+          <Alert class="m-auto w-fit max-w-2xl bg-red-800/50">
+            <p>
+              Error loading your guilds: <strong>{(guildsQuery.error as HttpError).body.message}.</strong> Please try again
+              in a few minutes.
+            </p>
           </Alert>
         {:else if !guildsQuery.current || (guildsQuery.current?.nonMutualGuilds.length === 0 && guildsQuery.current?.mutualGuilds.length === 0)}
-          <Alert class="bg-yellow-800/50">
-            <p>You don't have any guilds where you are an administrator.</p>
+          <Alert class="m-auto w-fit max-w-2xl bg-yellow-800/50">
+            <p>
+              <strong>You don't have any guilds where you are an administrator.</strong> Once you are an administrator in
+              a server or you get added to a server as a dashboard / role manager, it will appear in this list.
+            </p>
           </Alert>
         {:else}
           {#if guildsQuery.current?.mutualGuilds.length > 0}
@@ -145,7 +159,7 @@
           {/if}
 
           {#if guildsQuery.current?.nonMutualGuilds.length > 0}
-            <p class="text-base font-bold text-zinc-300/60">
+            <p class="mt-2 text-base font-bold text-zinc-300/60">
               Servers without Titanium ({guildsQuery.current?.nonMutualGuilds.length})
             </p>
 
