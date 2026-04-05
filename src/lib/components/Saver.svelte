@@ -186,7 +186,7 @@
       class="pointer-events-auto w-full max-w-180 bg-zinc-800/60 backdrop-blur-lg transition-colors"
       bind:thisElement={row}
     >
-      <div class="flex h-full w-full flex-col items-center justify-between gap-4 xxs:flex-row">
+      <div class="xs:flex-row flex h-full w-full flex-col items-center justify-between gap-4">
         <div class="flex items-center gap-2">
           <TriangleAlert size={20} />
           <p>You have unsaved changes.</p>

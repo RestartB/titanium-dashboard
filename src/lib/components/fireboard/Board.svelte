@@ -33,12 +33,12 @@
     <div class="flex items-center justify-between gap-2">
       <ChannelButton bind:channel={board.channel_id} categories={serverInfo.categories} />
       <button
-        class="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 text-base transition-colors hover:bg-red-600 xs:p-1"
+        class="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 text-base transition-colors hover:bg-red-600 sm:p-1"
         onclick={deleteThis}
         aria-label="Delete fireboard"
       >
         <Trash size={16} class="shrink-0" />
-        <p class="hidden xs:block">Delete</p>
+        <p class="hidden sm:block">Delete</p>
       </button>
     </div>
     <span>

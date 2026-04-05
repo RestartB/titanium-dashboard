@@ -106,7 +106,7 @@
 
 {#snippet logTypeRow(logType: string)}
   <li
-    class="flex w-full flex-col gap-1 rounded-lg bg-zinc-700 p-2 px-4 xxs:flex-row xxs:items-center xxs:justify-between xxs:gap-2"
+    class="xs:flex-row xs:items-center xs:justify-between xs:gap-2 flex w-full flex-col gap-1 rounded-lg bg-zinc-700 p-2 px-4"
   >
     <div>
       <p class="font-bold">{logTypeStrings[logType][0]}</p>

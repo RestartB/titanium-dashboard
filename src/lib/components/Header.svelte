@@ -65,7 +65,7 @@
 
       <a
         href={resolve('/')}
-        class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xxs:flex"
+        class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xs:flex"
       >
         {#if userData}
           Servers
@@ -76,7 +76,7 @@
       <a
         href="https://titaniumbot.me/server"
         target="_blank"
-        class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xxs:flex"
+        class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xs:flex"
         >Support</a
       >
     </div>
@@ -98,16 +98,16 @@
           circle={true}
           class="shrink-0"
         />
-        <p class="hidden truncate font-bold xxxs:block" translate="no">
+        <p class="xxs:block hidden truncate font-bold" translate="no">
           {shortUserData?.global_name || shortUserData?.username}
         </p>
       {:else}
-        <p class="hidden truncate font-bold opacity-70 xxxs:block xxs:pr-4">Not logged in</p>
+        <p class="xxs:block hidden truncate font-bold opacity-70 xs:pr-4">Not logged in</p>
       {/if}
     </div>
 
     <button
-      class="cursor-pointer p-4 xxs:hidden"
+      class="cursor-pointer p-4 xs:hidden"
       onclick={() => (menuOpen = !menuOpen)}
       aria-label="{menuOpen ? 'Close' : 'Open'} menu"
     >
@@ -173,7 +173,7 @@
     {#if userData}
       <form action="/auth/logout" method="POST" class="h-full">
         <button
-          class="hidden h-full cursor-pointer items-center justify-center gap-2 border-y-transparent border-b-zinc-500 px-4 text-xl font-semibold transition-all hover:border-y-4 xxs:flex"
+          class="hidden h-full cursor-pointer items-center justify-center gap-2 border-y-transparent border-b-zinc-500 px-4 text-xl font-semibold transition-all hover:border-y-4 xs:flex"
           title="Log out"
           type="submit"
         >

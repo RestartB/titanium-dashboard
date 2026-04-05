@@ -92,9 +92,8 @@
 @theme {
   --font-figtree: 'Figtree', sans-serif;
   --breakpoint-sidebar: 840px;
-  --breakpoint-xs: 40rem;
-  --breakpoint-xxs: 30rem;
-  --breakpoint-xxxs: 22rem;
+  --breakpoint-xs: 30rem;
+  --breakpoint-xxs: 22rem;
   --color-blurple: #5865f2;
   --animate-warning: shake 0.2s ease-in-out 0s 2;
   --animate-slide-to-bottom: slide-to-bottom 0.2s ease-in-out 0s 1;

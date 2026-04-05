@@ -15,6 +15,7 @@
     gap = 0,
     zIndex = 50,
     class: className = '',
+    // eslint-disable-next-line no-useless-assignment
     overlayOpen = $bindable(false)
   }: {
     children?: Snippet<[]>;

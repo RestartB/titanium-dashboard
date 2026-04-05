@@ -78,7 +78,7 @@
 <ToggledContent enabled={dataState.serverSettings.modules.automod && dataState.serverSettings.modules.moderation}>
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
-      <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xxs:flex">
+      <div class="xs:flex hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600">
         <ScrollText size={28} />
       </div>
       <div>
@@ -89,7 +89,7 @@
   </AnchorRow>
 
   <Collapsible title="Word Filters" defaultState={true}>
-    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 xs:grid-cols-2 lg:grid-cols-2">
+    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
       {@render rulesCard(
         'Word Detection',
         'Detect messages that contain certain words.',
@@ -100,7 +100,7 @@
   </Collapsible>
 
   <Collapsible title="Link Filters" defaultState={true}>
-    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 xs:grid-cols-2 lg:grid-cols-2">
+    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
       {@render rulesCard(
         'Malicious Links',
         'Detect messages that contain malicious links.',
@@ -117,7 +117,7 @@
   </Collapsible>
 
   <Collapsible title="Spam Filters" defaultState={true}>
-    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 xs:grid-cols-2 lg:grid-cols-2">
+    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
       {@render rulesCard(
         'Message Spam',
         'Detect when users are sending messages too fast.',
