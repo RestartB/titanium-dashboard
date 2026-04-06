@@ -9,7 +9,7 @@
   import LogIn from '$lib/components/ui/discord/LogIn.svelte';
   import logo from '$lib/assets/logo.svg';
 
-  import { RefreshCw, Plus, ChevronRight, Wrench } from '@lucide/svelte';
+  import { RefreshCw, Plus, ChevronRight, Wrench, Rows2, LayoutGrid } from '@lucide/svelte';
 
   import verified from '$lib/assets/verified.svg';
   import partner from '$lib/assets/partner.svg';
@@ -25,6 +25,8 @@
       }>
     | undefined = $state();
 
+  let rowsView: boolean = $state(false);
+
   onMount(() => {
     guildsQuery = getUserGuilds();
   });
@@ -36,31 +38,44 @@
     href={resolve(`/guild/${guild.id}`)}
     title={guild.name}
     data-sveltekit-preload-data={false}
+    class:hover:bg-zinc-700={rowsView}
   >
     {#if guild.banner}
       <img
         src="https://cdn.discordapp.com/banners/{guild.id}/{guild.banner}.webp?size=512"
         alt="{guild.name} server banner"
-        class="hidden h-25 w-full mask-b-from-70% object-cover xs:block"
+        class="hidden h-25 w-full mask-b-from-70% object-cover"
         class:brightness-50={invite}
+        class:xs:block={!rowsView}
       />
     {:else if guild.icon}
       <img
         src="https://cdn.discordapp.com/icons/{guild.id}/{guild.icon}.webp?size=512"
         alt="{guild.name} server banner"
-        class="hidden h-25 w-full mask-b-from-70% object-cover opacity-50 blur-xl xs:block"
+        class="hidden h-25 w-full mask-b-from-70% object-cover opacity-50 blur-xl"
         class:brightness-50={invite}
+        class:xs:block={!rowsView}
       />
     {:else}
-      <span class="hidden h-25 w-full bg-zinc-700 mask-b-from-70% xs:block" class:brightness-50={invite}></span>
+      <span
+        class="hidden h-25 w-full bg-zinc-700 mask-b-from-70%"
+        class:brightness-50={invite}
+        class:xs:block={!rowsView}
+      ></span>
     {/if}
 
-    <div class="relative flex items-center gap-4 p-4 xs:flex-col xs:items-start xs:gap-2 xs:pt-9">
+    <div
+      class="relative flex items-center gap-4 p-4"
+      class:xs:flex-col={!rowsView}
+      class:xs:items-start={!rowsView}
+      class:xs:gap-2={!rowsView}
+      class:xs:pt-9={!rowsView}
+    >
       <Avatar
         src={guild.icon ? `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png` : undefined}
         name={guild.name}
         size={50}
-        class="xs:absolute xs:-top-7 {invite ? 'brightness-50' : ''}"
+        class="{rowsView ? '' : 'xs:absolute xs:-top-7'} {invite ? 'brightness-50' : ''}"
       />
       <div class="flex items-center gap-1" class:brightness-50={invite}>
         {#if guild.features?.includes('PARTNERED')}
@@ -72,7 +87,8 @@
       </div>
 
       <span
-        class="hidden h-fit w-fit shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600 xs:flex"
+        class="hidden h-fit w-fit shrink-0 cursor-pointer items-center justify-center gap-2 rounded-md bg-zinc-700 px-2 py-1 text-sm font-semibold transition-colors hover:bg-zinc-600"
+        class:xs:flex={!rowsView}
       >
         {#if invite}
           <Plus size={15} />
@@ -84,9 +100,9 @@
       </span>
 
       {#if invite}
-        <Plus class="ml-auto shrink-0 xs:hidden" />
+        <Plus class="ml-auto shrink-0 {rowsView ? '' : 'xs:hidden'}" />
       {:else}
-        <ChevronRight class="ml-auto shrink-0 xs:hidden" />
+        <ChevronRight class="ml-auto shrink-0 {rowsView ? '' : 'xs:hidden'}" />
       {/if}
     </div>
   </a>
@@ -98,9 +114,9 @@
   </Alert>
 
   <Row
-    class="flex h-full {data.userData
+    class="flex h-full {data.userData && !rowsView
       ? 'max-h-250 max-w-312'
-      : 'max-h-156 max-w-lg'} w-full flex-col items-center gap-4 overflow-hidden p-4"
+      : 'max-h-156 max-w-lg'} w-full flex-col items-center gap-4 overflow-hidden p-4 transition-all duration-500"
   >
     <div class="flex w-full items-center justify-center gap-2">
       <img src={logo} alt="Titanium" class="h-12 w-12 rounded-md" translate="no" />
@@ -109,6 +125,16 @@
       {#if data.userData}
         <button
           class="ml-auto cursor-pointer rounded-lg bg-zinc-700 p-2 transition-colors hover:bg-zinc-600"
+          onclick={() => (rowsView = !rowsView)}
+        >
+          {#if rowsView}
+            <LayoutGrid size={16} />
+          {:else}
+            <Rows2 size={16} />
+          {/if}
+        </button>
+        <button
+          class="cursor-pointer rounded-lg bg-zinc-700 p-2 transition-colors hover:bg-zinc-600"
           class:cursor-not-allowed={guildsQuery?.loading}
           class:opacity-50={guildsQuery?.loading}
           onclick={async () => await guildsQuery?.refresh()}
@@ -130,9 +156,14 @@
         </noscript>
 
         {#if !guildsQuery || guildsQuery.loading}
-          <div class="grid w-full gap-2 overflow-hidden xs:grid-cols-2 md:grid-cols-3">
+          <div
+            class="grid w-full gap-2 overflow-hidden"
+            class:xs:grid-cols-2={!rowsView}
+            class:md:grid-cols-3={!rowsView}
+            class:xs:gap-4={!rowsView}
+          >
             {#each Array.from({ length: 21 }, (_, i) => i) as i (i)}
-              <div class="block h-20 w-full animate-pulse rounded-md bg-zinc-700 xs:h-40"></div>
+              <div class="block h-20 w-full animate-pulse rounded-md bg-zinc-700" class:xs:h-40={!rowsView}></div>
             {/each}
           </div>
         {:else if guildsQuery.error}
@@ -155,7 +186,12 @@
               Servers with Titanium ({guildsQuery.current?.mutualGuilds.length})
             </p>
 
-            <div class="grid w-full gap-4 xs:grid-cols-2 md:grid-cols-3">
+            <div
+              class="grid w-full gap-2"
+              class:xs:grid-cols-2={!rowsView}
+              class:md:grid-cols-3={!rowsView}
+              class:xs:gap-4={!rowsView}
+            >
               {#each guildsQuery.current?.mutualGuilds as guild (guild.id)}
                 {@render guildRow(guild)}
               {/each}
@@ -167,7 +203,12 @@
               Servers without Titanium ({guildsQuery.current?.nonMutualGuilds.length})
             </p>
 
-            <div class="grid w-full gap-4 xs:grid-cols-2 md:grid-cols-3">
+            <div
+              class="grid w-full gap-2"
+              class:xs:grid-cols-2={!rowsView}
+              class:md:grid-cols-3={!rowsView}
+              class:xs:gap-4={!rowsView}
+            >
               {#each guildsQuery.current?.nonMutualGuilds as guild (guild.id)}
                 {@render guildRow(guild, true)}
               {/each}
