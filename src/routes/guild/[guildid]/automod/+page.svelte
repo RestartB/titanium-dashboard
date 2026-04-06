@@ -78,7 +78,7 @@
 <ToggledContent enabled={dataState.serverSettings.modules.automod && dataState.serverSettings.modules.moderation}>
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
-      <div class="xs:flex hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600">
+      <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xs:flex">
         <ScrollText size={28} />
       </div>
       <div>

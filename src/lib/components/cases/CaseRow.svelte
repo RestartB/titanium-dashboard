@@ -27,7 +27,7 @@
             ></span>
           </span>
         {/if}
-        <Tooltip type="dark" class="border-2 border-zinc-700 p-2 px-4 bg-zinc-800">
+        <Tooltip type="dark" class="border-2 border-zinc-700 bg-zinc-800 p-2 px-4">
           {caseData.resolved ? 'Resolved' : 'Open'}
         </Tooltip>
 

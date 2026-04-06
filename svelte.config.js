@@ -13,7 +13,7 @@ const config = {
       directives: {
         'object-src': ['none'],
         'script-src': ['self'],
-        'frame-ancestors': ['self'],
+        'frame-ancestors': ['self']
       }
     },
     experimental: {

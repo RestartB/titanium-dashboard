@@ -3,8 +3,6 @@
   import Saver from '$lib/components/Saver.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
-
-  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
 
   import { Plus } from '@lucide/svelte';
@@ -64,7 +62,7 @@
     </p>
     <div class="flex flex-wrap gap-2">
       <Button onclick={() => (dashboardOverlayOpen = true)}><Plus size={20} /> Add Role</Button>
-      {#each dataState.pageSettings.dashboard_managers as role}
+      {#each dataState.pageSettings.dashboard_managers as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}
           <RoleTile
@@ -78,8 +76,8 @@
         {/if}
       {/each}
     </div>
-  </div></Row
->
+  </div>
+</Row>
 
 <Row>
   <div>
@@ -92,7 +90,7 @@
 
     <div class="flex flex-wrap gap-2">
       <Button onclick={() => (caseOverlayOpen = true)}><Plus size={20} /> Add Role</Button>
-      {#each dataState.pageSettings.case_managers as role}
+      {#each dataState.pageSettings.case_managers as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}
           <RoleTile
