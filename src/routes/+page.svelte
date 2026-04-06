@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { resolve } from '$app/paths';
   import { getUserGuilds } from '$lib/remote/guilds.remote';
+  import { localStorageAvailable } from '$lib/helpers/storage';
 
   import Row from '$lib/components/ui/row/Row.svelte';
   import Alert from '$lib/components/ui/Alert.svelte';
@@ -25,7 +26,9 @@
       }>
     | undefined = $state();
 
-  let rowsView: boolean = $state(false);
+  let rowsView: boolean = $state(
+    localStorageAvailable() ? (window.localStorage.getItem('rowsView') === 'true' ? true : false) : false
+  );
 
   onMount(() => {
     guildsQuery = getUserGuilds();
@@ -124,8 +127,14 @@
 
       {#if data.userData}
         <button
-          class="ml-auto cursor-pointer rounded-lg bg-zinc-700 p-2 transition-colors hover:bg-zinc-600"
-          onclick={() => (rowsView = !rowsView)}
+          class="ml-auto hidden cursor-pointer rounded-lg bg-zinc-700 p-2 transition-colors hover:bg-zinc-600 xs:block"
+          onclick={() => {
+            rowsView = !rowsView;
+
+            if (localStorageAvailable()) {
+              window.localStorage.setItem('rowsView', rowsView ? 'true' : 'false');
+            }
+          }}
         >
           {#if rowsView}
             <LayoutGrid size={16} />
