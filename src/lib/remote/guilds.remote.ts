@@ -1,7 +1,7 @@
 import { getRequestEvent, query } from '$app/server';
 import { error } from '@sveltejs/kit';
 
-import { remoteCheckToken } from '$lib/server/token';
+import { remoteCheckToken, deleteToken } from '$lib/server/token';
 
 import { guildsLimit } from '$lib/limits';
 import { TITANIUM_API_URL } from '$env/static/private';
@@ -18,11 +18,19 @@ export const getUserGuilds = query(async () => {
     }
   });
 
+  // token revoked
+  if (request.status == 403) {
+    await deleteToken(tokenRecord.token, tokenRecord.discordToken);
+    throw error(request.status, request.statusText);
+  }
+
+  // other discord error
   if (!request.ok) {
     console.error('Failed to fetch guilds from Discord:', await request.text());
     throw error(request.status, 'Failed to fetch guilds from Discord');
   }
 
+  // filter to guilds with admin perms
   const guildData = await request.json();
   const guilds = guildData.filter((guild: { permissions: string }) => {
     const permissions = parseInt(guild.permissions);
