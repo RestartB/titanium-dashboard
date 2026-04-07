@@ -6,6 +6,7 @@
 
   import Sidebar from '$lib/components/sidebar/Sidebar.svelte';
   import Alert from '$lib/components/ui/Alert.svelte';
+  import FeatureAnnouncer from '$lib/components/Announcer.svelte';
 
   let { children, data } = $props();
 
@@ -26,6 +27,8 @@
 </script>
 
 <svelte:window bind:innerWidth={width} />
+
+<FeatureAnnouncer />
 
 <div class="flex h-full justify-center">
   <div class="flex w-full max-w-7xl">

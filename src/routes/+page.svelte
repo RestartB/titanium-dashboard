@@ -27,7 +27,7 @@
     | undefined = $state();
 
   let rowsView: boolean = $state(
-    localStorageAvailable() ? (window.localStorage.getItem('rowsView') === 'true' ? true : false) : false
+    localStorageAvailable() ? (window.localStorage.getItem('servers.rowsView') === 'true' ? true : false) : false
   );
 
   onMount(() => {
@@ -132,7 +132,7 @@
             rowsView = !rowsView;
 
             if (localStorageAvailable()) {
-              window.localStorage.setItem('rowsView', rowsView ? 'true' : 'false');
+              window.localStorage.setItem('servers.rowsView', rowsView ? 'true' : 'false');
             }
           }}
         >

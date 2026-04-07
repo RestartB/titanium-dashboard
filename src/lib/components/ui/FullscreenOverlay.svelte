@@ -8,6 +8,7 @@
   let {
     children,
     extraButton,
+    bottomRow,
     title,
     width = 466,
     height = 564,
@@ -20,6 +21,7 @@
   }: {
     children?: Snippet<[]>;
     extraButton?: Snippet<[]>;
+    bottomRow?: Snippet<[]>;
     title?: string;
     width?: number;
     height?: number;
@@ -61,5 +63,7 @@
     >
       {@render children?.()}
     </div>
+
+    {@render bottomRow?.()}
   </div>
 </div>
