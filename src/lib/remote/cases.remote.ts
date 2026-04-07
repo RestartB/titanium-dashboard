@@ -2,7 +2,7 @@ import { form, query, command, getRequestEvent } from '$app/server';
 import { error } from '@sveltejs/kit';
 
 import { z } from 'zod';
-import { checkToken } from '$lib/server/token';
+import { remoteCheckToken } from '$lib/server/token';
 import { commentsLimit, apiLimit } from '$lib/limits';
 
 import { TITANIUM_API_URL } from '$env/static/private';
@@ -11,8 +11,7 @@ import type { RateLimiter } from 'sveltekit-rate-limiter/server';
 async function checkPerms(guildId: string, limit: RateLimiter = apiLimit) {
   const event = getRequestEvent();
 
-  const tokenRecord = await checkToken(event);
-  if (!tokenRecord) throw error(401, 'Unauthorized');
+  const tokenRecord = await remoteCheckToken(event);
   if (await limit.isLimited(event)) throw error(429);
 
   const permCheckRequest = await fetch(

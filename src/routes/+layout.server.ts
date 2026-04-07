@@ -6,7 +6,8 @@ import type { UserInfo } from '$lib/interfaces/userInfo';
 export const load: LayoutServerLoad = async (event) => {
   let userData: UserInfo | null = null;
 
-  if (!checkToken(event)) {
+  const { token } = await checkToken(event);
+  if (!token) {
     return { userData };
   }
 

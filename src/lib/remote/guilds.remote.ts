@@ -1,7 +1,7 @@
 import { getRequestEvent, query } from '$app/server';
 import { error } from '@sveltejs/kit';
 
-import { checkToken } from '$lib/server/token';
+import { remoteCheckToken } from '$lib/server/token';
 
 import { guildsLimit } from '$lib/limits';
 import { TITANIUM_API_URL } from '$env/static/private';
@@ -9,9 +9,7 @@ import { TITANIUM_API_URL } from '$env/static/private';
 export const getUserGuilds = query(async () => {
   const event = getRequestEvent();
 
-  const tokenRecord = await checkToken(event);
-  if (!tokenRecord) throw error(401, 'Unauthorized');
-
+  const tokenRecord = await remoteCheckToken(event);
   if (await guildsLimit.isLimited(event)) throw error(429);
 
   const request = await fetch('https://discord.com/api/users/@me/guilds', {

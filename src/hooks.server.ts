@@ -1,7 +1,7 @@
 import { redirect, json, error } from '@sveltejs/kit';
 import type { Handle } from '@sveltejs/kit';
 
-import { checkToken } from '$lib/server/token';
+import { checkToken, deleteToken } from '$lib/server/token';
 import { apiLimit } from '$lib/limits';
 import { dev } from '$app/environment';
 
@@ -24,7 +24,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   if (
     event.url.pathname === '/' ||
     event.url.pathname.startsWith('/public/') ||
-    (event.url.pathname.startsWith('/auth/') && event.url.pathname !== '/auth/logout') ||
+    event.url.pathname.startsWith('/auth/') ||
     event.url.pathname.startsWith('/api/auth/') ||
     event.url.pathname.startsWith('/_app/remote/') ||
     event.url.pathname.startsWith('/emojis/')
@@ -34,14 +34,21 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
 
   // token present check
-  const titaniumToken = await checkToken(event);
-  if (!titaniumToken) {
+  const { token: titaniumToken, expired } = await checkToken(event);
+  if (!titaniumToken || expired) {
     console.log('Invalid / missing Titanium token');
+
+    // delete expired token if there is one
+    if (titaniumToken && expired) {
+      await deleteToken(titaniumToken.token, titaniumToken.discordToken);
+    }
 
     if (event.url.pathname.startsWith('/api')) {
       return json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    event.cookies.delete('titanium_token', { path: '/' });
+    event.cookies.delete('titanium_state', { path: '/' });
     return redirect(302, '/auth/login?redirect=' + encodeURIComponent(event.url.pathname));
   }
 

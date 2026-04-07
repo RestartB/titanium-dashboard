@@ -26,6 +26,24 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
   cookies.delete('titanium_state', { path: '/' });
 
+  // dynamically set redirect url when developing
+  let redirectUri = DISCORD_REDIRECT_URI ?? '';
+  if (MODE.toLowerCase() !== 'production') {
+    try {
+      const reqUrl = new URL(request.url);
+      const redirectUrl = new URL(redirectUri);
+
+      redirectUrl.protocol = reqUrl.protocol;
+      redirectUrl.host = reqUrl.host;
+
+      redirectUri = redirectUrl.toString();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  console.log(redirectUri);
+
   const newRequest = await fetch('https://discord.com/api/oauth2/token', {
     method: 'POST',
     headers: {
@@ -36,11 +54,13 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
       client_secret: DISCORD_CLIENT_SECRET ?? '',
       grant_type: 'authorization_code',
       code: body.code ?? '',
-      redirect_uri: DISCORD_REDIRECT_URI ?? ''
+      redirect_uri: redirectUri
     })
   });
 
   if (!newRequest.ok) {
+    const errorData = await newRequest.text();
+    console.error('Discord returned error when trading token: ', newRequest.status, newRequest.statusText, errorData);
     throw error(500, 'Authentication failed');
   }
 

@@ -6,7 +6,7 @@ import type { RequestHandler } from './$types';
 import { DISCORD_CLIENT_ID, MODE } from '$env/static/private';
 
 export const GET: RequestHandler = async (event) => {
-  if (await checkToken(event)) {
+  if ((await checkToken(event)).token) {
     throw redirect(302, '/');
   }
 
