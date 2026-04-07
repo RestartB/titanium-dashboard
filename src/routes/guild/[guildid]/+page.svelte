@@ -18,6 +18,25 @@
   const { data } = $props();
   const serverId = data.serverInfo.id;
   const userData = data.userData?.userData;
+
+  const greetings = {
+    morning: 'Good morning, ',
+    afternoon: 'Good afternoon, ',
+    evening: 'Good evening, '
+  };
+
+  // eslint-disable-next-line no-useless-assignment
+  let greeting = $state('');
+
+  // decide greeting based on browser time
+  const time = new Date().getHours();
+  if (time > 5 && time < 12) {
+    greeting = greetings.morning;
+  } else if (time >= 12 && time < 19) {
+    greeting = greetings.afternoon;
+  } else {
+    greeting = greetings.evening;
+  }
 </script>
 
 {#snippet featureCard(title: string, description: string, href: string, Icon: Component)}
@@ -35,10 +54,10 @@
 
 <div>
   <h1 class="text-4xl">
-    Hi there, <span
-      class="bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text font-bold text-transparent"
-      translate="no">{userData?.global_name || userData?.username}</span
-    >
+    {greeting || 'Hi there, '}
+    <span class="bg-linear-to-r from-zinc-100 to-zinc-400 bg-clip-text font-bold text-transparent" translate="no">
+      {userData?.global_name || userData?.username}
+    </span>
   </h1>
   <p>
     Manage settings for Titanium in <strong translate="no">{data.serverInfo.name}</strong> here.
