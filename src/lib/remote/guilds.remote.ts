@@ -19,7 +19,7 @@ export const getUserGuilds = query(async () => {
   });
 
   // token revoked
-  if (request.status == 403) {
+  if (request.status === 401 || request.status === 403) {
     await deleteToken(tokenRecord.token, tokenRecord.discordToken);
     throw error(request.status, request.statusText);
   }
