@@ -1,7 +1,7 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
-  import { ALargeSmall, Tag, Clock, User, X } from '@lucide/svelte';
+  import { ALargeSmall, Tag, Clock, User } from '@lucide/svelte';
   import type { Component } from 'svelte';
   import type { BouncerCriterionSchema, BouncerRuleSchema } from '$lib/validators/bouncer';
 

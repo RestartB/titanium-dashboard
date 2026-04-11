@@ -1,5 +1,4 @@
 <script lang="ts">
-  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import ActionPreferences from '$lib/components/ui/ActionPreferences.svelte';
   import { Cog, X } from '@lucide/svelte';
 
