@@ -1,5 +1,4 @@
 <script lang="ts">
-  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
 
@@ -32,9 +31,9 @@
         style="background-color: {selectedRole.colour === '#000000' ? '#99A9B5' : selectedRole.colour}"
       ></span>
     {/if}
-    <p class="text-zinc-200 select-none">{selectedRole.name}</p>
+    <p class="text-start text-zinc-200 select-none">{selectedRole.name}</p>
   {:else}
-    <p class="text-zinc-500 select-none">No role set</p>
+    <p class="text-start text-zinc-500 select-none">No role set</p>
   {/if}
 {/snippet}
 

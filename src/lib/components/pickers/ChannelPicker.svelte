@@ -60,7 +60,7 @@
     {:else}
       <Hash class="h-4 w-4 text-zinc-400" />
     {/if}
-    <p class="text-zinc-200 select-none">{channel.name}</p>
+    <p class="text-left text-zinc-200 select-none">{channel.name}</p>
   </button>
 {/snippet}
 
@@ -80,7 +80,7 @@
       {#if categoryChannels.length > 0}
         <div class="flex flex-col gap-1">
           {#if category.id !== null}
-            <h3 class="text-base font-semibold text-zinc-400">
+            <h3 class="text-left text-base font-semibold text-zinc-400">
               {category.name}
             </h3>
           {/if}

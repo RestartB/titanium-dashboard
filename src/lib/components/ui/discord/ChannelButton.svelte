@@ -46,12 +46,12 @@
     {:else}
       <Hash class="h-4 w-4 text-zinc-400" />
     {/if}
-    <p class="text-zinc-200 select-none">{channelInfo.name}</p>
+    <p class="text-left text-zinc-200 select-none">{channelInfo.name}</p>
   {:else if channel}
     <CircleQuestionMark class="h-4 w-4 text-zinc-400" />
-    <p class="text-zinc-200 select-none">{channel}</p>
+    <p class="text-left text-zinc-200 select-none">{channel}</p>
   {:else}
-    <p class="text-zinc-500 select-none">No channel set</p>
+    <p class="text-left text-zinc-500 select-none">No channel set</p>
   {/if}
 {/snippet}
 

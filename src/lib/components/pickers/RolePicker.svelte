@@ -48,7 +48,7 @@
         style="background-color: {role.colour === '#000000' ? '#99A9B5' : role.colour}"
       ></span>
     {/if}
-    <p class="text-zinc-200 select-none">{role.name}</p>
+    <p class="text-left text-zinc-200 select-none">{role.name}</p>
   </button>
 {/snippet}
 
