@@ -1,17 +1,57 @@
 <script lang="ts">
+  import { onMount, type Component } from 'svelte';
+  import Fuse from 'fuse.js';
+
+  import { getEmojiData } from '$lib/remote/emojis.remote';
+  import { emojiData } from '$lib/states/emojis.svelte';
+
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import { Smile, UserRound, Cat, Pizza, Earth, Gamepad2, Lamp, Heart, Flag, LoaderCircle } from '@lucide/svelte';
 
-  import type { Component } from 'svelte';
-  import { Smile, UserRound, Cat, Pizza, Earth, Gamepad2, Lamp, Heart, Flag } from '@lucide/svelte';
-
-  import emojis from 'emojibase-data/en/data.json';
-  import groupsSubgroups from 'emojibase-data/en/messages.json';
-  import shortcodes from 'emojibase-data/en/shortcodes/joypixels.json';
-
-  import type { Emoji } from 'emojibase';
+  import type { Emoji, MessagesDataset, ShortcodesDataset } from 'emojibase';
   import type { ServerInfo, EmojiInfo } from '$lib/interfaces/serverInfo';
 
-  import Fuse from 'fuse.js';
+  let emojis: Emoji[];
+  let groupsSubgroups: MessagesDataset | undefined = $state();
+  let shortcodes: ShortcodesDataset;
+
+  let fuse: Fuse<Emoji>;
+  let customEmojiFuse: Fuse<EmojiInfo>;
+
+  onMount(async () => {
+    if (!emojiData.loaded) {
+      ({ emojis, groupsSubgroups, shortcodes } = await getEmojiData());
+
+      for (const emoji of emojis) {
+        const sc = shortcodes[emoji.hexcode];
+        emoji.shortcodes = Array.isArray(sc) ? sc : sc ? [sc] : undefined;
+
+        if (!emoji.shortcodes) {
+          console.warn(`Emoji ${emoji.label} does not exist in Discord, skipping`);
+          emojis.splice(emojis.indexOf(emoji), 1);
+        }
+      }
+
+      emojiData.emojis = emojis;
+      emojiData.groupsSubgroups = groupsSubgroups;
+      emojiData.shortcodes = shortcodes;
+      emojiData.loaded = true;
+    } else if (emojiData.emojis && emojiData.shortcodes) {
+      ({ emojis, groupsSubgroups, shortcodes } = emojiData);
+    }
+
+    fuse = new Fuse(emojis, {
+      keys: ['label', 'shortcodes'],
+      threshold: 0.3
+    });
+
+    customEmojiFuse = new Fuse(serverInfo.emojis, {
+      keys: ['label'],
+      threshold: 0.3
+    });
+
+    loadEmojis();
+  });
 
   let {
     serverInfo,
@@ -29,26 +69,6 @@
   let hoveredEmoji: Emoji | EmojiInfo | undefined = $state();
   let emojiScrollDiv: HTMLDivElement | undefined = $state();
   let activeSection = $state('');
-
-  for (const emoji of emojis) {
-    const sc = shortcodes[emoji.hexcode];
-    emoji.shortcodes = Array.isArray(sc) ? sc : sc ? [sc] : undefined;
-
-    if (!emoji.shortcodes) {
-      console.warn(`Emoji ${emoji.label} does not exist in Discord, skipping`);
-      emojis.splice(emojis.indexOf(emoji), 1);
-    }
-  }
-
-  const fuse = new Fuse(emojis, {
-    keys: ['label', 'shortcodes'],
-    threshold: 0.3
-  });
-
-  const customEmojiFuse = new Fuse(serverInfo.emojis, {
-    keys: ['label'],
-    threshold: 0.3
-  });
 
   function getEmojiFilename(hexcode: string): string {
     const cleanHexcode = hexcode.toLowerCase().replace(/^00/, '');
@@ -122,7 +142,7 @@
   }
 
   function handleScroll() {
-    if (!emojiScrollDiv) return;
+    if (!emojiScrollDiv || !groupsSubgroups) return;
 
     const containerRect = emojiScrollDiv.getBoundingClientRect();
     const scrollTop = emojiScrollDiv.scrollTop;
@@ -144,10 +164,6 @@
 
   let filteredEmojis: Emoji[] = $state([]);
   let filteredCustomEmojis: EmojiInfo[] = $state([]);
-
-  $effect(() => {
-    loadEmojis();
-  });
 </script>
 
 {#snippet emojiJumper(section: string, ButtonIcon: Component)}
@@ -163,47 +179,50 @@
 {/snippet}
 
 <FullscreenOverlay bind:overlayOpen title="Select an Emoji">
-  <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
-    <input
-      type="text"
-      placeholder="Search emojis..."
-      class="w-full rounded-md border-2 border-zinc-600 bg-zinc-800 p-2 text-zinc-200 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
-      bind:value={searchInput}
-      onkeydown={(e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          loadEmojis();
-        }
-      }}
-    />
-    <div class="flex items-center gap-2 overflow-x-auto">
-      {#if serverInfo.emojis.length > 0}
-        <button
-          onclick={() => scrollToSection('custom')}
-          class="flex cursor-pointer items-center justify-center p-1"
-          aria-label="Jump to server emojis section"
-        >
-          <img
-            src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
-            alt={serverInfo.name}
-            class="h-6 w-6 shrink-0 transition-all {activeSection === 'custom'
-              ? 'rounded-full brightness-150'
-              : 'rounded-lg'}"
-            loading="lazy"
-            decoding="async"
-          />
-        </button>
-      {/if}
-      {#each groupsSubgroups.groups as group (group.key)}
-        {#if group.message !== 'components'}
-          {@render emojiJumper(group.message, sectionIcons[group.message] || Smile)}
+  {#if !loading}
+    <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
+      <input
+        type="text"
+        placeholder="Search emojis..."
+        class="w-full rounded-md border-2 border-zinc-600 bg-zinc-800 p-2 text-zinc-200 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none"
+        bind:value={searchInput}
+        onkeydown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            loadEmojis();
+          }
+        }}
+      />
+      <div class="flex items-center gap-2 overflow-x-auto">
+        {#if serverInfo.emojis.length > 0}
+          <button
+            onclick={() => scrollToSection('custom')}
+            class="flex cursor-pointer items-center justify-center p-1"
+            aria-label="Jump to server emojis section"
+          >
+            <img
+              src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
+              alt={serverInfo.name}
+              class="h-6 w-6 shrink-0 transition-all {activeSection === 'custom'
+                ? 'rounded-full brightness-150'
+                : 'rounded-lg'}"
+              loading="lazy"
+              decoding="async"
+            />
+          </button>
         {/if}
-      {/each}
+        {#each groupsSubgroups?.groups as group (group.key)}
+          {#if group.message !== 'components'}
+            {@render emojiJumper(group.message, sectionIcons[group.message] || Smile)}
+          {/if}
+        {/each}
+      </div>
     </div>
-  </div>
+  {/if}
 
   {#if loading}
-    <div class="flex flex-1 items-center justify-center p-4">
+    <div class="flex flex-1 items-center justify-center gap-2 p-4">
+      <LoaderCircle size={20} class="animate-spin" color="#9f9fa9" />
       <p class="text-zinc-400">Loading...</p>
     </div>
   {:else if filteredEmojis.length === 0 && filteredCustomEmojis.length === 0}
@@ -250,7 +269,7 @@
           {/each}
         </div>
       {/if}
-      {#each groupsSubgroups.groups as group (group.key)}
+      {#each groupsSubgroups?.groups as group (group.key)}
         {@const groupEmojis = filteredEmojis.filter((emoji) => emoji.group === group.order)}
         {#if groupEmojis.length > 0 && group.message !== 'components'}
           {@const IconComponent = sectionIcons[group.message]}
@@ -285,32 +304,32 @@
         {/if}
       {/each}
     </div>
+
+    <div class="flex h-16 shrink-0 items-center gap-2 overflow-hidden border-t-2 border-zinc-500 p-2">
+      {#if hoveredEmoji}
+        <img
+          src={'hexcode' in hoveredEmoji ? getEmojiFilename(hoveredEmoji.hexcode) : hoveredEmoji.url}
+          alt={hoveredEmoji.label}
+          class="h-8 max-w-8 object-contain"
+          loading="lazy"
+          decoding="async"
+        />
+
+        <div class="max-w-full overflow-hidden">
+          {#if 'shortcodes' in hoveredEmoji}
+            <p class="w-full truncate font-medium">{hoveredEmoji.label.replace('flag: ', '')}</p>
+            <p class="w-full truncate text-sm text-zinc-400">
+              :{hoveredEmoji.shortcodes?.join(': :')}:
+            </p>
+          {:else}
+            <p class="w-full truncate font-medium">
+              :{hoveredEmoji.label}:
+            </p>
+          {/if}
+        </div>
+      {:else}
+        <p class="text-zinc-400">Hover over an emoji to see details</p>
+      {/if}
+    </div>
   {/if}
-
-  <div class="flex h-16 shrink-0 items-center gap-2 overflow-hidden border-t-2 border-zinc-500 p-2">
-    {#if hoveredEmoji}
-      <img
-        src={'hexcode' in hoveredEmoji ? getEmojiFilename(hoveredEmoji.hexcode) : hoveredEmoji.url}
-        alt={hoveredEmoji.label}
-        class="h-8 max-w-8 object-contain"
-        loading="lazy"
-        decoding="async"
-      />
-
-      <div class="max-w-full overflow-hidden">
-        {#if 'shortcodes' in hoveredEmoji}
-          <p class="w-full truncate font-medium">{hoveredEmoji.label.replace('flag: ', '')}</p>
-          <p class="w-full truncate text-sm text-zinc-400">
-            :{hoveredEmoji.shortcodes?.join(': :')}:
-          </p>
-        {:else}
-          <p class="w-full truncate font-medium">
-            :{hoveredEmoji.label}:
-          </p>
-        {/if}
-      </div>
-    {:else}
-      <p class="text-zinc-400">Hover over an emoji to see details</p>
-    {/if}
-  </div>
 </FullscreenOverlay>

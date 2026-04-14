@@ -143,7 +143,7 @@
           {/if}
         </button>
         <button
-          class="cursor-pointer rounded-lg bg-zinc-700 p-2 transition-colors hover:bg-zinc-600"
+          class="ml-auto cursor-pointer rounded-lg bg-zinc-700 p-2 transition-colors hover:bg-zinc-600 xs:ml-0"
           class:cursor-not-allowed={guildsQuery?.loading}
           class:opacity-50={guildsQuery?.loading}
           onclick={async () => await guildsQuery?.refresh()}
