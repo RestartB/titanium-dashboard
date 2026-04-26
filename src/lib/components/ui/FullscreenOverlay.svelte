@@ -15,6 +15,7 @@
     padding = 0,
     gap = 0,
     zIndex = 50,
+    overflow = true,
     class: className = '',
     // eslint-disable-next-line no-useless-assignment
     overlayOpen = $bindable(false)
@@ -28,6 +29,7 @@
     padding?: number;
     gap?: number;
     zIndex?: number;
+    overflow?: boolean;
     class?: string;
     overlayOpen?: boolean;
   } = $props();
@@ -58,7 +60,9 @@
     </div>
 
     <div
-      class="flex w-full flex-1 flex-col overflow-auto rounded-xl border-2 border-zinc-600 bg-zinc-700"
+      class="flex w-full flex-1 flex-col rounded-xl border-2 border-zinc-600 bg-zinc-700"
+      class:overflow-hidden={!overflow}
+      class:overflow-auto={overflow}
       style="padding: {padding}px; gap: {gap}px;"
     >
       {@render children?.()}

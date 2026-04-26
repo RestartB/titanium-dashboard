@@ -37,6 +37,9 @@ export const getComments = query(z.object({ guildId: z.string(), caseId: z.strin
     console.error('Failed to fetch comments:', await request.text());
     throw error(500, 'Unknown error');
   }
+
+  const data = await request.json();
+  return data;
 });
 
 export const createComment = form(
