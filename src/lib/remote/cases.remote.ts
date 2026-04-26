@@ -14,9 +14,7 @@ async function checkPerms(guildId: string, limit: RateLimiter = apiLimit) {
   const tokenRecord = await remoteCheckToken(event);
   if (await limit.isLimited(event)) throw error(429);
 
-  const permCheckRequest = await fetch(
-    'http://localhost:5100/guild/' + guildId + '/perms/' + tokenRecord.discordUserId
-  );
+  const permCheckRequest = await fetch(`${TITANIUM_API_URL}/guild/` + guildId + '/perms/' + tokenRecord.discordUserId);
 
   if (!permCheckRequest.ok) {
     if (permCheckRequest.status === 404) throw error(404, 'Guild not found');

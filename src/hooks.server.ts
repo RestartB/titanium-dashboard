@@ -5,6 +5,17 @@ import { checkToken, deleteToken } from '$lib/server/token';
 import { apiLimit } from '$lib/limits';
 import { dev } from '$app/environment';
 
+import { TITANIUM_API_URL } from '$env/static/private';
+
+interface PermCacheEntry {
+  expiresAt: number;
+  data: {
+    dashboard_manager: boolean;
+    case_manager: boolean;
+  };
+}
+const permsCache = new Map<string, PermCacheEntry>();
+
 export const handle: Handle = async ({ event, resolve }) => {
   console.log(`Handling request for ${event.url.pathname}`);
 
@@ -85,32 +96,41 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
     try {
-      const permCheckRequest = await fetch(
-        'http://localhost:5100/guild/' + guildId + '/perms/' + event.locals.discordId
-      );
+      const cacheKey = `${guildId}-${event.locals.discordId}`;
+      const cached = permsCache.get(cacheKey);
+      let permCheck;
 
-      if (!permCheckRequest.ok) {
-        if (permCheckRequest.status === 404) {
-          console.log('Guild not found');
+      if (cached && cached.expiresAt > Date.now()) {
+        permCheck = cached.data;
+      } else {
+        const permCheckRequest = await fetch(
+          `${TITANIUM_API_URL}/guild/` + guildId + '/perms/' + event.locals.discordId
+        );
+
+        if (!permCheckRequest.ok) {
+          if (permCheckRequest.status === 404) {
+            console.log('Guild not found');
+            if (event.url.pathname.startsWith('/api')) {
+              return json({ error: 'Guild not found' }, { status: 404 });
+            }
+
+            return redirect(302, '/');
+          }
+
+          console.log('Failed to fetch guild permissions from Titanium');
           if (event.url.pathname.startsWith('/api')) {
-            return json({ error: 'Guild not found' }, { status: 404 });
+            return json(
+              { error: 'Failed to fetch guild permissions from Titanium' },
+              { status: permCheckRequest.status }
+            );
           }
 
           return redirect(302, '/');
         }
 
-        console.log('Failed to fetch guild permissions from Titanium');
-        if (event.url.pathname.startsWith('/api')) {
-          return json(
-            { error: 'Failed to fetch guild permissions from Titanium' },
-            { status: permCheckRequest.status }
-          );
-        }
-
-        return redirect(302, '/');
+        permCheck = await permCheckRequest.json();
+        permsCache.set(cacheKey, { expiresAt: Date.now() + 60000, data: permCheck });
       }
-
-      const permCheck = await permCheckRequest.json();
 
       event.locals.dashboard_manager = permCheck.dashboard_manager;
       event.locals.case_manager = permCheck.case_manager;
