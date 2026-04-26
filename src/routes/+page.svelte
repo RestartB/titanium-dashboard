@@ -208,7 +208,7 @@
           {/if}
 
           {#if guildsQuery.current?.nonMutualGuilds.length > 0}
-            <p class="mt-4 text-base font-bold">
+            <p class="text-base font-bold" class:mt-4={guildsQuery.current?.mutualGuilds.length > 0}>
               Servers without Titanium ({guildsQuery.current?.nonMutualGuilds.length})
             </p>
 

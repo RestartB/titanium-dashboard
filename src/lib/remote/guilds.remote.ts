@@ -5,6 +5,7 @@ import { remoteCheckToken, deleteToken } from '$lib/server/token';
 
 import { guildsLimit } from '$lib/limits';
 import { TITANIUM_API_URL } from '$env/static/private';
+import type { ServerInfo } from '$lib/interfaces/serverInfo';
 
 export const getUserGuilds = query(async () => {
   const event = getRequestEvent();
@@ -32,12 +33,18 @@ export const getUserGuilds = query(async () => {
 
   // filter to guilds with admin perms
   const guildData = await request.json();
-  const guilds = guildData.filter((guild: { permissions: string }) => {
+  const guilds: ServerInfo[] = guildData.filter((guild: { permissions: string }) => {
     const permissions = parseInt(guild.permissions);
     return permissions & 0x20 || permissions & 0x8;
   });
 
-  const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${tokenRecord.discordUserId}/guilds`);
+  const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${tokenRecord.discordUserId}/guilds`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ user_guilds: guilds.map((guild) => guild.id) })
+  });
 
   if (!mutualRequest.ok) {
     console.error('Failed to fetch mutual guilds:', await mutualRequest.text());
@@ -46,8 +53,8 @@ export const getUserGuilds = query(async () => {
 
   const mutualGuildIds = await mutualRequest.json();
 
-  const nonMutualGuilds = guilds.filter((guild: { id: string }) => !mutualGuildIds.includes(guild.id));
-  const mutualGuilds = guilds.filter((guild: { id: string }) => mutualGuildIds.includes(guild.id));
+  const nonMutualGuilds = guilds.filter((guild) => !mutualGuildIds.includes(guild.id));
+  const mutualGuilds = guilds.filter((guild) => mutualGuildIds.includes(guild.id));
 
   return { nonMutualGuilds, mutualGuilds };
 });
