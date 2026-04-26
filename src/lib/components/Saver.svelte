@@ -52,7 +52,7 @@
     loading = true;
 
     if (page == 'permissions') {
-      const permissionsReq = await fetch(`/api/guild/${dataState.serverInfo.id}/perms`, {
+      const permissionsReq = await fetch(`/api/guild/${dataState.serverInfo.id}/module/perms`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

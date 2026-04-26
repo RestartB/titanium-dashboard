@@ -6,12 +6,7 @@ import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (event) => {
   try {
-    const request = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}/perms`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    const request = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}/perms`, { method: 'GET' });
 
     if (!request.ok) {
       console.error(request.statusText);
