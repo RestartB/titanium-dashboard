@@ -111,13 +111,25 @@
   </a>
 {/snippet}
 
+{#snippet blob(classes: string = '')}
+  <span
+    class="absolute block h-180 w-180 animate-blobs rounded-full bg-radial from-zinc-700 to-transparent to-70% brightness-80 {classes}"
+  ></span>
+{/snippet}
+
+<div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden blur-3xl">
+  {@render blob()}
+  {@render blob('right-[0%] bottom-[20%] [animation-delay:-3s] [animation-duration:24s]')}
+  {@render blob('bottom-[0%] [animation-delay:-5s] [animation-duration:16s]')}
+</div>
+
 <div class="flex h-full flex-col items-center justify-center p-4">
   <Alert class="mb-4 bg-red-800/50">
     <p>You must have access to the Titanium v2 private beta to use this dashboard.</p>
   </Alert>
 
   <Row
-    class="flex h-full {data.userData && !rowsView
+    class="flex h-full bg-zinc-800/40 {data.userData && !rowsView
       ? 'max-h-250 max-w-312'
       : 'max-h-156 max-w-lg'} w-full flex-col items-center gap-4 overflow-hidden p-4 transition-all duration-500"
   >
