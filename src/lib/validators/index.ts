@@ -64,3 +64,6 @@ export {
   type LeaderboardLevelSchema,
   type LeaderboardConfigSchema
 } from './leaderboard';
+
+// Tags
+export { newTagSchema, editTagSchema } from './tags';

@@ -2,6 +2,9 @@
   import { getTags, createTag } from '$lib/remote/tags.remote';
   import { newTagSchema } from '$lib/validators/tags';
 
+  import Saver from '$lib/components/Saver.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import Tag from '$lib/components/tags/Tag.svelte';
@@ -10,6 +13,7 @@
   import { RefreshCw, Plus, LoaderCircle, X } from '@lucide/svelte';
 
   const { data } = $props();
+  let dataState = $state(data);
   let overlayOpen = $state(false);
 
   $effect(() => {
@@ -33,54 +37,61 @@
   </form>
 {/if}
 
-<div>
-  <h2 class="text-4xl font-bold">Tags</h2>
-  <p>Send server wide quick responses with key words. Create new tags, or click on a tag to edit or delete.</p>
+<Saver {data} bind:dataState />
+
+<div class="flex items-center justify-between gap-4">
+  <div class="flex-1">
+    <h2 class="text-4xl font-bold">Tags</h2>
+    <p>Send server wide quick responses with key words. Create new tags, or click on a tag to edit or delete.</p>
+  </div>
+  <Toggle bind:toggled={dataState.serverSettings.modules.tags} />
 </div>
 
-<svelte:boundary>
-  <div class="flex items-center gap-2">
-    <Button
-      onclick={() => getTags({ guildId: data.serverInfo.id, limit: 50, offset: 0 }).refresh()}
-      disablePadding={true}
-      disabled={$effect.pending() ? true : false}
-      class="p-2 transition-all disabled:cursor-not-allowed disabled:opacity-50"
-    >
-      {#if $effect.pending()}
-        <RefreshCw size={20} class="shrink-0 animate-spin" />
-      {:else}
-        <RefreshCw size={20} class="shrink-0" />
-      {/if}
-    </Button>
+<ToggledContent enabled={dataState.serverSettings.modules.tags}>
+  <svelte:boundary>
+    <div class="flex items-center gap-2">
+      <Button
+        onclick={() => getTags({ guildId: data.serverInfo.id, limit: 50, offset: 0 }).refresh()}
+        disablePadding={true}
+        disabled={$effect.pending() ? true : false}
+        class="p-2 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {#if $effect.pending()}
+          <RefreshCw size={20} class="shrink-0 animate-spin" />
+        {:else}
+          <RefreshCw size={20} class="shrink-0" />
+        {/if}
+      </Button>
 
-    <Button
-      onclick={() => (overlayOpen = true)}
-      smallPadding={true}
-      disabled={$effect.pending() ? true : false}
-      class="transition-all disabled:cursor-not-allowed disabled:opacity-50"
-    >
-      <Plus size={20} class="shrink-0" />
-      Create
-    </Button>
-  </div>
-
-  <ul class="space-y-2">
-    {#each (await getTags({ guildId: data.serverInfo.id, limit: 50, offset: 0 })).tags as tag (tag.id)}
-      <Tag {tag} guildId={data.serverInfo.id} />
-    {/each}
-  </ul>
-
-  {#snippet pending()}
-    <div class="flex w-fit items-center gap-2">
-      <LoaderCircle size={20} class="shrink-0 animate-spin" />
-      Loading...
+      <Button
+        onclick={() => (overlayOpen = true)}
+        smallPadding={true}
+        disabled={$effect.pending() ? true : false}
+        class="transition-all disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <Plus size={20} class="shrink-0" />
+        Create
+      </Button>
     </div>
-  {/snippet}
 
-  {#snippet failed()}
-    <div class="flex w-fit items-center gap-4 font-bold">
-      <X size={20} class="shrink-0" />
-      An error occurred. Please reload the page and try again.
-    </div>
-  {/snippet}
-</svelte:boundary>
+    <ul class="space-y-2">
+      {#each (await getTags({ guildId: data.serverInfo.id, limit: 50, offset: 0 })).tags as tag (tag.id)}
+        <Tag {tag} guildId={data.serverInfo.id} />
+      {/each}
+    </ul>
+
+    {#snippet pending()}
+      <div class="flex w-fit items-center gap-2">
+        <LoaderCircle size={20} class="shrink-0 animate-spin" />
+        Loading...
+      </div>
+    {/snippet}
+
+    <!-- {#snippet failed()}
+      <div class="flex w-fit items-center gap-4 font-bold">
+        <X size={20} class="shrink-0" />
+        An error occurred. Please reload the page and try again.
+      </div>
+    {/snippet} -->
+  </svelte:boundary>
+</ToggledContent>

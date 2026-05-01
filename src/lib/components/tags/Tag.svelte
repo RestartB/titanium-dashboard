@@ -19,9 +19,11 @@
   let isErrored = $state(false);
   let currentTimeout: NodeJS.Timeout;
 
+  const editFormLocal = editTag.for(tag.id);
+
   onMount(() => {
-    editTag.fields.name.set(tag.name);
-    editTag.fields.content.set(tag.content);
+    editFormLocal.fields.name.set(tag.name);
+    editFormLocal.fields.content.set(tag.content);
   });
 
   $effect(() => {
@@ -108,11 +110,11 @@
 {/snippet}
 
 {#if overlayOpen}
-  <form {...editTag} {...editTag.preflight(editTagSchema)} class="absolute">
-    <input type="hidden" {...editTag.fields.tagId.as('text')} value={tag.id} />
+  <form {...editFormLocal} {...editFormLocal.preflight(editTagSchema)} class="absolute">
+    <input type="hidden" {...editFormLocal.fields.tagId.as('text')} value={tag.id} />
     <FullscreenOverlay title={editMode ? 'Edit Tag' : 'Tag Details'} padding={16} gap={16} {bottomRow} bind:overlayOpen>
       {#if editMode}
-        <TagForm form={editTag} {guildId} />
+        <TagForm form={editFormLocal} {guildId} />
       {:else}
         <div class="w-full text-left">
           <h3 class="text-xl font-semibold">Name</h3>
