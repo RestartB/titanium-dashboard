@@ -24,7 +24,7 @@
   {onclick}
   aria-label={label}
 >
-  <div>
+  <div class="w-full max-w-full">
     {@render children?.()}
   </div>
 

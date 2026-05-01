@@ -11,7 +11,8 @@
     Flame,
     Trophy,
     Tally5,
-    BadgeCheck
+    BadgeCheck,
+    Tag
   } from '@lucide/svelte';
   import type { Component } from 'svelte';
 
@@ -142,5 +143,12 @@
     'Allow server members to make anonymous confessions.',
     `/guild/${serverId}/confessions`,
     BadgeCheck
+  )}
+  <!-- prettier-ignore -->
+  {@render featureCard(
+    'Tags',
+    'Send server wide quick responses with key words.',
+    `/guild/${serverId}/tags`,
+    Tag
   )}
 </div>

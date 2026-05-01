@@ -44,7 +44,7 @@
 
   <div
     class="flex flex-col gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
-    style="width: min({width}px, 100%); height: min({height}px, calc(100vh - 3rem)); max-height: calc(100vh - 3rem);"
+    style="width: min({width}px, 100%); height: min({height}px, calc(100vh - 5rem)); max-height: calc(100vh - 5rem);"
     transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
   >
     <div class="flex w-full shrink-0 items-center justify-between gap-2">
@@ -52,6 +52,7 @@
       {@render extraButton?.()}
       <button
         class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-400 hover:bg-zinc-600"
+        type="button"
         onclick={() => (overlayOpen = false)}
         aria-label="Close popup"
       >

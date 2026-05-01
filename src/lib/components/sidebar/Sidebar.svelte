@@ -14,7 +14,8 @@
     Flame,
     Trophy,
     Tally5,
-    BadgeCheck
+    BadgeCheck,
+    Tag
   } from '@lucide/svelte';
   import Tile from './Tile.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
@@ -106,4 +107,5 @@
     Icon={BadgeCheck}
     active={page.url.pathname.endsWith('/confessions')}
   />
+  <Tile title="Tags" href="/guild/{serverId}/tags" Icon={Tag} active={page.url.pathname.endsWith('/tags')} />
 </div>

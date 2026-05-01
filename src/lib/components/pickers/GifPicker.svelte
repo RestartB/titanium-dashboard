@@ -13,9 +13,11 @@
   let {
     // eslint-disable-next-line no-useless-assignment
     selectedGif = $bindable(),
+    onSelect = () => {},
     overlayOpen = $bindable(false)
   }: {
     selectedGif?: string | null;
+    onSelect?: (gif: string) => void;
     overlayOpen?: boolean;
   } = $props();
 
@@ -63,13 +65,14 @@
   });
 </script>
 
-<FullscreenOverlay bind:overlayOpen title="Select a GIF" zIndex={60} overflow={false}>
+<FullscreenOverlay bind:overlayOpen title="Insert a GIF" zIndex={60} overflow={false}>
   <div class="flex h-fit w-full shrink-0 border-b-2 border-zinc-600">
     {#if currentCategory}
       <div transition:slide={{ axis: 'x', duration: 400 }} class="m-2 mr-0 flex shrink-0">
         <button
           transition:fade={{ duration: 200 }}
           class="flex h-full w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-2 border-zinc-600 bg-zinc-800 text-zinc-200 hover:bg-zinc-700"
+          type="button"
           onclick={() => {
             currentCategory = '';
             searchInput = '';
@@ -117,8 +120,10 @@
               <button
                 title={gif.title}
                 class="mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg"
+                type="button"
                 onclick={() => {
                   selectedGif = gif.file.md.webp.url;
+                  onSelect(selectedGif);
                   overlayOpen = false;
                 }}
               >
@@ -151,6 +156,7 @@
         {:else}
           <button
             class="flex h-30 w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-linear-to-br from-zinc-800 to-zinc-900 text-xl font-bold"
+            type="button"
             onclick={() => {
               searchInput = '';
               debouncedInput = '';
@@ -164,6 +170,7 @@
           {#each categoryQuery.current?.data.categories as category (category.query)}
             <button
               class="group relative isolate h-30 w-full cursor-pointer overflow-hidden rounded-lg"
+              type="button"
               onclick={() => {
                 searchInput = category.query;
                 debouncedInput = category.query;
