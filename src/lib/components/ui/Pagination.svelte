@@ -4,15 +4,16 @@
   const {
     currentPage = $bindable(),
     pageCount,
-    changePage
-  }: { currentPage: number; pageCount: number; changePage: (page: number) => void } = $props();
+    changePage,
+    disabled = false
+  }: { currentPage: number; pageCount: number; changePage: (page: number) => void; disabled?: boolean } = $props();
 </script>
 
 {#if pageCount > 1}
   <div class="flex w-full items-center justify-center gap-2">
     <button
       class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-200 hover:bg-zinc-600 disabled:cursor-not-allowed disabled:opacity-50"
-      disabled={currentPage === 1}
+      disabled={currentPage === 1 || disabled}
       onclick={() => changePage(1)}
       aria-label="First Page"
     >
@@ -20,7 +21,7 @@
     </button>
     <button
       class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-200 hover:bg-zinc-600 disabled:cursor-not-allowed disabled:opacity-50"
-      disabled={currentPage === 1}
+      disabled={currentPage === 1 || disabled}
       onclick={() => changePage(currentPage - 1)}
       aria-label="Previous Page"
     >
@@ -29,7 +30,7 @@
     <p class="text-zinc-400">Page {currentPage} of {pageCount}</p>
     <button
       class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-200 hover:bg-zinc-600 disabled:cursor-not-allowed disabled:opacity-50"
-      disabled={currentPage === pageCount}
+      disabled={currentPage === pageCount || disabled}
       onclick={() => changePage(currentPage + 1)}
       aria-label="Next Page"
     >
@@ -37,7 +38,7 @@
     </button>
     <button
       class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-200 hover:bg-zinc-600 disabled:cursor-not-allowed disabled:opacity-50"
-      disabled={currentPage === pageCount}
+      disabled={currentPage === pageCount || disabled}
       onclick={() => changePage(pageCount)}
       aria-label="Last Page"
     >

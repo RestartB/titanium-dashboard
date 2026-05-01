@@ -12,16 +12,32 @@
 
   import { RefreshCw, Plus, LoaderCircle, X } from '@lucide/svelte';
   import { ToggleRow } from '$lib/components/ui/row/index.js';
+  import Pagination from '$lib/components/ui/Pagination.svelte';
 
   const { data } = $props();
   let dataState = $state(data);
   let overlayOpen = $state(false);
+
+  let currentPage = $state(1);
+
+  let tagsFunction = $derived(
+    getTags({
+      guildId: data.serverInfo.id,
+      limit: 50,
+      offset: 50 * currentPage - 50
+    })
+  );
+  let pageCount = $derived(Math.max(1, Math.ceil((await tagsFunction).total_count / 50)));
 
   $effect(() => {
     if (createTag.result && createTag.result.success) {
       overlayOpen = false;
     }
   });
+
+  function changePage(page: number) {
+    currentPage = page;
+  }
 </script>
 
 {#snippet submitButton()}
@@ -74,7 +90,7 @@
   <svelte:boundary>
     <div class="flex items-center gap-2">
       <Button
-        onclick={() => getTags({ guildId: data.serverInfo.id, limit: 50, offset: 0 }).refresh()}
+        onclick={() => tagsFunction.refresh()}
         disablePadding={true}
         disabled={$effect.pending() ? true : false}
         class="p-2 transition-all disabled:cursor-not-allowed disabled:opacity-50"
@@ -98,9 +114,16 @@
     </div>
 
     <ul class="space-y-2">
-      {#each (await getTags({ guildId: data.serverInfo.id, limit: 50, offset: 0 })).tags as tag (tag.id)}
+      {#each (await tagsFunction).tags as tag (tag.id)}
         <Tag {tag} guildId={data.serverInfo.id} />
       {/each}
+
+      <Pagination
+        {changePage}
+        pageCount={await pageCount}
+        disabled={$effect.pending() ? true : false}
+        bind:currentPage
+      />
     </ul>
 
     {#snippet pending()}
