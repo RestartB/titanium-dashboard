@@ -66,4 +66,4 @@ export {
 } from './leaderboard';
 
 // Tags
-export { newTagSchema, editTagSchema } from './tags';
+export { tagsConfigSchema, newTagSchema, editTagSchema, type TagsConfigSchema } from './tags';

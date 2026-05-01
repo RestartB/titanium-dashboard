@@ -11,6 +11,7 @@
   import TagForm from '$lib/components/tags/TagForm.svelte';
 
   import { RefreshCw, Plus, LoaderCircle, X } from '@lucide/svelte';
+  import { ToggleRow } from '$lib/components/ui/row/index.js';
 
   const { data } = $props();
   let dataState = $state(data);
@@ -37,7 +38,7 @@
   </form>
 {/if}
 
-<Saver {data} bind:dataState />
+<Saver {data} page="tags" bind:dataState />
 
 <div class="flex items-center justify-between gap-4">
   <div class="flex-1">
@@ -48,6 +49,28 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.tags}>
+  <p class="text-base font-bold text-zinc-300/60">Settings</p>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.allow_user_tags}>
+    <div>
+      <h2 class="text-xl font-bold">Allow User Tags</h2>
+      <p>Allow user tags in this server. Users will be able to use their own tags.</p>
+    </div>
+  </ToggleRow>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.prefix_fallback}>
+    <div>
+      <h2 class="text-xl font-bold">Prefix Command Fallback</h2>
+      <p>
+        If a command doesn't exist in Titanium, search for it as a server tag instead. This allows custom command
+        responses. The tag name must not exist as an existing Titanium command for this to work.
+      </p>
+    </div>
+  </ToggleRow>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Manage Server Tags</p>
+
   <svelte:boundary>
     <div class="flex items-center gap-2">
       <Button
@@ -87,11 +110,11 @@
       </div>
     {/snippet}
 
-    <!-- {#snippet failed()}
+    {#snippet failed()}
       <div class="flex w-fit items-center gap-4 font-bold">
         <X size={20} class="shrink-0" />
         An error occurred. Please reload the page and try again.
       </div>
-    {/snippet} -->
+    {/snippet}
   </svelte:boundary>
 </ToggledContent>
