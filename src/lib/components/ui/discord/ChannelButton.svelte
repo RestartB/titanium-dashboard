@@ -9,10 +9,12 @@
   let {
     categories = [],
     channel = $bindable(),
+    onSelect = () => {},
     class: className = ''
   }: {
     categories?: CategoryInfo[];
     channel?: string | null;
+    onSelect?: (channel: string) => void;
     class?: string;
   } = $props();
   const channelTypeIcons: Record<string, Component> = {
@@ -35,7 +37,7 @@
 </script>
 
 {#if overlayOpen}
-  <ChannelPicker {categories} bind:selectedChannel={channel} bind:overlayOpen />
+  <ChannelPicker {categories} {onSelect} bind:selectedChannel={channel} bind:overlayOpen />
 {/if}
 
 {#snippet channelContent()}

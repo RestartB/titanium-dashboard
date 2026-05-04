@@ -50,8 +50,16 @@ export const getTags = query(
 export const createTag = form(
   z.object({
     guildId: z.string(),
-    name: z.string('Please enter a title.').trim().min(1).max(35),
-    content: z.string('Please enter some content.').trim().min(1).max(1000)
+    name: z
+      .string('Please enter a title.')
+      .trim()
+      .min(1)
+      .max(35, 'Please ensure the tag name is 35 characters or shorter.'),
+    content: z
+      .string('Please enter some content.')
+      .trim()
+      .min(1)
+      .max(2000, 'Please ensure the tag content is 2000 characters or shorter.')
   }),
   async ({ guildId, name, content }) => {
     const { tokenRecord } = await checkPerms(guildId);
@@ -77,8 +85,16 @@ export const editTag = form(
   z.object({
     guildId: z.string(),
     tagId: z.uuidv4(),
-    name: z.string('Please enter a title.').trim().min(1).max(35),
-    content: z.string('Please enter some content.').trim().min(1).max(2000)
+    name: z
+      .string('Please enter a title.')
+      .trim()
+      .min(1)
+      .max(35, 'Please ensure the tag name is 35 characters or shorter.'),
+    content: z
+      .string('Please enter some content.')
+      .trim()
+      .min(1)
+      .max(2000, 'Please ensure the tag content is 2000 characters or shorter.')
   }),
   async ({ guildId, tagId, name, content }) => {
     const { tokenRecord } = await checkPerms(guildId);

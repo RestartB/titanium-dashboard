@@ -10,10 +10,12 @@
   let {
     categories,
     selectedChannel = $bindable(),
+    onSelect = () => {},
     overlayOpen = $bindable(false)
   }: {
     categories: CategoryInfo[];
     selectedChannel?: string | null;
+    onSelect?: (channel: string) => void;
     overlayOpen?: boolean;
   } = $props();
 
@@ -50,6 +52,7 @@
     class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 hover:bg-zinc-600"
     onclick={() => {
       selectedChannel = channel.id;
+      onSelect(channel.id);
       overlayOpen = false;
     }}
     aria-label="Select {channel.name} channel"

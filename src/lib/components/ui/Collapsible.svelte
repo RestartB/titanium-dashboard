@@ -26,7 +26,11 @@
     aria-label="Toggle {title} section"
   >
     <h3 class="font-bold">{title}</h3>
-    <ChevronDown class="shrink-0 transition-transform duration-400 {isOpen ? 'rotate-180' : ''}" />
+    <ChevronDown
+      class="shrink-0 transition-transform duration-400 {isOpen
+        ? 'transform-[rotateX(180deg)]'
+        : 'transform-[rotateX(0deg)]'}"
+    />
   </button>
 
   {#if isOpen}

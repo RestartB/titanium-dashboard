@@ -9,10 +9,10 @@
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import Tag from '$lib/components/tags/Tag.svelte';
   import TagForm from '$lib/components/tags/TagForm.svelte';
+  import ToggleRow from '$lib/components/ui/row/ToggleRow.svelte';
+  import Pagination from '$lib/components/ui/Pagination.svelte';
 
   import { RefreshCw, Plus, LoaderCircle, X } from '@lucide/svelte';
-  import { ToggleRow } from '$lib/components/ui/row/index.js';
-  import Pagination from '$lib/components/ui/Pagination.svelte';
 
   const { data } = $props();
   let dataState = $state(data);

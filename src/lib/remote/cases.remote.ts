@@ -44,7 +44,11 @@ export const createComment = form(
   z.object({
     guildId: z.string(),
     caseId: z.string(),
-    content: z.string('Please enter a comment.').min(1).max(1000)
+    content: z
+      .string('Please enter a comment.')
+      .trim()
+      .min(1)
+      .max(1000, 'Please ensure your comment is under 1000 characters.')
   }),
   async ({ guildId, caseId, content }) => {
     const { tokenRecord } = await checkPerms(guildId, commentsLimit);
