@@ -2,7 +2,7 @@
   import { createTag, editTag } from '$lib/remote/tags.remote';
   import GifPicker from '$lib/components/pickers/GifPicker.svelte';
 
-  const { form, guildId }: { form: typeof createTag | typeof editTag; guildId: string } = $props();
+  const { form, guildId }: { form: typeof createTag | ReturnType<typeof editTag.for>; guildId: string } = $props();
 
   let gifPickerOpen = $state(false);
 </script>
