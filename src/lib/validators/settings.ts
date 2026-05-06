@@ -17,6 +17,7 @@ export type ModuleSchema = z.infer<typeof moduleSchema>;
 
 export const settingsSchema = z.object({
   allow_prefix: z.boolean(),
+  send_not_allowed: z.boolean(),
   loading_reaction: z.boolean(),
   blocked_channels: z.array(z.string()).max(100),
   blocked_roles: z.array(z.string()).max(100),

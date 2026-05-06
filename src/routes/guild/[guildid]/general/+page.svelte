@@ -61,7 +61,27 @@
   </div>
 </ToggleRow>
 
+<ToggleRow bind:toggled={dataState.serverSettings.settings.send_not_allowed}>
+  <div>
+    <h2 class="text-xl font-bold">Send Not Allowed Error</h2>
+    <p>
+      Send a not allowed error to the user if they try to run prefix commands when they are disabled, in a blacklisted
+      channel, or when they have a blacklisted role.
+    </p>
+  </div>
+</ToggleRow>
+
 <ToggledContent enabled={dataState.serverSettings.settings.allow_prefix}>
+  <ToggleRow bind:toggled={dataState.serverSettings.settings.loading_reaction}>
+    <div>
+      <h2 class="text-xl font-bold">Show Loading Reaction</h2>
+      <p>
+        Enable or disable the loading reaction that appears when Titanium is processing a prefix command. The loading
+        indicator will always show for slash commands.
+      </p>
+    </div>
+  </ToggleRow>
+
   <Row>
     <h2 class="text-xl font-bold">Prefixes</h2>
     <p>
@@ -144,16 +164,6 @@
       {/each}
     </div>
   </Row>
-
-  <ToggleRow bind:toggled={dataState.serverSettings.settings.loading_reaction}>
-    <div>
-      <h2 class="text-xl font-bold">Show Loading Reaction</h2>
-      <p>
-        Enable or disable the loading reaction that appears when Titanium is processing a prefix command. The loading
-        indicator will always show for slash commands.
-      </p>
-    </div>
-  </ToggleRow>
 </ToggledContent>
 
 <hr class="border-zinc-500" />
