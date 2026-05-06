@@ -53,29 +53,28 @@
 </div>
 
 <Row>
-  <div>
-    <h2 class="text-xl font-bold">Dashboard Managers</h2>
-    <p class="mb-2">
-      Dashboard Managers can fully manage Titanium from the dashboard, however, they will not have any special access to
-      Titanium's commands past what their roles already provide. Roles with the Administrator permission will
-      automatically be Dashboard Managers, but you can also add roles manually below.
-    </p>
-    <div class="flex flex-wrap gap-2">
-      <Button onclick={() => (dashboardOverlayOpen = true)}><Plus size={20} /> Add Role</Button>
-      {#each dataState.pageSettings.dashboard_managers as role (role)}
-        {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
-        {#if foundRole}
-          <RoleTile
-            role={foundRole}
-            deleteThis={() => {
-              dataState.pageSettings.dashboard_managers = dataState.pageSettings.dashboard_managers.filter(
-                (r) => r !== role
-              );
-            }}
-          />
-        {/if}
-      {/each}
-    </div>
+  <h2 class="text-xl font-bold">Dashboard Managers</h2>
+  <p class="mb-2">
+    Dashboard Managers can fully manage Titanium from the dashboard, however, they will not have any special access to
+    Titanium's commands past what their roles already provide. Roles with the Administrator permission will
+    automatically be Dashboard Managers, but you can also add roles manually below.
+  </p>
+
+  <div class="flex flex-wrap gap-2">
+    <Button onclick={() => (dashboardOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add Role</Button>
+    {#each dataState.pageSettings.dashboard_managers as role (role)}
+      {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
+      {#if foundRole}
+        <RoleTile
+          role={foundRole}
+          deleteThis={() => {
+            dataState.pageSettings.dashboard_managers = dataState.pageSettings.dashboard_managers.filter(
+              (r) => r !== role
+            );
+          }}
+        />
+      {/if}
+    {/each}
   </div>
 </Row>
 
@@ -89,7 +88,7 @@
     </p>
 
     <div class="flex flex-wrap gap-2">
-      <Button onclick={() => (caseOverlayOpen = true)}><Plus size={20} /> Add Role</Button>
+      <Button onclick={() => (caseOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add Role</Button>
       {#each dataState.pageSettings.case_managers as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}
