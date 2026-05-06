@@ -69,7 +69,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   // rate limiting
   if (event.url.pathname.startsWith('/api/guild/')) {
-    await apiLimit.cookieLimiter?.preflight(event);
     const status = await apiLimit.check(event);
     if (status.limited) throw error(429, `Too many requests, please try again after ${status.retryAfter} seconds`);
   }

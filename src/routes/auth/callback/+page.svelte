@@ -45,10 +45,20 @@
     // get redirect from state
     const stateParts = state.split('-');
     const redirectPart = stateParts.slice(2).join('-');
-    const redirectTo = redirectPart ? decodeURIComponent(atob(redirectPart)) : '/';
+    let redirectTo = '/';
+
+    try {
+      if (redirectPart) {
+        redirectTo = decodeURIComponent(atob(redirectPart));
+      }
+    } catch (e) {
+      console.error('Failed to decode redirect state:', e);
+      redirectTo = '/';
+    }
 
     if (!redirectTo.startsWith('/')) {
       window.location.href = '/';
+      return;
     }
 
     fetch('/api/auth/trade', {
