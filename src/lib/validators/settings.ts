@@ -16,7 +16,10 @@ export const moduleSchema = z.object({
 export type ModuleSchema = z.infer<typeof moduleSchema>;
 
 export const settingsSchema = z.object({
+  allow_prefix: z.boolean(),
   loading_reaction: z.boolean(),
+  blocked_channels: z.array(z.string()).max(100),
+  blocked_roles: z.array(z.string()).max(100),
   delete_after_3_days: z.boolean()
 });
 
@@ -29,9 +32,6 @@ export const guildSettingsSchema = z.object({
     .array(z.string().min(1).max(5))
     .min(1, 'At least one prefix is required')
     .max(5, 'A maximum of 5 prefixes are allowed')
-    .refine((prefixes) => prefixes.every((p) => p.length >= 1 && p.length <= 5), {
-      message: 'Each prefix must be between 1 and 5 characters long'
-    })
     .refine((prefixes) => new Set(prefixes).size === prefixes.length, {
       message: 'Prefixes must be unique'
     })

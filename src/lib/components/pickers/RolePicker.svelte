@@ -6,11 +6,18 @@
 
   let {
     roles,
+    // eslint-disable-next-line no-useless-assignment
     selectedRole = $bindable(),
+    selectedRoles = $bindable([]),
+    multiselect = false,
+    onSelect = () => {},
     overlayOpen = $bindable(false)
   }: {
     roles: RoleInfo[];
     selectedRole?: string | null;
+    selectedRoles?: string[];
+    multiselect?: boolean;
+    onSelect?: (role: string) => void;
     overlayOpen?: boolean;
   } = $props();
 
@@ -35,10 +42,21 @@
 
 {#snippet roleRow(role: RoleInfo)}
   <button
-    class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 hover:bg-zinc-600"
+    class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
+    class:bg-zinc-500={selectedRoles.includes(role.id)}
+    class:bg-zinc-800={!selectedRoles.includes(role.id)}
     onclick={() => {
-      selectedRole = role.id;
-      overlayOpen = false;
+      if (multiselect) {
+        if (selectedRoles.includes(role.id)) {
+          selectedRoles = selectedRoles.filter((roleId) => roleId != role.id);
+          return;
+        }
+        selectedRoles.push(role.id);
+      } else {
+        selectedRole = role.id;
+        onSelect(role.id);
+        overlayOpen = false;
+      }
     }}
     aria-label="Select {role.name} role"
   >
@@ -52,7 +70,7 @@
   </button>
 {/snippet}
 
-<FullscreenOverlay bind:overlayOpen title="Select a Role" zIndex={60}>
+<FullscreenOverlay bind:overlayOpen title={multiselect ? 'Select Roles' : 'Select a Role'} zIndex={60}>
   <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
     <input
       type="text"

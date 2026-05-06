@@ -9,12 +9,17 @@
 
   let {
     categories,
+    // eslint-disable-next-line no-useless-assignment
     selectedChannel = $bindable(),
+    selectedChannels = $bindable([]),
+    multiselect = false,
     onSelect = () => {},
     overlayOpen = $bindable(false)
   }: {
     categories: CategoryInfo[];
     selectedChannel?: string | null;
+    selectedChannels?: string[];
+    multiselect?: boolean;
     onSelect?: (channel: string) => void;
     overlayOpen?: boolean;
   } = $props();
@@ -49,11 +54,21 @@
 
 {#snippet channelRow(channel: ChannelInfo)}
   <button
-    class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 hover:bg-zinc-600"
+    class="flex w-fit cursor-pointer items-center gap-2 rounded-lg p-1 px-2 transition-colors hover:bg-zinc-600"
+    class:bg-zinc-500={selectedChannels.includes(channel.id)}
+    class:bg-zinc-800={!selectedChannels.includes(channel.id)}
     onclick={() => {
-      selectedChannel = channel.id;
-      onSelect(channel.id);
-      overlayOpen = false;
+      if (multiselect) {
+        if (selectedChannels.includes(channel.id)) {
+          selectedChannels = selectedChannels.filter((channelId) => channelId != channel.id);
+          return;
+        }
+        selectedChannels.push(channel.id);
+      } else {
+        selectedChannel = channel.id;
+        onSelect(channel.id);
+        overlayOpen = false;
+      }
     }}
     aria-label="Select {channel.name} channel"
   >
@@ -67,7 +82,7 @@
   </button>
 {/snippet}
 
-<FullscreenOverlay bind:overlayOpen title="Select a Channel">
+<FullscreenOverlay bind:overlayOpen title={multiselect ? 'Select Channels' : 'Select a Channel'}>
   <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
     <input
       type="text"

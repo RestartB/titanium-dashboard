@@ -11,38 +11,25 @@
   let dataState = $state(data);
 
   let dashboardOverlayOpen = $state(false);
-  let dashboardSelectedRole: string | undefined = $state();
-
   let caseOverlayOpen = $state(false);
-  let caseSelectedRole: string | undefined = $state();
-
-  $effect(() => {
-    if (!dashboardSelectedRole) return;
-    dataState.pageSettings.dashboard_managers.push(dashboardSelectedRole);
-    dashboardSelectedRole = undefined;
-  });
-
-  $effect(() => {
-    if (!caseSelectedRole) return;
-    dataState.pageSettings.case_managers.push(caseSelectedRole);
-    caseSelectedRole = undefined;
-  });
 </script>
 
 <Saver {data} page="permissions" bind:dataState />
 
 {#if dashboardOverlayOpen}
   <RolePicker
-    roles={dataState.serverInfo.roles}
-    bind:selectedRole={dashboardSelectedRole}
+    multiselect={true}
+    roles={data.serverInfo.roles}
+    bind:selectedRoles={dataState.pageSettings.dashboard_managers}
     bind:overlayOpen={dashboardOverlayOpen}
   />
 {/if}
 
 {#if caseOverlayOpen}
   <RolePicker
-    roles={dataState.serverInfo.roles}
-    bind:selectedRole={caseSelectedRole}
+    multiselect={true}
+    roles={data.serverInfo.roles}
+    bind:selectedRoles={dataState.pageSettings.case_managers}
     bind:overlayOpen={caseOverlayOpen}
   />
 {/if}
