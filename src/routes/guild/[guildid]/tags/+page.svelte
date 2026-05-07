@@ -1,3 +1,7 @@
+<!-- this is currently not working quite right due to a svelte bug -->
+<!-- but it will likely be fixed by https://github.com/sveltejs/svelte/pull/18118 -->
+<!-- https://github.com/sveltejs/svelte/issues/18097 -->
+
 <script lang="ts">
   import { getTags, createTag } from '$lib/remote/tags.remote';
   import { newTagSchema } from '$lib/validators/tags';
