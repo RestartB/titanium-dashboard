@@ -110,7 +110,6 @@
   --animate-slide-to-bottom: slide-to-bottom 0.2s ease-in-out 0s 1;
   --animate-slide-from-top: slide-from-top 0.2s ease-in-out 0s 1;
   --animate-slow-ping: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite;
-  --animate-blobs: blobs 18s ease-in-out infinite alternate;
 }
 
 * {
