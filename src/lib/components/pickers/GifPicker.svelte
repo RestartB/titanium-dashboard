@@ -122,7 +122,7 @@
                 class="mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg"
                 type="button"
                 onclick={() => {
-                  selectedGif = gif.file.md.webp.url;
+                  selectedGif = gif.file.hd.webp.url;
                   onSelect(selectedGif);
                   overlayOpen = false;
                 }}
@@ -132,6 +132,8 @@
                   alt={gif.title}
                   height={gif.file.md.webp.height}
                   class="block h-auto w-full"
+                  loading="lazy"
+                  decoding="async"
                   style:background-image="url({gif.blur_preview})"
                   style:background-size="cover"
                   style:background-position="center"
