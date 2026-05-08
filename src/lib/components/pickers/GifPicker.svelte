@@ -122,7 +122,7 @@
                 class="mb-4 block w-full cursor-pointer break-inside-avoid overflow-hidden rounded-lg"
                 type="button"
                 onclick={() => {
-                  selectedGif = gif.file.lg.webp.url;
+                  selectedGif = gif.file.hd.webp.url;
                   onSelect(selectedGif);
                   overlayOpen = false;
                 }}
