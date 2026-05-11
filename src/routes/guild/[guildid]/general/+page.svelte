@@ -8,6 +8,7 @@
   import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
 
   import { Plus } from '@lucide/svelte';
 
@@ -173,10 +174,11 @@
   <div>
     <h2 class="text-xl font-bold">Delete data after 3 days</h2>
     <p>
-      When Titanium leaves your server, any configuration or other data stored on Titanium's server will be kept for
-      around 3 days before it is deleted. This means that if you accidentally kick Titanium, or change your mind, your
-      data will be retained. By disabling this option, any data about your server will be deleted from Titanium's server
-      immediately when the bot leaves your server.
+      When Titanium leaves your server, any data that was created will be preserved in Titanium's systems for around 3
+      days - allowing you to add Titanium back and keep all data if you change your mind. With this option disabled,
+      data about your server will be deleted immediately from Titanium's systems when it leaves.
     </p>
   </div>
 </ToggleRow>
+
+<Alert>Once data has been deleted, it can not be recovered by the Titanium developers.</Alert>
