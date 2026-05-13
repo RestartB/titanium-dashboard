@@ -42,8 +42,8 @@ export type GuildSettingsSchema = z.infer<typeof guildSettingsSchema>;
 
 export const guildPermissionsSchema = z
   .object({
-    dashboard_managers: z.array(z.string()),
-    case_managers: z.array(z.string())
+    dashboard_managers: z.array(z.string()).max(100),
+    case_managers: z.array(z.string()).max(100)
   })
   .refine(
     (data) => {

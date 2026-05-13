@@ -44,7 +44,7 @@
   <p class="mb-2">
     Dashboard Managers can fully manage Titanium from the dashboard, however, they will not have any special access to
     Titanium's commands past what their roles already provide. Roles with the Administrator permission will
-    automatically be Dashboard Managers, but you can also add roles manually below.
+    automatically be Dashboard Managers, but you can also add up to 100 additional roles below.
   </p>
 
   <div class="flex flex-wrap gap-2">
@@ -71,7 +71,7 @@
     <p class="mb-2">
       Case Managers can view and manage moderation cases with the dashboard. This is useful for moderators to get an
       easier view of the server's cases. Roles with the Manage Server permission will automatically be Case Managers,
-      but you can also add roles manually below.
+      but you can also add up to 100 additional roles below.
     </p>
 
     <div class="flex flex-wrap gap-2">

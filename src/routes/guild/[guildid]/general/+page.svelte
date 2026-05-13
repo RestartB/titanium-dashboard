@@ -127,7 +127,7 @@
 
   <Row>
     <h2 class="text-xl font-bold">Blocked Channels</h2>
-    <p class="mb-2">Select channels where prefix commands cannot be executed.</p>
+    <p class="mb-2">Select up to 100 channels where prefix commands cannot be executed.</p>
 
     <div class="flex flex-wrap gap-2">
       <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}><Plus size={20} /> Add Channels</Button>
@@ -146,7 +146,7 @@
 
   <Row>
     <h2 class="text-xl font-bold">Blocked Roles</h2>
-    <p class="mb-2">Select roles that are not allowed to execute prefix commands.</p>
+    <p class="mb-2">Select up to 100 roles that are not allowed to execute prefix commands.</p>
 
     <div class="flex flex-wrap gap-2">
       <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add Roles</Button>
