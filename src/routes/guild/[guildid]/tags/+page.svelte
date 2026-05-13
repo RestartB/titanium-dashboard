@@ -15,7 +15,7 @@
   import TagForm from '$lib/components/tags/TagForm.svelte';
   import ToggleRow from '$lib/components/ui/row/ToggleRow.svelte';
   import Pagination from '$lib/components/ui/Pagination.svelte';
-
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import { RefreshCw, Plus, LoaderCircle, X } from '@lucide/svelte';
 
   const { data } = $props();
@@ -31,7 +31,8 @@
       offset: 50 * currentPage - 50
     })
   );
-  let pageCount = $derived(Math.max(1, Math.ceil((await tagsFunction).total_count / 50)));
+  let totalCount = $derived((await tagsFunction).total_count);
+  let pageCount = $derived(Math.max(1, Math.ceil(totalCount / 50)));
 
   $effect(() => {
     if (createTag.result && createTag.result.success) {
@@ -109,13 +110,19 @@
       <Button
         onclick={() => (overlayOpen = true)}
         smallPadding={true}
-        disabled={$effect.pending() ? true : false}
-        class="transition-all disabled:cursor-not-allowed disabled:opacity-50"
+        disabled={$effect.pending() || (totalCount >= data.serverInfo.limits.tags && data.serverInfo.limits.enforcing)
+          ? true
+          : false}
+        class="transition-all"
       >
         <Plus size={20} class="shrink-0" />
         Create
       </Button>
     </div>
+
+    {#if data.serverInfo.limits.enforcing}
+      <LimitPill amount={totalCount} limit={data.serverInfo.limits.tags} />
+    {/if}
 
     <ul class="space-y-2">
       {#each (await tagsFunction).tags as tag (tag.id)}

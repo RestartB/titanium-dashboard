@@ -6,7 +6,7 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Board from '$lib/components/fireboard/Board.svelte';
   import Saver from '$lib/components/Saver.svelte';
-
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import { Plus } from '@lucide/svelte';
 
   import type { FireboardBoardSchema } from '$lib/validators/fireboard';
@@ -45,10 +45,17 @@
       onclick={() => {
         dataState.pageSettings.boards.push(createBlankBoard());
       }}
+      disabled={data.serverInfo.limits.enforcing &&
+        dataState.pageSettings.boards.length >= data.serverInfo.limits.fireboards}
     >
       <Plus size={20} />
       Add Board
     </Button>
+
+    {#if data.serverInfo.limits.enforcing}
+      <LimitPill amount={dataState.pageSettings.boards.length} limit={data.serverInfo.limits.fireboards} />
+    {/if}
+
     {#each dataState.pageSettings.boards as board, index (board.id)}
       <div animate:flip={{ duration: 400 }}>
         <Board

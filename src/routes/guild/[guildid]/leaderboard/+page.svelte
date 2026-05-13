@@ -8,7 +8,7 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Level from '$lib/components/leaderboard/Level.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
-
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
 
   import { Dice6, Star, Brain, Plus, X } from '@lucide/svelte';
@@ -164,10 +164,16 @@
         reward_roles: []
       });
     }}
+    disabled={data.serverInfo.limits.enforcing &&
+      dataState.pageSettings.levels.length >= data.serverInfo.limits.leaderboard_levels}
   >
     <Plus size={20} />
     Add Level
   </Button>
+
+  {#if data.serverInfo.limits.enforcing}
+    <LimitPill amount={dataState.pageSettings.levels.length} limit={data.serverInfo.limits.leaderboard_levels} />
+  {/if}
 
   {#each sortedLevels as level, i (level.id)}
     <Level

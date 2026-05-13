@@ -8,6 +8,7 @@ export interface ServerInfo {
   roles: RoleInfo[];
   categories: CategoryInfo[];
   emojis: EmojiInfo[];
+  limits: Limits;
 }
 
 export interface RoleInfo {
@@ -37,6 +38,17 @@ export interface EmojiInfo {
   id: string;
   label: string;
   url: string;
+}
+
+export interface Limits {
+  enforcing: boolean;
+  automod_rules: number;
+  bad_word_list_size: number;
+  bouncer_rules: number;
+  fireboards: number;
+  leaderboard_levels: number;
+  server_counters: number;
+  tags: number;
 }
 
 export interface ErrorLogs {

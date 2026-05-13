@@ -48,7 +48,7 @@
   </p>
 
   <div class="flex flex-wrap gap-2">
-    <Button onclick={() => (dashboardOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add Role</Button>
+    <Button onclick={() => (dashboardOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add Roles</Button>
     {#each dataState.pageSettings.dashboard_managers as role (role)}
       {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
       {#if foundRole}
@@ -75,7 +75,7 @@
     </p>
 
     <div class="flex flex-wrap gap-2">
-      <Button onclick={() => (caseOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add Role</Button>
+      <Button onclick={() => (caseOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add Roles</Button>
       {#each dataState.pageSettings.case_managers as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}

@@ -1,16 +1,19 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
-
+  import LimitPill from '../ui/LimitPill.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Duration from '$lib/components/ui/inputs/Duration.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import { Plus } from '@lucide/svelte';
+
   import type { BouncerCriterionSchema } from '$lib/validators/bouncer';
 
   let {
     criterion = $bindable(),
+    limit,
+    enforcingLimit,
     overlayOpen = $bindable(true)
-  }: { criterion: BouncerCriterionSchema; overlayOpen?: boolean } = $props();
+  }: { criterion: BouncerCriterionSchema; limit: number; enforcingLimit: boolean; overlayOpen?: boolean } = $props();
 
   let newWordInput = $state('');
 </script>
@@ -21,14 +24,21 @@
       <p class="font-medium">Words</p>
       <p class="mb-2 text-sm text-zinc-400">Enter the words or phrases to match.</p>
 
-      <div class="flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
+      {#if enforcingLimit}
+        <LimitPill amount={criterion.words?.length || 0} {limit} />
+      {/if}
+
+      <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
         <div
           class="flex max-w-40 items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
+          class:opacity-50={enforcingLimit && (criterion.words?.length || 0) >= limit}
+          class:cursor-not-allowed={enforcingLimit && (criterion.words?.length || 0) >= limit}
         >
           <input
             type="text"
             placeholder="Add Word..."
             class="h-full w-full"
+            disabled={enforcingLimit && (criterion.words?.length || 0) >= limit}
             onkeydown={(e) => {
               if (e.key === 'Enter' && newWordInput) {
                 criterion.words?.push(newWordInput);
@@ -39,6 +49,7 @@
           />
           <button
             class="cursor-pointer rounded-lg p-1 transition-colors hover:bg-zinc-600"
+            disabled={enforcingLimit && (criterion.words?.length || 0) >= limit}
             onclick={() => {
               if (newWordInput) {
                 criterion.words?.push(newWordInput);

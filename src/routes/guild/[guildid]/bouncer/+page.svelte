@@ -8,7 +8,9 @@
   import Saver from '$lib/components/Saver.svelte';
   import { AnchorRow } from '$lib/components/ui/row';
   import Alert from '$lib/components/ui/Alert.svelte';
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import { Plus, ScrollText, ChevronRight } from '@lucide/svelte';
+
   import type { BouncerRuleSchema } from '$lib/validators/bouncer';
 
   const { data } = $props();
@@ -56,15 +58,23 @@
     onclick={() => {
       dataState.pageSettings.rules.push(createBlankRule());
     }}
+    disabled={data.serverInfo.limits.enforcing &&
+      dataState.pageSettings.rules.length >= data.serverInfo.limits.bouncer_rules}
   >
     <Plus size={20} />
     Add Rule
   </Button>
 
+  {#if data.serverInfo.limits.enforcing}
+    <LimitPill amount={dataState.pageSettings.rules.length} limit={data.serverInfo.limits.bouncer_rules} />
+  {/if}
+
   {#each dataState.pageSettings.rules as rule, index (rule.id)}
     <div animate:flip={{ duration: 400 }}>
       <Rule
         roles={dataState.serverInfo.roles}
+        limit={data.serverInfo.limits.bad_word_list_size}
+        enforcingLimit={data.serverInfo.limits.enforcing}
         bind:rule={dataState.pageSettings.rules[index]}
         deleteThis={() => dataState.pageSettings.rules.splice(index, 1)}
       />

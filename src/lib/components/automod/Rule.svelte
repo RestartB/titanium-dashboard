@@ -6,17 +6,26 @@
   import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Number from '$lib/components/ui/inputs/Number.svelte';
+  import LimitPill from '../ui/LimitPill.svelte';
 
   import { ChevronDown, X, Plus } from '@lucide/svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';
   import type { RoleInfo } from '$lib/interfaces/serverInfo';
-  import Number from '$lib/components/ui/inputs/Number.svelte';
 
   let {
     roles,
     rule = $bindable(),
+    limit = 0,
+    enforcingLimit,
     deleteThis
-  }: { roles: RoleInfo[]; rule: AutomodRuleSchema; deleteThis: () => void } = $props();
+  }: {
+    roles: RoleInfo[];
+    rule: AutomodRuleSchema;
+    limit?: number;
+    enforcingLimit: boolean;
+    deleteThis: () => void;
+  } = $props();
   let expanded = $state(false);
   let createNewOpen = $state(false);
 
@@ -83,14 +92,21 @@
   {#if expanded}
     <div transition:slide={{ easing: cubicInOut }} class="mt-2 flex flex-col gap-2">
       {#if rule.rule_type === 'badword_detection'}
+        {#if enforcingLimit}
+          <LimitPill amount={rule.words.length} {limit} />
+        {/if}
+
         <div class="flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
           <div
             class="flex max-w-40 items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
+            class:opacity-50={enforcingLimit && rule.words.length >= limit}
+            class:cursor-not-allowed={enforcingLimit && rule.words.length >= limit}
           >
             <input
               type="text"
               placeholder="Add Word..."
               class="h-full w-full"
+              disabled={enforcingLimit && rule.words.length >= limit}
               onkeydown={(e) => {
                 if (e.key === 'Enter' && newWordInput) {
                   rule.words?.push(newWordInput);
@@ -101,6 +117,7 @@
             />
             <button
               class="cursor-pointer rounded-lg p-1 transition-colors hover:bg-zinc-600"
+              disabled={enforcingLimit && rule.words.length >= limit}
               onclick={() => {
                 if (newWordInput) {
                   rule.words?.push(newWordInput);

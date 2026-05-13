@@ -6,11 +6,19 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import Alert from '$lib/components/ui/Alert.svelte';
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import { ScrollText, ChevronRight } from '@lucide/svelte';
+
   import type { AutomodRuleSchema } from '$lib/validators/automod';
 
   const { data } = $props();
   let dataState = $state(data);
+  let totalCount = $derived(
+    dataState.pageSettings.badword_detection.length +
+      dataState.pageSettings.malicious_link_detection.length +
+      dataState.pageSettings.phishing_link_detection.length +
+      dataState.pageSettings.spam_detection.length
+  );
 
   function createBlankRule(
     ruleType: AutomodRuleSchema['rule_type'],
@@ -43,18 +51,34 @@
       <h3 class="text-xl font-bold">{title}</h3>
       <p>{description}</p>
       <button
-        class="cursor-pointer rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
+        class="cursor-pointer rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base disabled:cursor-not-allowed disabled:opacity-50"
+        disabled={data.serverInfo.limits.enforcing && totalCount >= data.serverInfo.limits.automod_rules}
         onclick={() => {
           const rule = createBlankRule(type, spamType);
           rules.push(rule);
-        }}>Add Rule</button
+        }}
       >
+        {data.serverInfo.limits.enforcing && totalCount >= data.serverInfo.limits.automod_rules
+          ? 'Limit Reached'
+          : 'Add Rule'}
+      </button>
 
       {#each rules as rule, index (rule.id)}
         {#if type === 'spam_detection' && spamType === rule.antispam_type}
-          <Rule roles={dataState.serverInfo.roles} bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
+          <Rule
+            roles={dataState.serverInfo.roles}
+            bind:rule={rules[index]}
+            enforcingLimit={data.serverInfo.limits.enforcing}
+            deleteThis={() => rules.splice(index, 1)}
+          />
         {:else if type !== 'spam_detection'}
-          <Rule roles={dataState.serverInfo.roles} bind:rule={rules[index]} deleteThis={() => rules.splice(index, 1)} />
+          <Rule
+            roles={dataState.serverInfo.roles}
+            bind:rule={rules[index]}
+            limit={data.serverInfo.limits.bad_word_list_size}
+            enforcingLimit={data.serverInfo.limits.enforcing}
+            deleteThis={() => rules.splice(index, 1)}
+          />
         {/if}
       {/each}
     </div>
@@ -76,6 +100,10 @@
 {/if}
 
 <ToggledContent enabled={dataState.serverSettings.modules.automod && dataState.serverSettings.modules.moderation}>
+  {#if data.serverInfo.limits.enforcing}
+    <LimitPill amount={totalCount} limit={data.serverInfo.limits.automod_rules} />
+  {/if}
+
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
       <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xs:flex">

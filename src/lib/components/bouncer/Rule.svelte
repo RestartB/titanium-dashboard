@@ -14,9 +14,17 @@
 
   let {
     roles,
+    limit,
+    enforcingLimit,
     rule = $bindable(),
     deleteThis
-  }: { roles: RoleInfo[]; rule: BouncerRuleSchema; deleteThis: () => void } = $props();
+  }: {
+    roles: RoleInfo[];
+    limit: number;
+    enforcingLimit: boolean;
+    rule: BouncerRuleSchema;
+    deleteThis: () => void;
+  } = $props();
 
   let createCriterionOpen = $state(false);
   let createActionOpen = $state(false);
@@ -54,7 +62,12 @@
         <p>Add Criterion...</p>
       </button>
       {#each rule?.criteria as _, index (index)}
-        <CriterionTile bind:criterion={rule.criteria[index]} deleteThis={() => rule.criteria.splice(index, 1)} />
+        <CriterionTile
+          {limit}
+          {enforcingLimit}
+          bind:criterion={rule.criteria[index]}
+          deleteThis={() => rule.criteria.splice(index, 1)}
+        />
       {/each}
     </div>
 

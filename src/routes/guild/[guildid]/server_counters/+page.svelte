@@ -4,7 +4,7 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Channel from '$lib/components/server_counters/Channel.svelte';
   import Saver from '$lib/components/Saver.svelte';
-
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import { Plus } from '@lucide/svelte';
 
   import type { ServerCounterChannelSchema } from '$lib/validators/serverCounters';
@@ -34,6 +34,8 @@
 <ToggledContent enabled={dataState.serverSettings.modules.server_counters}>
   <div class="flex flex-col gap-4">
     <Button
+      disabled={dataState.pageSettings.channels.length >= data.serverInfo.limits.server_counters &&
+        data.serverInfo.limits.enforcing}
       onclick={() => {
         dataState.pageSettings.channels.push(createBlankChannel('total_members'));
       }}
@@ -41,6 +43,11 @@
       <Plus size={20} />
       Add Channel
     </Button>
+
+    {#if data.serverInfo.limits.enforcing}
+      <LimitPill amount={dataState.pageSettings.channels.length} limit={data.serverInfo.limits.server_counters} />
+    {/if}
+
     {#each dataState.pageSettings.channels as _, index}
       <Channel
         {index}

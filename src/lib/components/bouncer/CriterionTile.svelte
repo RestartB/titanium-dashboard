@@ -5,17 +5,21 @@
 
   let {
     criterion = $bindable(),
+    limit,
+    enforcingLimit,
     deleteThis = () => {},
     overlayOpen = $bindable(false)
   }: {
     criterion: BouncerCriterionSchema;
+    limit: number;
+    enforcingLimit: boolean;
     deleteThis: () => void;
     overlayOpen?: boolean;
   } = $props();
 </script>
 
 {#if overlayOpen}
-  <CriterionPreferences bind:criterion bind:overlayOpen />
+  <CriterionPreferences {limit} {enforcingLimit} bind:criterion bind:overlayOpen />
 {/if}
 
 <div class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base">
