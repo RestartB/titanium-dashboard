@@ -10,11 +10,17 @@
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
-
+  import ChannelTile from '$lib/components/ui/discord/ChannelTile.svelte';
+  import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
+  import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
+  import RolePicker from '$lib/components/pickers/RolePicker.svelte';
   import { Dice6, Star, Brain, Plus, X } from '@lucide/svelte';
 
   const { data } = $props();
   let dataState = $state(data);
+
+  let channelOverlayOpen = $state(false);
+  let roleOverlayOpen = $state(false);
 
   const sortedLevels = $derived([...dataState.pageSettings.levels].sort((a, b) => a.xp_required - b.xp_required));
   const sortedLevelsDecending = $derived(
@@ -23,6 +29,24 @@
 </script>
 
 <Saver page="leaderboard" {data} bind:dataState />
+
+{#if channelOverlayOpen}
+  <ChannelPicker
+    multiselect={true}
+    categories={data.serverInfo.categories}
+    bind:selectedChannels={dataState.pageSettings.ignored_channels}
+    bind:overlayOpen={channelOverlayOpen}
+  />
+{/if}
+
+{#if roleOverlayOpen}
+  <RolePicker
+    multiselect={true}
+    roles={data.serverInfo.roles}
+    bind:selectedRoles={dataState.pageSettings.ignored_roles}
+    bind:overlayOpen={roleOverlayOpen}
+  />
+{/if}
 
 <div class="flex items-center justify-between gap-4">
   <div class="flex-1">
@@ -151,6 +175,49 @@
       <p>Enter the amount of time (in seconds) users must wait before they can earn XP again.</p>
     </div>
     <NumberInput bind:value={dataState.pageSettings.cooldown} min={0} max={600} class="mt-2" />
+  </Row>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Ignored Roles & Channels</p>
+
+  <Row>
+    <h2 class="text-xl font-bold">Blocked Channels</h2>
+    <p class="mb-2">Select up to 100 channels where XP cannot be earned.</p>
+
+    <div class="flex flex-wrap gap-2">
+      <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}><Plus size={20} /> Add Channels</Button>
+      {#each dataState.pageSettings.ignored_channels as channel (channel)}
+        <ChannelTile
+          {channel}
+          categories={data.serverInfo.categories}
+          deleteThis={() => {
+            dataState.pageSettings.ignored_channels = dataState.pageSettings.ignored_channels.filter(
+              (c) => c !== channel
+            );
+          }}
+        />
+      {/each}
+    </div>
+  </Row>
+
+  <Row>
+    <h2 class="text-xl font-bold">Blocked Roles</h2>
+    <p class="mb-2">Select up to 100 roles that cannot earn XP.</p>
+
+    <div class="flex flex-wrap gap-2">
+      <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add Roles</Button>
+      {#each dataState.pageSettings.ignored_roles as role (role)}
+        {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
+        {#if foundRole}
+          <RoleTile
+            role={foundRole}
+            deleteThis={() => {
+              dataState.pageSettings.ignored_roles = dataState.pageSettings.ignored_roles.filter((r) => r !== role);
+            }}
+          />
+        {/if}
+      {/each}
+    </div>
   </Row>
 
   <hr class="border-zinc-500" />

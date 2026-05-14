@@ -1,8 +1,25 @@
-<!-- this is currently not working quite right due to a svelte bug -->
-<!-- but it will likely be fixed by https://github.com/sveltejs/svelte/pull/18118 -->
-<!-- https://github.com/sveltejs/svelte/issues/18097 -->
-
 <script lang="ts">
+  import Alert from "$lib/components/ui/Alert.svelte";
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Saver from '$lib/components/Saver.svelte';
+
+  const { data } = $props();
+  let dataState = $state(data);
+</script>
+
+<div class="flex items-center justify-between gap-4">
+  <div class="flex-1">
+    <h2 class="text-4xl font-bold">Tags</h2>
+    <p>Send server wide quick responses with key words. Create new tags, or click on a tag to edit or delete.</p>
+  </div>
+  <Toggle bind:toggled={dataState.serverSettings.modules.tags} />
+</div>
+
+<Saver {data} page="tags" bind:dataState />
+
+<Alert>Due to a technical issue, this page is currently disabled.</Alert>
+
+<!-- <script lang="ts">
   import { getTags, createTag } from '$lib/remote/tags.remote';
   import { newTagSchema } from '$lib/validators/tags';
 
@@ -157,4 +174,4 @@
   {:else}
     <p>To manage server tags, please enable the tags feature.</p>
   {/if}
-</ToggledContent>
+</ToggledContent> -->

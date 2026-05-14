@@ -29,8 +29,8 @@ export const fireboardBoardSchema = z
 export type FireboardBoardSchema = z.infer<typeof fireboardBoardSchema>;
 
 export const fireboardConfigSchema = z.object({
-  global_ignored_roles: z.array(z.string()).default([]),
-  global_ignored_channels: z.array(z.string()).default([]),
+  global_ignored_roles: z.array(z.string()).max(100).default([]),
+  global_ignored_channels: z.array(z.string()).max(100).default([]),
   boards: z.array(fireboardBoardSchema).default([])
 });
 

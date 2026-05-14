@@ -32,6 +32,8 @@ export const leaderboardConfigSchema = z
     min_xp: z.number().int().nonnegative().optional(),
     max_xp: z.number().int().nonnegative().optional(),
     xp_mult: z.number().nonnegative().optional(),
+    ignored_roles: z.array(z.string()).max(100).default([]),
+    ignored_channels: z.array(z.string()).max(100).default([]),
     levelup_notifications: z.boolean().default(true),
     notification_ping: z.boolean().default(true),
     notification_channel: z.string().optional().nullable(),
