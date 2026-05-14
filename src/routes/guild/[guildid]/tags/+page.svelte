@@ -92,63 +92,69 @@
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Manage Server Tags</p>
 
-  <svelte:boundary>
-    <div class="flex items-center gap-2">
-      <Button
-        onclick={() => tagsFunction.refresh()}
-        disablePadding={true}
-        disabled={$effect.pending() ? true : false}
-        class="p-2 transition-all disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {#if $effect.pending()}
-          <RefreshCw size={20} class="shrink-0 animate-spin" />
-        {:else}
-          <RefreshCw size={20} class="shrink-0" />
-        {/if}
-      </Button>
+  {#if data.serverSettings.modules.tags}
+    <svelte:boundary>
+      <div class="flex items-center gap-2">
+        <Button
+          onclick={() => tagsFunction.refresh()}
+          disablePadding={true}
+          disabled={$effect.pending() ? true : false}
+          class="p-2 transition-all disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {#if $effect.pending()}
+            <RefreshCw size={20} class="shrink-0 animate-spin" />
+          {:else}
+            <RefreshCw size={20} class="shrink-0" />
+          {/if}
+        </Button>
 
-      <Button
-        onclick={() => (overlayOpen = true)}
-        smallPadding={true}
-        disabled={$effect.pending() || (totalCount >= data.serverInfo.limits.tags && data.serverInfo.limits.enforcing)
-          ? true
-          : false}
-        class="transition-all"
-      >
-        <Plus size={20} class="shrink-0" />
-        Create
-      </Button>
-    </div>
-
-    {#if data.serverInfo.limits.enforcing}
-      <LimitPill amount={totalCount} limit={data.serverInfo.limits.tags} />
-    {/if}
-
-    <ul class="space-y-2">
-      {#each (await tagsFunction).tags as tag (tag.id)}
-        <Tag {tag} guildId={data.serverInfo.id} />
-      {/each}
-
-      <Pagination
-        {changePage}
-        pageCount={await pageCount}
-        disabled={$effect.pending() ? true : false}
-        bind:currentPage
-      />
-    </ul>
-
-    {#snippet pending()}
-      <div class="flex w-fit items-center gap-2">
-        <LoaderCircle size={20} class="shrink-0 animate-spin" />
-        Loading...
+        <Button
+          onclick={() => (overlayOpen = true)}
+          smallPadding={true}
+          disabled={$effect.pending() || (totalCount >= data.serverInfo.limits.tags && data.serverInfo.limits.enforcing)
+            ? true
+            : false}
+          class="transition-all"
+        >
+          <Plus size={20} class="shrink-0" />
+          Create
+        </Button>
       </div>
-    {/snippet}
 
-    {#snippet failed()}
-      <div class="flex w-fit items-center gap-4 font-bold">
-        <X size={20} class="shrink-0" />
-        An error occurred. Please reload the page and try again.
-      </div>
-    {/snippet}
-  </svelte:boundary>
+      {#if data.serverInfo.limits.enforcing}
+        <LimitPill amount={totalCount} limit={data.serverInfo.limits.tags} />
+      {/if}
+
+      <ul class="space-y-2">
+        {#each (await tagsFunction).tags as tag (tag.id)}
+          <Tag {tag} guildId={data.serverInfo.id} />
+        {/each}
+
+        <Pagination
+          {changePage}
+          pageCount={await pageCount}
+          disabled={$effect.pending() ? true : false}
+          bind:currentPage
+        />
+      </ul>
+
+      {#snippet pending()}
+        <div class="flex w-fit items-center gap-2">
+          <LoaderCircle size={20} class="shrink-0 animate-spin" />
+          Loading...
+        </div>
+      {/snippet}
+
+      {#snippet failed()}
+        <div class="flex w-fit items-center gap-4 font-bold">
+          <X size={20} class="shrink-0" />
+          An error occurred. Please reload the page and try again.
+        </div>
+      {/snippet}
+    </svelte:boundary>
+  {:else if !data.serverSettings.modules.tags && dataState.serverSettings.modules.tags}
+    <p>To manage server tags, please save your settings first.</p>
+  {:else}
+    <p>To manage server tags, please enable the tags feature.</p>
+  {/if}
 </ToggledContent>

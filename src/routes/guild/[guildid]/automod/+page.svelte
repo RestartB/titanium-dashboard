@@ -96,7 +96,7 @@
 </div>
 
 {#if !dataState.serverSettings.modules.moderation}
-  <Alert>To enable this module, enable the Moderation module first.</Alert>
+  <Alert>To enable this feature, enable the Moderation feature first.</Alert>
 {/if}
 
 <ToggledContent enabled={dataState.serverSettings.modules.automod && dataState.serverSettings.modules.moderation}>
