@@ -7,7 +7,7 @@
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Number from '$lib/components/ui/inputs/Number.svelte';
-  import LimitPill from '../ui/LimitPill.svelte';
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
 
   import { ChevronDown, X, Plus } from '@lucide/svelte';
   import type { AutomodRuleSchema } from '$lib/validators/automod';

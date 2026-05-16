@@ -82,7 +82,7 @@
   </button>
 {/snippet}
 
-<FullscreenOverlay bind:overlayOpen title={multiselect ? 'Select Channels' : 'Select a Channel'}>
+<FullscreenOverlay bind:overlayOpen title={multiselect ? 'Select Channels' : 'Select a Channel'} zIndex={60}>
   <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
     <input
       type="text"

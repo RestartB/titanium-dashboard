@@ -6,7 +6,13 @@
   import EmojiPicker from '$lib/components/pickers/EmojiPicker.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import NumberInput from '$lib/components/ui/inputs/Number.svelte';
-  import { Trash } from '@lucide/svelte';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
+  import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
+  import RolePicker from '$lib/components/pickers/RolePicker.svelte';
+  import ChannelTile from '../ui/discord/ChannelTile.svelte';
+  import RoleTile from '../ui/discord/RoleTile.svelte';
+  import { Trash, Menu } from '@lucide/svelte';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
   import type { FireboardBoardSchema } from '$lib/validators/fireboard';
@@ -22,16 +28,96 @@
   } = $props();
 
   let emojiPickerOpen = $state(false);
+  let channelPickerOpen = $state(false);
+  let rolePickerOpen = $state(false);
+  let ignoredOverlayOpen = $state(false);
 </script>
 
 {#if emojiPickerOpen}
   <EmojiPicker {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={board.reaction} />
 {/if}
 
+{#if channelPickerOpen}
+  <ChannelPicker
+    multiselect={true}
+    categories={serverInfo.categories}
+    bind:selectedChannels={board.ignored_channels}
+    bind:overlayOpen={channelPickerOpen}
+  />
+{/if}
+
+{#if rolePickerOpen}
+  <RolePicker
+    multiselect={true}
+    roles={serverInfo.roles}
+    bind:selectedRoles={board.ignored_roles}
+    bind:overlayOpen={rolePickerOpen}
+  />
+{/if}
+
+{#if ignoredOverlayOpen}
+  <FullscreenOverlay title="Ignored Channels & Roles" padding={16} gap={16} bind:overlayOpen={ignoredOverlayOpen}>
+    <div class="w-full text-left">
+      <p class="font-medium">Ignored Channels</p>
+      <p class="mb-2 text-sm text-zinc-400">Select up to 100 channels that this fireboard will ignore messages from.</p>
+
+      <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
+        <Button
+          class="border-2 border-zinc-600! bg-zinc-700!"
+          smallPadding={true}
+          onclick={() => (channelPickerOpen = true)}>Add channels...</Button
+        >
+        {#each board.ignored_channels as channel (channel)}
+          <ChannelTile
+            {channel}
+            categories={serverInfo.categories}
+            deleteThis={() => {
+              board.ignored_channels = board.ignored_channels.filter((c) => c !== channel);
+            }}
+          />
+        {/each}
+      </div>
+    </div>
+
+    <div class="w-full text-left">
+      <p class="font-medium">Ignored Roles</p>
+      <p class="mb-2 text-sm text-zinc-400">Select up to 100 roles that this fireboard will ignore messages from.</p>
+
+      <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
+        <Button
+          class="border-2 border-zinc-600! bg-zinc-700!"
+          smallPadding={true}
+          onclick={() => (rolePickerOpen = true)}>Add roles...</Button
+        >
+
+        {#each board.ignored_roles as role (role)}
+          {@const foundRole = serverInfo.roles.find((r) => r.id === role)}
+          {#if foundRole}
+            <RoleTile
+              role={foundRole}
+              deleteThis={() => {
+                board.ignored_roles = board.ignored_roles.filter((r) => r !== role);
+              }}
+            />
+          {/if}
+        {/each}
+      </div>
+    </div>
+  </FullscreenOverlay>
+{/if}
+
 <div transition:fly={{ y: -20, duration: 200 }}>
   <Row class="flex flex-col gap-2">
     <div class="flex items-center justify-between gap-2">
-      <ChannelButton bind:channel={board.channel_id} categories={serverInfo.categories} />
+      <ChannelButton class="mr-auto" bind:channel={board.channel_id} categories={serverInfo.categories} />
+      <button
+        class="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-2 text-base transition-colors hover:bg-zinc-600 sm:p-1"
+        onclick={() => (ignoredOverlayOpen = true)}
+        aria-label="Delete fireboard"
+      >
+        <Menu size={16} class="shrink-0" />
+        <p class="hidden sm:block">Ignored Channels & Roles</p>
+      </button>
       <button
         class="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 text-base transition-colors hover:bg-red-600 sm:p-1"
         onclick={deleteThis}

@@ -1,6 +1,6 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
-  import LimitPill from '../ui/LimitPill.svelte';
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Duration from '$lib/components/ui/inputs/Duration.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';

@@ -7,14 +7,14 @@
   import Board from '$lib/components/fireboard/Board.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
-  import { Plus } from '@lucide/svelte';
-
-  import type { FireboardBoardSchema } from '$lib/validators/fireboard';
   import Row from '$lib/components/ui/row/Row.svelte';
   import ChannelTile from '$lib/components/ui/discord/ChannelTile.svelte';
   import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
+  import { Plus } from '@lucide/svelte';
+
+  import type { FireboardBoardSchema } from '$lib/validators/fireboard';
 
   let { data } = $props();
   let dataState = $state(data);
