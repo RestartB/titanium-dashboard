@@ -14,7 +14,7 @@
     Flame,
     Trophy,
     Tally5,
-    BadgeCheck,
+    HatGlasses,
     Tag
   } from '@lucide/svelte';
   import Tile from './Tile.svelte';
@@ -104,7 +104,7 @@
   <Tile
     title="Confessions"
     href="/guild/{serverId}/confessions"
-    Icon={BadgeCheck}
+    Icon={HatGlasses}
     active={page.url.pathname.endsWith('/confessions')}
   />
   <Tile title="Tags" href="/guild/{serverId}/tags" Icon={Tag} active={page.url.pathname.endsWith('/tags')} />
