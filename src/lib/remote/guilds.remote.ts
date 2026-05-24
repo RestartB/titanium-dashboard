@@ -31,11 +31,11 @@ export const getUserGuilds = query(async () => {
     throw error(request.status, 'Failed to fetch guilds from Discord');
   }
 
-  // filter to guilds with admin perms
+  // filter to guilds with perms (admin or moderate members)
   const guildData = await request.json();
   const guilds: ServerInfo[] = guildData.filter((guild: { permissions: string }) => {
-    const permissions = parseInt(guild.permissions);
-    return permissions & 0x20 || permissions & 0x8;
+    const permissions = BigInt(guild.permissions);
+    return (permissions & 0x10000000000n) !== 0n || (permissions & 0x8n) !== 0n;
   });
 
   const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${tokenRecord.discordUserId}/guilds`, {

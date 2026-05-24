@@ -70,7 +70,7 @@
     <h2 class="text-xl font-bold">Case Managers</h2>
     <p class="mb-2">
       Case Managers can view and manage moderation cases with the dashboard. This is useful for moderators to get an
-      easier view of the server's cases. Roles with the Manage Server permission will automatically be Case Managers,
+      easier view of the server's cases. Roles with the Moderate Members permission will automatically be Case Managers,
       but you can also add up to 100 additional roles below.
     </p>
 
