@@ -185,8 +185,9 @@
         {:else if !guildsQuery.current || (guildsQuery.current?.nonMutualGuilds.length === 0 && guildsQuery.current?.mutualGuilds.length === 0)}
           <Alert class="m-auto w-fit max-w-2xl bg-yellow-800/50">
             <p>
-              <strong>You don't have any guilds where you are an administrator.</strong> Once you are an administrator in
-              a server or you get added to a server as a dashboard / role manager, it will appear in this list.
+              <strong
+                >You don't have any guilds where you are an administrator, or where you have moderation permissions.</strong
+              > Once you are an administrator or have moderation permissions in a server, it will appear in this list.
             </p>
           </Alert>
         {:else}

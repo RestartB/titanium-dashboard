@@ -44,7 +44,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
   console.log(redirectUri);
 
-  const newRequest = await fetch('https://discord.com/api/oauth2/token', {
+  const newRequest = await fetch('https://discord.com/api/v10/oauth2/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -67,7 +67,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const data = await newRequest.json();
   const tokenData = crypto.randomBytes(16).toString('base64');
 
-  const userRequest = await fetch('https://discord.com/api/users/@me', {
+  const userRequest = await fetch('https://discord.com/api/v10/users/@me', {
     headers: {
       Authorization: `Bearer ${data.access_token}`
     }

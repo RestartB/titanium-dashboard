@@ -13,7 +13,7 @@ export const getUserGuilds = query(async () => {
   const tokenRecord = await remoteCheckToken(event);
   if (await guildsLimit.isLimited(event)) throw error(429);
 
-  const request = await fetch('https://discord.com/api/users/@me/guilds', {
+  const request = await fetch('https://discord.com/api/v10/users/@me/guilds', {
     headers: {
       Authorization: `Bearer ${tokenRecord.discordToken}`
     }
@@ -31,11 +31,13 @@ export const getUserGuilds = query(async () => {
     throw error(request.status, 'Failed to fetch guilds from Discord');
   }
 
-  // filter to guilds with perms (admin or moderate members)
+  // kick, ban, moderate, administrator
+  const ALLOWED_PERMS = 0x0000000000000002n | 0x0000000000000004n | 0x0000000000000008n | 0x0000010000000000n;
+
   const guildData = await request.json();
   const guilds: ServerInfo[] = guildData.filter((guild: { permissions: string }) => {
     const permissions = BigInt(guild.permissions);
-    return (permissions & 0x10000000000n) !== 0n || (permissions & 0x8n) !== 0n;
+    return (permissions & ALLOWED_PERMS) !== 0n;
   });
 
   const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${tokenRecord.discordUserId}/guilds`, {

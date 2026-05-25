@@ -5,7 +5,7 @@ import { token } from '$lib/server/db/schema';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ locals }) => {
-  const request = await fetch('https://discord.com/api/users/@me', {
+  const request = await fetch('https://discord.com/api/v10/users/@me', {
     headers: {
       Authorization: `Bearer ${locals.discordToken}`
     }

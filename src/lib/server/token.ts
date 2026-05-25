@@ -48,7 +48,7 @@ async function deleteToken(tokenId: string, discordToken: string | undefined) {
   }
 
   // revoke discord token if present
-  const newRequest = await fetch('https://discord.com/api/oauth2/token/revoke', {
+  const newRequest = await fetch('https://discord.com/api/v10/oauth2/token/revoke', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'

@@ -7,7 +7,7 @@ import type { RequestHandler } from './$types';
 export const GET: RequestHandler = async (event) => {
   if (await guildsLimit.isLimited(event)) throw error(429);
 
-  const request = await fetch('https://discord.com/api/users/@me/guilds', {
+  const request = await fetch('https://discord.com/api/v10/users/@me/guilds', {
     headers: {
       Authorization: `Bearer ${event.locals.discordToken}`
     }
