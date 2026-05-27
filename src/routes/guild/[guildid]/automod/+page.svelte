@@ -15,8 +15,8 @@
   let dataState = $state(data);
   let totalCount = $derived(
     dataState.pageSettings.badword_detection.length +
-      dataState.pageSettings.malicious_link_detection.length +
-      dataState.pageSettings.phishing_link_detection.length +
+      dataState.pageSettings.malicious_link.length +
+      dataState.pageSettings.phishing_link.length +
       dataState.pageSettings.spam_detection.length
   );
 
@@ -133,13 +133,13 @@
         'Malicious Links',
         'Detect messages that contain malicious links.',
         'malicious_link',
-        dataState.pageSettings.malicious_link_detection
+        dataState.pageSettings.malicious_link
       )}
       {@render rulesCard(
         'Phishing Links',
         'Detect messages that contain phishing links.',
         'phishing_link',
-        dataState.pageSettings.phishing_link_detection
+        dataState.pageSettings.phishing_link
       )}
     </div>
   </Collapsible>

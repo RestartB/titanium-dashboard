@@ -75,8 +75,8 @@ export type AutomodRuleSchema = z.infer<typeof automodRuleSchema>;
 export const automodConfigSchema = z.object({
   badword_detection: z.array(automodRuleSchema),
   spam_detection: z.array(automodRuleSchema),
-  malicious_link_detection: z.array(automodRuleSchema),
-  phishing_link_detection: z.array(automodRuleSchema)
+  malicious_link: z.array(automodRuleSchema),
+  phishing_link: z.array(automodRuleSchema)
 });
 
 export type AutomodConfigSchema = z.infer<typeof automodConfigSchema>;

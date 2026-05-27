@@ -31,21 +31,13 @@ export const getUserGuilds = query(async () => {
     throw error(request.status, 'Failed to fetch guilds from Discord');
   }
 
-  // kick, ban, moderate, administrator
-  const ALLOWED_PERMS = 0x0000000000000002n | 0x0000000000000004n | 0x0000000000000008n | 0x0000010000000000n;
-
-  const guildData = await request.json();
-  const guilds: ServerInfo[] = guildData.filter((guild: { permissions: string }) => {
-    const permissions = BigInt(guild.permissions);
-    return (permissions & ALLOWED_PERMS) !== 0n;
-  });
-
+  const guildData: ServerInfo[] = await request.json();
   const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${tokenRecord.discordUserId}/guilds`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ user_guilds: guilds.map((guild) => guild.id) })
+    body: JSON.stringify({ user_guilds: guildData.map((guild: ServerInfo) => guild.id) })
   });
 
   if (!mutualRequest.ok) {
@@ -53,10 +45,30 @@ export const getUserGuilds = query(async () => {
     throw error(mutualRequest.status, 'Failed to fetch mutual guilds');
   }
 
-  const mutualGuildIds = await mutualRequest.json();
+  const titaniumGuildIds: { mutual: string[]; delegate: string[] } = await mutualRequest.json();
+  const mutualGuildIds = titaniumGuildIds.mutual;
 
-  const nonMutualGuilds = guilds.filter((guild) => !mutualGuildIds.includes(guild.id));
-  const mutualGuilds = guilds.filter((guild) => mutualGuildIds.includes(guild.id));
+  // kick, ban, moderate, administrator
+  const ALLOWED_PERMS = 0x0000000000000002n | 0x0000000000000004n | 0x0000000000000008n | 0x0000010000000000n;
 
-  return { nonMutualGuilds, mutualGuilds };
+  const mutualGuilds: ServerInfo[] = [];
+  const nonMutualGuilds: ServerInfo[] = [];
+
+  for (const guild of guildData) {
+    const permissions = BigInt(guild.permissions);
+
+    if ((permissions & ALLOWED_PERMS) !== 0n) {
+      if (mutualGuildIds.includes(guild.id)) {
+        mutualGuilds.push(guild);
+      } else {
+        nonMutualGuilds.push(guild);
+      }
+    } else if (mutualGuildIds.includes(guild.id) && (titaniumGuildIds.delegate.includes(guild.id))) {
+      mutualGuilds.push(guild);
+    }
+  }
+
+  console.log({ mutualGuilds, nonMutualGuilds });
+
+  return { mutualGuilds, nonMutualGuilds };
 });

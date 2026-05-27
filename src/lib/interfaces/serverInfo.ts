@@ -9,6 +9,7 @@ export interface ServerInfo {
   categories: CategoryInfo[];
   emojis: EmojiInfo[];
   limits: Limits;
+  permissions: string;
 }
 
 export interface RoleInfo {
