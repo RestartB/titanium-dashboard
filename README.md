@@ -3,7 +3,7 @@
 This repo contains [Titanium](https://github.com/RestartB/titanium/tree/v2)'s web dashboard. It communicates with the local Titanium API to facilitate communication between the bot, database and web UI. Follow the steps below to get started:
 
 > [!IMPORTANT]
-> This project is in highly active development. Therefore, I am not accepting PRs or code edits for this repo at this time.
+> Due to developer workload, I am only accepting PRs for minor features or bug fixes at this time. Please create an issue or discussion first in the main [Titanium](https://github.com/RestartB/titanium/tree/v2) repo before creating a PR, to allow me to review your request.
 
 ## Running in production
 

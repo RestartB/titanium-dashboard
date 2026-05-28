@@ -38,7 +38,9 @@
 {#snippet guildRow(guild: ServerInfo, invite = false)}
   <a
     class="overflow-hidden rounded-md border border-zinc-700 transition-all"
-    href={resolve(`/guild/${guild.id}`)}
+    href={invite
+      ? `https://discord.com/oauth2/authorize?client_id=1222612840146407484&permissions=8&integration_type=0&scope=bot&guild_id=${guild.id}`
+      : resolve(`/guild/${guild.id}`)}
     title={guild.name}
     data-sveltekit-preload-data={false}
     class:hover:bg-zinc-700={rowsView}
@@ -112,10 +114,6 @@
 {/snippet}
 
 <div class="flex h-full flex-col items-center justify-center p-4">
-  <Alert class="mb-4 bg-red-800/50">
-    <p>You must have access to the Titanium v2 private beta to use this dashboard.</p>
-  </Alert>
-
   <Row
     class="flex h-full bg-zinc-800 {data.userData && !rowsView
       ? 'max-h-250 max-w-312'
