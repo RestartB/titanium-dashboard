@@ -15,5 +15,5 @@
 </a>
 
 {#if data.userData}
-  <CaseInfo case={data.caseData} guild={data.serverInfo.id} user={data.userData?.userData.id} />
+  <CaseInfo case={data.caseData} guild={data.serverInfo.id} userData={data.userData} />
 {/if}

@@ -5,11 +5,15 @@
 
   import Alert from '$lib/components/ui/Alert.svelte';
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import Avatar from '$lib/components/ui/Avatar.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
   import { TriangleAlert, VolumeOff, UserRoundX, Hammer, CircleAlert, CircleCheck, Send, Trash } from '@lucide/svelte';
 
   import type { ModerationCase, ModerationCaseComment } from '$lib/interfaces/moderation';
+  import type { UserInfo } from '$lib/interfaces/userInfo';
 
-  const { case: caseData, guild, user }: { case: ModerationCase; guild: string; user: string } = $props();
+  const { case: caseData, guild, userData }: { case: ModerationCase; guild: string; userData: UserInfo } = $props();
+  const shortUserData = userData.userData;
 
   const icons = {
     warn: TriangleAlert,
@@ -47,7 +51,7 @@
           </span>
         </p>
 
-        {#if comment.creator_id === user}
+        {#if comment.creator_id === shortUserData.id}
           <button
             class="flex cursor-pointer items-center gap-0.5 text-sm font-normal text-zinc-300 hover:text-red-300"
             onclick={async () => {
@@ -172,23 +176,39 @@
   {/each}
 {/if}
 
+<hr class="border-zinc-500" />
+
 <form {...createComment} class="space-y-4">
   <input type="hidden" {...createComment.fields.caseId.as('text')} value={caseData.id} />
   <input type="hidden" {...createComment.fields.guildId.as('text')} value={guild} />
-  <div class="w-full overflow-hidden rounded-xl border-2 border-zinc-700 bg-zinc-800">
-    <div class="p-2">
-      <textarea class="block h-full w-full" {...createComment.fields.content.as('text')}></textarea>
+  <div class="mb-2 flex h-fit w-full gap-2">
+    <Avatar
+      src={shortUserData.avatar
+        ? `https://cdn.discordapp.com/avatars/${shortUserData.id}/${shortUserData.avatar}.png`
+        : undefined}
+      name={shortUserData.global_name || shortUserData.username}
+      size={32}
+      circle={true}
+      class="border-0!"
+    />
+    <div class="flex-1">
+      <div class="flex items-center gap-2">
+        <p class="font-bold">
+          {shortUserData.global_name}
+          <span class="font-normal">(@{shortUserData.username})</span>
+        </p>
+      </div>
+      <textarea
+        class="block min-h-8 w-full"
+        placeholder="Write a comment here..."
+        {...createComment.fields.content.as('text')}
+      ></textarea>
     </div>
-
-    <hr class="border-zinc-700" />
-
-    <button
-      type="submit"
-      class="flex w-full cursor-pointer items-center justify-center gap-2 p-2 transition-colors hover:bg-zinc-700"
-    >
-      <Send size={16} /> Post
-    </button>
   </div>
+
+  {#if createComment.fields.content.value()}
+    <Button type="submit" smallPadding={true}><Send size={16} /> Post</Button>
+  {/if}
 
   {#each createComment.fields.content.issues() as issue (issue.message)}
     <div class="flex items-center gap-1">

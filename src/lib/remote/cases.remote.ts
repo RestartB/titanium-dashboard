@@ -48,13 +48,13 @@ export const createComment = form(
       .string('Please enter a comment.')
       .trim()
       .min(1)
-      .max(1000, 'Please ensure your comment is under 1000 characters.')
+      .max(500, 'Please ensure your comment is under 500 characters.')
   }),
   async ({ guildId, caseId, content }) => {
     const { tokenRecord } = await checkPerms(guildId, commentsLimit);
 
     const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${caseId}/comments`, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -62,6 +62,7 @@ export const createComment = form(
     });
 
     if (!postRequest.ok) {
+      console.error('Failed to create comment', postRequest.status, postRequest.statusText);
       return { success: false };
     }
 
