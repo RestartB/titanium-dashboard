@@ -98,6 +98,7 @@
 <svelte:head>
   <title>Titanium Dashboard</title>
   <link rel="icon" href={favicon} />
+  <meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
 <div class="flex h-screen flex-col">
