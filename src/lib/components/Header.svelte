@@ -74,7 +74,7 @@
         {/if}
       </a>
       <a
-        href="https://titaniumbot.me/server"
+        href="https://titanium.fyi/server"
         target="_blank"
         rel="noopener noreferrer"
         class="hidden h-full items-center border-y-transparent border-b-zinc-500 px-2 transition-all hover:border-y-4 xs:flex"
@@ -148,7 +148,7 @@
             </a>
             <a
               class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
-              href="https://titaniumbot.me/server"
+              href="https://titanium.fyi/server"
               target="_blank"
         rel="noopener noreferrer"
             >

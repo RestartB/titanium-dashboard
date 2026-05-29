@@ -8,7 +8,7 @@
 {#snippet buttons()}
   <div class="flex w-full items-center justify-end">
     <a
-      href="https://titaniumbot.me/server"
+      href="https://titanium.fyi/server"
       target="_blank"
       class="w-fit cursor-pointer rounded-lg bg-zinc-700 p-1 px-2 transition-colors hover:bg-zinc-600"
     >
