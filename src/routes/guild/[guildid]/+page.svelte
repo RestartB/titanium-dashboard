@@ -65,13 +65,6 @@
   </p>
 </div>
 
-<Alert>
-  <p>
-    Titanium v2 is a work in progress, please note that many features are not finalised and data created in the test
-    version will not carry over to the final version.
-  </p>
-</Alert>
-
 <div class="grid grid-cols-1 gap-4 xs:grid-cols-2 lg:grid-cols-3">
   {@render featureCard(
     'General Settings',
