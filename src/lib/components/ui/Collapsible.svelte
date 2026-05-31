@@ -25,7 +25,7 @@
     onclick={() => (isOpen = !isOpen)}
     aria-label="Toggle {title} section"
   >
-    <h3 class="font-bold">{title}</h3>
+    <h3 class="text-left font-bold">{title}</h3>
     <ChevronDown
       class="shrink-0 transition-transform duration-400 {isOpen
         ? 'transform-[rotateX(180deg)]'
