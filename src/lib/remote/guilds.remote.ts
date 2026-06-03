@@ -68,7 +68,5 @@ export const getUserGuilds = query(async () => {
     }
   }
 
-  console.log({ mutualGuilds, nonMutualGuilds });
-
   return { mutualGuilds, nonMutualGuilds };
 });

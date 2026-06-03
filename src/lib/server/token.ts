@@ -41,7 +41,7 @@ async function checkToken(
 async function deleteToken(tokenId: string, discordToken: string | undefined) {
   // delete titanium token
   await db.delete(token).where(eq(token.token, tokenId)).run();
-  console.log('Revoked Titanium token');
+  console.debug('Revoked Titanium token');
 
   if (!discordToken) {
     return;
@@ -62,10 +62,10 @@ async function deleteToken(tokenId: string, discordToken: string | undefined) {
   });
 
   if (!newRequest.ok) {
-    console.log(newRequest.status, 'Failed to revoke token');
+    console.error(newRequest.status, 'Failed to revoke token');
   }
 
-  console.log('Revoked Discord token');
+  console.debug('Revoked Discord token');
 }
 
 /**

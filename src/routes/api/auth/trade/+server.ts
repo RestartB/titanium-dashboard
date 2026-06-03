@@ -42,8 +42,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     }
   }
 
-  console.log(redirectUri);
-
   const newRequest = await fetch('https://discord.com/api/v10/oauth2/token', {
     method: 'POST',
     headers: {

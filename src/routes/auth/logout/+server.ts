@@ -6,7 +6,7 @@ import type { RequestHandler } from './$types';
 export const POST: RequestHandler = async (event) => {
   const { token } = await checkToken(event);
   if (!token) {
-    console.log('No token found');
+    console.debug('No token found');
     return redirect(302, '/');
   }
 
@@ -14,7 +14,7 @@ export const POST: RequestHandler = async (event) => {
 
   event.cookies.delete('titanium_token', { path: '/' });
   event.cookies.delete('titanium_state', { path: '/' });
-  console.log('Deleted cookies');
+  console.debug('Deleted cookies');
 
   // check for reenter query param
   const reenter = event.url.searchParams.get('reenter');

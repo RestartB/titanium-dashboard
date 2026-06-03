@@ -47,7 +47,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   // token present check
   const { token: titaniumToken, expired } = await checkToken(event);
   if (!titaniumToken || expired) {
-    console.log('Invalid / missing Titanium token');
+    console.debug('Invalid / missing Titanium token');
 
     // delete expired token if there is one
     if (titaniumToken && expired) {
@@ -76,7 +76,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   // guild id / permissions check
   if (event.url.pathname.startsWith('/guild/') || event.url.pathname.startsWith('/api/guild/')) {
     if (!guildId) {
-      console.log('No guild id');
+      console.debug('No guild id');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Missing Guild ID' }, { status: 400 });
       }
@@ -86,7 +86,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
     if (isNaN(Number(guildId))) {
-      console.log('Invalid guild id');
+      console.debug('Invalid guild id');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Invalid Guild ID' }, { status: 400 });
       }
@@ -108,7 +108,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
         if (!permCheckRequest.ok) {
           if (permCheckRequest.status === 404) {
-            console.log('Guild not found');
+            console.debug('Guild not found');
             if (event.url.pathname.startsWith('/api')) {
               return json({ error: 'Guild not found' }, { status: 404 });
             }
@@ -116,7 +116,7 @@ export const handle: Handle = async ({ event, resolve }) => {
             return redirect(302, '/');
           }
 
-          console.log('Failed to fetch guild permissions from Titanium');
+          console.debug('Failed to fetch guild permissions from Titanium');
           if (event.url.pathname.startsWith('/api')) {
             return json(
               { error: 'Failed to fetch guild permissions from Titanium' },
@@ -143,7 +143,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
     if (!event.locals.dashboard_manager && !event.locals.case_manager) {
-      console.log('Insufficient guild permissions');
+      console.debug('Insufficient guild permissions');
       if (event.url.pathname.startsWith('/api')) {
         return json({ error: 'Insufficient Permissions' }, { status: 403 });
       }
