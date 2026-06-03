@@ -201,7 +201,7 @@
             aria-label="Jump to server emojis section"
           >
             <img
-              src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
+              src={serverInfo.icon?.replaceAll('?size=1024', '?size=128')}
               alt={serverInfo.name}
               class="h-6 w-6 shrink-0 transition-all {activeSection === 'custom'
                 ? 'rounded-full brightness-150'
@@ -238,7 +238,7 @@
       {#if filteredCustomEmojis.length > 0}
         <div class="flex items-center justify-center gap-2" id="custom">
           <img
-            src={serverInfo.icon.replaceAll('?size=1024', '?size=128')}
+            src={serverInfo.icon?.replaceAll('?size=1024', '?size=128')}
             alt={serverInfo.name}
             class="h-6 w-6 rounded-lg"
             loading="lazy"
