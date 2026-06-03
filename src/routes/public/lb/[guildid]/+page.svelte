@@ -62,7 +62,7 @@
 )}
   <div class="flex w-full items-center gap-2" {id}>
     <p class="min-w-14 truncate text-center font-bold">{position}</p>
-    <img src={pfp} alt="Logo" class="mr-2 h-10 w-10 shrink-0 rounded-full" />
+    <img src={pfp || logo} alt="Logo" class="mr-2 h-10 w-10 shrink-0 rounded-full" />
     <div class="min-w-0 flex-1">
       {#if username}
         <p class="truncate text-sm font-light">@{username}</p>
@@ -81,6 +81,15 @@
     </p>
   </div>
 {/snippet}
+
+<div
+  class="absolute right-0 left-0 -z-50 w-full bg-cover bg-center bg-no-repeat brightness-30"
+  style="height: calc(100% - 3rem ); background-image: url('{data.serverInfo?.splash
+    ? data.serverInfo.splash
+    : data.serverInfo?.banner
+      ? data.serverInfo.banner
+      : '/images/background_blur.svg'}')"
+></div>
 
 {#if !data.enabled}
   <div class="flex h-full flex-col items-center justify-center p-4">
@@ -157,7 +166,7 @@
       </span>
 
       <span class="flex items-center gap-2 px-6">
-        <Avatar src={data.serverInfo.icon} name={data.serverInfo.name} size={40} />
+        <Avatar src={data.serverInfo.icon || ''} name={data.serverInfo.name} size={40} />
         <p class="truncate text-center">{data.serverInfo.name}</p>
       </span>
 

@@ -1,8 +1,9 @@
 export interface ServerInfo {
   id: string;
   name: string;
-  icon: string;
-  banner: string;
+  icon: string | null;
+  banner: string | null;
+  splash: string | null;
   member_count: number;
   features?: string[];
   roles: RoleInfo[];

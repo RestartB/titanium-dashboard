@@ -26,7 +26,7 @@
 
 <div class="flex w-full shrink-0 flex-col gap-2 p-4" style="view-transition-name: sidebar">
   <div class="flex items-center gap-2">
-    <Avatar src={serverInfo.icon} name={serverInfo.name} size={40} />
+    <Avatar src={serverInfo.icon || ''} name={serverInfo.name} size={40} />
     <div class="overflow-hidden">
       <h2 class="overflow-hidden font-bold text-nowrap text-ellipsis" translate="no">{serverInfo.name}</h2>
       {#if serverInfo.member_count}
