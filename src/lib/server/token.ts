@@ -72,7 +72,12 @@ async function deleteToken(tokenId: string, discordToken: string | undefined) {
  * Utility function for remote functions to check if user's token is expired, and delete the token & raise an error if it is
  * @param event Request event to check
  */
-async function remoteCheckToken(event: RequestEvent): Promise<InferSelectModel<typeof token>> {
+function remoteCheckToken(event: RequestEvent, blockAccess?: true): Promise<InferSelectModel<typeof token>>;
+function remoteCheckToken(event: RequestEvent, blockAccess: false): Promise<InferSelectModel<typeof token> | undefined>;
+async function remoteCheckToken(
+  event: RequestEvent,
+  blockAccess: boolean = true
+): Promise<InferSelectModel<typeof token> | undefined> {
   const { token: titaniumToken, expired } = await checkToken(event);
 
   if (!titaniumToken || expired) {
@@ -80,7 +85,11 @@ async function remoteCheckToken(event: RequestEvent): Promise<InferSelectModel<t
       await deleteToken(titaniumToken.token, titaniumToken.discordToken);
     }
 
-    throw error(401, 'Unauthorized');
+    if (blockAccess) {
+      throw error(401, 'Unauthorized');
+    }
+
+    return;
   }
 
   return titaniumToken;

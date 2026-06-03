@@ -1,20 +1,23 @@
 <script lang="ts">
-  import { ToggleRow, Row } from '$lib/components/ui/row';
-  import Alert from '$lib/components/ui/Alert.svelte';
+  import { page } from '$app/state';
+
+  import { ToggleRow, ButtonRow, Row } from '$lib/components/ui/row';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Radio from '$lib/components/ui/inputs/Radio.svelte';
-  import NumberInput from '$lib/components/ui/inputs/Number.svelte';
-  import Saver from '$lib/components/Saver.svelte';
-  import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
-  import Level from '$lib/components/leaderboard/Level.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
-  import LimitPill from '$lib/components/ui/LimitPill.svelte';
+  import NumberInput from '$lib/components/ui/inputs/Number.svelte';
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
   import ChannelTile from '$lib/components/ui/discord/ChannelTile.svelte';
   import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
-  import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
-  import { Dice6, Star, Brain, Plus, X } from '@lucide/svelte';
+  import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
+  import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
+
+  import Saver from '$lib/components/Saver.svelte';
+  import Level from '$lib/components/leaderboard/Level.svelte';
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
+
+  import { Dice6, Star, Brain, Plus, X, Copy, Check } from '@lucide/svelte';
 
   const { data } = $props();
   let dataState = $state(data);
@@ -26,6 +29,8 @@
   const sortedLevelsDecending = $derived(
     [...dataState.pageSettings.levels].sort((a, b) => b.xp_required - a.xp_required)
   );
+
+  let Icon = $state(Copy);
 </script>
 
 <Saver page="leaderboard" {data} bind:dataState />
@@ -310,9 +315,19 @@
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Web Leaderboard</p>
 
-  <Alert>
-    <p>Coming soon</p>
-  </Alert>
+  {#if data.pageSettings.web_leaderboard_enabled}
+    <ButtonRow
+      {Icon}
+      onclick={async () => {
+        await navigator.clipboard.writeText(`${page.url.origin}/public/lb/${data.serverInfo.id}`);
+        Icon = Check;
+        setTimeout(() => (Icon = Copy), 3000);
+      }}
+    >
+      <p class="text-base font-bold text-zinc-300/60">Your leaderboard link</p>
+      <p class="truncate">{page.url.origin}/public/lb/{data.serverInfo.id}</p>
+    </ButtonRow>
+  {/if}
 
   <ToggleRow bind:toggled={dataState.pageSettings.web_leaderboard_enabled}>
     <div>

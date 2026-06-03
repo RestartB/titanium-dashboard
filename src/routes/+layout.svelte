@@ -1,9 +1,11 @@
 <script lang="ts">
   import '../app.css';
-  import favicon from '$lib/assets/logo-rounded.svg';
-  import Header from '$lib/components/Header.svelte';
 
   import { onNavigate } from '$app/navigation';
+  import { page } from '$app/state';
+
+  import favicon from '$lib/assets/logo-rounded.svg';
+  import Header from '$lib/components/Header.svelte';
 
   let { children, data } = $props();
 
@@ -99,6 +101,15 @@
   <title>Titanium Dashboard</title>
   <link rel="icon" href={favicon} />
   <meta name="robots" content="noindex, nofollow" />
+  <meta content="#979C9F" data-react-helmet="true" name="theme-color" />
+
+  {#if !page.url.pathname.startsWith('/public/')}
+    <meta content="Titanium Dashboard" property="og:title" />
+    <meta content="Manage Titanium, your multipurpose, open source Discord bot." property="description" />
+    <meta content="Manage Titanium, your multipurpose, open source Discord bot." property="og:description" />
+    <meta content="https://dash.titanium.fyi/" property="og:url" />
+    <meta content="https://titanium.fyi/assets/logo.png" property="og:image" />
+  {/if}
 </svelte:head>
 
 <div class="flex h-screen flex-col">

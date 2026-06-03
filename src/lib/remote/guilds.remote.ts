@@ -63,7 +63,7 @@ export const getUserGuilds = query(async () => {
       } else {
         nonMutualGuilds.push(guild);
       }
-    } else if (mutualGuildIds.includes(guild.id) && (titaniumGuildIds.delegate.includes(guild.id))) {
+    } else if (mutualGuildIds.includes(guild.id) && titaniumGuildIds.delegate.includes(guild.id)) {
       mutualGuilds.push(guild);
     }
   }

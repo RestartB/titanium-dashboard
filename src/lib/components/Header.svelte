@@ -148,7 +148,7 @@
               class="flex h-full w-full items-center justify-start gap-2 rounded-lg text-xl font-semibold"
               href="https://titanium.fyi/server"
               target="_blank"
-        rel="noopener noreferrer"
+              rel="noopener noreferrer"
             >
               <LifeBuoy size={30} class="shrink-0" />
               Support
