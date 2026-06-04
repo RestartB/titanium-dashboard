@@ -5,6 +5,7 @@
   import Channel from '$lib/components/server_counters/Channel.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import { Plus } from '@lucide/svelte';
 
   import type { ServerCounterChannelSchema } from '$lib/validators/serverCounters';
@@ -32,6 +33,15 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.server_counters}>
+  {#if data.serverInfo.member_count > 250}
+    <Alert>
+      <p>
+        Your server is considered to be large by Discord (over 250 members). The "Users" and "Bots" counter types may
+        take longer to update initially due to this.
+      </p>
+    </Alert>
+  {/if}
+
   <div class="flex flex-col gap-4">
     <Button
       disabled={dataState.pageSettings.channels.length >= data.serverInfo.limits.server_counters &&
