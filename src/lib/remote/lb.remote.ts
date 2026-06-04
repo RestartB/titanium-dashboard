@@ -18,7 +18,6 @@ export const getLeaderboard = query(
   }),
   async ({ guildId, limit, offset }) => {
     const event = await getRequestEvent();
-    console.log(event.getClientAddress());
     if (await leaderboardLimit.isLimited(event)) {
       error(429);
     }
