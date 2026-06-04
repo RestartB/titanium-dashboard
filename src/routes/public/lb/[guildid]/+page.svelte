@@ -9,15 +9,27 @@
   import logo from '$lib/assets/logo.png';
   import { LoaderCircle, Trophy, X } from '@lucide/svelte';
   import { onMount } from 'svelte';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
   const { data } = $props();
 
   let currentPage = $state(1);
+  let limited = $state(false);
   let leaderboardFunction = $derived(
     data.serverInfo && data.enabled && !data.loginRequired && !data.noAccess
       ? getLeaderboard({ guildId: data.serverInfo.id, limit: 100, offset: 100 * currentPage - 100 })
       : null
   );
+
+  $effect(() => {
+    if (leaderboardFunction) {
+      leaderboardFunction.catch((e) => {
+        if (e?.status === 429) {
+          limited = true;
+        }
+      });
+    }
+  });
 
   let historicalSetting: 'Last 3 days' | 'Last 7 days' | 'Last 14 days' | 'Last 30 days' = $state('Last 7 days');
   let historicalAmount = $derived.by(() => {
@@ -109,6 +121,12 @@
     </p>
   </div>
 {/snippet}
+
+{#if limited}
+  <FullscreenOverlay title="Rate Limited" padding={16} height={200} bind:overlayOpen={limited}>
+    <p>You are requesting data too fast. Please slow down.</p>
+  </FullscreenOverlay>
+{/if}
 
 {#if !data.enabled}
   <div class="flex h-full flex-col items-center justify-center p-4">
@@ -276,7 +294,7 @@
       <div class="flex items-center justify-center w-full max-w-3xl gap-2 flex-col sm:flex-row">
         <Pagination
           {changePage}
-          pageCount={Math.max(1, Math.ceil((await leaderboardFunction).total_count / 1))}
+          pageCount={Math.max(1, Math.ceil((await leaderboardFunction).total_count / 100))}
           disabled={$effect.pending() ? true : false}
           class="w-fit!"
           bind:currentPage

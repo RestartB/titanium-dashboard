@@ -2,6 +2,7 @@ import { query, getRequestEvent } from '$app/server';
 import { error } from '@sveltejs/kit';
 import { titaniumRequest } from '$lib/helpers/titanium';
 import { remoteCheckToken } from '$lib/server/token';
+import { leaderboardLimit } from '$lib/limits';
 
 import { z } from 'zod';
 
@@ -17,6 +18,11 @@ export const getLeaderboard = query(
   }),
   async ({ guildId, limit, offset }) => {
     const event = await getRequestEvent();
+    console.log(event.getClientAddress());
+    if (await leaderboardLimit.isLimited(event)) {
+      error(429);
+    }
+
     const tokenRecord = await remoteCheckToken(event, false);
 
     const botInGuild = await titaniumRequest(`${TITANIUM_API_URL}/guild/${guildId}/inguild`);

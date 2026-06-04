@@ -28,3 +28,7 @@ export const guildsLimit = new RateLimiter({
 export const commentsLimit = new RateLimiter({
   plugins: [new TitaniumTokenRateLimiter([1, '5s'])]
 });
+
+export const leaderboardLimit = new RateLimiter({
+  IP: [1, 's']
+});
