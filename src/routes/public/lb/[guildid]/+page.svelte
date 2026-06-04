@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onDestroy, onMount } from 'svelte';
+  import { browser } from '$app/environment';
   import { page } from '$app/state';
   import { getLeaderboard } from '$lib/remote/lb.remote';
 
@@ -6,10 +8,9 @@
   import Pagination from '$lib/components/ui/Pagination.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
   import LogIn from '$lib/components/ui/discord/LogIn.svelte';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import logo from '$lib/assets/logo.png';
   import { LoaderCircle, Trophy, X } from '@lucide/svelte';
-  import { onMount } from 'svelte';
-  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
   const { data } = $props();
 
@@ -65,6 +66,10 @@
   }
 
   onMount(() => {
+    if (!browser) {
+      return;
+    }
+
     document.body.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${
       data.serverInfo?.splash
         ? data.serverInfo.splash
@@ -75,6 +80,17 @@
     document.body.style.backgroundPosition = 'center';
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundRepeat = 'no-repeat';
+  });
+
+  onDestroy(() => {
+    if (!browser) {
+      return;
+    }
+
+    document.body.style.backgroundImage = '';
+    document.body.style.backgroundPosition = '';
+    document.body.style.backgroundSize = '';
+    document.body.style.backgroundRepeat = '';
   });
 </script>
 
