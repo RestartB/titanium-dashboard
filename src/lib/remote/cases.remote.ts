@@ -70,11 +70,42 @@ export const createComment = form(
   }
 );
 
+export const editComment = form(
+  z.object({
+    guildId: z.string(),
+    caseId: z.string(),
+    commentId: z.uuidv4(),
+    content: z
+      .string('Please enter a comment.')
+      .trim()
+      .min(1)
+      .max(500, 'Please ensure your comment is under 500 characters.')
+  }),
+  async ({ guildId, caseId, commentId, content }) => {
+    const { tokenRecord } = await checkPerms(guildId, commentsLimit);
+
+    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${caseId}/comments/${commentId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user: tokenRecord.discordUserId, content: content })
+    });
+
+    if (!postRequest.ok) {
+      console.error('Failed to update comment', postRequest.status, postRequest.statusText);
+      return { success: false };
+    }
+
+    return { success: true };
+  }
+);
+
 export const deleteComment = command(
   z.object({
     guildId: z.string(),
     caseId: z.string(),
-    commentId: z.string()
+    commentId: z.uuidv4()
   }),
   async ({ guildId, caseId, commentId }) => {
     const { tokenRecord } = await checkPerms(guildId);

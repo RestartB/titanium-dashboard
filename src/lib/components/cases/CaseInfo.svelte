@@ -1,16 +1,15 @@
 <script lang="ts">
-  import { refreshAll } from '$app/navigation';
-  import { createComment, deleteComment } from '$lib/remote/cases.remote';
+  import { createComment } from '$lib/remote/cases.remote';
   import format from 'format-duration';
 
   import Alert from '$lib/components/ui/Alert.svelte';
-  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
-  import { TriangleAlert, VolumeOff, UserRoundX, Hammer, CircleAlert, CircleCheck, Send, Trash } from '@lucide/svelte';
+  import { TriangleAlert, VolumeOff, UserRoundX, Hammer, CircleAlert, CircleCheck, Send } from '@lucide/svelte';
 
-  import type { ModerationCase, ModerationCaseComment } from '$lib/interfaces/moderation';
+  import type { ModerationCase } from '$lib/interfaces/moderation';
   import type { UserInfo } from '$lib/interfaces/userInfo';
+  import CaseComment from './CaseComment.svelte';
 
   const { case: caseData, guild, userData }: { case: ModerationCase; guild: string; userData: UserInfo } = $props();
   const shortUserData = userData.userData;
@@ -26,53 +25,7 @@
     if (createComment.fields.caseId.value() !== caseData.id) createComment.fields.caseId.set(caseData.id);
     if (createComment.fields.guildId.value() !== guild) createComment.fields.guildId.set(guild);
   });
-
-  let showingDeleteError = $state(false);
 </script>
-
-{#if showingDeleteError}
-  <FullscreenOverlay bind:overlayOpen={showingDeleteError} title="Error" height={200} padding={16} gap={16}>
-    <p>An error occurred while deleting the comment. Please try again later.</p>
-  </FullscreenOverlay>
-{/if}
-
-{#snippet commentRow(comment: ModerationCaseComment)}
-  <div class="mb-2 flex gap-2">
-    <img src={comment.creator_pfp} width="32" height="32" class="h-8 w-8 rounded-full" alt="PFP" />
-    <div>
-      <div class="flex items-center gap-2">
-        <p class="font-bold">
-          {comment.creator_display}
-          <span class="font-normal"
-            >(@{comment.creator_name}{comment.creator_discrim ? `#${comment.creator_discrim}` : ''})</span
-          >
-          <span class="align-middle text-sm font-normal text-zinc-300">
-            {new Date(comment.time_created).toLocaleString()}
-          </span>
-        </p>
-
-        {#if comment.creator_id === shortUserData.id}
-          <button
-            class="flex cursor-pointer items-center gap-0.5 text-sm font-normal text-zinc-300 hover:text-red-300"
-            onclick={async () => {
-              try {
-                await deleteComment({ guildId: guild, caseId: caseData.id, commentId: comment.id });
-              } catch (error) {
-                showingDeleteError = true;
-                throw error;
-              }
-
-              await refreshAll();
-            }}
-          >
-            <Trash size={16} /> Delete
-          </button>
-        {/if}
-      </div>
-      <p>{comment.content}</p>
-    </div>
-  </div>
-{/snippet}
 
 {#if caseData.external}
   <Alert>This action was taken without using Titanium, some info may be unavailable</Alert>
@@ -161,18 +114,11 @@
 <hr class="border-zinc-500" />
 <p class="text-base font-bold text-zinc-300/60">Comments</p>
 
-<Alert
-  ><span
-    >Comments cannot be edited from the dashboard currently. Please use the <code>case comments</code> command in Discord
-    to edit comments.</span
-  ></Alert
->
-
 {#if caseData.comments.length === 0}
   <p class="opacity-80">There are no comments yet.</p>
 {:else}
   {#each caseData.comments as comment (comment.id)}
-    {@render commentRow(comment)}
+    <CaseComment {comment} {caseData} {userData} {guild} />
   {/each}
 {/if}
 
