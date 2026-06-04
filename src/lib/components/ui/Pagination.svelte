@@ -5,12 +5,19 @@
     currentPage = $bindable(),
     pageCount,
     changePage,
+    class: className = '',
     disabled = false
-  }: { currentPage: number; pageCount: number; changePage: (page: number) => void; disabled?: boolean } = $props();
+  }: {
+    currentPage: number;
+    pageCount: number;
+    changePage: (page: number) => void;
+    class?: string;
+    disabled?: boolean;
+  } = $props();
 </script>
 
 {#if pageCount > 1}
-  <div class="flex w-full items-center justify-center gap-2">
+  <div class="flex w-full items-center justify-center gap-2 {className}">
     <button
       class="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-zinc-700 text-zinc-200 hover:bg-zinc-600 disabled:cursor-not-allowed disabled:opacity-50"
       disabled={currentPage === 1 || disabled}

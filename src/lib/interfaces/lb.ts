@@ -5,7 +5,7 @@ export type LeaderboardEntry = {
   user_pfp: string | null;
   xp: string;
   level: number;
-  historical: string[];
+  historical: number[];
 };
 
 export type LeaderboardResponse = {

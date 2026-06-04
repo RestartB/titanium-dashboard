@@ -8,6 +8,7 @@
   import LogIn from '$lib/components/ui/discord/LogIn.svelte';
   import logo from '$lib/assets/logo.png';
   import { LoaderCircle, Trophy, X } from '@lucide/svelte';
+  import { onMount } from 'svelte';
 
   const { data } = $props();
 
@@ -17,6 +18,19 @@
       ? getLeaderboard({ guildId: data.serverInfo.id, limit: 100, offset: 100 * currentPage - 100 })
       : null
   );
+
+  let historicalSetting: 'Last 3 days' | 'Last 7 days' | 'Last 14 days' | 'Last 30 days' = $state('Last 7 days');
+  let historicalAmount = $derived.by(() => {
+    if (historicalSetting === 'Last 3 days') {
+      return 2;
+    } else if (historicalSetting === 'Last 7 days') {
+      return 6;
+    } else if (historicalSetting === 'Last 14 days') {
+      return 13;
+    } else {
+      return 29;
+    }
+  });
 
   function changePage(page: number) {
     currentPage = page;
@@ -37,6 +51,19 @@
     }
     return i + 'th';
   }
+
+  onMount(() => {
+    document.body.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${
+      data.serverInfo?.splash
+        ? data.serverInfo.splash
+        : data.serverInfo?.banner
+          ? data.serverInfo.banner
+          : '/images/background_blur.svg'
+    }')`;
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundRepeat = 'no-repeat';
+  });
 </script>
 
 <svelte:head>
@@ -58,7 +85,7 @@
   position: string,
   xp: string,
   level: number,
-  change: string
+  change: number[]
 )}
   <div class="flex w-full items-center gap-2" {id}>
     <p class="min-w-14 truncate text-center font-bold">{position}</p>
@@ -73,23 +100,15 @@
     </div>
 
     <p class="ml-auto hidden max-w-14 min-w-14 text-center font-bold xs:block">
-      {change}
+      {change.length > historicalAmount ? change[historicalAmount] : '---'}
     </p>
+
     <p class="max-w-14 min-w-14 text-center font-bold">{xp}</p>
     <p class="hidden max-w-14 min-w-14 text-center font-bold min-[432px]:block">
       {level}
     </p>
   </div>
 {/snippet}
-
-<div
-  class="absolute right-0 left-0 -z-50 w-full bg-cover bg-center bg-no-repeat brightness-30"
-  style="height: calc(100% - 3rem ); background-image: url('{data.serverInfo?.splash
-    ? data.serverInfo.splash
-    : data.serverInfo?.banner
-      ? data.serverInfo.banner
-      : '/images/background_blur.svg'}')"
-></div>
 
 {#if !data.enabled}
   <div class="flex h-full flex-col items-center justify-center p-4">
@@ -170,7 +189,7 @@
         <p class="truncate text-center">{data.serverInfo.name}</p>
       </span>
 
-      <div class="my-4 hidden w-full items-center justify-center gap-20 sm:flex">
+      <div class="my-4 hidden w-full items-center justify-center gap-4 sm:flex">
         {#if currentPage === 1}
           {#if (await leaderboardFunction).leaderboard.length >= 2}
             <div class="h-fit max-w-3xs min-w-0 flex-1 text-center">
@@ -249,19 +268,34 @@
             ordinal_suffix_of(i + 1 * currentPage),
             entry.xp,
             entry.level,
-            '+5'
+            entry.historical
           )}
         {/each}
       </Row>
 
-      {#if (await leaderboardFunction).total_count > 100}
+      <div class="flex items-center justify-center w-full max-w-3xl gap-2 flex-col sm:flex-row">
         <Pagination
           {changePage}
-          pageCount={Math.max(1, Math.ceil((await leaderboardFunction).total_count / 100))}
+          pageCount={Math.max(1, Math.ceil((await leaderboardFunction).total_count / 1))}
           disabled={$effect.pending() ? true : false}
+          class="w-fit!"
           bind:currentPage
         />
-      {/if}
+
+        <div class="hidden xs:flex flex-col gap-1 sm:items-end items-center justify-center sm:ml-auto">
+          <label for="difference" class="text-zinc-400 text-right block">Show position difference between</label>
+          <select
+            class="rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1"
+            id="difference"
+            bind:value={historicalSetting}
+          >
+            <option>Last 3 days</option>
+            <option>Last 7 days</option>
+            <option>Last 14 days</option>
+            <option>Last 30 days</option>
+          </select>
+        </div>
+      </div>
     </div>
   </svelte:boundary>
 {/if}
