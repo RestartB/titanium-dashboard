@@ -10,8 +10,8 @@
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
-  import ChannelTile from '../ui/discord/ChannelTile.svelte';
-  import RoleTile from '../ui/discord/RoleTile.svelte';
+  import ChannelTile from '$lib/components/ui/discord/ChannelTile.svelte';
+  import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
   import { Trash, Menu } from '@lucide/svelte';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';

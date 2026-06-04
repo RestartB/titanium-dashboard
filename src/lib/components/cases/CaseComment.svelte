@@ -2,8 +2,8 @@
   import { refreshAll } from '$app/navigation';
   import { deleteComment, editComment } from '$lib/remote/cases.remote';
 
-  import FullscreenOverlay from '../ui/FullscreenOverlay.svelte';
-  import Button from '../ui/inputs/Button.svelte';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
   import { CircleAlert, CircleCheck, Pencil, Send, Trash, X } from '@lucide/svelte';
 
   import type { ModerationCase, ModerationCaseComment } from '$lib/interfaces/moderation';
