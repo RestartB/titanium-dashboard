@@ -159,7 +159,7 @@
       </div>
     {/snippet}
 
-    <div class="m-4 flex flex-col items-center gap-4">
+    <div class="flex h-full flex-col items-center gap-4 overflow-y-auto p-4">
       <span class="flex items-center justify-center gap-2">
         <Trophy class="shrink-0" />
         <h1 class="text-center text-2xl font-semibold">Server Leaderboard</h1>
