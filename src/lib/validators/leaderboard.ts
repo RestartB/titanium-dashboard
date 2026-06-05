@@ -5,12 +5,12 @@ export const leaderboardLevelSchema = z
   .object({
     id: z.string().default('').optional(),
     xp_required: z.number().int().nonnegative(),
-    reward_roles: z.array(z.string()).default([])
+    reward_roles: z.array(z.string()).max(5).default([])
   })
   .refine(
     (data) => {
       for (const roleId of data.reward_roles) {
-        if (!/^\d{15,20}$/.test(roleId)) {
+        if (!validateID(roleId)) {
           return false;
         }
       }
@@ -40,6 +40,7 @@ export const leaderboardConfigSchema = z
     web_leaderboard_enabled: z.boolean().default(false),
     web_login_required: z.boolean().default(false),
     delete_leavers: z.boolean().default(false),
+    stack_roles: z.boolean().default(true),
     levels: z.array(leaderboardLevelSchema).default([])
   })
   .refine(

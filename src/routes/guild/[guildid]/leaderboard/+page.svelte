@@ -31,6 +31,16 @@
   );
 
   let Icon = $state(Copy);
+
+  $effect(() => {
+    if (dataState.pageSettings.ignored_channels.length < 100) {
+      channelOverlayOpen = false;
+    }
+
+    if (dataState.pageSettings.ignored_roles.length < 100) {
+      roleOverlayOpen = false;
+    }
+  });
 </script>
 
 <Saver page="leaderboard" {data} bind:dataState />
@@ -190,7 +200,10 @@
     <p class="mb-2">Select up to 100 channels where XP cannot be earned.</p>
 
     <div class="flex flex-wrap gap-2">
-      <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}><Plus size={20} /> Add Channels</Button>
+      {#if dataState.pageSettings.ignored_channels.length < 100}
+        <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}><Plus size={20} /> Add Channels</Button>
+      {/if}
+
       {#each dataState.pageSettings.ignored_channels as channel (channel)}
         <ChannelTile
           {channel}
@@ -210,7 +223,10 @@
     <p class="mb-2">Select up to 100 roles that cannot earn XP.</p>
 
     <div class="flex flex-wrap gap-2">
-      <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add Roles</Button>
+      {#if dataState.pageSettings.ignored_roles.length < 100}
+        <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add Roles</Button>
+      {/if}
+
       {#each dataState.pageSettings.ignored_roles as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}
@@ -227,6 +243,16 @@
 
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Levels</p>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.stack_roles}>
+    <div>
+      <h2 class="text-xl font-bold">Stack Roles</h2>
+      <p>
+        When a user levels up, stack previous level roles on top of the current level's roles. With this disabled, roles
+        from previous levels will be removed / not granted.
+      </p>
+    </div>
+  </ToggleRow>
 
   <Button
     onclick={() => {
@@ -251,6 +277,7 @@
     <Level
       bind:level={dataState.pageSettings.levels[i]}
       id={i + 1}
+      serverInfo={data.serverInfo}
       deleteLevel={() => {
         dataState.pageSettings.levels.splice(i, 1);
       }}
@@ -264,8 +291,8 @@
     <div>
       <h2 class="text-xl font-bold">Delete XP for leavers</h2>
       <p>
-        When a member leaves the server, their XP will be deleted. This keeps the leaderboard clean, but means that
-        users who join back will have their XP reset.
+        When a member leaves the server and Titanium is online, their XP will be deleted. This keeps the leaderboard
+        clean, but means that users who join back will have their XP reset.
       </p>
     </div>
   </ToggleRow>
