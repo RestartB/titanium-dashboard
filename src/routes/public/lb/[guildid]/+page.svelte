@@ -101,7 +101,10 @@
     <meta content="View the Titanium Leaderboard for {data.serverInfo.name}." property="description" />
     <meta content="View the Titanium Leaderboard for {data.serverInfo.name}." property="og:description" />
     <meta content={page.url.href} property="og:url" />
-    <meta content={data.serverInfo.icon || 'https://titanium.fyi/assets/logo.png'} property="og:image" />
+    <meta
+      content={data.serverInfo.icon?.replaceAll('?size=1024', '?size=512') || 'https://titanium.fyi/assets/logo.png'}
+      property="og:image"
+    />
   {/if}
 </svelte:head>
 
