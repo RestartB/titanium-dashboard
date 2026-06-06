@@ -84,7 +84,7 @@
           <p>Give a fixed amount of XP to users for each message.</p>
         </div>
         <Radio
-          name="mode"
+          name="xp-mode"
           value="fixed"
           toggled={dataState.pageSettings.mode === 'fixed'}
           class="sm:mx-auto sm:mt-2"
@@ -103,7 +103,7 @@
           <p>Give a random amount of XP to users for each message.</p>
         </div>
         <Radio
-          name="mode"
+          name="xp-mode"
           value="random"
           toggled={dataState.pageSettings.mode === 'random'}
           class="sm:mx-auto sm:mt-2"
@@ -122,7 +122,7 @@
           <p>Give a dynamic amount of XP to users, based on the length of their message and a multiplier.</p>
         </div>
         <Radio
-          name="mode"
+          name="xp-mode"
           value="length"
           toggled={dataState.pageSettings.mode === 'length'}
           class="sm:mx-auto sm:mt-2"
@@ -191,6 +191,94 @@
     </div>
     <NumberInput bind:value={dataState.pageSettings.cooldown} min={0} max={600} class="mt-2" />
   </Row>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">VC Tracking</p>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.vc_enabled}>
+    <div>
+      <h2 class="text-xl font-bold">VC Tracking</h2>
+      <p>
+        When this option is enabled, Titanium will add XP to your members when they are in VC. Note that XP will only be
+        added when Titanium is online.
+      </p>
+    </div>
+  </ToggleRow>
+
+  <ToggledContent bind:enabled={dataState.pageSettings.vc_enabled}>
+    <div class="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+      <Row>
+        <div class="flex h-full items-center justify-between sm:flex-col">
+          <div>
+            <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-600">
+              <Star size={28} />
+            </div>
+            <h2 class="text-xl font-bold">Fixed XP</h2>
+            <p>Give a fixed amount of XP to users for each VC minute.</p>
+          </div>
+          <Radio
+            name="vc-mode"
+            value="fixed"
+            toggled={dataState.pageSettings.vc_mode === 'fixed'}
+            class="sm:mx-auto sm:mt-2"
+            bind:group={dataState.pageSettings.vc_mode}
+          />
+        </div>
+      </Row>
+
+      <Row>
+        <div class="flex h-full items-center justify-between sm:flex-col">
+          <div>
+            <div class="mb-2 flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-600">
+              <Dice6 size={28} />
+            </div>
+            <h2 class="text-xl font-bold">Random XP</h2>
+            <p>Give a random amount of XP to users for each VC minute.</p>
+          </div>
+          <Radio
+            name="vc-mode"
+            value="random"
+            toggled={dataState.pageSettings.vc_mode === 'random'}
+            class="sm:mx-auto sm:mt-2"
+            bind:group={dataState.pageSettings.vc_mode}
+          />
+        </div>
+      </Row>
+    </div>
+
+    {#if dataState.pageSettings.vc_mode === 'fixed'}
+      <Row>
+        <div>
+          <h2 class="text-xl font-bold">XP</h2>
+          <p>Enter the amount of XP users will receive for each minute they are in VC.</p>
+        </div>
+        <NumberInput bind:value={dataState.pageSettings.vc_base_xp} min={1} class="mt-2" />
+      </Row>
+    {:else}
+      <Row>
+        <div>
+          <h2 class="text-xl font-bold">Minimum XP</h2>
+          <p>Enter the minimum amount of XP that users can receive for each minute they are in VC.</p>
+        </div>
+        <NumberInput bind:value={dataState.pageSettings.vc_min_xp} min={1} class="mt-2" />
+      </Row>
+      <Row>
+        <div>
+          <h2 class="text-xl font-bold">Maximum XP</h2>
+          <p>Enter the maximum amount of XP that users can receive for each minute they are in VC.</p>
+        </div>
+        <NumberInput bind:value={dataState.pageSettings.vc_max_xp} min={1} class="mt-2" />
+      </Row>
+    {/if}
+
+    <Row>
+      <div>
+        <h2 class="text-xl font-bold">Time Delay</h2>
+        <p>Enter the amount of minutes that the user needs to be in VC for, before they start earning XP.</p>
+      </div>
+      <NumberInput bind:value={dataState.pageSettings.vc_delay} min={0} max={1440} class="mt-2" />
+    </Row>
+  </ToggledContent>
 
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Ignored Roles & Channels</p>
