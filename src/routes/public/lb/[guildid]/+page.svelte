@@ -176,7 +176,7 @@
 
       <div class="flex w-full flex-1 flex-col items-center justify-center gap-4 overflow-y-auto text-center">
         <p class="font-bold">To access the leaderboard for this server, please log in.</p>
-        <LogIn />
+        <LogIn redirect={page.url.pathname} />
       </div>
     </Row>
 
