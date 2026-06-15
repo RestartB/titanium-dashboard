@@ -3,10 +3,10 @@
   import discord from '$lib/assets/discord.svg';
 
   const { redirect = "", class: className = '' } = $props();
+
+  let authUrl = "/auth/login"
   if (redirect) {
-    const authUrl = `/auth/login?redirect=${redirect}`;
-  } else {
-    const authUrl = "/auth/login"
+    authUrl = `/auth/login?redirect=${redirect}`;
   }
 </script>
 
