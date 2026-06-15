@@ -6,7 +6,7 @@
 
   let authUrl = "/auth/login"
   if (redirect) {
-    authUrl = `/auth/login?redirect=${redirect}`;
+    authUrl = `/auth/login?redirect=${encodeURIComponent(redirect)}`;
   }
 </script>
 
