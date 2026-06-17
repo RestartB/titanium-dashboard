@@ -73,8 +73,8 @@ importers:
         specifier: 1.33.1
         version: 1.33.1(rollup@4.60.4)(svelte@5.56.3(@typescript-eslint/types@8.61.0))(tailwindcss@4.3.0)
       format-duration:
-        specifier: 3.0.2
-        version: 3.0.2
+        specifier: 4.0.0
+        version: 4.0.0
       globals:
         specifier: 17.6.0
         version: 17.6.0
@@ -1633,8 +1633,9 @@ packages:
   flowbite@4.0.2:
     resolution: {integrity: sha512-TxBdfZpd3HktHH4ashiYjirrSZeVPtG1OCRZMKTeXUa9FOlMxSF98zgjMB/AxE49KZ+rlfgWynAlaNpWxrqZmA==}
 
-  format-duration@3.0.2:
-    resolution: {integrity: sha512-pKzJDSRgK2lqAiPW3uizDaIJaJnataZclsahz25UMwfdryBGDa+1HlbXGjzpMvX/2kMh4O0sNevFXKaEfCjHsA==}
+  format-duration@4.0.0:
+    resolution: {integrity: sha512-89qM0msBKKXCDSLQGCYYeosK+Ojw9Cvis3TB/BdgfLQlkm0iqXt9aa7XoRdNxNUQtOxg0h4Qv5f/tQbmAeaWqA==}
+    engines: {node: '>=22.12.0'}
 
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
@@ -3449,7 +3450,7 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  format-duration@3.0.2: {}
+  format-duration@4.0.0: {}
 
   fsevents@2.3.3:
     optional: true
