@@ -101,14 +101,15 @@
   <title>Titanium Dashboard</title>
   <link rel="icon" href={favicon} />
   <meta name="robots" content="noindex, nofollow" />
-  <meta content="#979C9F" data-react-helmet="true" name="theme-color" />
+  <meta name="theme-color" content="#979C9F" data-react-helmet="true" />
 
   {#if !page.url.pathname.startsWith('/public/')}
-    <meta content="Titanium Dashboard" property="og:title" />
-    <meta content="Manage Titanium, your multipurpose, open source Discord bot." property="description" />
-    <meta content="Manage Titanium, your multipurpose, open source Discord bot." property="og:description" />
-    <meta content="https://dash.titanium.fyi/" property="og:url" />
-    <meta content="https://titanium.fyi/assets/logo.png" property="og:image" />
+    <meta name="description" content="Manage Titanium, your multipurpose, open source Discord bot." />
+
+    <meta property="og:title" content="Titanium Dashboard" />
+    <meta property="og:description" content="Manage Titanium, your multipurpose, open source Discord bot." />
+    <meta property="og:url" content="https://dash.titanium.fyi/" />
+    <meta property="og:image" content="https://titanium.fyi/assets/logo.png" />
   {/if}
 </svelte:head>
 
