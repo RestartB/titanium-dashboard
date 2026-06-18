@@ -96,14 +96,15 @@
 
 <svelte:head>
   {#if data.enabled && data.serverInfo}
-    <meta content={data.serverInfo.name} property="og:title" />
-    <meta content="Titanium Leaderboard" property="og:site_name" />
-    <meta content="View the Titanium Leaderboard for {data.serverInfo.name}." property="description" />
-    <meta content="View the Titanium Leaderboard for {data.serverInfo.name}." property="og:description" />
-    <meta content={page.url.href} property="og:url" />
+    <meta name="description" content="View the Titanium Leaderboard for {data.serverInfo.name}." />
+
+    <meta property="og:title" content={data.serverInfo.name} />
+    <meta property="og:site_name" content="Titanium Leaderboard" />
+    <meta property="og:description" content="View the Titanium Leaderboard for {data.serverInfo.name}." />
+    <meta property="og:url" content={page.url.href} />
     <meta
-      content={data.serverInfo.icon?.replaceAll('?size=1024', '?size=512') || 'https://titanium.fyi/assets/logo.png'}
       property="og:image"
+      content={data.serverInfo.icon?.replaceAll('?size=1024', '?size=512') || 'https://titanium.fyi/assets/logo.png'}
     />
   {/if}
 </svelte:head>
