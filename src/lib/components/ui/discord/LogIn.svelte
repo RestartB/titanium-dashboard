@@ -1,10 +1,12 @@
 <script lang="ts">
   import { resolve } from '$app/paths';
   import discord from '$lib/assets/discord.svg';
+  import type { PathnameWithSearchOrHash } from '$app/types';
 
-  const { redirect = "", class: className = '' } = $props();
+  const { redirect = '', class: className = '' }: { redirect?: string; class?: string } = $props();
 
-  let authUrl = "/auth/login"
+  // svelte-ignore non_reactive_update
+  let authUrl: PathnameWithSearchOrHash = '/auth/login';
   if (redirect) {
     authUrl = `/auth/login?redirect=${encodeURIComponent(redirect)}`;
   }
