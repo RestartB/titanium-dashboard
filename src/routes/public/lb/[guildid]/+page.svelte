@@ -311,7 +311,7 @@
         {/each}
       </Row>
 
-      <div class="flex items-center justify-center w-full max-w-3xl gap-2 flex-col sm:flex-row">
+      <div class="flex w-full max-w-3xl flex-col items-center justify-center gap-2 sm:flex-row">
         <Pagination
           {changePage}
           pageCount={Math.max(1, Math.ceil((await leaderboardFunction).total_count / 100))}
@@ -320,8 +320,8 @@
           bind:currentPage
         />
 
-        <div class="hidden xs:flex flex-col gap-1 sm:items-end items-center justify-center sm:ml-auto">
-          <label for="difference" class="text-zinc-400 text-right block">Show position difference between</label>
+        <div class="hidden flex-col items-center justify-center gap-1 xs:flex sm:ml-auto sm:items-end">
+          <label for="difference" class="block text-right text-zinc-400">Show position difference between</label>
           <select
             class="rounded-lg border-2 border-zinc-700 bg-zinc-800 p-1"
             id="difference"
