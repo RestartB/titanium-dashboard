@@ -209,12 +209,12 @@
       </div>
     {/snippet}
 
-    {#snippet failed()}
+    <!-- {#snippet failed()}
       <div class="m-4 mx-auto flex w-fit items-center gap-4 px-4 font-bold">
         <X size={20} class="shrink-0" />
         An error occurred. Please reload the page and try again.
       </div>
-    {/snippet}
+    {/snippet} -->
 
     <div class="flex h-full flex-col items-center gap-4 overflow-y-auto p-4">
       <span class="flex items-center justify-center gap-2">
