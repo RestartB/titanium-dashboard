@@ -4,7 +4,8 @@ import { validateID } from '$lib/helpers/discord';
 export const confessionsConfigSchema = z
   .object({
     confessions_in_channel: z.boolean(),
-    confessions_channel_id: z.string().nullable().optional()
+    confessions_channel_id: z.string().nullable().optional(),
+    polls_enabled: z.boolean()
   })
   .refine(
     (data) => {

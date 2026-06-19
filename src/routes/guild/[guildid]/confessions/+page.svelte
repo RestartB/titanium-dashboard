@@ -52,6 +52,16 @@
   </ToggledContent>
 
   <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Polls</p>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.polls_enabled}>
+    <div>
+      <h2 class="text-xl font-bold">Anonymous Polls</h2>
+      <p>Allow users to create anonymous polls.</p>
+    </div>
+  </ToggleRow>
+
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Confession Logs</p>
 
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
@@ -61,7 +71,10 @@
       </div>
       <div>
         <h2 class="text-xl font-bold">Log Channel</h2>
-        <p>Go to the Titanium category on the logging page to add a channel for confession logs.</p>
+        <p>
+          Go to the Titanium category on the logging page to add a channel for anonymous confession and anonymous poll
+          logs.
+        </p>
       </div>
     </div>
   </AnchorRow>
