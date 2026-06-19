@@ -209,12 +209,12 @@
       </div>
     {/snippet}
 
-    <!-- {#snippet failed()}
+    {#snippet failed()}
       <div class="m-4 mx-auto flex w-fit items-center gap-4 px-4 font-bold">
         <X size={20} class="shrink-0" />
         An error occurred. Please reload the page and try again.
       </div>
-    {/snippet} -->
+    {/snippet}
 
     <div class="flex h-full flex-col items-center gap-4 overflow-y-auto p-4">
       <span class="flex items-center justify-center gap-2">
@@ -312,13 +312,15 @@
       </Row>
 
       <div class="flex w-full max-w-3xl flex-col items-center justify-center gap-2 sm:flex-row">
-        <Pagination
-          {changePage}
-          pageCount={Math.max(1, Math.ceil((await leaderboardFunction).total_count / 100))}
-          disabled={$effect.pending() ? true : false}
-          class="w-fit!"
-          bind:currentPage
-        />
+        {#await leaderboardFunction then leaderboard}
+          <Pagination
+            {changePage}
+            pageCount={Math.max(1, Math.ceil(leaderboard.total_count / 100))}
+            disabled={$effect.pending() ? true : false}
+            class="w-fit!"
+            bind:currentPage
+          />
+        {/await}
 
         <div class="hidden flex-col items-center justify-center gap-1 xs:flex sm:ml-auto sm:items-end">
           <label for="difference" class="block text-right text-zinc-400">Show position difference between</label>
