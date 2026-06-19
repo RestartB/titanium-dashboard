@@ -5,7 +5,8 @@ export const confessionsConfigSchema = z
   .object({
     confessions_in_channel: z.boolean(),
     confessions_channel_id: z.string().nullable().optional(),
-    polls_enabled: z.boolean()
+    polls_enabled: z.boolean(),
+    attachments_allowed: z.boolean()
   })
   .refine(
     (data) => {

@@ -62,6 +62,19 @@
   </ToggleRow>
 
   <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Attachments</p>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.attachments_allowed}>
+    <div>
+      <h2 class="text-xl font-bold">Allow Attachments</h2>
+      <p>
+        Allow users to add attachments to their anonymous messages and polls. It is recommended to have logging
+        enabled when allowing this.
+      </p>
+    </div>
+  </ToggleRow>
+
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Confession Logs</p>
 
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
