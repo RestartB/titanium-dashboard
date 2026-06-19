@@ -297,18 +297,20 @@
           </p>
         </div>
 
-        {#each (await leaderboardFunction).leaderboard as entry, i (entry.user_id)}
-          {@render lbRow(
-            entry.user_name,
-            entry.user_display,
-            entry.user_pfp,
-            entry.user_id,
-            ordinal_suffix_of(i + 1 * currentPage),
-            entry.xp,
-            entry.level,
-            entry.historical
-          )}
-        {/each}
+        {#await leaderboardFunction then leaderboard}
+          {#each leaderboard.leaderboard as entry, i (entry.user_id)}
+            {@render lbRow(
+              entry.user_name,
+              entry.user_display,
+              entry.user_pfp,
+              entry.user_id,
+              ordinal_suffix_of(i + 1 * currentPage),
+              entry.xp,
+              entry.level,
+              entry.historical
+            )}
+          {/each}
+        {/await}
       </Row>
 
       <div class="flex w-full max-w-3xl flex-col items-center justify-center gap-2 sm:flex-row">
