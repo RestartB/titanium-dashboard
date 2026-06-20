@@ -77,7 +77,7 @@
 
     <div class="flex flex-wrap gap-2">
       {#if level.reward_roles.length < 5}
-        <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add Roles</Button>
+        <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add roles...</Button>
       {/if}
 
       {#each level.reward_roles as role (role)}

@@ -12,6 +12,16 @@
 
   let dashboardOverlayOpen = $state(false);
   let caseOverlayOpen = $state(false);
+
+  $effect(() => {
+    if (dataState.pageSettings.dashboard_managers.length >= 100) {
+      dashboardOverlayOpen = false;
+    }
+
+    if (dataState.pageSettings.case_managers.length >= 100) {
+      caseOverlayOpen = false;
+    }
+  });
 </script>
 
 <Saver {data} page="permissions" bind:dataState />
@@ -48,7 +58,10 @@
   </p>
 
   <div class="flex flex-wrap gap-2">
-    <Button onclick={() => (dashboardOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add Roles</Button>
+    {#if dataState.pageSettings.dashboard_managers.length < 100}
+      <Button onclick={() => (dashboardOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add roles...</Button>
+    {/if}
+
     {#each dataState.pageSettings.dashboard_managers as role (role)}
       {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
       {#if foundRole}
@@ -75,7 +88,10 @@
     </p>
 
     <div class="flex flex-wrap gap-2">
-      <Button onclick={() => (caseOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add Roles</Button>
+      {#if dataState.pageSettings.case_managers.length < 100}
+        <Button onclick={() => (caseOverlayOpen = true)} smallPadding={true}><Plus size={20} /> Add roles...</Button>
+      {/if}
+
       {#each dataState.pageSettings.case_managers as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}

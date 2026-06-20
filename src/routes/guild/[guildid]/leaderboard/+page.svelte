@@ -33,11 +33,11 @@
   let Icon = $state(Copy);
 
   $effect(() => {
-    if (dataState.pageSettings.ignored_channels.length < 100) {
+    if (dataState.pageSettings.ignored_channels.length >= 100) {
       channelOverlayOpen = false;
     }
 
-    if (dataState.pageSettings.ignored_roles.length < 100) {
+    if (dataState.pageSettings.ignored_roles.length >= 100) {
       roleOverlayOpen = false;
     }
   });
@@ -289,7 +289,9 @@
 
     <div class="flex flex-wrap gap-2">
       {#if dataState.pageSettings.ignored_channels.length < 100}
-        <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}><Plus size={20} /> Add Channels</Button>
+        <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}
+          ><Plus size={20} /> Add channels...</Button
+        >
       {/if}
 
       {#each dataState.pageSettings.ignored_channels as channel (channel)}
@@ -312,7 +314,7 @@
 
     <div class="flex flex-wrap gap-2">
       {#if dataState.pageSettings.ignored_roles.length < 100}
-        <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add Roles</Button>
+        <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add roles...</Button>
       {/if}
 
       {#each dataState.pageSettings.ignored_roles as role (role)}

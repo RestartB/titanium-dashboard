@@ -35,6 +35,16 @@
       ignored_roles: []
     };
   }
+
+  $effect(() => {
+    if (dataState.pageSettings.global_ignored_channels.length >= 100) {
+      channelOverlayOpen = false;
+    }
+
+    if (dataState.pageSettings.global_ignored_roles.length >= 100) {
+      roleOverlayOpen = false;
+    }
+  });
 </script>
 
 <Saver page="fireboard" {data} bind:dataState />
@@ -73,7 +83,11 @@
   <p class="mb-2">Select up to 100 channels that all fireboards will ignore.</p>
 
   <div class="flex flex-wrap gap-2">
-    <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}><Plus size={20} /> Add Channels</Button>
+    {#if dataState.pageSettings.global_ignored_channels.length < 100}
+      <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}><Plus size={20} /> Add channels...</Button
+      >
+    {/if}
+
     {#each dataState.pageSettings.global_ignored_channels as channel (channel)}
       <ChannelTile
         {channel}
@@ -90,10 +104,13 @@
 
 <Row>
   <h2 class="text-xl font-bold">Global Blocked Roles</h2>
-  <p class="mb-2">Select up to 100 roles that cannot be posted on any fireboard.</p>
+  <p class="mb-2">Select up to 100 roles that that all fireboards will ignore.</p>
 
   <div class="flex flex-wrap gap-2">
-    <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add Roles</Button>
+    {#if dataState.pageSettings.global_ignored_roles.length < 100}
+      <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add roles...</Button>
+    {/if}
+
     {#each dataState.pageSettings.global_ignored_roles as role (role)}
       {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
       {#if foundRole}

@@ -31,6 +31,16 @@
   let channelPickerOpen = $state(false);
   let rolePickerOpen = $state(false);
   let ignoredOverlayOpen = $state(false);
+
+  $effect(() => {
+    if (board.ignored_roles.length >= 100) {
+      channelPickerOpen = false;
+    }
+
+    if (board.ignored_roles.length >= 100) {
+      rolePickerOpen = false;
+    }
+  });
 </script>
 
 {#if emojiPickerOpen}
@@ -62,11 +72,14 @@
       <p class="mb-2 text-sm text-zinc-400">Select up to 100 channels that this fireboard will ignore messages from.</p>
 
       <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
-        <Button
-          class="border-2 border-zinc-600! bg-zinc-700!"
-          smallPadding={true}
-          onclick={() => (channelPickerOpen = true)}>Add channels...</Button
-        >
+        {#if board.ignored_channels.length < 100}
+          <Button
+            class="border-2 border-zinc-600! bg-zinc-700!"
+            smallPadding={true}
+            onclick={() => (channelPickerOpen = true)}>Add channels...</Button
+          >
+        {/if}
+
         {#each board.ignored_channels as channel (channel)}
           <ChannelTile
             {channel}
@@ -84,11 +97,13 @@
       <p class="mb-2 text-sm text-zinc-400">Select up to 100 roles that this fireboard will ignore messages from.</p>
 
       <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
-        <Button
-          class="border-2 border-zinc-600! bg-zinc-700!"
-          smallPadding={true}
-          onclick={() => (rolePickerOpen = true)}>Add roles...</Button
-        >
+        {#if board.ignored_roles.length < 100}
+          <Button
+            class="border-2 border-zinc-600! bg-zinc-700!"
+            smallPadding={true}
+            onclick={() => (rolePickerOpen = true)}>Add roles...</Button
+          >
+        {/if}
 
         {#each board.ignored_roles as role (role)}
           {@const foundRole = serverInfo.roles.find((r) => r.id === role)}

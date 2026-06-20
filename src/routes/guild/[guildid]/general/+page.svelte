@@ -23,6 +23,16 @@
   $effect(() => {
     if (newPrefixInput.length > 5) newPrefixInput = newPrefixInput.slice(0, 5);
   });
+
+  $effect(() => {
+    if (dataState.serverSettings.settings.blocked_channels.length >= 100) {
+      channelOverlayOpen = false;
+    }
+
+    if (dataState.serverSettings.settings.blocked_roles.length >= 100) {
+      roleOverlayOpen = false;
+    }
+  });
 </script>
 
 <Saver {data} bind:dataState />
@@ -130,7 +140,12 @@
     <p class="mb-2">Select up to 100 channels where prefix commands cannot be executed.</p>
 
     <div class="flex flex-wrap gap-2">
-      <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}><Plus size={20} /> Add Channels</Button>
+      {#if dataState.serverSettings.settings.blocked_channels.length < 100}
+        <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}
+          ><Plus size={20} /> Add channels...</Button
+        >
+      {/if}
+
       {#each dataState.serverSettings.settings.blocked_channels as channel (channel)}
         <ChannelTile
           {channel}
@@ -149,7 +164,10 @@
     <p class="mb-2">Select up to 100 roles that are not allowed to execute prefix commands.</p>
 
     <div class="flex flex-wrap gap-2">
-      <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add Roles</Button>
+      {#if dataState.serverSettings.settings.blocked_roles.length < 100}
+        <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add roles...</Button>
+      {/if}
+
       {#each dataState.serverSettings.settings.blocked_roles as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
         {#if foundRole}
