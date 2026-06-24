@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Alert from '$lib/components/ui/Alert.svelte';
+  import type { ResolvedPathname } from '$app/types';
   import {
     Cog,
     Key,
@@ -20,27 +20,21 @@
   const serverId = data.serverInfo.id;
   const userData = data.userData?.userData;
 
-  const greetings = {
-    morning: 'Good morning, ',
-    afternoon: 'Good afternoon, ',
-    evening: 'Good evening, '
-  };
-
   // eslint-disable-next-line no-useless-assignment
   let greeting = $state('');
 
   // decide greeting based on browser time
   const time = new Date().getHours();
   if (time > 5 && time < 12) {
-    greeting = greetings.morning;
+    greeting = 'Good morning, ';
   } else if (time >= 12 && time < 19) {
-    greeting = greetings.afternoon;
+    greeting = 'Good afternoon, ';
   } else {
-    greeting = greetings.evening;
+    greeting = 'Good evening, ';
   }
 </script>
 
-{#snippet featureCard(title: string, description: string, href: string, Icon: Component)}
+{#snippet featureCard(title: string, description: string, href: ResolvedPathname, Icon: Component)}
   <a
     class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4 shadow-lg transition-all hover:scale-102 hover:bg-zinc-700 active:scale-98"
     {href}
