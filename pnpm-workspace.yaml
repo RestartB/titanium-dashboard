@@ -3,5 +3,3 @@ allowBuilds:
   '@tailwindcss/oxide': false
 minimumReleaseAge: 4320
 engineStrict: true
-minimumReleaseAgeExclude:
-  - '@sveltejs/adapter-node@5.5.6'
