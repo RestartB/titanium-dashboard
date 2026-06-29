@@ -17,7 +17,7 @@ export const leaderboardLevelSchema = z
       return true;
     },
     {
-      message: 'Role IDs must be between 15 and 20 digits',
+      message: 'Role IDs must be valid',
       path: ['reward_roles']
     }
   );
@@ -56,7 +56,7 @@ export const leaderboardConfigSchema = z
         : true;
     },
     {
-      message: 'Channel ID must be between 15 and 20 digits',
+      message: 'Channel ID must be valid',
       path: ['notification_channel']
     }
   );

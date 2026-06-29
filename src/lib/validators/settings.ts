@@ -55,7 +55,7 @@ export const guildPermissionsSchema = z
       return true;
     },
     {
-      message: 'Dashboard Manager IDs must be between 15 and 20 digits',
+      message: 'Dashboard Manager IDs must be valid',
       path: ['dashboard_managers']
     }
   )
@@ -69,7 +69,7 @@ export const guildPermissionsSchema = z
       return true;
     },
     {
-      message: 'Case Manager IDs must be between 15 and 20 digits',
+      message: 'Case Manager IDs must be valid',
       path: ['case_managers']
     }
   );

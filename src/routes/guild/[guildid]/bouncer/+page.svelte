@@ -72,7 +72,7 @@
   {#each dataState.pageSettings.rules as rule, index (rule.id)}
     <div animate:flip={{ duration: 400 }}>
       <Rule
-        roles={dataState.serverInfo.roles}
+        serverInfo={dataState.serverInfo}
         limit={data.serverInfo.limits.bad_word_list_size}
         enforcingLimit={data.serverInfo.limits.enforcing}
         bind:rule={dataState.pageSettings.rules[index]}

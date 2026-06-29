@@ -4,17 +4,50 @@
   import RoleButton from '$lib/components/ui/discord/RoleButton.svelte';
   import Duration from '$lib/components/ui/inputs/Duration.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Button from './inputs/Button.svelte';
+  import RoleTile from './discord/RoleTile.svelte';
+  import { Plus } from '@lucide/svelte';
 
-  import type { RoleInfo } from '$lib/interfaces/serverInfo';
+  import type { ServerInfo } from '$lib/interfaces/serverInfo';
   import type { AutomodActionSchema } from '$lib/validators/automod';
   import type { BouncerActionSchema } from '$lib/validators/bouncer';
+  import RolePicker from '../pickers/RolePicker.svelte';
 
   let {
-    roles,
+    actionKind,
+    serverInfo,
     action = $bindable(),
     overlayOpen = $bindable(true)
-  }: { roles: RoleInfo[]; action: AutomodActionSchema | BouncerActionSchema; overlayOpen?: boolean } = $props();
+  }: {
+    actionKind: 'automod' | 'bouncer';
+    serverInfo: ServerInfo;
+    action: AutomodActionSchema | BouncerActionSchema;
+    overlayOpen?: boolean;
+  } = $props();
+
+  let roleOverlayOpen = $state(false);
+
+  function isBouncerRoleAction(
+    action: AutomodActionSchema | BouncerActionSchema
+  ): action is BouncerActionSchema & { type: 'add_role' | 'remove_role' | 'toggle_role' } {
+    return actionKind === 'bouncer' && ['add_role', 'remove_role', 'toggle_role'].includes(action.type);
+  }
+
+  function isAutomodRoleAction(
+    action: AutomodActionSchema | BouncerActionSchema
+  ): action is AutomodActionSchema & { type: 'add_role' | 'remove_role' | 'toggle_role' } {
+    return actionKind === 'automod' && ['add_role', 'remove_role', 'toggle_role'].includes(action.type);
+  }
 </script>
+
+{#if roleOverlayOpen && isAutomodRoleAction(action)}
+  <RolePicker
+    multiselect={true}
+    roles={serverInfo.roles}
+    bind:selectedRoles={action.role_ids}
+    bind:overlayOpen={roleOverlayOpen}
+  />
+{/if}
 
 <FullscreenOverlay title="Set Preferences" padding={16} gap={16} bind:overlayOpen>
   {#if action.type === 'send_message'}
@@ -68,17 +101,40 @@
         <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment.</p>
         <Duration class="w-full p-2" border={false} bind:seconds={action.duration} />
       </div>
-    {:else if action.type.includes('role')}
+    {:else if isBouncerRoleAction(action)}
       <div class="w-full text-left">
         <p class="font-medium">Role</p>
-        <p class="mb-2 text-sm text-zinc-400">Set the role to add, remove or toggle.</p>
-        <RoleButton class="w-full bg-zinc-800 p-2" {roles} bind:role={action.role_id} />
+        <p class="mb-2 text-sm text-zinc-400">Set up to 10 roles role to add, remove or toggle.</p>
+        <RoleButton class="w-full bg-zinc-800 p-2" roles={serverInfo.roles} bind:role={action.role_id} />
+      </div>
+    {:else if isAutomodRoleAction(action)}
+      <div class="w-full text-left">
+        <p class="font-medium">Role</p>
+        <p class="mb-2 text-sm text-zinc-400">Set up to 10 roles role to add, remove or toggle.</p>
+        <div class="flex flex-wrap gap-2">
+          {#if action.role_ids.length < 5}
+            <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add roles...</Button
+            >
+          {/if}
+
+          {#each action.role_ids as role (role)}
+            {@const foundRole = serverInfo.roles.find((r) => r.id === role)}
+            {#if foundRole}
+              <RoleTile
+                role={foundRole}
+                deleteThis={() => {
+                  action.role_ids = action.role_ids.filter((r) => r !== role);
+                }}
+              />
+            {/if}
+          {/each}
+        </div>
       </div>
     {/if}
 
     <div class="w-full text-left">
       <p class="font-medium">Reason</p>
-      <p class="mb-2 text-sm text-zinc-400">Set the reason for the punishment.</p>
+      <p class="mb-2 text-sm text-zinc-400">Set the reason for the action.</p>
       <input type="text" class="w-full rounded-lg bg-zinc-800 p-2" bind:value={action.reason} />
     </div>
   {/if}

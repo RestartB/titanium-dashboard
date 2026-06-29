@@ -24,19 +24,23 @@
     overlayOpen = $bindable(true)
   }: { type: 'automod' | 'bouncer'; rule: AutomodRuleSchema | BouncerRuleSchema; overlayOpen?: boolean } = $props();
 
-  function createBlankAction(
-    type: AutomodActionSchema['type'] | BouncerActionSchema['type']
-  ): AutomodActionSchema | BouncerActionSchema {
+  function createBlankAction(actionType: AutomodActionSchema['type'] | BouncerActionSchema['type']) {
+    if (type === 'bouncer') {
+      return {
+        type: actionType,
+        duration: null,
+        role_id: null,
+        reason: ''
+      } as BouncerActionSchema;
+    }
+
     return {
-      type: type,
-      duration: null,
-      reason: '',
-      message_content: '',
+      type: actionType,
+      role_ids: [],
       message_reply: true,
       message_mention: true,
-      message_embed: false,
-      embed_colour: ''
-    };
+      message_embed: false
+    } as AutomodActionSchema;
   }
 </script>
 

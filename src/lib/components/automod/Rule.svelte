@@ -1,165 +1,112 @@
 <script lang="ts">
-  import { slide } from 'svelte/transition';
-  import { cubicInOut } from 'svelte/easing';
+  import { dragHandle } from 'svelte-dnd-action';
 
-  import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
-  import ActionTile from '$lib/components/ui/ActionTile.svelte';
-  import WordTile from '$lib/components/ui/WordTile.svelte';
+  import Row from '$lib/components/ui/row/Row.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
-  import Number from '$lib/components/ui/inputs/Number.svelte';
-  import LimitPill from '$lib/components/ui/LimitPill.svelte';
+  import CriterionTile from './CriterionTile.svelte';
+  import ActionTile from '$lib/components/ui/ActionTile.svelte';
+  import CriterionPicker from './CriterionPicker.svelte';
+  import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
 
-  import { ChevronDown, X, Plus } from '@lucide/svelte';
-  import type { AutomodRuleSchema } from '$lib/validators/automod';
-  import type { RoleInfo } from '$lib/interfaces/serverInfo';
+  import { GripVertical, Trash, Plus } from '@lucide/svelte';
+
+  import type { ServerInfo } from '$lib/interfaces/serverInfo';
+  import type { AutomodRuleSchema } from '$lib/validators';
 
   let {
-    roles,
-    rule = $bindable(),
-    limit = 0,
+    serverInfo,
+    limit,
     enforcingLimit,
+    rule = $bindable(),
     deleteThis
   }: {
-    roles: RoleInfo[];
-    rule: AutomodRuleSchema;
-    limit?: number;
+    serverInfo: ServerInfo;
+    limit: number;
     enforcingLimit: boolean;
+    rule: AutomodRuleSchema;
     deleteThis: () => void;
   } = $props();
-  let expanded = $state(false);
-  let createNewOpen = $state(false);
 
-  const thresholdStrings = {
-    badword_detection: 'flagged words',
-    malicious_link: 'flagged links',
-    phishing_link: 'flagged links',
-    message: 'messages',
-    mention: 'mentions',
-    word: 'words',
-    newline: 'new lines',
-    link: 'links',
-    attachment: 'attachments',
-    emoji: 'emojis'
-  };
-
-  let thresholdString = $state('');
-  if (rule.rule_type === 'spam_detection') {
-    thresholdString = thresholdStrings[rule.antispam_type as keyof typeof thresholdStrings] || 'messages';
-  } else {
-    thresholdString = thresholdStrings[rule.rule_type as keyof typeof thresholdStrings] || 'messages';
-  }
-
-  let newWordInput = $state('');
+  let createCriterionOpen = $state(false);
+  let createActionOpen = $state(false);
 </script>
 
-{#if createNewOpen}
-  <ActionPicker type="automod" bind:rule bind:overlayOpen={createNewOpen} />
+{#if createCriterionOpen}
+  <CriterionPicker bind:rule bind:overlayOpen={createCriterionOpen} />
 {/if}
 
-<div class="w-full rounded-lg border-2 border-zinc-800 bg-zinc-700 p-2">
-  <div class="flex w-full items-center justify-between gap-2">
-    <span class="text-base">
-      <Number
-        class="inline w-10 shrink-0 rounded-lg border-2 p-1 px-1 text-center align-middle font-mono"
-        bind:value={rule.threshold}
-        min={1}
-      />
-      {thresholdString} in
-      <Number
-        class="inline w-10 shrink-0 rounded-lg border-2 p-1 px-1 text-center align-middle font-mono"
-        bind:value={rule.duration}
-        min={1}
-      />
-      seconds
-    </span>
-    <div class="flex items-center justify-center gap-2">
+{#if createActionOpen}
+  <ActionPicker type="automod" bind:rule bind:overlayOpen={createActionOpen} />
+{/if}
+
+<div>
+  <Row>
+    <div class="mb-2 flex items-center gap-4">
+      <button class="cursor-grab touch-none text-zinc-300 active:cursor-grabbing" use:dragHandle aria-label="Drag rule">
+        <GripVertical />
+      </button>
+      <input class="mr-auto" placeholder="Enter rule name..." bind:value={rule.rule_name} />
+      <Toggle bind:toggled={rule.enabled} />
+
       <button
-        class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
-        aria-label="Delete rule"
+        class="flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-red-600 bg-red-700 p-2 px-2 text-base transition-colors hover:bg-red-600 sm:p-1"
         onclick={deleteThis}
       >
-        <X size={18} />
-      </button>
-      <button
-        class="flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 transition-colors hover:bg-zinc-600"
-        aria-label="Expand rule details"
-        onclick={() => (expanded = !expanded)}
-      >
-        <ChevronDown size={18} class={`transition-transform duration-400 ${expanded ? 'rotate-180' : 'rotate-0'}`} />
+        <Trash size={16} class="shrink-0" />
+        <p class="hidden sm:block">Delete Rule</p>
       </button>
     </div>
-  </div>
-  {#if expanded}
-    <div transition:slide={{ easing: cubicInOut }} class="mt-2 flex flex-col gap-2">
-      {#if rule.rule_type === 'badword_detection'}
-        {#if enforcingLimit}
-          <LimitPill amount={rule.words.length} {limit} />
-        {/if}
-
-        <div class="flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
-          <div
-            class="flex max-w-40 items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
-            class:opacity-50={enforcingLimit && rule.words.length >= limit}
-            class:cursor-not-allowed={enforcingLimit && rule.words.length >= limit}
-          >
-            <input
-              type="text"
-              placeholder="Add Word..."
-              class="h-full w-full"
-              disabled={enforcingLimit && rule.words.length >= limit}
-              onkeydown={(e) => {
-                if (e.key === 'Enter' && newWordInput) {
-                  rule.words?.push(newWordInput);
-                  newWordInput = '';
-                }
-              }}
-              bind:value={newWordInput}
-            />
-            <button
-              class="cursor-pointer rounded-lg p-1 transition-colors hover:bg-zinc-600"
-              disabled={enforcingLimit && rule.words.length >= limit}
-              onclick={() => {
-                if (newWordInput) {
-                  rule.words?.push(newWordInput);
-                  newWordInput = '';
-                }
-              }}
-              aria-label="Add word"
-            >
-              <Plus size={16} />
-            </button>
-          </div>
-          {#if rule.words}
-            {#each rule.words as word, index (index)}
-              <WordTile deleteThis={() => rule.words?.splice(index, 1)} {word} />
-            {/each}
-          {/if}
-        </div>
-
-        <div class="flex flex-wrap items-center gap-2">
-          <div class="flex items-center gap-2">
-            <Toggle bind:toggled={rule.match_whole_word} />
-            <p class="text-sm text-zinc-300/60">Match Whole Word</p>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <Toggle bind:toggled={rule.case_sensitive} />
-            <p class="text-sm text-zinc-300/60">Case Sensitive</p>
-          </div>
-        </div>
-      {/if}
-      <div class="flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-800 p-2">
-        {#each rule.actions as _, index (index)}
-          <ActionTile {roles} deleteThis={() => rule.actions.splice(index, 1)} bind:action={rule.actions[index]} />
-        {/each}
-        <button
-          class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
-          onclick={() => (createNewOpen = true)}
-        >
-          <Plus size={16} />
-          <p>Add Action...</p>
-        </button>
+    <div class="flex w-full items-center">
+      <div>
+        <h2 class="font-bold">Criteria</h2>
+        <p>The criteria that must be met before actions are ran.</p>
       </div>
     </div>
-  {/if}
+    <div class="my-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-700 p-2">
+      <button
+        class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
+        onclick={() => (createCriterionOpen = true)}
+      >
+        <Plus size={16} />
+        <p>Add Criterion...</p>
+      </button>
+      {#each rule?.criteria as _, index (index)}
+        <CriterionTile
+          {limit}
+          {enforcingLimit}
+          bind:criterion={rule.criteria[index]}
+          deleteThis={() => rule.criteria.splice(index, 1)}
+        />
+      {/each}
+    </div>
+
+    <h2 class="font-bold">Actions</h2>
+    <p>Ran when all criteria are met.</p>
+    <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-700 p-2">
+      <button
+        class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
+        onclick={() => (createActionOpen = true)}
+      >
+        <Plus size={16} />
+        <p>Add Action...</p>
+      </button>
+      {#each rule?.actions as _, index (index)}
+        <ActionTile
+          {serverInfo}
+          actionKind="automod"
+          bind:action={rule.actions[index]}
+          deleteThis={() => rule.actions.splice(index, 1)}
+        />
+      {/each}
+    </div>
+
+    <div class="mt-2 flex items-center gap-2">
+      <Toggle bind:toggled={rule.evaluate_edits} />
+      <p>Run this rule for edits</p>
+    </div>
+    <div class="mt-2 flex items-center gap-2">
+      <Toggle bind:toggled={rule.stop_if_triggered} />
+      <p>Stop processing further rules if this one matches</p>
+    </div>
+  </Row>
 </div>

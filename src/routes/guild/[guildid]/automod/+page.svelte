@@ -1,89 +1,52 @@
 <script lang="ts">
-  import { AnchorRow, Row } from '$lib/components/ui/row';
+  import { flip } from 'svelte/animate';
+  import { dragHandleZone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
+
+  import { AnchorRow, ToggleRow } from '$lib/components/ui/row';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
   import Rule from '$lib/components/automod/Rule.svelte';
-  import Collapsible from '$lib/components/ui/Collapsible.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import Alert from '$lib/components/ui/Alert.svelte';
+  import Tip from '$lib/components/ui/Tip.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
-  import { ScrollText, ChevronRight } from '@lucide/svelte';
+  import { ScrollText, ChevronRight, Plus } from '@lucide/svelte';
 
   import type { AutomodRuleSchema } from '$lib/validators/automod';
+  import type { DndEvent } from 'svelte-dnd-action';
 
-  const { data } = $props();
+  type DndAutomodRule = AutomodRuleSchema & Partial<Record<typeof SHADOW_ITEM_MARKER_PROPERTY_NAME, boolean>>;
+
+  let { data } = $props();
   let dataState = $state(data);
-  let totalCount = $derived(
-    dataState.pageSettings.badword_detection.length +
-      dataState.pageSettings.malicious_link.length +
-      dataState.pageSettings.phishing_link.length +
-      dataState.pageSettings.spam_detection.length
-  );
+  const flipDurationMs = 300;
 
-  function createBlankRule(
-    ruleType: AutomodRuleSchema['rule_type'],
-    spamType?: AutomodRuleSchema['antispam_type']
-  ): AutomodRuleSchema {
+  function createBlankRule(order: number): AutomodRuleSchema {
     return {
       id: crypto.randomUUID(),
-      rule_type: ruleType,
       rule_name: '',
-      words: [],
-      match_whole_word: false,
-      case_sensitive: false,
-      antispam_type: spamType,
-      threshold: 1,
-      duration: 1,
-      actions: []
+      enabled: true,
+      evaluate_edits: true,
+      match_all_criteria: true,
+      order: order,
+      stop_if_triggered: false,
+      actions: [],
+      criteria: []
     };
   }
+
+  function handleSort(e: CustomEvent<DndEvent<AutomodRuleSchema>>) {
+    dataState.pageSettings.rules = e.detail.items.map((rule, order) => ({
+      ...rule,
+      order
+    }));
+  }
+
+  function getShadowMarker(rule: AutomodRuleSchema) {
+    return (rule as DndAutomodRule)[SHADOW_ITEM_MARKER_PROPERTY_NAME];
+  }
 </script>
-
-{#snippet rulesCard(
-  title: string,
-  description: string,
-  type: AutomodRuleSchema['rule_type'],
-  rules: AutomodRuleSchema[],
-  spamType?: AutomodRuleSchema['antispam_type']
-)}
-  <Row>
-    <div class="flex flex-col gap-2">
-      <h3 class="text-xl font-bold">{title}</h3>
-      <p>{description}</p>
-      <button
-        class="cursor-pointer rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base disabled:cursor-not-allowed disabled:opacity-50"
-        disabled={data.serverInfo.limits.enforcing && totalCount >= data.serverInfo.limits.automod_rules}
-        onclick={() => {
-          const rule = createBlankRule(type, spamType);
-          rules.push(rule);
-        }}
-      >
-        {data.serverInfo.limits.enforcing && totalCount >= data.serverInfo.limits.automod_rules
-          ? 'Limit Reached'
-          : 'Add Rule'}
-      </button>
-
-      {#each rules as rule, index (rule.id)}
-        {#if type === 'spam_detection' && spamType === rule.antispam_type}
-          <Rule
-            roles={dataState.serverInfo.roles}
-            bind:rule={rules[index]}
-            enforcingLimit={data.serverInfo.limits.enforcing}
-            deleteThis={() => rules.splice(index, 1)}
-          />
-        {:else if type !== 'spam_detection'}
-          <Rule
-            roles={dataState.serverInfo.roles}
-            bind:rule={rules[index]}
-            limit={data.serverInfo.limits.bad_word_list_size}
-            enforcingLimit={data.serverInfo.limits.enforcing}
-            deleteThis={() => rules.splice(index, 1)}
-          />
-        {/if}
-      {/each}
-    </div>
-  </Row>
-{/snippet}
 
 <Saver page="automod" {data} bind:dataState />
 
@@ -100,9 +63,17 @@
 {/if}
 
 <ToggledContent enabled={dataState.serverSettings.modules.automod && dataState.serverSettings.modules.moderation}>
-  {#if data.serverInfo.limits.enforcing}
-    <LimitPill amount={totalCount} limit={data.serverInfo.limits.automod_rules} />
-  {/if}
+  <p class="text-base font-bold text-zinc-300/60">Settings</p>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.show_outcome_message}>
+    <div>
+      <h2 class="text-xl font-bold">Send Outcome Message</h2>
+      <p>
+        If automod is triggered for a message, send a message in the message channel that shows successful and failed
+        actions.
+      </p>
+    </div>
+  </ToggleRow>
 
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
@@ -116,85 +87,45 @@
     </div>
   </AnchorRow>
 
-  <Collapsible title="Word Filters" defaultState={true}>
-    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
-      {@render rulesCard(
-        'Word Detection',
-        'Detect messages that contain certain words.',
-        'badword_detection',
-        dataState.pageSettings.badword_detection
-      )}
-    </div>
-  </Collapsible>
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Rules</p>
 
-  <Collapsible title="Link Filters" defaultState={true}>
-    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
-      {@render rulesCard(
-        'Malicious Links',
-        'Detect messages that contain malicious links.',
-        'malicious_link',
-        dataState.pageSettings.malicious_link
-      )}
-      {@render rulesCard(
-        'Phishing Links',
-        'Detect messages that contain phishing links.',
-        'phishing_link',
-        dataState.pageSettings.phishing_link
-      )}
-    </div>
-  </Collapsible>
+  <Tip>Use the drag handle in the top left of each rule to change the running order of your rules.</Tip>
 
-  <Collapsible title="Spam Filters" defaultState={true}>
-    <div class="grid grid-cols-1 gap-4 sidebar:grid-cols-1 sm:grid-cols-2 lg:grid-cols-2">
-      {@render rulesCard(
-        'Message Spam',
-        'Detect when users are sending messages too fast.',
-        'spam_detection',
-        dataState.pageSettings.spam_detection,
-        'message'
-      )}
-      {@render rulesCard(
-        'Mention Spam',
-        'Detect when users are mentioning too many users. Note that having the mention turned on when replying counts as a mention.',
-        'spam_detection',
-        dataState.pageSettings.spam_detection,
-        'mention'
-      )}
-      {@render rulesCard(
-        'Word Spam',
-        'Detect when users are sending too many words.',
-        'spam_detection',
-        dataState.pageSettings.spam_detection,
-        'word'
-      )}
-      {@render rulesCard(
-        'Newline Spam',
-        'Detect when users are sending too many newlines.',
-        'spam_detection',
-        dataState.pageSettings.spam_detection,
-        'newline'
-      )}
-      {@render rulesCard(
-        'Link Spam',
-        'Detect when users are sending too many links.',
-        'spam_detection',
-        dataState.pageSettings.spam_detection,
-        'link'
-      )}
-      {@render rulesCard(
-        'Attachment Spam',
-        'Detect when users are sending too many attachments.',
-        'spam_detection',
-        dataState.pageSettings.spam_detection,
-        'attachment'
-      )}
-      {@render rulesCard(
-        'Emoji Spam',
-        'Detect when users are sending too many emojis.',
-        'spam_detection',
-        dataState.pageSettings.spam_detection,
-        'emoji'
-      )}
-    </div>
-  </Collapsible>
+  <Button
+    onclick={() => {
+      dataState.pageSettings.rules.push(createBlankRule(dataState.pageSettings.rules.length));
+    }}
+    disabled={data.serverInfo.limits.enforcing &&
+      dataState.pageSettings.rules.length >= data.serverInfo.limits.automod_rules}
+  >
+    <Plus size={20} />
+    Add Rule
+  </Button>
+
+  {#if data.serverInfo.limits.enforcing}
+    <LimitPill amount={dataState.pageSettings.rules.length} limit={data.serverInfo.limits.automod_rules} />
+  {/if}
+
+  <section
+    use:dragHandleZone={{
+      items: dataState.pageSettings.rules,
+      flipDurationMs
+    }}
+    onconsider={handleSort}
+    onfinalize={handleSort}
+    class="flex flex-col gap-4"
+  >
+    {#each dataState.pageSettings.rules as rule, index (`${rule.id}-${getShadowMarker(rule) ?? ''}`)}
+      <div animate:flip={{ duration: flipDurationMs }} data-is-dnd-shadow-item-hint={getShadowMarker(rule)}>
+        <Rule
+          serverInfo={dataState.serverInfo}
+          limit={data.serverInfo.limits.bad_word_list_size}
+          enforcingLimit={data.serverInfo.limits.enforcing}
+          bind:rule={dataState.pageSettings.rules[index]}
+          deleteThis={() => dataState.pageSettings.rules.splice(index, 1)}
+        />
+      </div>
+    {/each}
+  </section>
 </ToggledContent>

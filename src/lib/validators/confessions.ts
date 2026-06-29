@@ -15,7 +15,7 @@ export const confessionsConfigSchema = z
         : true;
     },
     {
-      message: 'Channel ID must be between 15 and 20 digits',
+      message: 'Channel ID must be valid',
       path: ['confessions_channel_id']
     }
   );

@@ -10,16 +10,16 @@
 
   import { X, Plus } from '@lucide/svelte';
   import type { BouncerRuleSchema } from '$lib/validators/bouncer';
-  import type { RoleInfo } from '$lib/interfaces/serverInfo';
+  import type { ServerInfo } from '$lib/interfaces/serverInfo';
 
   let {
-    roles,
+    serverInfo,
     limit,
     enforcingLimit,
     rule = $bindable(),
     deleteThis
   }: {
-    roles: RoleInfo[];
+    serverInfo: ServerInfo;
     limit: number;
     enforcingLimit: boolean;
     rule: BouncerRuleSchema;
@@ -82,7 +82,12 @@
         <p>Add Action...</p>
       </button>
       {#each rule?.actions as _, index (index)}
-        <ActionTile {roles} bind:action={rule.actions[index]} deleteThis={() => rule.actions.splice(index, 1)} />
+        <ActionTile
+          {serverInfo}
+          actionKind="bouncer"
+          bind:action={rule.actions[index]}
+          deleteThis={() => rule.actions.splice(index, 1)}
+        />
       {/each}
     </div>
 

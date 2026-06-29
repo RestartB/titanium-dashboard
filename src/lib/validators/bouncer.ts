@@ -26,7 +26,7 @@ export const bouncerActionSchema = z
       return true;
     },
     {
-      message: 'Role ID must be between 15 and 20 digits',
+      message: 'Role ID must be valid',
       path: ['role_id']
     }
   );
