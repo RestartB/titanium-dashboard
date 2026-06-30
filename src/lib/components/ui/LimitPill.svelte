@@ -19,15 +19,15 @@
 
 {#if overlayOpen}
   <FullscreenOverlay title="Limits" padding={16} bottomRow={buttons} bind:overlayOpen>
-    <h2 class="text-2xl font-bold">Limits help protect Titanium.</h2>
+    <h2 class="text-2xl font-bold">What are limits in Titanium?</h2>
     <p>
       Some features in Titanium have limits - a certain amount of levels, a certain amount of rules, etc. This helps to
-      protect Titanium's services from abuse and overuse.
+      protect Titanium's services from being overloaded and abused.
     </p>
     <h3 class="mt-4 text-xl font-semibold">Reached a limit?</h3>
     <p>
-      No need to worry! Simply join our support server, and request an increased limit on a feature of your choice, for
-      free.
+      No need to worry! Simply join our support server, and request an increased limit on any feature of your choice,
+      for free.
     </p>
 
     <p class="mt-auto text-base text-zinc-300">Limits increase requests are reviewed on a case by case basis.</p>

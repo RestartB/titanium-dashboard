@@ -41,11 +41,11 @@
 
 <div>
   <Row>
-    <div class="mb-2 flex items-center gap-4">
+    <div class="mb-2 flex items-center gap-4 flex-wrap">
       <button class="cursor-grab touch-none text-zinc-300 active:cursor-grabbing" use:dragHandle aria-label="Drag rule">
         <GripVertical />
       </button>
-      <input class="mr-auto" placeholder="Enter rule name..." bind:value={rule.rule_name} />
+      <input class="flex-1 min-w-16 truncate" placeholder="Enter rule name..." bind:value={rule.rule_name} />
       <Toggle bind:toggled={rule.enabled} />
 
       <button

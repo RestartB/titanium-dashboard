@@ -90,22 +90,27 @@
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Rules</p>
 
-  <Tip>Use the drag handle in the top left of each rule to change the running order of your rules.</Tip>
+  <div class="flex flex-wrap items-center gap-2">
+    <Button
+      onclick={() => {
+        dataState.pageSettings.rules.push(createBlankRule(dataState.pageSettings.rules.length));
+      }}
+      disabled={data.serverInfo.limits.enforcing &&
+        dataState.pageSettings.rules.length >= data.serverInfo.limits.automod_rules}
+    >
+      <Plus size={20} />
+      Add Rule
+    </Button>
 
-  <Button
-    onclick={() => {
-      dataState.pageSettings.rules.push(createBlankRule(dataState.pageSettings.rules.length));
-    }}
-    disabled={data.serverInfo.limits.enforcing &&
-      dataState.pageSettings.rules.length >= data.serverInfo.limits.automod_rules}
-  >
-    <Plus size={20} />
-    Add Rule
-  </Button>
+    {#if data.serverInfo.limits.enforcing}
+      <LimitPill amount={dataState.pageSettings.rules.length} limit={data.serverInfo.limits.automod_rules} />
+    {/if}
+  </div>
 
-  {#if data.serverInfo.limits.enforcing}
-    <LimitPill amount={dataState.pageSettings.rules.length} limit={data.serverInfo.limits.automod_rules} />
-  {/if}
+  <Tip>
+    Rules run in the order they are in below. Use the drag handle in the top left of each rule to change the running
+    order.
+  </Tip>
 
   <section
     use:dragHandleZone={{
