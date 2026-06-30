@@ -40,7 +40,7 @@
     "prettier-plugin-tailwindcss": "0.8.0",
     "svelte": "5.56.3",
     "svelte-check": "4.6.0",
-    "svelte-dnd-action": "^0.9.70",
+    "svelte-dnd-action": "0.9.70",
     "sveltekit-rate-limiter": "0.7.0",
     "tailwindcss": "4.3.1",
     "typescript": "6.0.3",
