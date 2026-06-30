@@ -94,7 +94,7 @@ importers:
         specifier: 4.6.0
         version: 4.6.0(picomatch@4.0.4)(svelte@5.56.3(@typescript-eslint/types@8.61.1))(typescript@6.0.3)
       svelte-dnd-action:
-        specifier: ^0.9.70
+        specifier: 0.9.70
         version: 0.9.70(svelte@5.56.3(@typescript-eslint/types@8.61.1))
       sveltekit-rate-limiter:
         specifier: 0.7.0
