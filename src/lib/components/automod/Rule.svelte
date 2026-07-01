@@ -40,12 +40,12 @@
 {/if}
 
 <div>
-  <Row>
-    <div class="mb-2 flex items-center gap-4 flex-wrap">
+  <Row class="space-y-2">
+    <div class="flex flex-wrap items-center gap-4">
       <button class="cursor-grab touch-none text-zinc-300 active:cursor-grabbing" use:dragHandle aria-label="Drag rule">
         <GripVertical />
       </button>
-      <input class="flex-1 min-w-16 truncate" placeholder="Enter rule name..." bind:value={rule.rule_name} />
+      <input class="min-w-16 flex-1 truncate" placeholder="Enter rule name..." bind:value={rule.rule_name} />
       <Toggle bind:toggled={rule.enabled} />
 
       <button
@@ -56,57 +56,65 @@
         <p class="hidden sm:block">Delete Rule</p>
       </button>
     </div>
-    <div class="flex w-full items-center">
+
+    <div
+      class="space-y-2 transition-opacity"
+      class:opacity-30={!rule.enabled}
+      class:pointer-events-none={!rule.enabled}
+      class:select-none={!rule.enabled}
+    >
       <div>
         <h2 class="font-bold">Criteria</h2>
         <p>The criteria that must be met before actions are ran.</p>
+        <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-700 p-2">
+          <button
+            class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
+            onclick={() => (createCriterionOpen = true)}
+          >
+            <Plus size={16} />
+            <p>Add Criterion...</p>
+          </button>
+          {#each rule?.criteria as _, index (index)}
+            <CriterionTile
+              {limit}
+              {enforcingLimit}
+              bind:criterion={rule.criteria[index]}
+              deleteThis={() => rule.criteria.splice(index, 1)}
+            />
+          {/each}
+        </div>
       </div>
-    </div>
-    <div class="my-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-700 p-2">
-      <button
-        class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
-        onclick={() => (createCriterionOpen = true)}
-      >
-        <Plus size={16} />
-        <p>Add Criterion...</p>
-      </button>
-      {#each rule?.criteria as _, index (index)}
-        <CriterionTile
-          {limit}
-          {enforcingLimit}
-          bind:criterion={rule.criteria[index]}
-          deleteThis={() => rule.criteria.splice(index, 1)}
-        />
-      {/each}
-    </div>
 
-    <h2 class="font-bold">Actions</h2>
-    <p>Ran when all criteria are met.</p>
-    <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-700 p-2">
-      <button
-        class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
-        onclick={() => (createActionOpen = true)}
-      >
-        <Plus size={16} />
-        <p>Add Action...</p>
-      </button>
-      {#each rule?.actions as _, index (index)}
-        <ActionTile
-          {serverInfo}
-          actionKind="automod"
-          bind:action={rule.actions[index]}
-          deleteThis={() => rule.actions.splice(index, 1)}
-        />
-      {/each}
-    </div>
+      <div>
+        <h2 class="font-bold">Actions</h2>
+        <p>Ran when all criteria are met.</p>
+        <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-700 p-2">
+          <button
+            class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
+            onclick={() => (createActionOpen = true)}
+          >
+            <Plus size={16} />
+            <p>Add Action...</p>
+          </button>
+          {#each rule?.actions as _, index (index)}
+            <ActionTile
+              {serverInfo}
+              actionKind="automod"
+              bind:action={rule.actions[index]}
+              deleteThis={() => rule.actions.splice(index, 1)}
+            />
+          {/each}
+        </div>
+      </div>
 
-    <div class="mt-2 flex items-center gap-2">
-      <Toggle bind:toggled={rule.evaluate_edits} />
-      <p>Run this rule for edits</p>
-    </div>
-    <div class="mt-2 flex items-center gap-2">
-      <Toggle bind:toggled={rule.stop_if_triggered} />
-      <p>Stop processing further rules if this one matches</p>
+      <div class="flex items-center gap-2">
+        <Toggle bind:toggled={rule.evaluate_edits} />
+        <p>Run this rule for edits</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <Toggle bind:toggled={rule.stop_if_triggered} />
+        <p>Stop processing further rules if this one matches</p>
+      </div>
     </div>
   </Row>
 </div>
