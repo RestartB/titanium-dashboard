@@ -16,6 +16,41 @@
       case_sensitive: false
     };
   }
+
+  const criteriaTypes: {
+    id: BouncerCriterionSchema['type'];
+    name: string;
+    desc: string;
+    icon: Component;
+  }[] = [
+    {
+      id: 'username',
+      name: 'Username',
+      desc: "Watch for words in the user's username.",
+      icon: ALargeSmall
+    },
+    {
+      id: 'tag',
+      name: 'Guild Tag',
+      desc: "Watch for words in the user's guild tag.",
+      icon: Tag
+    },
+    {
+      id: 'age',
+      name: 'Account Age',
+      desc: "Watch for the age of the user's account.",
+      icon: Clock
+    },
+    {
+      id: 'avatar',
+      name: 'Default Avatar',
+      desc: 'Watch if the user has a default avatar.',
+      icon: User
+    }
+  ];
+  let filteredTypes = $derived(
+    criteriaTypes.filter((criteria) => !rule.criteria.map((ruleCriteria) => ruleCriteria.type).includes(criteria.id))
+  );
 </script>
 
 {#snippet criterionRow(type: BouncerCriterionSchema['type'], name: string, description: string, Icon: Component)}
@@ -37,8 +72,11 @@
 {/snippet}
 
 <FullscreenOverlay title="Select a Criterion" padding={8} gap={8} bind:overlayOpen>
-  {@render criterionRow('username', 'Username', "Watch for words in the user's username.", ALargeSmall)}
-  {@render criterionRow('tag', 'Guild Tag', "Watch for words in the user's guild tag.", Tag)}
-  {@render criterionRow('age', 'Account Age', "Watch for the age of the user's account.", Clock)}
-  {@render criterionRow('avatar', 'Default Avatar', 'Watch if the user has a default avatar.', User)}
+  {#if filteredTypes.length === 0}
+    <p class="m-2 mx-auto text-lg text-zinc-400">Nothing to show</p>
+  {:else}
+    {#each filteredTypes as criterionType (criterionType.id)}
+      {@render criterionRow(criterionType.id, criterionType.name, criterionType.desc, criterionType.icon)}
+    {/each}
+  {/if}
 </FullscreenOverlay>

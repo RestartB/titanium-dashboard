@@ -17,6 +17,71 @@
       case_sensitive: false
     };
   }
+
+  const criteriaTypes: {
+    id: AutomodCriterionSchema['type'];
+    name: string;
+    desc: string;
+    icon: Component;
+  }[] = [
+    {
+      id: 'word_list',
+      name: 'Word List',
+      desc: 'Watch for malicious links in the message content.',
+      icon: WholeWord
+    },
+    {
+      id: 'malicious_link',
+      name: 'Malicious Links',
+      desc: 'Watch for malicious links in the message content.',
+      icon: Link
+    },
+    {
+      id: 'phishing_link',
+      name: 'Phishing Links',
+      desc: 'Watch for phishing links in the message content.',
+      icon: Link
+    },
+    {
+      id: 'message_spam',
+      name: 'Message Spam',
+      desc: 'Monitor the amount of messages that users send.',
+      icon: MessageCircle
+    },
+    {
+      id: 'word_spam',
+      name: 'Word Spam',
+      desc: 'Monitor the amount of words that users send.',
+      icon: WholeWord
+    },
+    {
+      id: 'newline_spam',
+      name: 'New Line Spam',
+      desc: 'Monitor the amount of lines that users send.',
+      icon: TextAlignStart
+    },
+    {
+      id: 'link_spam',
+      name: 'Link Spam',
+      desc: 'Monitor the amount of links that users send.',
+      icon: Link
+    },
+    {
+      id: 'attachment_spam',
+      name: 'Attachment Spam',
+      desc: 'Monitor the amount of attachments that users send.',
+      icon: Paperclip
+    },
+    {
+      id: 'emoji_spam',
+      name: 'Emoji Spam',
+      desc: 'Monitor the amount of emojis that users send.',
+      icon: Smile
+    }
+  ];
+  let filteredTypes = $derived(
+    criteriaTypes.filter((criteria) => !rule.criteria.map((ruleCriteria) => ruleCriteria.type).includes(criteria.id))
+  );
 </script>
 
 {#snippet criterionRow(type: AutomodCriterionSchema['type'], name: string, description: string, Icon: Component)}
@@ -38,15 +103,11 @@
 {/snippet}
 
 <FullscreenOverlay title="Select a Criterion" padding={8} gap={8} bind:overlayOpen>
-  {@render criterionRow('word_list', 'Word List', 'Watch for words in the message content.', WholeWord)}
-  {@render criterionRow('malicious_link', 'Malicious Links', 'Watch for malicious links in the message content.', Link)}
-  {@render criterionRow('phishing_link', 'Phishing Links', 'Watch for phishing links in the message content.', Link)}
-  <!-- prettier-ignore -->
-  {@render criterionRow('message_spam', 'Message Spam', 'Monitor the amount of messages that users send.', MessageCircle)}
-  {@render criterionRow('word_spam', 'Word Spam', 'Monitor the amount of words that users send.', WholeWord)}
-  <!-- prettier-ignore -->
-  {@render criterionRow('newline_spam', 'New Line Spam', 'Monitor the amount of lines that users send.', TextAlignStart)}
-  <!-- prettier-ignore -->
-  {@render criterionRow('attachment_spam', 'Attachment Spam', 'Monitor the amount of attachments that users send.', Paperclip)}
-  {@render criterionRow('emoji_spam', 'Emoji Spam', 'Monitor the amount of emojis that users send.', Smile)}
+  {#if filteredTypes.length === 0}
+    <p class="m-2 mx-auto text-lg text-zinc-400">Nothing to show</p>
+  {:else}
+    {#each filteredTypes as criterionType (criterionType.id)}
+      {@render criterionRow(criterionType.id, criterionType.name, criterionType.desc, criterionType.icon)}
+    {/each}
+  {/if}
 </FullscreenOverlay>

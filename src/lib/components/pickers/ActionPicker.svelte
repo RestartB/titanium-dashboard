@@ -42,14 +42,102 @@
       message_embed: false
     } as AutomodActionSchema;
   }
+
+  type ActionType = AutomodActionSchema['type'] | BouncerActionSchema['type'];
+
+  const commonActionTypes: {
+    id: AutomodActionSchema['type'] & BouncerActionSchema['type'];
+    name: string;
+    desc: string;
+    icon: Component;
+  }[] = [
+    {
+      id: 'warn',
+      name: 'Warn User',
+      desc: 'Add a warning to the user.',
+      icon: TriangleAlert
+    },
+    {
+      id: 'mute',
+      name: 'Timeout User',
+      desc: 'Prevent the user from sending messages for a duration.',
+      icon: Clock
+    },
+    {
+      id: 'kick',
+      name: 'Kick User',
+      desc: 'Kick the user from the server.',
+      icon: UserRoundX
+    },
+    {
+      id: 'ban',
+      name: 'Ban User',
+      desc: 'Permanently ban the user from the server.',
+      icon: Hammer
+    },
+    {
+      id: 'add_role',
+      name: 'Add Role',
+      desc: 'Add a role to the user.',
+      icon: Plus
+    },
+    {
+      id: 'remove_role',
+      name: 'Remove Role',
+      desc: 'Remove a role from the user.',
+      icon: Minus
+    },
+    {
+      id: 'toggle_role',
+      name: 'Toggle Role',
+      desc: 'Add or remove a role from the user.',
+      icon: ToggleRight
+    }
+  ];
+
+  const automodActionTypes: {
+    id: AutomodActionSchema['type'];
+    name: string;
+    desc: string;
+    icon: Component;
+  }[] = [
+    {
+      id: 'delete',
+      name: 'Delete Message',
+      desc: 'Remove the messages.',
+      icon: Trash
+    },
+    {
+      id: 'send_message',
+      name: 'Send Message',
+      desc: 'Send a message.',
+      icon: MessageCircle
+    },
+    ...commonActionTypes
+  ];
+
+  const bouncerActionTypes: {
+    id: BouncerActionSchema['type'];
+    name: string;
+    desc: string;
+    icon: Component;
+  }[] = [
+    ...commonActionTypes,
+    {
+      id: 'reset_nick',
+      name: 'Reset Nickname',
+      desc: "Reset the user's nickname.",
+      icon: Eraser
+    }
+  ];
+
+  let actionTypes = $derived(type === 'automod' ? automodActionTypes : bouncerActionTypes);
+  let filteredTypes = $derived(
+    actionTypes.filter((action) => !rule.actions.map((ruleAction) => ruleAction.type).includes(action.id))
+  );
 </script>
 
-{#snippet actionRow(
-  type: AutomodActionSchema['type'] | BouncerActionSchema['type'],
-  name: string,
-  description: string,
-  Icon: Component
-)}
+{#snippet actionRow(type: ActionType, name: string, description: string, Icon: Component)}
   <button
     class="flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 px-4 transition-all hover:bg-zinc-800"
     onclick={() => {
@@ -68,18 +156,11 @@
 {/snippet}
 
 <FullscreenOverlay bind:overlayOpen title="Select an Action" padding={8} gap={8}>
-  {#if type === 'automod'}
-    {@render actionRow('delete', 'Delete Message', 'Remove the messages.', Trash)}
-    {@render actionRow('send_message', 'Send Message', 'Send a message.', MessageCircle)}
+  {#if filteredTypes.length === 0}
+    <p class="m-2 mx-auto text-lg text-zinc-400">Nothing to show</p>
+  {:else}
+    {#each filteredTypes as actionType (actionType.id)}
+      {@render actionRow(actionType.id, actionType.name, actionType.desc, actionType.icon)}
+    {/each}
   {/if}
-  {@render actionRow('warn', 'Warn User', 'Add a warning to the user.', TriangleAlert)}
-  {@render actionRow('mute', 'Timeout User', 'Prevent the user from sending messages for a duration.', Clock)}
-  {@render actionRow('kick', 'Kick User', 'Kick the user from the server.', UserRoundX)}
-  {@render actionRow('ban', 'Ban User', 'Permanently ban the user from the server.', Hammer)}
-  {#if type === 'bouncer'}
-    {@render actionRow('reset_nick', 'Reset Nickname', "Reset the user's nickname.", Eraser)}
-  {/if}
-  {@render actionRow('add_role', 'Add Role', 'Add a role to the user.', Plus)}
-  {@render actionRow('remove_role', 'Remove Role', 'Remove a role from the user.', Minus)}
-  {@render actionRow('toggle_role', 'Toggle Role', 'Add or remove a role from the user.', ToggleRight)}
 </FullscreenOverlay>
