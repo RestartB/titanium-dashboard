@@ -3,9 +3,9 @@
   import { localStorageAvailable } from '$lib/helpers/storage';
 
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
-  import { Cog, LayoutDashboard, ThumbsUp, List, Code, Heart } from '@lucide/svelte';
+  import { Trophy, Globe, Shield, Mic, Bell, Brain, HatGlasses, Bug } from '@lucide/svelte';
 
-  const currentId = '6d994cc2-c2df-411d-b04f-cbfe608f8f63';
+  const currentId = '58daca4d-58fa-4856-93fa-f261575ea6ce';
   let overlayOpen = $state(false);
 
   onMount(() => {
@@ -52,40 +52,46 @@
     />
 
     <div class="mt-6 space-y-2 p-4">
-      <h2 class="text-2xl font-bold">👋 Welcome to Titanium v2!</h2>
+      <h2 class="text-2xl font-bold">📢 Recent Updates</h2>
       <p>
-        Titanium has been rewritten from the ground up, to better serve you and your servers. Enjoy existing features
-        with major updates like the fireboard and leaderboard system, alongside major new modules such as moderation and
-        logging. This update has been in the works since August 2025, featuring over 20,000 lines of code and a fully
-        custom dashboard - I truly hope you enjoy it.
+        Titanium has received various updates over the past few months to make it better for you, based on
+        planned ideas and various suggestions.
       </p>
 
       <hr class="my-4 border-zinc-500" />
 
       <ul class="space-y-4">
         <li class="flex items-center gap-4">
-          <Cog size={25} class="shrink-0" />
-          <p>9 modules to help you manage your server - including 5 new modules for v2</p>
+          <Trophy size={25} class="shrink-0" />
+          <p>Level roles - assign roles when a user levels up</p>
         </li>
         <li class="flex items-center gap-4">
-          <LayoutDashboard size={25} class="shrink-0" />
-          <p>Brand new, fully custom web dashboard to change settings in Titanium easier</p>
+          <Globe size={25} class="shrink-0" />
+          <p>Web leaderboard - view your server's leaderboard in the browser</p>
         </li>
         <li class="flex items-center gap-4">
-          <ThumbsUp size={25} class="shrink-0" />
-          <p>All features from Titanium v1 maintained - user app compatibility, image commands, etc</p>
+          <Shield size={25} class="shrink-0" />
+          <p>Mass punish commands to punish up to 20 users at once</p>
         </li>
         <li class="flex items-center gap-4">
-          <List size={25} class="shrink-0" />
-          <p>Large list of ideas and feature drops to come in future updates</p>
+          <Mic size={25} class="shrink-0" />
+          <p>Voice Chat XP - track VC time and add XP based on your time in VC</p>
         </li>
         <li class="flex items-center gap-4">
-          <Code size={25} class="shrink-0" />
-          <p>All code is open source for transparency, to allow for anyone to see and read it</p>
+          <Bell size={25} class="shrink-0" />
+          <p>Reminders - set reminders that send in servers or DMs</p>
         </li>
         <li class="flex items-center gap-4">
-          <Heart size={25} class="shrink-0" />
-          <p>Thank you - your support helps me continue to develop Titanium for everyone</p>
+          <Brain size={25} class="shrink-0" />
+          <p>New automod - create fully custom rules, with criteria and actions</p>
+        </li>
+        <li class="flex items-center gap-4">
+          <HatGlasses size={25} class="shrink-0" />
+          <p>Anonymous Polls - create fully anonymous polls using the confessions feature</p>
+        </li>
+        <li class="flex items-center gap-4">
+          <Bug size={25} class="shrink-0" />
+          <p>40+ bug fixes and improvements</p>
         </li>
       </ul>
     </div>
