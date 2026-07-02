@@ -112,6 +112,10 @@
         <p>Run this rule for edits</p>
       </div>
       <div class="flex items-center gap-2">
+        <Toggle bind:toggled={rule.match_all_criteria} />
+        <p>Require all criteria to match before triggering</p>
+      </div>
+      <div class="flex items-center gap-2">
         <Toggle bind:toggled={rule.stop_if_triggered} />
         <p>Stop processing further rules if this one matches</p>
       </div>
