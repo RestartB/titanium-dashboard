@@ -4,6 +4,7 @@ import { validateID } from '$lib/helpers/discord';
 export const automodCriterionSchema = z.object({
   type: z.enum([
     'word_list',
+    'discord_dice_roll',
     'malicious_link',
     'phishing_link',
     'message_spam',

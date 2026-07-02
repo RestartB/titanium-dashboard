@@ -1,6 +1,6 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
-  import { Smile, Paperclip, TextAlignStart, WholeWord, MessageCircle, Link } from '@lucide/svelte';
+  import { Smile, Paperclip, TextAlignStart, WholeWord, MessageCircle, Link, Dice5 } from '@lucide/svelte';
 
   import type { Component } from 'svelte';
   import type { AutomodCriterionSchema, AutomodRuleSchema } from '$lib/validators/automod';
@@ -29,6 +29,12 @@
       name: 'Word List',
       desc: 'Watch for malicious links in the message content.',
       icon: WholeWord
+    },
+    {
+      id: 'discord_dice_roll',
+      name: 'Dice Roll Links',
+      desc: 'Watch for Discord dice roll links.',
+      icon: Dice5
     },
     {
       id: 'malicious_link',
