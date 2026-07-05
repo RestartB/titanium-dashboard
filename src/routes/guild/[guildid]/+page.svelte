@@ -12,7 +12,8 @@
     Trophy,
     Tally5,
     HatGlasses,
-    Tag
+    Tag,
+    ThumbsUp
   } from '@lucide/svelte';
   import type { Component } from 'svelte';
 
@@ -137,5 +138,12 @@
     'Send server wide quick responses with key words.',
     `/guild/${serverId}/tags`,
     Tag
+  )}
+  <!-- prettier-ignore -->
+  {@render featureCard(
+    'Rep',
+    'Thank members by giving them rep points.',
+    `/guild/${serverId}/rep`,
+    ThumbsUp
   )}
 </div>

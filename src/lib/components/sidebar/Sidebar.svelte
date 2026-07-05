@@ -15,7 +15,8 @@
     Trophy,
     Tally5,
     HatGlasses,
-    Tag
+    Tag,
+    ThumbsUp
   } from '@lucide/svelte';
   import Tile from './Tile.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
@@ -70,7 +71,13 @@
     Icon={Shield}
     active={page.url.pathname.endsWith('/moderation') || page.url.pathname.includes('/moderation/cases')}
   />
-  <Tile title="Automod" href="/guild/{serverId}/automod" Icon={Brain} active={page.url.pathname.endsWith('/automod')} />
+  <!-- prettier-ignore -->
+  <Tile
+    title="Automod"
+    href="/guild/{serverId}/automod"
+    Icon={Brain}
+    active={page.url.pathname.endsWith('/automod')}
+  />
   <Tile
     title="Bouncer"
     href="/guild/{serverId}/bouncer"
@@ -107,5 +114,18 @@
     Icon={HatGlasses}
     active={page.url.pathname.endsWith('/confessions')}
   />
-  <Tile title="Tags" href="/guild/{serverId}/tags" Icon={Tag} active={page.url.pathname.endsWith('/tags')} />
+  <!-- prettier-ignore -->
+  <Tile
+    title="Tags"
+    href="/guild/{serverId}/tags"
+    Icon={Tag}
+    active={page.url.pathname.endsWith('/tags')}
+  />
+  <!-- prettier-ignore -->
+  <Tile
+    title="Rep"
+    href="/guild/{serverId}/rep"
+    Icon={ThumbsUp}
+    active={page.url.pathname.endsWith('/rep')}
+  />
 </div>

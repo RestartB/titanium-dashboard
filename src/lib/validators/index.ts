@@ -67,3 +67,6 @@ export {
 
 // Tags
 export { tagsConfigSchema, newTagSchema, editTagSchema, type TagsConfigSchema } from './tags';
+
+// Rep
+export { repConfigSchema, type RepConfigSchema } from './rep';

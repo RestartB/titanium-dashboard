@@ -10,7 +10,8 @@ export const moduleSchema = z.object({
   server_counters: z.boolean(),
   confessions: z.boolean(),
   leaderboard: z.boolean(),
-  tags: z.boolean()
+  tags: z.boolean(),
+  rep: z.boolean()
 });
 
 export type ModuleSchema = z.infer<typeof moduleSchema>;

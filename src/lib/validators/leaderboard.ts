@@ -43,8 +43,8 @@ export const leaderboardConfigSchema = z
     levelup_notifications: z.boolean().default(true),
     notification_ping: z.boolean().default(true),
     notification_channel: z.string().optional().nullable(),
-    web_leaderboard_enabled: z.boolean().default(false),
-    web_login_required: z.boolean().default(false),
+    web_leaderboard_enabled: z.boolean().default(true),
+    web_login_required: z.boolean().default(true),
     delete_leavers: z.boolean().default(false),
     stack_roles: z.boolean().default(true),
     levels: z.array(leaderboardLevelSchema).default([])

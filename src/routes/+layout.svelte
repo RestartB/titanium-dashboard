@@ -25,7 +25,8 @@
     leaderboard: { depth: 0, order: 9 },
     server_counters: { depth: 0, order: 10 },
     confessions: { depth: 0, order: 11 },
-    tags: { depth: 0, order: 12 }
+    tags: { depth: 0, order: 12 },
+    rep: { depth: 0, order: 13 }
   };
 
   function getPageInfo(url: URL, params: Record<string, string | undefined> | null) {
