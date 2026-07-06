@@ -16,19 +16,23 @@
 
   let currentPage = $state(1);
   let limited = $state(false);
-  let leaderboardFunction = $derived(
+  let leaderboardQuery = $derived(
     data.serverInfo && data.enabled && !data.loginRequired && !data.noAccess
       ? getRepLeaderboard({ guildId: data.serverInfo.id, limit: 100, offset: 100 * currentPage - 100 })
       : null
   );
+  let leaderboard = $derived(leaderboardQuery?.current);
+  let leaderboardError = $derived(leaderboardQuery?.error);
+  let leaderboardLoading = $derived(leaderboardQuery?.loading ?? false);
 
   $effect(() => {
-    if (leaderboardFunction) {
-      leaderboardFunction.catch((e) => {
-        if (e?.status === 429) {
-          limited = true;
-        }
-      });
+    if (
+      leaderboardError &&
+      typeof leaderboardError === 'object' &&
+      'status' in leaderboardError &&
+      leaderboardError.status === 429
+    ) {
+      limited = true;
     }
   });
 
@@ -196,22 +200,18 @@
 
     <p class="mt-4 font-semibold opacity-50">© 2026, Restart</p>
   </div>
-{:else if data.serverInfo && leaderboardFunction !== null}
-  <svelte:boundary>
-    {#snippet pending()}
-      <div class="m-4 mx-auto flex w-fit items-center gap-2 px-4 font-bold">
-        <LoaderCircle size={20} class="shrink-0 animate-spin" />
-        Loading...
-      </div>
-    {/snippet}
-
-    {#snippet failed()}
-      <div class="m-4 mx-auto flex w-fit items-center gap-4 px-4 font-bold">
-        <X size={20} class="shrink-0" />
-        An error occurred. Please reload the page and try again.
-      </div>
-    {/snippet}
-
+{:else if data.serverInfo && leaderboardQuery !== null}
+  {#if leaderboardError}
+    <div class="m-4 mx-auto flex w-fit items-center gap-4 px-4 font-bold">
+      <X size={20} class="shrink-0" />
+      An error occurred. Please reload the page and try again.
+    </div>
+  {:else if leaderboardLoading || !leaderboard}
+    <div class="m-4 mx-auto flex w-fit items-center gap-2 px-4 font-bold">
+      <LoaderCircle size={20} class="shrink-0 animate-spin" />
+      Loading...
+    </div>
+  {:else}
     <div class="flex h-full flex-col items-center gap-4 overflow-y-auto p-4">
       <span class="flex items-center justify-center gap-2">
         <Trophy class="shrink-0" />
@@ -225,56 +225,53 @@
 
       <div class="my-4 hidden w-full items-center justify-center gap-4 sm:flex">
         {#if currentPage === 1}
-          {#if (await leaderboardFunction).leaderboard.length >= 2}
+          {#if leaderboard.leaderboard.length >= 2}
             <div class="h-fit max-w-3xs min-w-0 flex-1 text-center">
               <h3 class="mb-2 text-3xl font-semibold">2nd</h3>
               <img
-                src={(await leaderboardFunction).leaderboard[1].user_pfp || logo}
+                src={leaderboard.leaderboard[1].user_pfp || logo}
                 alt="User PFP"
                 class="mx-auto max-h-30 min-h-30 max-w-30 min-w-30 shrink-0 rounded-full border-4 border-zinc-400 shadow-[0_0_30px_rgba(192,192,192,1)]"
               />
               <p class="mt-2 truncate text-xl font-semibold">
-                @{(await leaderboardFunction).leaderboard[1].user_name ||
-                  (await leaderboardFunction).leaderboard[1].user_id}
+                @{leaderboard.leaderboard[1].user_name || leaderboard.leaderboard[1].user_id}
               </p>
               <p class="text-zinc-400">
-                {(await leaderboardFunction).leaderboard[1].rep} rep
+                {leaderboard.leaderboard[1].rep} rep
               </p>
             </div>
           {/if}
 
-          {#if (await leaderboardFunction).leaderboard.length >= 1}
+          {#if leaderboard.leaderboard.length >= 1}
             <div class="h-fit max-w-3xs min-w-0 flex-1 text-center">
               <h3 class="mb-2 text-5xl font-bold">1st</h3>
               <img
-                src={(await leaderboardFunction).leaderboard[0].user_pfp || logo}
+                src={leaderboard.leaderboard[0].user_pfp || logo}
                 alt="User PFP"
                 class="mx-auto max-h-40 min-h-40 max-w-40 min-w-40 shrink-0 rounded-full border-4 border-zinc-400 shadow-[0_0_50px_rgba(255,215,0,1)]"
               />
               <p class="mt-2 truncate text-xl font-semibold">
-                @{(await leaderboardFunction).leaderboard[0].user_name ||
-                  (await leaderboardFunction).leaderboard[0].user_id}
+                @{leaderboard.leaderboard[0].user_name || leaderboard.leaderboard[0].user_id}
               </p>
               <p class="text-zinc-400">
-                {(await leaderboardFunction).leaderboard[0].rep} rep
+                {leaderboard.leaderboard[0].rep} rep
               </p>
             </div>
           {/if}
 
-          {#if (await leaderboardFunction).leaderboard.length >= 3}
+          {#if leaderboard.leaderboard.length >= 3}
             <div class="h-fit max-w-3xs min-w-0 flex-1 text-center">
               <h3 class="mb-2 text-3xl font-semibold">3rd</h3>
               <img
-                src={(await leaderboardFunction).leaderboard[2].user_pfp || logo}
+                src={leaderboard.leaderboard[2].user_pfp || logo}
                 alt="User PFP"
                 class="mx-auto max-h-30 min-h-30 max-w-30 min-w-30 shrink-0 rounded-full border-4 border-zinc-400 shadow-[0_0_30px_rgba(205,127,50,1)]"
               />
               <p class="mt-2 truncate text-xl font-semibold">
-                @{(await leaderboardFunction).leaderboard[2].user_name ||
-                  (await leaderboardFunction).leaderboard[2].user_id}
+                @{leaderboard.leaderboard[2].user_name || leaderboard.leaderboard[2].user_id}
               </p>
               <p class="text-zinc-400">
-                {(await leaderboardFunction).leaderboard[2].rep} rep
+                {leaderboard.leaderboard[2].rep} rep
               </p>
             </div>
           {/if}
@@ -287,31 +284,27 @@
           <p class="max-w-14 min-w-14 overflow-hidden text-center text-base text-ellipsis">Rep</p>
         </div>
 
-        {#await leaderboardFunction then leaderboard}
-          {#each leaderboard.leaderboard as entry, i (entry.user_id)}
-            {@render lbRow(
-              entry.user_name,
-              entry.user_display,
-              entry.user_pfp,
-              entry.user_id,
-              ordinal_suffix_of(i + 1 * currentPage),
-              entry.rep,
-              entry.historical
-            )}
-          {/each}
-        {/await}
+        {#each leaderboard.leaderboard as entry, i (entry.user_id)}
+          {@render lbRow(
+            entry.user_name,
+            entry.user_display,
+            entry.user_pfp,
+            entry.user_id,
+            ordinal_suffix_of(i + 1 * currentPage),
+            entry.rep,
+            entry.historical
+          )}
+        {/each}
       </Row>
 
       <div class="flex w-full max-w-3xl flex-col items-center justify-center gap-2 sm:flex-row">
-        {#await leaderboardFunction then leaderboard}
-          <Pagination
-            {changePage}
-            pageCount={Math.max(1, Math.ceil(leaderboard.total_count / 100))}
-            disabled={$effect.pending() ? true : false}
-            class="w-fit!"
-            bind:currentPage
-          />
-        {/await}
+        <Pagination
+          {changePage}
+          pageCount={Math.max(1, Math.ceil(leaderboard.total_count / 100))}
+          disabled={leaderboardLoading}
+          class="w-fit!"
+          bind:currentPage
+        />
 
         <div class="hidden flex-col items-center justify-center gap-1 xs:flex sm:ml-auto sm:items-end">
           <label for="difference" class="block text-right text-zinc-400">Show position difference between</label>
@@ -328,5 +321,5 @@
         </div>
       </div>
     </div>
-  </svelte:boundary>
+  {/if}
 {/if}

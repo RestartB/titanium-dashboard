@@ -154,7 +154,7 @@
     <ButtonRow
       {Icon}
       onclick={async () => {
-        await navigator.clipboard.writeText(`${page.url.origin}/public/lb/${data.serverInfo.id}`);
+        await navigator.clipboard.writeText(`${page.url.origin}/public/rep/${data.serverInfo.id}`);
         Icon = Check;
         setTimeout(() => (Icon = Copy), 3000);
       }}
