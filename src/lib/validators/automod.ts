@@ -102,7 +102,9 @@ export type AutomodRuleSchema = z.infer<typeof automodRuleSchema>;
 
 export const automodConfigSchema = z.object({
   rules: z.array(automodRuleSchema),
-  show_outcome_message: z.boolean()
+  show_outcome_message: z.boolean(),
+  global_ignored_roles: z.array(z.string()).max(100).default([]),
+  global_ignored_channels: z.array(z.string()).max(100).default([])
 });
 
 export type AutomodConfigSchema = z.infer<typeof automodConfigSchema>;

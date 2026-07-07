@@ -2,7 +2,7 @@
   import { flip } from 'svelte/animate';
   import { dragHandleZone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
-  import { AnchorRow, ToggleRow } from '$lib/components/ui/row';
+  import { AnchorRow, Row, ToggleRow } from '$lib/components/ui/row';
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import Rule from '$lib/components/automod/Rule.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
@@ -11,6 +11,10 @@
   import Alert from '$lib/components/ui/Alert.svelte';
   import Tip from '$lib/components/ui/Tip.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
+  import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
+  import ChannelTile from '$lib/components/ui/discord/ChannelTile.svelte';
+  import RolePicker from '$lib/components/pickers/RolePicker.svelte';
+  import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
   import { ScrollText, ChevronRight, Plus } from '@lucide/svelte';
 
   import type { AutomodRuleSchema } from '$lib/validators/automod';
@@ -20,6 +24,9 @@
 
   let { data } = $props();
   let dataState = $state(data);
+
+  let channelOverlayOpen = $state(false);
+  let roleOverlayOpen = $state(false);
   const flipDurationMs = 300;
 
   function createBlankRule(order: number): AutomodRuleSchema {
@@ -47,6 +54,24 @@
     return (rule as DndAutomodRule)[SHADOW_ITEM_MARKER_PROPERTY_NAME];
   }
 </script>
+
+{#if channelOverlayOpen}
+  <ChannelPicker
+    multiselect={true}
+    categories={data.serverInfo.categories}
+    bind:selectedChannels={dataState.pageSettings.global_ignored_channels}
+    bind:overlayOpen={channelOverlayOpen}
+  />
+{/if}
+
+{#if roleOverlayOpen}
+  <RolePicker
+    multiselect={true}
+    roles={data.serverInfo.roles}
+    bind:selectedRoles={dataState.pageSettings.global_ignored_roles}
+    bind:overlayOpen={roleOverlayOpen}
+  />
+{/if}
 
 <Saver page="automod" {data} bind:dataState />
 
@@ -86,6 +111,62 @@
       </div>
     </div>
   </AnchorRow>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Global Ignored Roles & Channels</p>
+
+  <Row>
+    <h2 class="text-xl font-bold">Global Blocked Channels</h2>
+    <p class="mb-2">Select up to 100 channels that all automod rules will ignore.</p>
+
+    <div class="flex flex-wrap gap-2">
+      {#if dataState.pageSettings.global_ignored_channels.length < 100}
+        <Button smallPadding={true} onclick={() => (channelOverlayOpen = true)}
+          ><Plus size={20} /> Add channels...</Button
+        >
+      {/if}
+
+      {#each dataState.pageSettings.global_ignored_channels as channel (channel)}
+        <ChannelTile
+          {channel}
+          categories={data.serverInfo.categories}
+          deleteThis={() => {
+            dataState.pageSettings.global_ignored_channels = dataState.pageSettings.global_ignored_channels.filter(
+              (c) => c !== channel
+            );
+          }}
+        />
+      {/each}
+    </div>
+  </Row>
+
+  <Row>
+    <h2 class="text-xl font-bold">Global Blocked Roles</h2>
+    <p class="mb-2">
+      Select up to 100 roles that that all automod rules will ignore messages from. Administrators are ignored by
+      default.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      {#if dataState.pageSettings.global_ignored_roles.length < 100}
+        <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add roles...</Button>
+      {/if}
+
+      {#each dataState.pageSettings.global_ignored_roles as role (role)}
+        {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
+        {#if foundRole}
+          <RoleTile
+            role={foundRole}
+            deleteThis={() => {
+              dataState.pageSettings.global_ignored_roles = dataState.pageSettings.global_ignored_roles.filter(
+                (r) => r !== role
+              );
+            }}
+          />
+        {/if}
+      {/each}
+    </div>
+  </Row>
 
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Rules</p>
