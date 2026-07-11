@@ -1,5 +1,6 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
+  import { DiscordPermission } from '$lib/helpers/discord';
 
   import Rule from '$lib/components/bouncer/Rule.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
@@ -46,29 +47,32 @@
 <ToggledContent enabled={dataState.serverSettings.modules.bouncer && dataState.serverSettings.modules.moderation}>
   <Assistant
     permissions={BigInt(data.serverInfo.bot_permissions)}
-    allRequired={0x0000010000000000n | 0x0000000000000002n | 0x0000000000000004n | 0x0000000010000000n}
+    allRequired={DiscordPermission.ModerateMembers |
+      DiscordPermission.KickMembers |
+      DiscordPermission.BanMembers |
+      DiscordPermission.ManageRoles}
   >
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000010000000000n}
+      required={DiscordPermission.ModerateMembers}
       title="Timeout Users"
       description="Allows Titanium to mute and unmute members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000002n}
+      required={DiscordPermission.KickMembers}
       title="Kick Users"
       description="Allows Titanium to kick members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000004n}
+      required={DiscordPermission.BanMembers}
       title="Ban Users"
       description="Allows Titanium to ban and unban members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000010000000n}
+      required={DiscordPermission.ManageRoles}
       title="Manage Roles"
       description="Allows Titanium to add, remove and toggle roles."
     />

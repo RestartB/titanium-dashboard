@@ -6,12 +6,12 @@
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Button from './inputs/Button.svelte';
   import RoleTile from './discord/RoleTile.svelte';
+  import RolePicker from '$lib/components/pickers/RolePicker.svelte';
   import { Plus } from '@lucide/svelte';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
   import type { AutomodActionSchema } from '$lib/validators/automod';
   import type { BouncerActionSchema } from '$lib/validators/bouncer';
-  import RolePicker from '../pickers/RolePicker.svelte';
 
   let {
     actionKind,

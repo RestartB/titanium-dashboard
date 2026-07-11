@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { DiscordPermission } from '$lib/helpers/discord';
+
   import { Row, ToggleRow, AnchorRow } from '$lib/components/ui/row';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import NumberInput from '$lib/components/ui/inputs/Number.svelte';
@@ -26,46 +28,46 @@
 <ToggledContent enabled={dataState.serverSettings.modules.moderation}>
   <Assistant
     permissions={BigInt(data.serverInfo.bot_permissions)}
-    allRequired={0x0000010000000000n |
-      0x0000000000000002n |
-      0x0000000000000004n |
-      0x0000000000002000n |
-      0x0000000000010000n |
-      0x0000000000000080n}
+    allRequired={DiscordPermission.ModerateMembers |
+      DiscordPermission.KickMembers |
+      DiscordPermission.BanMembers |
+      DiscordPermission.ManageMessages |
+      DiscordPermission.ReadMessageHistory |
+      DiscordPermission.ViewAuditLog}
   >
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000010000000000n}
+      required={DiscordPermission.ModerateMembers}
       title="Timeout Users"
       description="Allows Titanium to mute and unmute members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000002n}
+      required={DiscordPermission.KickMembers}
       title="Kick Users"
       description="Allows Titanium to kick members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000004n}
+      required={DiscordPermission.BanMembers}
       title="Ban Users"
       description="Allows Titanium to ban and unban members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000002000n}
+      required={DiscordPermission.ManageMessages}
       title="Manage Messages"
       description="Allows Titanium to purge messages."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000010000n}
+      required={DiscordPermission.ReadMessageHistory}
       title="View Message History"
       description="Allows Titanium to check what messages need to be purged."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000080n}
+      required={DiscordPermission.ViewAuditLog}
       title="View Audit Log"
       description="Allows Titanium to monitor external moderation events."
     />

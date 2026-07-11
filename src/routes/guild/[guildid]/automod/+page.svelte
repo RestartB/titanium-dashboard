@@ -1,6 +1,7 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
   import { dragHandleZone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
+  import { DiscordPermission } from '$lib/helpers/discord';
 
   import { AnchorRow, Row, ToggleRow } from '$lib/components/ui/row';
   import Button from '$lib/components/ui/inputs/Button.svelte';
@@ -92,39 +93,39 @@
 <ToggledContent enabled={dataState.serverSettings.modules.automod && dataState.serverSettings.modules.moderation}>
   <Assistant
     permissions={BigInt(data.serverInfo.bot_permissions)}
-    allRequired={0x0000010000000000n |
-      0x0000000000000002n |
-      0x0000000000000004n |
-      0x0000000000002000n |
-      0x0000000010000000n}
+    allRequired={DiscordPermission.ModerateMembers |
+      DiscordPermission.KickMembers |
+      DiscordPermission.BanMembers |
+      DiscordPermission.ManageMessages |
+      DiscordPermission.ManageRoles}
   >
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000010000000000n}
+      required={DiscordPermission.ModerateMembers}
       title="Timeout Users"
       description="Allows Titanium to mute and unmute members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000002n}
+      required={DiscordPermission.KickMembers}
       title="Kick Users"
       description="Allows Titanium to kick members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000004n}
+      required={DiscordPermission.BanMembers}
       title="Ban Users"
       description="Allows Titanium to ban and unban members."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000002000n}
+      required={DiscordPermission.ManageMessages}
       title="Manage Messages"
       description="Allows Titanium to delete messages."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000010000000n}
+      required={DiscordPermission.ManageRoles}
       title="Manage Roles"
       description="Allows Titanium to add, remove and toggle roles."
     />

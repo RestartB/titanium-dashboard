@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { DiscordPermission } from '$lib/helpers/discord';
+
   import Button from '$lib/components/ui/inputs/Button.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
@@ -35,10 +37,10 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.server_counters}>
-  <Assistant permissions={BigInt(data.serverInfo.bot_permissions)} allRequired={0x0000000000000010n}>
+  <Assistant permissions={BigInt(data.serverInfo.bot_permissions)} allRequired={DiscordPermission.ManageChannels}>
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000010n}
+      required={DiscordPermission.ManageChannels}
       title="Manage Channels"
       description="Allows Titanium to create and update counter channels."
     />

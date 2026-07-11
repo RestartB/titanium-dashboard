@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
+  import { DiscordPermission } from '$lib/helpers/discord';
 
   import ChannelButton from '$lib/components/ui/discord/ChannelButton.svelte';
   import Collapsible from '$lib/components/ui/Collapsible.svelte';
@@ -12,7 +13,7 @@
   import PermRow from '$lib/components/permissions/PermRow.svelte';
   import { ListPlus, ListX, X } from '@lucide/svelte';
 
-  import type { LoggingEvent } from '$lib/interfaces/logging.js';
+  import type { LoggingEvent } from '$lib/interfaces/logging';
 
   let { data } = $props();
   let dataState = $state(data);
@@ -81,29 +82,32 @@
 <ToggledContent enabled={dataState.serverSettings.modules.logging}>
   <Assistant
     permissions={BigInt(data.serverInfo.bot_permissions)}
-    allRequired={0x0000000020000000n | 0x0000000000000080n | 0x0000000000000020n | 0x0000000000000010n}
+    allRequired={DiscordPermission.ManageWebhooks |
+      DiscordPermission.ViewAuditLog |
+      DiscordPermission.ManageGuild |
+      DiscordPermission.ManageChannels}
   >
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000020000000n}
+      required={DiscordPermission.ManageWebhooks}
       title="Manage Webhooks"
       description="Allows Titanium to create logging webhooks."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000080n}
+      required={DiscordPermission.ViewAuditLog}
       title="View Audit Log"
       description="Allows Titanium to get events from the audit log."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000020n}
+      required={DiscordPermission.ManageGuild}
       title="Manage Server"
       description="Allows Titanium to see when Discord automod rules are updated."
     />
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={0x0000000000000010n}
+      required={DiscordPermission.ManageChannels}
       title="Manage Channels"
       description="Allows Titanium to see when invites are created and deleted."
     />
