@@ -50,7 +50,8 @@
     allRequired={DiscordPermission.ModerateMembers |
       DiscordPermission.KickMembers |
       DiscordPermission.BanMembers |
-      DiscordPermission.ManageRoles}
+      DiscordPermission.ManageRoles |
+      DiscordPermission.ManageNicknames}
   >
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
@@ -75,6 +76,12 @@
       required={DiscordPermission.ManageRoles}
       title="Manage Roles"
       description="Allows Titanium to add, remove and toggle roles."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={DiscordPermission.ManageNicknames}
+      title="Manage Nicknames"
+      description="Allows Titanium to reset nicknames."
     />
   </Assistant>
 

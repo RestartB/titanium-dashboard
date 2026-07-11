@@ -15,6 +15,7 @@ const DiscordPermission = {
   ReadMessageHistory: 0x0000000000010000n,
   ManageRoles: 0x0000000010000000n,
   ManageWebhooks: 0x0000000020000000n,
+  ManageNicknames: 0x0000000008000000n,
   ModerateMembers: 0x0000010000000000n
 } as const;
 
