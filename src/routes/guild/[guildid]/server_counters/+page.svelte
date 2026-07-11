@@ -6,6 +6,8 @@
   import Saver from '$lib/components/Saver.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import Alert from '$lib/components/ui/Alert.svelte';
+  import Assistant from '$lib/components/permissions/Assistant.svelte';
+  import PermRow from '$lib/components/permissions/PermRow.svelte';
   import { Plus } from '@lucide/svelte';
 
   import type { ServerCounterChannelSchema } from '$lib/validators/serverCounters';
@@ -33,10 +35,19 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.server_counters}>
+  <Assistant permissions={BigInt(data.serverInfo.bot_permissions)} allRequired={0x0000000000000010n}>
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000010n}
+      title="Manage Channels"
+      description="Allows Titanium to create and update counter channels."
+    />
+  </Assistant>
+
   {#if data.serverInfo.member_count > 250}
     <Alert>
       <p>
-        Your server is considered to be large by Discord (over 250 members). The "Users" and "Bots" counter types may
+        Your server is considered by Discord to be large (over 250 members). The "Users" and "Bots" counter types may
         take longer to update initially due to this.
       </p>
     </Alert>

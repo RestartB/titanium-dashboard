@@ -2,6 +2,7 @@ import { getRequestEvent, query } from '$app/server';
 import { error } from '@sveltejs/kit';
 
 import { remoteCheckToken, deleteToken } from '$lib/server/token';
+import { DiscordPermission, hasAnyDiscordPermission } from '$lib/helpers/discord';
 
 import { guildsLimit } from '$lib/limits';
 import { TITANIUM_API_URL } from '$env/static/private';
@@ -48,8 +49,11 @@ export const getUserGuilds = query(async () => {
   const titaniumGuildIds: { mutual: string[]; delegate: string[] } = await mutualRequest.json();
   const mutualGuildIds = titaniumGuildIds.mutual;
 
-  // kick, ban, moderate, administrator
-  const ALLOWED_PERMS = 0x0000000000000002n | 0x0000000000000004n | 0x0000000000000008n | 0x0000010000000000n;
+  const ALLOWED_PERMS =
+    DiscordPermission.KickMembers |
+    DiscordPermission.BanMembers |
+    DiscordPermission.ModerateMembers |
+    DiscordPermission.Administrator;
 
   const mutualGuilds: ServerInfo[] = [];
   const nonMutualGuilds: ServerInfo[] = [];
@@ -57,7 +61,7 @@ export const getUserGuilds = query(async () => {
   for (const guild of guildData) {
     const permissions = BigInt(guild.permissions);
 
-    if ((permissions & ALLOWED_PERMS) !== 0n) {
+    if (hasAnyDiscordPermission(permissions, ALLOWED_PERMS)) {
       if (mutualGuildIds.includes(guild.id)) {
         mutualGuilds.push(guild);
       } else {

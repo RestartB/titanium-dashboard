@@ -4,8 +4,10 @@
   import NumberInput from '$lib/components/ui/inputs/Number.svelte';
   import Saver from '$lib/components/Saver.svelte';
   import Beta from '$lib/components/ui/Beta.svelte';
-  import { ChevronRight, Book } from '@lucide/svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
+  import Assistant from '$lib/components/permissions/Assistant.svelte';
+  import PermRow from '$lib/components/permissions/PermRow.svelte';
+  import { ChevronRight, Book } from '@lucide/svelte';
 
   const { data } = $props();
   let dataState = $state(data);
@@ -22,6 +24,53 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.moderation}>
+  <Assistant
+    permissions={BigInt(data.serverInfo.bot_permissions)}
+    allRequired={0x0000010000000000n |
+      0x0000000000000002n |
+      0x0000000000000004n |
+      0x0000000000002000n |
+      0x0000000000010000n |
+      0x0000000000000080n}
+  >
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000010000000000n}
+      title="Timeout Users"
+      description="Allows Titanium to mute and unmute members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000002n}
+      title="Kick Users"
+      description="Allows Titanium to kick members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000004n}
+      title="Ban Users"
+      description="Allows Titanium to ban and unban members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000002000n}
+      title="Manage Messages"
+      description="Allows Titanium to purge messages."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000010000n}
+      title="View Message History"
+      description="Allows Titanium to check what messages need to be purged."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000080n}
+      title="View Audit Log"
+      description="Allows Titanium to monitor external moderation events."
+    />
+  </Assistant>
+
   <AnchorRow href="/guild/{dataState.serverInfo.id}/moderation/cases" Icon={ChevronRight} title="View Cases">
     <div class="flex h-full w-full items-center gap-4">
       <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xs:flex">

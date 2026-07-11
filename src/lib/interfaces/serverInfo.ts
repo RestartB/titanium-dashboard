@@ -11,6 +11,7 @@ export interface ServerInfo {
   emojis: EmojiInfo[];
   limits: Limits;
   permissions: string;
+  bot_permissions: string;
 }
 
 export interface RoleInfo {

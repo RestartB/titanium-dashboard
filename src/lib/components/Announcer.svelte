@@ -54,8 +54,8 @@
     <div class="mt-6 space-y-2 p-4">
       <h2 class="text-2xl font-bold">📢 Recent Updates</h2>
       <p>
-        Titanium has received various updates over the past few months to make it better for you, based on
-        planned ideas and various suggestions.
+        Titanium has received various updates over the past few months to make it better for you, based on planned ideas
+        and various suggestions.
       </p>
 
       <hr class="my-4 border-zinc-500" />

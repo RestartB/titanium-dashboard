@@ -15,6 +15,8 @@
   import ChannelTile from '$lib/components/ui/discord/ChannelTile.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
   import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
+  import Assistant from '$lib/components/permissions/Assistant.svelte';
+  import PermRow from '$lib/components/permissions/PermRow.svelte';
   import { ScrollText, ChevronRight, Plus } from '@lucide/svelte';
 
   import type { AutomodRuleSchema } from '$lib/validators/automod';
@@ -88,6 +90,46 @@
 {/if}
 
 <ToggledContent enabled={dataState.serverSettings.modules.automod && dataState.serverSettings.modules.moderation}>
+  <Assistant
+    permissions={BigInt(data.serverInfo.bot_permissions)}
+    allRequired={0x0000010000000000n |
+      0x0000000000000002n |
+      0x0000000000000004n |
+      0x0000000000002000n |
+      0x0000000010000000n}
+  >
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000010000000000n}
+      title="Timeout Users"
+      description="Allows Titanium to mute and unmute members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000002n}
+      title="Kick Users"
+      description="Allows Titanium to kick members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000004n}
+      title="Ban Users"
+      description="Allows Titanium to ban and unban members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000002000n}
+      title="Manage Messages"
+      description="Allows Titanium to delete messages."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000010000000n}
+      title="Manage Roles"
+      description="Allows Titanium to add, remove and toggle roles."
+    />
+  </Assistant>
+
   <p class="text-base font-bold text-zinc-300/60">Settings</p>
 
   <ToggleRow bind:toggled={dataState.pageSettings.show_outcome_message}>

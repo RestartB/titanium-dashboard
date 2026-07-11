@@ -8,7 +8,8 @@
   import Saver from '$lib/components/Saver.svelte';
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
-
+  import Assistant from '$lib/components/permissions/Assistant.svelte';
+  import PermRow from '$lib/components/permissions/PermRow.svelte';
   import { ListPlus, ListX, X } from '@lucide/svelte';
 
   import type { LoggingEvent } from '$lib/interfaces/logging.js';
@@ -78,6 +79,36 @@
 </div>
 
 <ToggledContent enabled={dataState.serverSettings.modules.logging}>
+  <Assistant
+    permissions={BigInt(data.serverInfo.bot_permissions)}
+    allRequired={0x0000000020000000n | 0x0000000000000080n | 0x0000000000000020n | 0x0000000000000010n}
+  >
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000020000000n}
+      title="Manage Webhooks"
+      description="Allows Titanium to create logging webhooks."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000080n}
+      title="View Audit Log"
+      description="Allows Titanium to get events from the audit log."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000020n}
+      title="Manage Server"
+      description="Allows Titanium to see when Discord automod rules are updated."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000010n}
+      title="Manage Channels"
+      description="Allows Titanium to see when invites are created and deleted."
+    />
+  </Assistant>
+
   <div class="flex items-center gap-2">
     <Button
       onclick={() => {

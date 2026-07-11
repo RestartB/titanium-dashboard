@@ -68,8 +68,8 @@
     <div>
       <h2 class="text-xl font-bold">Allow Attachments</h2>
       <p>
-        Allow users to add attachments to their anonymous messages and polls. It is recommended to have logging
-        enabled when allowing this.
+        Allow users to add attachments to their anonymous messages and polls. It is recommended to have logging enabled
+        when allowing this.
       </p>
     </div>
   </ToggleRow>

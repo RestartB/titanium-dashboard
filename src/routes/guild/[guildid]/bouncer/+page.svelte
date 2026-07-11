@@ -9,6 +9,8 @@
   import { AnchorRow } from '$lib/components/ui/row';
   import Alert from '$lib/components/ui/Alert.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
+  import Assistant from '$lib/components/permissions/Assistant.svelte';
+  import PermRow from '$lib/components/permissions/PermRow.svelte';
   import { Plus, ScrollText, ChevronRight } from '@lucide/svelte';
 
   import type { BouncerRuleSchema } from '$lib/validators/bouncer';
@@ -42,6 +44,36 @@
 {/if}
 
 <ToggledContent enabled={dataState.serverSettings.modules.bouncer && dataState.serverSettings.modules.moderation}>
+  <Assistant
+    permissions={BigInt(data.serverInfo.bot_permissions)}
+    allRequired={0x0000010000000000n | 0x0000000000000002n | 0x0000000000000004n | 0x0000000010000000n}
+  >
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000010000000000n}
+      title="Timeout Users"
+      description="Allows Titanium to mute and unmute members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000002n}
+      title="Kick Users"
+      description="Allows Titanium to kick members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000000000004n}
+      title="Ban Users"
+      description="Allows Titanium to ban and unban members."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={0x0000000010000000n}
+      title="Manage Roles"
+      description="Allows Titanium to add, remove and toggle roles."
+    />
+  </Assistant>
+
   <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
       <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xs:flex">

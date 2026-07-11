@@ -1,5 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import { guildsLimit } from '$lib/limits';
+import { DiscordPermission, hasDiscordPermission } from '$lib/helpers/discord';
 import { TITANIUM_API_URL } from '$env/static/private';
 
 import type { RequestHandler } from './$types';
@@ -20,8 +21,8 @@ export const GET: RequestHandler = async (event) => {
 
   const guildData = await request.json();
   const guilds = guildData.filter((guild: { permissions: string }) => {
-    const permissions = parseInt(guild.permissions);
-    return permissions & 0x20 || permissions & 0x8;
+    const permissions = BigInt(guild.permissions);
+    return hasDiscordPermission(permissions, DiscordPermission.ManageGuild);
   });
 
   try {

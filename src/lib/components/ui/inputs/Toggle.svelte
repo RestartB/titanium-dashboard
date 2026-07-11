@@ -7,7 +7,6 @@
   onclick={() => (toggled = !toggled)}
   aria-label="Toggle"
 >
-  <span
-    class="block h-4 w-4 rounded-full bg-white transition-transform {toggled ? 'translate-x-6' : 'translate-x-0'}"
+  <span class="block h-4 w-4 rounded-full bg-white transition-transform {toggled ? 'translate-x-6' : 'translate-x-0'}"
   ></span>
 </button>

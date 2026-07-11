@@ -1,5 +1,7 @@
 <script lang="ts">
-  import type { ResolvedPathname } from '$app/types';
+  import { DiscordPermission, hasDiscordPermission } from '$lib/helpers/discord';
+
+  import Alert from '$lib/components/ui/Alert.svelte';
   import {
     Cog,
     Key,
@@ -15,6 +17,8 @@
     Tag,
     ThumbsUp
   } from '@lucide/svelte';
+
+  import type { ResolvedPathname } from '$app/types';
   import type { Component } from 'svelte';
 
   const { data } = $props();
@@ -59,6 +63,13 @@
     Manage settings for Titanium in <strong translate="no">{data.serverInfo.name}</strong> here.
   </p>
 </div>
+
+{#if !hasDiscordPermission(BigInt(data.serverInfo.bot_permissions), DiscordPermission.ViewChannel | DiscordPermission.SendMessages)}
+  <Alert>
+    Titanium is missing critical permissions (view channels and send messages). It will not function correctly until it
+    has these permissions.
+  </Alert>
+{/if}
 
 <div class="grid grid-cols-1 gap-4 xs:grid-cols-2 lg:grid-cols-3">
   {@render featureCard(
