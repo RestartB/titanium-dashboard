@@ -353,23 +353,25 @@
     </ToggleRow>
   </ToggledContent>
 
-  <ToggleRow bind:toggled={dataState.pageSettings.bot_vc_tracking}>
-    <div>
-      <h2 class="text-xl font-bold">Bot VC Tracking</h2>
-      <p>With this option enabled, Titanium will monitor bots for their VC time to update the VC time counters.</p>
-    </div>
-  </ToggleRow>
-
-  <ToggledContent enabled={dataState.pageSettings.bot_vc_tracking}>
-    <ToggleRow bind:toggled={dataState.pageSettings.bot_vc_xp}>
+  <ToggledContent enabled={dataState.pageSettings.vc_enabled}>
+    <ToggleRow bind:toggled={dataState.pageSettings.bot_vc_tracking}>
       <div>
-        <h2 class="text-xl font-bold">Bot VC XP</h2>
-        <p>
-          With this option enabled, Titanium will award XP to bots based on their VC time. The
-          <b>"Bot VC Tracking"</b> option must be enabled.
-        </p>
+        <h2 class="text-xl font-bold">Bot VC Tracking</h2>
+        <p>With this option enabled, Titanium will monitor bots for their VC time to update the VC time counters.</p>
       </div>
     </ToggleRow>
+
+    <ToggledContent enabled={dataState.pageSettings.bot_vc_tracking}>
+      <ToggleRow bind:toggled={dataState.pageSettings.bot_vc_xp}>
+        <div>
+          <h2 class="text-xl font-bold">Bot VC XP</h2>
+          <p>
+            With this option enabled, Titanium will award XP to bots based on their VC time. The
+            <b>"Bot VC Tracking"</b> option must be enabled.
+          </p>
+        </div>
+      </ToggleRow>
+    </ToggledContent>
   </ToggledContent>
 
   <hr class="border-zinc-500" />
