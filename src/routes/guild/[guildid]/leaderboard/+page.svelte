@@ -366,7 +366,7 @@
         <h2 class="text-xl font-bold">Bot VC XP</h2>
         <p>
           With this option enabled, Titanium will award XP to bots based on their VC time. The
-          <b>"Bot VC Tracking"</b> and <b>VC XP</b>options must be enabled.
+          <b>"Bot VC Tracking"</b> and <b>VC XP</b> options must be enabled.
         </p>
       </div>
     </ToggleRow>
