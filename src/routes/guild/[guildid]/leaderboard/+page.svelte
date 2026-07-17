@@ -332,6 +332,47 @@
   </Row>
 
   <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Bot Tracking</p>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.bot_message_tracking}>
+    <div>
+      <h2 class="text-xl font-bold">Bot Message Tracking</h2>
+      <p>With this option enabled, Titanium will monitor messages from bots to update the message counters.</p>
+    </div>
+  </ToggleRow>
+
+  <ToggledContent enabled={dataState.pageSettings.bot_message_tracking}>
+    <ToggleRow bind:toggled={dataState.pageSettings.bot_message_xp}>
+      <div>
+        <h2 class="text-xl font-bold">Bot Message XP</h2>
+        <p>
+          With this option enabled, Titanium will award XP to bots based on their messages. The
+          <b>"Bot Message Tracking"</b> option must be enabled.
+        </p>
+      </div>
+    </ToggleRow>
+  </ToggledContent>
+
+  <ToggleRow bind:toggled={dataState.pageSettings.bot_vc_tracking}>
+    <div>
+      <h2 class="text-xl font-bold">Bot VC Tracking</h2>
+      <p>With this option enabled, Titanium will monitor bots for their VC time to update the VC time counters.</p>
+    </div>
+  </ToggleRow>
+
+  <ToggledContent enabled={dataState.pageSettings.bot_vc_tracking}>
+    <ToggleRow bind:toggled={dataState.pageSettings.bot_vc_xp}>
+      <div>
+        <h2 class="text-xl font-bold">Bot VC XP</h2>
+        <p>
+          With this option enabled, Titanium will award XP to bots based on their VC time. The
+          <b>"Bot VC Tracking"</b> option must be enabled.
+        </p>
+      </div>
+    </ToggleRow>
+  </ToggledContent>
+
+  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Levels</p>
 
   <ToggleRow bind:toggled={dataState.pageSettings.stack_roles}>
