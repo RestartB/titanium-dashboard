@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createComment } from '$lib/remote/cases.remote';
+  import { defaultPfpUrl } from '$lib/helpers/discord';
   import format from 'format-duration';
 
   import Alert from '$lib/components/ui/Alert.svelte';
@@ -67,33 +68,49 @@
   <h3 class="mb-1 text-base font-bold opacity-60">Moderator</h3>
   <div class="mt-1 flex items-center gap-2">
     <img
-      src={caseData.creator_pfp}
-      alt="{caseData.creator_name}'s PFP"
+      src={caseData.creator_pfp || defaultPfpUrl(caseData.creator_id)}
+      alt="{caseData.creator_name || caseData.creator_id}'s PFP"
       width="32"
       height="32"
       class="h-8 w-8 rounded-full"
     />
-    <div>
-      <p class="font-semibold">
-        {caseData.creator_display} (@{caseData.creator_name}{caseData.creator_discrim
-          ? `#${caseData.creator_discrim}`
-          : ''})
-      </p>
-      <p class="font-mono text-sm text-zinc-300">{caseData.creator_id}</p>
-    </div>
+
+    {#if caseData.creator_id}
+      <div>
+        <p class="font-semibold">
+          {caseData.creator_display} (@{caseData.creator_name}{caseData.creator_discrim
+            ? `#${caseData.creator_discrim}`
+            : ''})
+        </p>
+        <p class="font-mono text-sm text-zinc-300">{caseData.creator_id}</p>
+      </div>
+    {:else}
+      <p class="font-semibold">{caseData.creator_id}</p>
+    {/if}
   </div>
 </div>
 
 <div>
   <h3 class="mb-1 text-base font-bold opacity-60">Punished user</h3>
   <div class="mt-1 flex items-center gap-2">
-    <img src={caseData.user_pfp} alt="{caseData.user_name}'s PFP" width="32" height="32" class="h-8 w-8 rounded-full" />
-    <div>
-      <p class="font-semibold">
-        {caseData.user_display} (@{caseData.user_name}{caseData.user_discrim ? `#${caseData.user_discrim}` : ''})
-      </p>
-      <p class="font-mono text-sm text-zinc-300">{caseData.user_id}</p>
-    </div>
+    <img
+      src={caseData.user_pfp || defaultPfpUrl(caseData.user_id)}
+      alt="{caseData.user_name || caseData.user_id}'s PFP"
+      width="32"
+      height="32"
+      class="h-8 w-8 rounded-full"
+    />
+
+    {#if caseData.user_name}
+      <div>
+        <p class="font-semibold">
+          {caseData.user_display} (@{caseData.user_name}{caseData.user_discrim ? `#${caseData.user_discrim}` : ''})
+        </p>
+        <p class="font-mono text-sm text-zinc-300">{caseData.user_id}</p>
+      </div>
+    {:else}
+      <p class="font-semibold">{caseData.user_id}</p>
+    {/if}
   </div>
 </div>
 
@@ -147,8 +164,7 @@
       <textarea
         class="block min-h-8 w-full"
         placeholder="Write a comment here..."
-        {...createComment.fields.content.as('text')}
-      ></textarea>
+        {...createComment.fields.content.as('text')}></textarea>
     </div>
   </div>
 

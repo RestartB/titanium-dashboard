@@ -12,15 +12,13 @@
 </script>
 
 {#snippet topRow()}
-  <div class="flex flex-wrap items-center justify-between w-full gap-2">
+  <div class="flex w-full flex-wrap items-center justify-between gap-2">
     <div class="text-start">
       <h3 class="text-xl font-bold">Permission Assistant</h3>
       <p>View all bot permissions this feature requires.</p>
     </div>
 
-    <div
-      class="flex items-center justify-center gap-2 rounded-full border-2 border-zinc-600 bg-zinc-700 p-1 px-4"
-    >
+    <div class="flex items-center justify-center gap-2 rounded-full border-2 border-zinc-600 bg-zinc-700 p-1 px-4">
       {#if hasDiscordPermission(permissions, allRequired)}
         <Check class="text-green-300" />
         <p>All good</p>

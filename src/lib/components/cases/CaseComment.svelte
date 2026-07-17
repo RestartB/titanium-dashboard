@@ -1,6 +1,7 @@
 <script lang="ts">
   import { refreshAll } from '$app/navigation';
   import { deleteComment, editComment } from '$lib/remote/cases.remote';
+  import { defaultPfpUrl } from '$lib/helpers/discord';
 
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
@@ -46,14 +47,25 @@
   <input type="hidden" {...editFormLocal.fields.commentId.as('text')} value={comment.id} />
 
   <div class="mb-2 flex h-fit w-full gap-2">
-    <img src={comment.creator_pfp} width="32" height="32" class="h-8 w-8 rounded-full" alt="PFP" />
+    <img
+      src={comment.creator_pfp || defaultPfpUrl(comment.creator_id)}
+      width="32"
+      height="32"
+      class="h-8 w-8 rounded-full"
+      alt="PFP"
+    />
     <div class="flex-1">
       <div class="flex items-center gap-2">
         <p class="font-bold">
-          {comment.creator_display}
-          <span class="font-normal"
-            >(@{comment.creator_name}{comment.creator_discrim ? `#${comment.creator_discrim}` : ''})</span
-          >
+          {#if comment.creator_name}
+            {comment.creator_display}
+            <span class="font-normal"
+              >(@{comment.creator_name}{comment.creator_discrim ? `#${comment.creator_discrim}` : ''})</span
+            >
+          {:else}
+            {comment.creator_id}
+          {/if}
+
           <span class="align-middle text-sm font-normal text-zinc-300">
             {new Date(comment.time_created).toLocaleString()}
           </span>
@@ -76,6 +88,7 @@
           >
             <Trash size={16} /> Delete
           </button>
+
           <button
             type="button"
             class="flex cursor-pointer items-center gap-0.5 text-sm font-normal text-zinc-300 hover:text-zinc-100"
@@ -94,8 +107,7 @@
           class="block min-h-8 w-full"
           placeholder="Write a comment here..."
           use:focusOnMount
-          {...editFormLocal.fields.content.as('text')}
-        ></textarea>
+          {...editFormLocal.fields.content.as('text')}></textarea>
       {:else}
         <p>{comment.content}</p>
       {/if}

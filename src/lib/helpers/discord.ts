@@ -33,4 +33,8 @@ function hasAnyDiscordPermission(permissions: bigint, required: bigint) {
   );
 }
 
-export { DiscordPermission, hasAnyDiscordPermission, hasDiscordPermission, validateID };
+function defaultPfpUrl(id: string) {
+  return `https://cdn.discordapp.com/embed/avatars/${Number((BigInt(id) >> 22n) % 6n)}.png`;
+}
+
+export { DiscordPermission, hasAnyDiscordPermission, hasDiscordPermission, validateID, defaultPfpUrl };

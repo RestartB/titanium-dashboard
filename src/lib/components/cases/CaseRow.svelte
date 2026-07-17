@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { defaultPfpUrl } from '$lib/helpers/discord';
+
   import { Tooltip } from 'flowbite-svelte';
   import { TriangleAlert, VolumeOff, UserRoundX, Hammer } from '@lucide/svelte';
 
@@ -38,32 +40,38 @@
           {/if}
           <strong>{caseData.type.toLocaleUpperCase()}</strong> by
           <img
-            src={caseData.creator_pfp}
-            alt="{caseData.creator_name}'s PFP"
+            src={caseData.creator_pfp || defaultPfpUrl(caseData.creator_id)}
+            alt="{caseData.creator_name || caseData.creator_id}'s PFP"
             width="20"
             height="20"
             class="inline-block h-5 w-5 rounded-full align-middle"
           />
-          @{caseData.creator_name}{caseData.creator_discrim ? `#${caseData.creator_discrim}` : ''} - {new Date(
-            caseData.time_created
-          ).toLocaleString()}
+          {caseData.creator_name
+            ? `@${caseData.creator_name}${caseData.creator_discrim ? `#${caseData.creator_discrim}` : ''}`
+            : caseData.creator_id} - {new Date(caseData.time_created).toLocaleString()}
         </p>
       </div>
 
       <div class="flex items-center gap-2">
         <img
-          src={caseData.user_pfp}
-          alt="{caseData.user_name}'s PFP"
+          src={caseData.user_pfp || defaultPfpUrl(caseData.user_id)}
+          alt="{caseData.user_name || caseData.user_id}'s PFP"
           width="32"
           height="32"
           class="h-8 w-8 rounded-full"
         />
-        <div>
+        {#if caseData.user_name}
+          <div>
+            <p class="font-semibold">
+              {caseData.user_display} (@{caseData.user_name}{caseData.user_discrim ? `#${caseData.user_discrim}` : ''})
+            </p>
+            <p class="font-mono text-sm text-zinc-300">{caseData.user_id}</p>
+          </div>
+        {:else}
           <p class="font-semibold">
-            {caseData.user_display} (@{caseData.user_name}{caseData.user_discrim ? `#${caseData.user_discrim}` : ''})
+            {caseData.user_id}
           </p>
-          <p class="font-mono text-sm text-zinc-300">{caseData.user_id}</p>
-        </div>
+        {/if}
       </div>
 
       <p class:opacity-80={!caseData.description}>{caseData.description || 'No description provided.'}</p>
