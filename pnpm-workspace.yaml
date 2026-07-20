@@ -3,5 +3,3 @@ allowBuilds:
   '@tailwindcss/oxide': false
 minimumReleaseAge: 4320
 engineStrict: true
-minimumReleaseAgeExclude:
-  - 'prettier-plugin-tailwindcss@0.8.1'
