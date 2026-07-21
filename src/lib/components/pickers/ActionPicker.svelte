@@ -110,7 +110,7 @@
     {
       id: 'send_message',
       name: 'Send Message',
-      desc: 'Send a message.',
+      desc: 'Send a message. Will not trigger if the message author is a bot.',
       icon: MessageCircle
     },
     ...commonActionTypes
