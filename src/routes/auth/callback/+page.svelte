@@ -57,8 +57,7 @@
     }
 
     if (!redirectTo.startsWith('/')) {
-      window.location.href = '/';
-      return;
+      redirectTo = '/';
     }
 
     fetch('/api/auth/trade', {
