@@ -14,20 +14,24 @@ export type BouncerCriterionSchema = z.infer<typeof bouncerCriterionSchema>;
 export const bouncerActionSchema = z
   .object({
     type: z.enum(['warn', 'mute', 'kick', 'ban', 'reset_nick', 'add_role', 'remove_role', 'toggle_role']),
-    duration: z.number().int().positive().nullable().optional(),
-    role_id: z.string().nullable().optional(),
-    reason: z.string().nullable().optional()
+    duration: z.number().int().min(1).nullable().optional(),
+    reason: z.string().trim().max(512).nullable().optional(),
+    role_ids: z.array(z.string())
   })
   .refine(
     (data) => {
-      if (['add_role', 'remove_role', 'toggle_role'].includes(data.type)) {
-        return data.role_id !== null && data.role_id !== undefined && validateID(data.role_id);
+      if (data.role_ids) {
+        for (const role_id in data.role_ids) {
+          if (!validateID(role_id)) {
+            return false;
+          }
+        }
       }
       return true;
     },
     {
-      message: 'Role ID must be valid',
-      path: ['role_id']
+      message: 'Role IDs must be valid',
+      path: ['role_ids']
     }
   );
 
@@ -36,8 +40,15 @@ export type BouncerActionSchema = z.infer<typeof bouncerActionSchema>;
 export const bouncerRuleSchema = z
   .object({
     id: z.string(),
+    rule_name: z.string().trim().max(100),
+
     enabled: z.boolean(),
     evaluate_for_existing_members: z.boolean(),
+    match_all_criteria: z.boolean(),
+
+    order: z.number().min(0).int(),
+    stop_if_triggered: z.boolean(),
+
     criteria: z.array(bouncerCriterionSchema),
     actions: z.array(bouncerActionSchema)
   })
