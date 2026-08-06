@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { validateID } from '$lib/helpers/discord';
 
 export const bouncerCriterionSchema = z.object({
-  type: z.enum(['username', 'tag', 'age', 'avatar']),
+  type: z.enum(['username', 'tag', 'age', 'avatar', 'reaction']),
   account_age: z.number().int().positive().nullable().optional(),
   words: z.array(z.string()).nullable().optional(),
   match_whole_word: z.boolean().optional(),
