@@ -28,9 +28,7 @@
     if (type === 'bouncer') {
       return {
         type: actionType,
-        duration: null,
-        role_id: null,
-        reason: ''
+        role_ids: []
       } as BouncerActionSchema;
     }
 

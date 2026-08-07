@@ -1,7 +1,6 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
-  import RoleButton from '$lib/components/ui/discord/RoleButton.svelte';
   import Duration from '$lib/components/ui/inputs/Duration.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Button from './inputs/Button.svelte';
@@ -101,13 +100,7 @@
         <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment.</p>
         <Duration class="w-full p-2" border={false} bind:seconds={action.duration} />
       </div>
-    {:else if isBouncerRoleAction(action)}
-      <div class="w-full text-left">
-        <p class="font-medium">Role</p>
-        <p class="mb-2 text-sm text-zinc-400">Set up to 10 roles role to add, remove or toggle.</p>
-        <RoleButton class="w-full bg-zinc-800 p-2" roles={serverInfo.roles} bind:role={action.role_id} />
-      </div>
-    {:else if isAutomodRoleAction(action)}
+    {:else if isBouncerRoleAction(action) || isAutomodRoleAction(action)}
       <div class="w-full text-left">
         <p class="font-medium">Role</p>
         <p class="mb-2 text-sm text-zinc-400">Set up to 10 roles role to add, remove or toggle.</p>
