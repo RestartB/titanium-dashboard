@@ -3,6 +3,7 @@
 
   import Row from '$lib/components/ui/row/Row.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import CriterionTile from './CriterionTile.svelte';
   import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import CriterionPicker from './CriterionPicker.svelte';
@@ -106,6 +107,13 @@
           {/each}
         </div>
       </div>
+
+      {#if rule.match_all_criteria && rule.criteria.filter((r) => r.type === 'reaction').length}
+        <Alert>
+          Match all criteria is enabled, and a suspicious reactions criteria is present. This rule will only match for
+          reaction events.
+        </Alert>
+      {/if}
 
       <div class="flex items-center gap-2">
         <Toggle bind:toggled={rule.evaluate_for_existing_members} />
