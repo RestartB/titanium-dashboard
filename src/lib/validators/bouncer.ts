@@ -4,9 +4,11 @@ import { validateID } from '$lib/helpers/discord';
 export const bouncerCriterionSchema = z.object({
   type: z.enum(['username', 'tag', 'age', 'avatar', 'reaction']),
   account_age: z.number().int().positive().nullable().optional(),
-  words: z.array(z.string()).nullable().optional(),
-  match_whole_word: z.boolean().optional(),
-  case_sensitive: z.boolean().optional()
+
+  words: z.array(z.string().min(1).max(100)),
+  match_whole_word: z.boolean(),
+  match_all_words: z.boolean(),
+  case_sensitive: z.boolean()
 });
 
 export type BouncerCriterionSchema = z.infer<typeof bouncerCriterionSchema>;
@@ -14,8 +16,10 @@ export type BouncerCriterionSchema = z.infer<typeof bouncerCriterionSchema>;
 export const bouncerActionSchema = z
   .object({
     type: z.enum(['warn', 'mute', 'kick', 'ban', 'reset_nick', 'add_role', 'remove_role', 'toggle_role']),
+
     duration: z.number().int().min(1).nullable().optional(),
     reason: z.string().trim().max(512).nullable().optional(),
+
     role_ids: z.array(z.string())
   })
   .refine(

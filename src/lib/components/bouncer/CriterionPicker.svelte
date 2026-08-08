@@ -12,7 +12,8 @@
     return {
       type: type,
       words: [],
-      match_whole_word: false,
+      match_whole_word: true,
+      match_all_words: false,
       case_sensitive: false
     };
   }
@@ -50,7 +51,7 @@
     {
       id: 'reaction',
       name: 'Suspicious Reactions',
-      desc: 'Watch if a user reacts to a message within 3 seconds of joining. Does not apply for user join / update events.',
+      desc: 'Watch if a user reacts to a message within 5 seconds of joining. Does not apply for user join / update events.',
       icon: Smile
     }
   ];
