@@ -1,17 +1,22 @@
 <script lang="ts">
   import { beforeNavigate, invalidateAll } from '$app/navigation';
-  import { fly } from 'svelte/transition';
+  import { fly, slide } from 'svelte/transition';
+  import { cubicInOut } from 'svelte/easing';
 
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import Row from '$lib/components/ui/row/Row.svelte';
-  import { TriangleAlert, LoaderCircle, Copy, Check } from '@lucide/svelte';
+  import { TriangleAlert, LoaderCircle, Copy, Check, ChevronDown } from '@lucide/svelte';
+  import { tick } from 'svelte';
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   let { page = '', data, dataState = $bindable() }: { page?: string; data: any; dataState: any } = $props();
 
   let originalDataString = $derived(JSON.stringify(data));
-  let hasUnsavedChanges = $state(false);
+  let hasUnsavedChanges = $derived(originalDataString !== JSON.stringify(dataState));
+  let expanded = $derived(hasUnsavedChanges);
   let loading = $state(false);
+
+  let container: HTMLDivElement | undefined = $state();
   let row: HTMLDivElement | undefined = $state();
 
   let overlayOpen = $state(false);
@@ -20,31 +25,27 @@
   let errorMessage: string = $state('');
   let isCopied = $state(false);
 
-  $effect(() => {
-    const currentDataString = JSON.stringify(dataState);
-    hasUnsavedChanges = originalDataString !== currentDataString;
-  });
-
-  beforeNavigate((nav) => {
-    if (hasUnsavedChanges) {
-      nav.cancel();
-      row?.classList.add('animate-warning');
-
-      if (row) {
-        row.style.setProperty('background-color', 'oklch(44.4% 0.177 26.899)', 'important');
-      }
-
-      row?.addEventListener(
-        'animationend',
-        () => {
-          row?.classList.remove('animate-warning');
-          if (row) {
-            row.style.removeProperty('background-color');
-          }
-        },
-        { once: true }
-      );
+  beforeNavigate(async (nav) => {
+    if (!hasUnsavedChanges) {
+      return;
     }
+
+    nav.cancel();
+    expanded = true;
+    await tick();
+
+    row?.style.setProperty('background-color', 'oklch(44.4% 0.177 26.899)', 'important');
+    container?.classList.add('animate-warning');
+    container?.addEventListener(
+      'animationend',
+      () => {
+        container?.classList.remove('animate-warning');
+        row?.style.removeProperty('background-color');
+      },
+      {
+        once: true
+      }
+    );
   });
 
   async function saveChanges() {
@@ -167,8 +168,8 @@
 {/snippet}
 
 {#if overlayOpen}
-  <FullscreenOverlay bind:overlayOpen title="Error" {extraButton} height={250} padding={16} gap={16}>
-    <p>{errorMessage}</p>
+  <FullscreenOverlay bind:overlayOpen title="Error" {extraButton} padding={16} gap={24}>
+    <p class="whitespace-pre-wrap">{errorMessage}</p>
     <p class="mt-auto text-center font-mono text-sm text-zinc-400">
       Got code {errorCode} in stage {errorStage}
     </p>
@@ -177,40 +178,58 @@
 
 {#if hasUnsavedChanges}
   <div
-    class="fixed inset-0 z-100 mt-12 flex flex-col items-center justify-end overflow-hidden p-4"
+    class="fixed inset-0 z-100 mt-12 flex flex-col items-center justify-end overflow-hidden p-4 pb-0"
     class:pointer-events-none={!loading}
     class:cursor-not-allowed={loading}
     transition:fly={{ y: 20, duration: 200 }}
   >
-    <Row
-      class="pointer-events-auto w-full max-w-180 bg-zinc-800/60 backdrop-blur-lg transition-colors"
-      bind:thisElement={row}
-    >
-      <div class="flex h-full w-full flex-col items-center justify-between gap-4 xs:flex-row">
-        <div class="flex items-center gap-2">
-          <TriangleAlert size={20} />
-          <p>You have unsaved changes.</p>
-        </div>
-        <div class="flex shrink-0 items-center justify-center gap-2">
-          <button
-            class="min-h-9 cursor-pointer rounded-lg bg-zinc-600 px-2 py-1 transition-all hover:bg-zinc-500 disabled:cursor-not-allowed disabled:opacity-50"
-            onclick={resetChanges}
-            disabled={loading}>Reset</button
+    <div bind:this={container} class="flex w-full max-w-180 flex-col items-center justify-center">
+      <button
+        onclick={() => (expanded = !expanded)}
+        title="{expanded ? 'Collapse' : 'Reveal'} save changes panel"
+        class="pointer-events-auto flex h-fit w-20 cursor-pointer items-center justify-center rounded-t-xl border-2 border-b-0 border-zinc-700 bg-zinc-800/60 backdrop-blur-lg"
+      >
+        <ChevronDown
+          class="shrink-0 transition-transform duration-400 {expanded
+            ? 'transform-[rotateX(0deg)]'
+            : 'transform-[rotateX(180deg)]'}"
+        />
+      </button>
+
+      {#if expanded}
+        <div class="w-full" transition:slide={{ easing: cubicInOut }}>
+          <Row
+            class="pointer-events-auto w-full rounded-b-none! border-b-0 bg-zinc-800/60! backdrop-blur-lg transition-colors"
+            bind:thisElement={row}
           >
-          <button
-            class="flex min-h-9 min-w-32 cursor-pointer items-center justify-center rounded-lg bg-green-600 px-2 py-1 transition-all hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
-            disabled={loading}
-            onclick={saveChanges}
-            aria-label={loading ? 'Saving changes' : 'Save changes'}
-          >
-            {#if loading}
-              <LoaderCircle size={20} class="animate-spin" />
-            {:else}
-              Save changes
-            {/if}
-          </button>
+            <div class="flex h-full w-full flex-col items-center justify-between gap-4 xs:flex-row">
+              <div class="flex items-center gap-2">
+                <TriangleAlert size={20} />
+                <p>You have unsaved changes.</p>
+              </div>
+              <div class="flex shrink-0 items-center justify-center gap-2">
+                <button
+                  class="min-h-9 cursor-pointer rounded-lg bg-zinc-600 px-2 py-1 transition-all hover:bg-zinc-500 disabled:cursor-not-allowed disabled:opacity-50"
+                  onclick={resetChanges}
+                  disabled={loading}>Reset</button
+                >
+                <button
+                  class="flex min-h-9 min-w-32 cursor-pointer items-center justify-center rounded-lg bg-green-600 px-2 py-1 transition-all hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={loading}
+                  onclick={saveChanges}
+                  aria-label={loading ? 'Saving changes' : 'Save changes'}
+                >
+                  {#if loading}
+                    <LoaderCircle size={20} class="animate-spin" />
+                  {:else}
+                    Save changes
+                  {/if}
+                </button>
+              </div>
+            </div>
+          </Row>
         </div>
-      </div>
-    </Row>
+      {/if}
+    </div>
   </div>
 {/if}

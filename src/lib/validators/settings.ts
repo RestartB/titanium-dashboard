@@ -32,10 +32,10 @@ export const guildSettingsSchema = z.object({
   settings: settingsSchema,
   prefixes: z
     .array(z.string().min(1).max(5))
-    .min(1, 'At least one prefix is required')
-    .max(5, 'A maximum of 5 prefixes are allowed')
+    .min(1, 'At least one prefix is required.')
+    .max(5, 'A maximum of 5 prefixes are allowed.')
     .refine((prefixes) => new Set(prefixes).size === prefixes.length, {
-      message: 'Prefixes must be unique'
+      message: 'Prefixes must be unique.'
     })
 });
 
@@ -56,7 +56,7 @@ export const guildPermissionsSchema = z
       return true;
     },
     {
-      message: 'Dashboard Manager IDs must be valid',
+      message: 'Dashboard Manager IDs must be valid.',
       path: ['dashboard_managers']
     }
   )
@@ -70,7 +70,7 @@ export const guildPermissionsSchema = z
       return true;
     },
     {
-      message: 'Case Manager IDs must be valid',
+      message: 'Case Manager IDs must be valid.',
       path: ['case_managers']
     }
   );

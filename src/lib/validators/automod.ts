@@ -53,7 +53,7 @@ export const automodActionSchema = z
       return true;
     },
     {
-      message: 'Role IDs must be valid',
+      message: 'Role IDs must be valid.',
       path: ['role_ids']
     }
   );
@@ -82,7 +82,7 @@ export const automodRuleSchema = z
       return criteriaTypes.length === uniqueCriteriaTypes.size;
     },
     {
-      message: 'Each criterion type in a rule must be unique',
+      message: 'Each criterion type in a rule must be unique.',
       path: ['criteria']
     }
   )
@@ -93,7 +93,7 @@ export const automodRuleSchema = z
       return actionTypes.length === uniqueActionTypes.size;
     },
     {
-      message: 'Each action type in a rule must be unique',
+      message: 'Each action type in a rule must be unique.',
       path: ['actions']
     }
   );

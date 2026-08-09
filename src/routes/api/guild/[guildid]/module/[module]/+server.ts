@@ -1,8 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import { TITANIUM_API_URL } from '$env/static/private';
+import * as validators from '$lib/validators';
 
 import type { RequestHandler } from './$types';
-import * as validators from '$lib/validators';
 
 export const GET: RequestHandler = async (event) => {
   const { module } = event.params;
@@ -55,7 +55,10 @@ export const PUT: RequestHandler = async (event) => {
 
   if (!validationResult.success) {
     console.error(validationResult.error);
-    throw error(400, 'Invalid module config');
+
+    const issues = validationResult.error.issues;
+    const joinedMessages = issues.map((i) => i.message).join('\n');
+    throw error(400, issues.length > 0 ? joinedMessages : 'Invalid module config');
   }
 
   try {
