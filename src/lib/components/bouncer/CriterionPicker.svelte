@@ -51,7 +51,7 @@
     {
       id: 'reaction',
       name: 'Suspicious Reactions',
-      desc: 'Watch if a user reacts to a message within 5 seconds of joining. Does not apply for user join / update events.',
+      desc: 'Watch if a user reacts to a message within 5 seconds of joining. Will never match for user join / update events.',
       icon: Smile
     }
   ];
