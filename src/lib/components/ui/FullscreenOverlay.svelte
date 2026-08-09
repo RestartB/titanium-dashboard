@@ -44,7 +44,7 @@
 
   <div
     class="flex flex-col gap-4 rounded-xl border-2 border-zinc-600 bg-zinc-800 p-4"
-    style="width: min({width}px, 100%); height: min({height}px, calc(100vh - 5rem)); max-height: calc(100vh - 5rem);"
+    style="width: min({width}px, 100%); height: min(fit-content, calc(100vh - 5rem)); max-height: min({height}px, calc(100vh - 5rem));"
     transition:scale={{ duration: 300, easing: cubicOut, start: 0.9, opacity: 1 }}
   >
     <div class="flex w-full shrink-0 items-center justify-between gap-2">

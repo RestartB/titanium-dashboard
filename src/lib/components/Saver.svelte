@@ -167,8 +167,8 @@
 {/snippet}
 
 {#if overlayOpen}
-  <FullscreenOverlay bind:overlayOpen title="Error" {extraButton} height={250} padding={16} gap={16}>
-    <p>{errorMessage}</p>
+  <FullscreenOverlay bind:overlayOpen title="Error" {extraButton} padding={16} gap={24}>
+    <p class="whitespace-pre-wrap">{errorMessage}</p>
     <p class="mt-auto text-center font-mono text-sm text-zinc-400">
       Got code {errorCode} in stage {errorStage}
     </p>

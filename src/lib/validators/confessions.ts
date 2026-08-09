@@ -15,7 +15,7 @@ export const confessionsConfigSchema = z
         : true;
     },
     {
-      message: 'Channel ID must be valid',
+      message: 'Channel ID must be valid.',
       path: ['confessions_channel_id']
     }
   );

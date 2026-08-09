@@ -21,7 +21,7 @@ export const fireboardBoardSchema = z
       return validateID(data.channel_id);
     },
     {
-      message: 'Channel ID must be valid',
+      message: 'Channel ID must be valid.',
       path: ['channel_id']
     }
   );

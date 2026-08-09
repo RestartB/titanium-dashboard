@@ -34,7 +34,7 @@ export const bouncerActionSchema = z
       return true;
     },
     {
-      message: 'Role IDs must be valid',
+      message: 'Role IDs must be valid.',
       path: ['role_ids']
     }
   );
@@ -61,12 +61,30 @@ export const bouncerRuleSchema = z
   })
   .refine(
     (data) => {
+      return data.member_join || data.member_update || data.suspicious_reaction;
+    },
+    {
+      message: 'At least 1 trigger type is required.',
+      path: ['member_join', 'member_update', 'suspicious_reaction']
+    }
+  )
+  .refine(
+    (data) => {
+      return (!data.member_join && !data.member_update) || data.criteria.length > 0;
+    },
+    {
+      message: 'At least 1 criteria is required for member join / update triggers.',
+      path: ['criteria']
+    }
+  )
+  .refine(
+    (data) => {
       const criteriaTypes = data.criteria.map((criterion) => criterion.type);
       const uniqueCriteriaTypes = new Set(criteriaTypes);
       return criteriaTypes.length === uniqueCriteriaTypes.size;
     },
     {
-      message: 'Each criterion type in a rule must be unique',
+      message: 'Each criterion type in a rule must be unique.',
       path: ['criteria']
     }
   )
@@ -77,7 +95,7 @@ export const bouncerRuleSchema = z
       return actionTypes.length === uniqueActionTypes.size;
     },
     {
-      message: 'Each action type in a rule must be unique',
+      message: 'Each action type in a rule must be unique.',
       path: ['actions']
     }
   );
