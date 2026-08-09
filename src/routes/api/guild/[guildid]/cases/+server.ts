@@ -20,7 +20,11 @@ export const GET: RequestHandler = async (event) => {
     );
 
     if (!request.ok) {
-      error(request.status, 'Failed to fetch cases from Titanium');
+      if (request.status === 403) {
+        error(request.status, 'Moderation module is disabled');
+      } else {
+        error(request.status, 'Failed to fetch cases from Titanium');
+      }
     }
 
     const data = await request.json();

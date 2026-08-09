@@ -150,18 +150,19 @@ export const handle: Handle = async ({ event, resolve }) => {
 
       return redirect(302, '/');
     } else if (
-      event.url.pathname === `/api/guild/${guildId}` ||
-      (event.url.pathname === `/api/guild/${guildId}/settings` && event.request.method === 'GET') ||
-      event.url.pathname === `/api/guild/${guildId}/cases` ||
-      event.url.pathname.startsWith(`/api/guild/${guildId}/cases/`) ||
-      event.url.pathname === `/guild/${guildId}/moderation/cases` ||
-      event.url.pathname.startsWith(`/guild/${guildId}/moderation/cases/`)
+      !event.locals.dashboard_manager &&
+      event.url.pathname !== `/api/guild/${guildId}` &&
+      !(event.url.pathname === `/api/guild/${guildId}/settings` && event.request.method === 'GET') &&
+      event.url.pathname !== `/api/guild/${guildId}/cases` &&
+      !event.url.pathname.startsWith(`/api/guild/${guildId}/cases/`) &&
+      event.url.pathname !== `/guild/${guildId}/moderation/cases` &&
+      !event.url.pathname.startsWith(`/guild/${guildId}/moderation/cases/`)
     ) {
-      if (!event.locals.case_manager && !event.locals.dashboard_manager) {
-        return redirect(302, '/');
+      console.debug(`Not a case manager whitelisted link, redirecting (${event.url.href})`);
+      if (event.url.pathname.startsWith('/api/')) {
+        return json({ error: 'Insufficient Permissions' }, { status: 403 });
       }
-    } else if (!event.locals.dashboard_manager) {
-      console.log(`Not a case manager whitelisted link, redirecting (${event.url.href})`);
+
       return redirect(302, `/guild/${guildId}/moderation/cases`);
     }
 

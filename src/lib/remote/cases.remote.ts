@@ -33,7 +33,7 @@ export const getComments = query(z.object({ guildId: z.string(), caseId: z.strin
 
   if (!request.ok) {
     console.error('Failed to fetch comments:', await request.text());
-    throw error(500, 'Unknown error');
+    error(500, 'Unknown error');
   }
 
   const data = await request.json();
