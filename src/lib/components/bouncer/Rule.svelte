@@ -3,17 +3,18 @@
 
   import Row from '$lib/components/ui/row/Row.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import TriggerPicker from './TriggerPicker.svelte';
-  import CriterionTile from './CriterionTile.svelte';
-  import ActionTile from '$lib/components/ui/ActionTile.svelte';
+  import TriggerTile from './TriggerTile.svelte';
   import CriterionPicker from './CriterionPicker.svelte';
+  import CriterionTile from './CriterionTile.svelte';
   import ActionPicker from '$lib/components/pickers/ActionPicker.svelte';
+  import ActionTile from '$lib/components/ui/ActionTile.svelte';
 
   import { GripVertical, Trash, Plus } from '@lucide/svelte';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
   import type { BouncerRuleSchema } from '$lib/validators';
-  import TriggerTile from './TriggerTile.svelte';
 
   let {
     serverInfo,
@@ -115,6 +116,10 @@
           {/each}
         </div>
       </div>
+
+      {#if (rule.member_join || rule.member_update) && rule.criteria.length === 0}
+        <Alert>At least 1 criteria is required for member join / update triggers.</Alert>
+      {/if}
 
       <div>
         <h2 class="font-bold">Actions</h2>

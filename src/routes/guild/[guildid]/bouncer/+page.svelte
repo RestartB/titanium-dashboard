@@ -28,12 +28,18 @@
   function createBlankRule(order: number): BouncerRuleSchema {
     return {
       id: crypto.randomUUID(),
+
       rule_name: '',
       enabled: true,
-      evaluate_for_existing_members: true,
       match_all_criteria: true,
+
       order: order,
       stop_if_triggered: false,
+
+      member_join: false,
+      member_update: false,
+      suspicious_reaction: false,
+
       actions: [],
       criteria: []
     };
@@ -117,6 +123,9 @@
       </div>
     </div>
   </AnchorRow>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Rules</p>
 
   <div class="flex flex-wrap items-center gap-2">
     <Button
