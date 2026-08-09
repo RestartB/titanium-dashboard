@@ -1,7 +1,7 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
-  import { ALargeSmall, Tag, Clock, User, Smile } from '@lucide/svelte';
+  import { ALargeSmall, Tag, Clock, User } from '@lucide/svelte';
   import type { Component } from 'svelte';
   import type { BouncerCriterionSchema, BouncerRuleSchema } from '$lib/validators/bouncer';
 
@@ -47,12 +47,6 @@
       name: 'Default Avatar',
       desc: 'Watch if the user has a default avatar.',
       icon: User
-    },
-    {
-      id: 'reaction',
-      name: 'Suspicious Reactions',
-      desc: 'Watch if a user reacts to a message within 5 seconds of joining. Will never match for user join / update events.',
-      icon: Smile
     }
   ];
   let filteredTypes = $derived(

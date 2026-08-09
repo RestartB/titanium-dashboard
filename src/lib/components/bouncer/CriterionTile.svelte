@@ -23,7 +23,7 @@
 {/if}
 
 <div class="flex items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base">
-  {#if criterion.type !== 'avatar' && criterion.type !== 'reaction'}
+  {#if criterion.type !== 'avatar'}
     <button onclick={() => (overlayOpen = true)} aria-label="Open criterion preferences" class="cursor-pointer">
       <Cog size={16} />
     </button>
@@ -32,9 +32,5 @@
     <X size={16} />
   </button>
 
-  {#if criterion.type === 'reaction'}
-    <p>Suspicious Reactions</p>
-  {:else}
-    <p class="capitalize">{criterion.type.replaceAll('_', ' ')}</p>
-  {/if}
+  <p class="capitalize">{criterion.type.replaceAll('_', ' ')}</p>
 </div>

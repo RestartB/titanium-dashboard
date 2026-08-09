@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { validateID } from '$lib/helpers/discord';
 
 export const bouncerCriterionSchema = z.object({
-  type: z.enum(['username', 'tag', 'age', 'avatar', 'reaction']),
+  type: z.enum(['username', 'tag', 'age', 'avatar']),
   account_age: z.number().int().positive().nullable().optional(),
 
   words: z.array(z.string().min(1).max(100)),
@@ -44,14 +44,17 @@ export type BouncerActionSchema = z.infer<typeof bouncerActionSchema>;
 export const bouncerRuleSchema = z
   .object({
     id: z.string(),
-    rule_name: z.string().trim().max(100),
 
+    rule_name: z.string().trim().max(100),
     enabled: z.boolean(),
-    evaluate_for_existing_members: z.boolean(),
     match_all_criteria: z.boolean(),
 
     order: z.number().min(0).int(),
     stop_if_triggered: z.boolean(),
+
+    member_join: z.boolean(),
+    member_update: z.boolean(),
+    suspicious_reaction: z.boolean(),
 
     criteria: z.array(bouncerCriterionSchema),
     actions: z.array(bouncerActionSchema)

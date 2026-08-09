@@ -3,7 +3,7 @@
 
   import Row from '$lib/components/ui/row/Row.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
-  import Alert from '$lib/components/ui/Alert.svelte';
+  import TriggerPicker from './TriggerPicker.svelte';
   import CriterionTile from './CriterionTile.svelte';
   import ActionTile from '$lib/components/ui/ActionTile.svelte';
   import CriterionPicker from './CriterionPicker.svelte';
@@ -13,6 +13,7 @@
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
   import type { BouncerRuleSchema } from '$lib/validators';
+  import TriggerTile from './TriggerTile.svelte';
 
   let {
     serverInfo,
@@ -28,9 +29,14 @@
     deleteThis: () => void;
   } = $props();
 
+  let createTriggerOpen = $state(false);
   let createCriterionOpen = $state(false);
   let createActionOpen = $state(false);
 </script>
+
+{#if createTriggerOpen}
+  <TriggerPicker bind:rule bind:overlayOpen={createTriggerOpen} />
+{/if}
 
 {#if createCriterionOpen}
   <CriterionPicker bind:rule bind:overlayOpen={createCriterionOpen} />
@@ -64,6 +70,30 @@
       class:pointer-events-none={!rule.enabled}
       class:select-none={!rule.enabled}
     >
+      <div>
+        <h2 class="font-bold">Triggers</h2>
+        <p>What triggers this rule to be checked.</p>
+        <div class="mt-2 flex h-fit w-full flex-wrap gap-2 rounded-lg bg-zinc-700 p-2">
+          <button
+            class="flex cursor-pointer items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base transition-colors hover:bg-zinc-600"
+            onclick={() => (createTriggerOpen = true)}
+          >
+            <Plus size={16} />
+            <p>Add Trigger...</p>
+          </button>
+
+          {#if rule.member_join}
+            <TriggerTile type="Member Join" deleteThis={() => (rule.member_join = false)} />
+          {/if}
+          {#if rule.member_update}
+            <TriggerTile type="Member Update" deleteThis={() => (rule.member_update = false)} />
+          {/if}
+          {#if rule.suspicious_reaction}
+            <TriggerTile type="Suspicious Reaction" deleteThis={() => (rule.suspicious_reaction = false)} />
+          {/if}
+        </div>
+      </div>
+
       <div>
         <h2 class="font-bold">Criteria</h2>
         <p>The criteria that must be met before actions are ran.</p>
@@ -108,17 +138,6 @@
         </div>
       </div>
 
-      {#if rule.match_all_criteria && rule.criteria.filter((r) => r.type === 'reaction').length}
-        <Alert>
-          Match all criteria is enabled, and a suspicious reactions criteria is present. This rule will only match for
-          reaction events.
-        </Alert>
-      {/if}
-
-      <div class="flex items-center gap-2">
-        <Toggle bind:toggled={rule.evaluate_for_existing_members} />
-        <p>Run this rule when users update their profile</p>
-      </div>
       <div class="flex items-center gap-2">
         <Toggle bind:toggled={rule.match_all_criteria} />
         <p>Require all criteria to match before triggering</p>
