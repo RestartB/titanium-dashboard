@@ -49,6 +49,12 @@
       icon: Link
     },
     {
+      id: 'nsfw_link',
+      name: 'NSFW Links',
+      desc: 'Watch for NSFW links in the message content.',
+      icon: Link
+    },
+    {
       id: 'message_spam',
       name: 'Message Spam',
       desc: 'Monitor the amount of messages that users send.',

@@ -7,6 +7,7 @@ export const automodCriterionSchema = z.object({
     'discord_dice_roll',
     'malicious_link',
     'phishing_link',
+    'nsfw_link',
     'message_spam',
     'word_spam',
     'newline_spam',
