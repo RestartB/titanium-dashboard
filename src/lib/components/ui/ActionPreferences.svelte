@@ -1,7 +1,6 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
-  import RoleButton from '$lib/components/ui/discord/RoleButton.svelte';
   import Duration from '$lib/components/ui/inputs/Duration.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Button from './inputs/Button.svelte';

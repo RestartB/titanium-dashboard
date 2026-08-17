@@ -17,7 +17,7 @@ export const leaderboardLevelSchema = z
       return true;
     },
     {
-      message: 'Role IDs must be valid',
+      message: 'Role IDs must be valid.',
       path: ['reward_roles']
     }
   );
@@ -60,7 +60,7 @@ export const leaderboardConfigSchema = z
         : true;
     },
     {
-      message: 'Channel ID must be valid',
+      message: 'Channel ID must be valid.',
       path: ['notification_channel']
     }
   );

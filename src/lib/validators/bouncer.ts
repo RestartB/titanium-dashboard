@@ -4,9 +4,11 @@ import { validateID } from '$lib/helpers/discord';
 export const bouncerCriterionSchema = z.object({
   type: z.enum(['username', 'tag', 'age', 'avatar']),
   account_age: z.number().int().positive().nullable().optional(),
-  words: z.array(z.string()).nullable().optional(),
-  match_whole_word: z.boolean().optional(),
-  case_sensitive: z.boolean().optional()
+
+  words: z.array(z.string().min(1).max(100)),
+  match_whole_word: z.boolean(),
+  match_all_words: z.boolean(),
+  case_sensitive: z.boolean()
 });
 
 export type BouncerCriterionSchema = z.infer<typeof bouncerCriterionSchema>;
@@ -14,20 +16,26 @@ export type BouncerCriterionSchema = z.infer<typeof bouncerCriterionSchema>;
 export const bouncerActionSchema = z
   .object({
     type: z.enum(['warn', 'mute', 'kick', 'ban', 'reset_nick', 'add_role', 'remove_role', 'toggle_role']),
-    duration: z.number().int().positive().nullable().optional(),
-    role_id: z.string().nullable().optional(),
-    reason: z.string().nullable().optional()
+
+    duration: z.number().int().min(1).nullable().optional(),
+    reason: z.string().trim().max(512).nullable().optional(),
+
+    role_ids: z.array(z.string())
   })
   .refine(
     (data) => {
-      if (['add_role', 'remove_role', 'toggle_role'].includes(data.type)) {
-        return data.role_id !== null && data.role_id !== undefined && validateID(data.role_id);
+      if (data.role_ids) {
+        for (const role_id in data.role_ids) {
+          if (!validateID(role_id)) {
+            return false;
+          }
+        }
       }
       return true;
     },
     {
-      message: 'Role ID must be valid',
-      path: ['role_id']
+      message: 'Role IDs must be valid.',
+      path: ['role_ids']
     }
   );
 
@@ -36,11 +44,39 @@ export type BouncerActionSchema = z.infer<typeof bouncerActionSchema>;
 export const bouncerRuleSchema = z
   .object({
     id: z.string(),
+
+    rule_name: z.string().trim().max(100),
     enabled: z.boolean(),
-    evaluate_for_existing_members: z.boolean(),
+    match_all_criteria: z.boolean(),
+
+    order: z.number().min(0).int(),
+    stop_if_triggered: z.boolean(),
+
+    member_join: z.boolean(),
+    member_update: z.boolean(),
+    suspicious_reaction: z.boolean(),
+
     criteria: z.array(bouncerCriterionSchema),
     actions: z.array(bouncerActionSchema)
   })
+  .refine(
+    (data) => {
+      return data.member_join || data.member_update || data.suspicious_reaction;
+    },
+    {
+      message: 'At least 1 trigger type is required.',
+      path: ['member_join', 'member_update', 'suspicious_reaction']
+    }
+  )
+  .refine(
+    (data) => {
+      return (!data.member_join && !data.member_update) || data.criteria.length > 0;
+    },
+    {
+      message: 'At least 1 criteria is required for member join / update triggers.',
+      path: ['criteria']
+    }
+  )
   .refine(
     (data) => {
       const criteriaTypes = data.criteria.map((criterion) => criterion.type);
@@ -48,7 +84,7 @@ export const bouncerRuleSchema = z
       return criteriaTypes.length === uniqueCriteriaTypes.size;
     },
     {
-      message: 'Each criterion type in a rule must be unique',
+      message: 'Each criterion type in a rule must be unique.',
       path: ['criteria']
     }
   )
@@ -59,7 +95,7 @@ export const bouncerRuleSchema = z
       return actionTypes.length === uniqueActionTypes.size;
     },
     {
-      message: 'Each action type in a rule must be unique',
+      message: 'Each action type in a rule must be unique.',
       path: ['actions']
     }
   );

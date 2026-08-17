@@ -12,7 +12,8 @@
     return {
       type: type,
       words: [],
-      match_whole_word: false,
+      match_whole_word: true,
+      match_all_words: false,
       case_sensitive: false
     };
   }

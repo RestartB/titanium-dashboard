@@ -1,6 +1,7 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
   import { DiscordPermission } from '$lib/helpers/discord';
+  import { dragHandleZone, SHADOW_ITEM_MARKER_PROPERTY_NAME } from 'svelte-dnd-action';
 
   import Rule from '$lib/components/bouncer/Rule.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
@@ -9,24 +10,50 @@
   import Saver from '$lib/components/Saver.svelte';
   import { AnchorRow } from '$lib/components/ui/row';
   import Alert from '$lib/components/ui/Alert.svelte';
+  import Tip from '$lib/components/ui/Tip.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import Assistant from '$lib/components/permissions/Assistant.svelte';
   import PermRow from '$lib/components/permissions/PermRow.svelte';
   import { Plus, ScrollText, ChevronRight } from '@lucide/svelte';
 
   import type { BouncerRuleSchema } from '$lib/validators/bouncer';
+  import type { DndEvent } from 'svelte-dnd-action';
+
+  type DndAutomodRule = BouncerRuleSchema & Partial<Record<typeof SHADOW_ITEM_MARKER_PROPERTY_NAME, boolean>>;
 
   const { data } = $props();
   let dataState = $state(data);
+  const flipDurationMs = 300;
 
-  function createBlankRule(): BouncerRuleSchema {
+  function createBlankRule(order: number): BouncerRuleSchema {
     return {
       id: crypto.randomUUID(),
+
+      rule_name: '',
       enabled: true,
-      evaluate_for_existing_members: true,
+      match_all_criteria: true,
+
+      order: order,
+      stop_if_triggered: false,
+
+      member_join: false,
+      member_update: false,
+      suspicious_reaction: false,
+
       actions: [],
       criteria: []
     };
+  }
+
+  function handleSort(e: CustomEvent<DndEvent<BouncerRuleSchema>>) {
+    dataState.pageSettings.rules = e.detail.items.map((rule, order) => ({
+      ...rule,
+      order
+    }));
+  }
+
+  function getShadowMarker(rule: BouncerRuleSchema) {
+    return (rule as DndAutomodRule)[SHADOW_ITEM_MARKER_PROPERTY_NAME];
   }
 </script>
 
@@ -97,30 +124,50 @@
     </div>
   </AnchorRow>
 
-  <Button
-    onclick={() => {
-      dataState.pageSettings.rules.push(createBlankRule());
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Rules</p>
+
+  <div class="flex flex-wrap items-center gap-2">
+    <Button
+      onclick={() => {
+        dataState.pageSettings.rules.push(createBlankRule(dataState.pageSettings.rules.length));
+      }}
+      disabled={data.serverInfo.limits.enforcing &&
+        dataState.pageSettings.rules.length >= data.serverInfo.limits.automod_rules}
+    >
+      <Plus size={20} />
+      Add Rule
+    </Button>
+
+    {#if data.serverInfo.limits.enforcing}
+      <LimitPill amount={dataState.pageSettings.rules.length} limit={data.serverInfo.limits.automod_rules} />
+    {/if}
+  </div>
+
+  <Tip>
+    Rules run in the order they are in below. Use the drag handle in the top left of each rule to change the running
+    order.
+  </Tip>
+
+  <section
+    use:dragHandleZone={{
+      items: dataState.pageSettings.rules,
+      flipDurationMs
     }}
-    disabled={data.serverInfo.limits.enforcing &&
-      dataState.pageSettings.rules.length >= data.serverInfo.limits.bouncer_rules}
+    onconsider={handleSort}
+    onfinalize={handleSort}
+    class="flex flex-col gap-4"
   >
-    <Plus size={20} />
-    Add Rule
-  </Button>
-
-  {#if data.serverInfo.limits.enforcing}
-    <LimitPill amount={dataState.pageSettings.rules.length} limit={data.serverInfo.limits.bouncer_rules} />
-  {/if}
-
-  {#each dataState.pageSettings.rules as rule, index (rule.id)}
-    <div animate:flip={{ duration: 400 }}>
-      <Rule
-        serverInfo={dataState.serverInfo}
-        limit={data.serverInfo.limits.bad_word_list_size}
-        enforcingLimit={data.serverInfo.limits.enforcing}
-        bind:rule={dataState.pageSettings.rules[index]}
-        deleteThis={() => dataState.pageSettings.rules.splice(index, 1)}
-      />
-    </div>
-  {/each}
+    {#each dataState.pageSettings.rules as rule, index (`${rule.id}-${getShadowMarker(rule) ?? ''}`)}
+      <div animate:flip={{ duration: flipDurationMs }} data-is-dnd-shadow-item-hint={getShadowMarker(rule)}>
+        <Rule
+          serverInfo={dataState.serverInfo}
+          limit={data.serverInfo.limits.bad_word_list_size}
+          enforcingLimit={data.serverInfo.limits.enforcing}
+          bind:rule={dataState.pageSettings.rules[index]}
+          deleteThis={() => dataState.pageSettings.rules.splice(index, 1)}
+        />
+      </div>
+    {/each}
+  </section>
 </ToggledContent>

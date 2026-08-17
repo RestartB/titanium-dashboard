@@ -31,5 +31,6 @@
   <button onclick={deleteThis} aria-label="Delete criterion" class="cursor-pointer">
     <X size={16} />
   </button>
+
   <p class="capitalize">{criterion.type.replaceAll('_', ' ')}</p>
 </div>

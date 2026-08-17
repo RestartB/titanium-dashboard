@@ -26,7 +26,7 @@ export const serverCounterChannelSchema = z
       return data.id !== null && data.id !== undefined ? validateID(data.id) : true;
     },
     {
-      message: 'Channel ID must be valid',
+      message: 'Channel ID must be valid.',
       path: ['id']
     }
   );
