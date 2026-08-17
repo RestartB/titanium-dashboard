@@ -11,7 +11,8 @@
     Minus,
     ToggleRight,
     MessageCircle,
-    Eraser
+    Eraser,
+    Smile
   } from '@lucide/svelte';
 
   import type { Component } from 'svelte';
@@ -110,6 +111,12 @@
       name: 'Send Message',
       desc: 'Send a message. Will not trigger if the message author is a bot.',
       icon: MessageCircle
+    },
+    {
+      id: 'reaction',
+      name: 'Add Reaction',
+      desc: 'Add a reaction to the message.',
+      icon: Smile
     },
     ...commonActionTypes
   ];

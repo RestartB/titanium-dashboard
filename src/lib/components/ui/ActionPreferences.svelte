@@ -122,18 +122,21 @@
   {:else if action.type === 'reaction' && isAutomodReactionAction(action)}
     <div class="w-full text-left">
       <p class="font-medium">Reaction</p>
-      <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment.</p>
+      <p class="mb-2 text-sm text-zinc-400">Set the reaction to add to the message.</p>
 
       <Button border={false} title="Select reaction" class="w-full" onclick={() => (emojiPickerOpen = true)}>
-        {#if isNaN(Number(action.reaction))}
+        {#if !action.reaction}
+          <p class="opacity-60">Select reaction...</p>
+        {:else if isNaN(Number(action.reaction))}
           {action.reaction}
         {:else}
           {@const emojiURL = serverInfo.emojis.find((e) => e.id === action.reaction)?.url}
           {#if emojiURL}
             <img src={emojiURL} alt="Custom Emoji" class="h-6 w-6 rounded-sm" />
+          {:else}
+            <p class="opacity-70">Unknown reaction</p>
           {/if}
         {/if}
-        <Duration class="w-full p-2" border={false} bind:seconds={action.duration} />
       </Button>
     </div>
   {/if}

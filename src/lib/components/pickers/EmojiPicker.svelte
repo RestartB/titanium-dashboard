@@ -178,7 +178,7 @@
   </button>
 {/snippet}
 
-<FullscreenOverlay bind:overlayOpen title="Select an Emoji">
+<FullscreenOverlay bind:overlayOpen title="Select an Emoji" zIndex={60}>
   {#if !loading}
     <div class="flex h-fit w-full shrink-0 flex-col gap-2 border-b-2 border-zinc-600 p-2">
       <input
