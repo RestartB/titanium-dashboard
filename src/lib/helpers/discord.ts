@@ -16,7 +16,8 @@ const DiscordPermission = {
   ManageRoles: 0x0000000010000000n,
   ManageWebhooks: 0x0000000020000000n,
   ManageNicknames: 0x0000000008000000n,
-  ModerateMembers: 0x0000010000000000n
+  ModerateMembers: 0x0000010000000000n,
+  AddReactions: 0x0000000000000040n
 } as const;
 
 function hasDiscordPermission(permissions: bigint, required: bigint) {

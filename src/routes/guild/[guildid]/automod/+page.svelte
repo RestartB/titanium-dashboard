@@ -97,7 +97,8 @@
       DiscordPermission.KickMembers |
       DiscordPermission.BanMembers |
       DiscordPermission.ManageMessages |
-      DiscordPermission.ManageRoles}
+      DiscordPermission.ManageRoles |
+      DiscordPermission.AddReactions}
   >
     <PermRow
       permissions={BigInt(data.serverInfo.bot_permissions)}
@@ -128,6 +129,12 @@
       required={DiscordPermission.ManageRoles}
       title="Manage Roles"
       description="Allows Titanium to add, remove and toggle roles."
+    />
+    <PermRow
+      permissions={BigInt(data.serverInfo.bot_permissions)}
+      required={DiscordPermission.AddReactions}
+      title="Add Reactions"
+      description="Allows Titanium to add reactions to messages."
     />
   </Assistant>
 
