@@ -7,6 +7,7 @@
   import Button from './inputs/Button.svelte';
   import RoleTile from './discord/RoleTile.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
+  import EmojiPicker from '$lib/components/pickers/EmojiPicker.svelte';
   import { Plus } from '@lucide/svelte';
 
   import type { ServerInfo } from '$lib/interfaces/serverInfo';
@@ -26,27 +27,24 @@
   } = $props();
 
   let roleOverlayOpen = $state(false);
+  let emojiPickerOpen = $state(false);
 
-  function isBouncerRoleAction(
-    action: AutomodActionSchema | BouncerActionSchema
-  ): action is BouncerActionSchema & { type: 'add_role' | 'remove_role' | 'toggle_role' } {
-    return actionKind === 'bouncer' && ['add_role', 'remove_role', 'toggle_role'].includes(action.type);
-  }
-
-  function isAutomodRoleAction(
-    action: AutomodActionSchema | BouncerActionSchema
-  ): action is AutomodActionSchema & { type: 'add_role' | 'remove_role' | 'toggle_role' } {
-    return actionKind === 'automod' && ['add_role', 'remove_role', 'toggle_role'].includes(action.type);
+  function isAutomodReactionAction(action: AutomodActionSchema | BouncerActionSchema): action is AutomodActionSchema {
+    return actionKind === 'automod' && action.type === 'reaction';
   }
 </script>
 
-{#if roleOverlayOpen && isAutomodRoleAction(action)}
+{#if roleOverlayOpen}
   <RolePicker
     multiselect={true}
     roles={serverInfo.roles}
     bind:selectedRoles={action.role_ids}
     bind:overlayOpen={roleOverlayOpen}
   />
+{/if}
+
+{#if emojiPickerOpen && isAutomodReactionAction(action)}
+  <EmojiPicker {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={action.reaction} />
 {/if}
 
 <FullscreenOverlay title="Set Preferences" padding={16} gap={16} bind:overlayOpen>
@@ -94,48 +92,56 @@
         />
       </div>
     {/if}
-  {:else}
-    {#if action.type === 'mute' || action.type === 'ban'}
-      <div class="w-full text-left">
-        <p class="font-medium">Duration</p>
-        <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment.</p>
-        <Duration class="w-full p-2" border={false} bind:seconds={action.duration} />
-      </div>
-    {:else if isBouncerRoleAction(action)}
-      <div class="w-full text-left">
-        <p class="font-medium">Role</p>
-        <p class="mb-2 text-sm text-zinc-400">Set up to 10 roles role to add, remove or toggle.</p>
-        <RoleButton class="w-full bg-zinc-800 p-2" roles={serverInfo.roles} bind:role={action.role_id} />
-      </div>
-    {:else if isAutomodRoleAction(action)}
-      <div class="w-full text-left">
-        <p class="font-medium">Role</p>
-        <p class="mb-2 text-sm text-zinc-400">Set up to 10 roles role to add, remove or toggle.</p>
-        <div class="flex flex-wrap gap-2">
-          {#if action.role_ids.length < 5}
-            <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add roles...</Button
-            >
-          {/if}
-
-          {#each action.role_ids as role (role)}
-            {@const foundRole = serverInfo.roles.find((r) => r.id === role)}
-            {#if foundRole}
-              <RoleTile
-                role={foundRole}
-                deleteThis={() => {
-                  action.role_ids = action.role_ids.filter((r) => r !== role);
-                }}
-              />
-            {/if}
-          {/each}
-        </div>
-      </div>
-    {/if}
-
+  {:else if action.type === 'mute' || action.type === 'ban'}
     <div class="w-full text-left">
-      <p class="font-medium">Reason</p>
-      <p class="mb-2 text-sm text-zinc-400">Set the reason for the action.</p>
-      <input type="text" class="w-full rounded-lg bg-zinc-800 p-2" bind:value={action.reason} />
+      <p class="font-medium">Duration</p>
+      <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment.</p>
+      <Duration class="w-full p-2" border={false} bind:seconds={action.duration} />
+    </div>
+  {:else if action.type === 'add_role' || action.type === 'remove_role' || action.type === 'toggle_role'}
+    <div class="w-full text-left">
+      <p class="font-medium">Role</p>
+      <p class="mb-2 text-sm text-zinc-400">Set up to 10 roles role to add, remove or toggle.</p>
+      <div class="flex flex-wrap gap-2">
+        {#if action.role_ids.length < 5}
+          <Button smallPadding={true} onclick={() => (roleOverlayOpen = true)}><Plus size={20} /> Add roles...</Button>
+        {/if}
+
+        {#each action.role_ids as role (role)}
+          {@const foundRole = serverInfo.roles.find((r) => r.id === role)}
+          {#if foundRole}
+            <RoleTile
+              role={foundRole}
+              deleteThis={() => {
+                action.role_ids = action.role_ids.filter((r) => r !== role);
+              }}
+            />
+          {/if}
+        {/each}
+      </div>
+    </div>
+  {:else if action.type === 'reaction' && isAutomodReactionAction(action)}
+    <div class="w-full text-left">
+      <p class="font-medium">Reaction</p>
+      <p class="mb-2 text-sm text-zinc-400">Set the duration for the punishment.</p>
+
+      <Button border={false} title="Select reaction" class="w-full" onclick={() => (emojiPickerOpen = true)}>
+        {#if isNaN(Number(action.reaction))}
+          {action.reaction}
+        {:else}
+          {@const emojiURL = serverInfo.emojis.find((e) => e.id === action.reaction)?.url}
+          {#if emojiURL}
+            <img src={emojiURL} alt="Custom Emoji" class="h-6 w-6 rounded-sm" />
+          {/if}
+        {/if}
+        <Duration class="w-full p-2" border={false} bind:seconds={action.duration} />
+      </Button>
     </div>
   {/if}
+
+  <div class="w-full text-left">
+    <p class="font-medium">Reason</p>
+    <p class="mb-2 text-sm text-zinc-400">Set the reason for the action.</p>
+    <input type="text" class="w-full rounded-lg bg-zinc-800 p-2" bind:value={action.reason} />
+  </div>
 </FullscreenOverlay>

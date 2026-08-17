@@ -28,12 +28,25 @@ export type AutomodCriterionSchema = z.infer<typeof automodCriterionSchema>;
 
 export const automodActionSchema = z
   .object({
-    type: z.enum(['warn', 'mute', 'kick', 'ban', 'delete', 'add_role', 'remove_role', 'toggle_role', 'send_message']),
+    type: z.enum([
+      'warn',
+      'mute',
+      'kick',
+      'ban',
+      'delete',
+      'add_role',
+      'remove_role',
+      'toggle_role',
+      'send_message',
+      'reaction'
+    ]),
 
     duration: z.number().int().min(1).nullable().optional(),
     reason: z.string().trim().max(512).nullable().optional(),
 
     role_ids: z.array(z.string()),
+
+    reaction: z.string().nullable().optional(),
 
     message_content: z.string().nullable().optional(),
     message_reply: z.boolean(),
@@ -56,7 +69,11 @@ export const automodActionSchema = z
       message: 'Role IDs must be valid',
       path: ['role_ids']
     }
-  );
+  )
+  .refine((data) => data.type !== 'reaction' || data.reaction, {
+    message: 'A reaction must be provided for reaction actions.',
+    path: ['reaction']
+  });
 
 export type AutomodActionSchema = z.infer<typeof automodActionSchema>;
 

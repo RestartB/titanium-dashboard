@@ -4,6 +4,7 @@
   const {
     onclick = () => {},
     type = 'button',
+    title = '',
     class: className = '',
     disabled = false,
     border = true,
@@ -14,6 +15,7 @@
   }: {
     onclick?: () => void;
     type?: 'button' | 'submit' | 'reset' | null | undefined;
+    title?: string;
     class?: string;
     disabled?: boolean;
     border?: boolean;
@@ -30,6 +32,7 @@
   {onclick}
   {disabled}
   {type}
+  {title}
   aria-label={aria}
 >
   {@render children?.()}

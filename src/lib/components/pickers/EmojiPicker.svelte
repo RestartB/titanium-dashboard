@@ -59,7 +59,7 @@
     overlayOpen = $bindable(false)
   }: {
     serverInfo: ServerInfo;
-    selectedEmoji?: string;
+    selectedEmoji?: string | null;
     overlayOpen?: boolean;
   } = $props();
 
