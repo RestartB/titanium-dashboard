@@ -6,7 +6,7 @@ import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ locals }) => {
   const serverSettings = (await titaniumRequest(
-    `${TITANIUM_API_URL}/guild/${locals.guildId}/module/rep`
+    `${TITANIUM_API_URL}/guild/${locals.guildId}/settings`
   )) as GuildSettingsSchema;
   return { moderationEnabled: serverSettings.modules.moderation };
 };
