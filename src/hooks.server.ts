@@ -2,7 +2,7 @@ import { redirect, json, error } from '@sveltejs/kit';
 import type { Handle } from '@sveltejs/kit';
 
 import { checkToken, deleteToken } from '$lib/server/token';
-import { apiLimit } from '$lib/limits';
+import { apiLimit } from '$lib/server/limits';
 import { dev } from '$app/environment';
 
 import { TITANIUM_API_URL } from '$env/static/private';
@@ -70,7 +70,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   // rate limiting
   if (event.url.pathname.startsWith('/api/guild/')) {
     const status = await apiLimit.check(event);
-    if (status.limited) throw error(429, `Too many requests, please try again after ${status.retryAfter} seconds`);
+    if (status.limited) throw error(429, 'Too many requests');
   }
 
   // guild id / permissions check

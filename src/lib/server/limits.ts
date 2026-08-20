@@ -1,4 +1,4 @@
-import { RateLimiter, RetryAfterRateLimiter } from 'sveltekit-rate-limiter/server';
+import { RateLimiter } from 'sveltekit-rate-limiter/server';
 
 import type { RequestEvent } from '@sveltejs/kit';
 import type { Rate, RateLimiterPlugin } from 'sveltekit-rate-limiter/server';
@@ -17,8 +17,8 @@ class TitaniumTokenRateLimiter implements RateLimiterPlugin {
   }
 }
 
-export const apiLimit = new RetryAfterRateLimiter({
-  plugins: [new TitaniumTokenRateLimiter([6, 's'])]
+export const apiLimit = new RateLimiter({
+  plugins: [new TitaniumTokenRateLimiter([8, 's'])]
 });
 
 export const guildsLimit = new RateLimiter({

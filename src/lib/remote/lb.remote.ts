@@ -2,7 +2,7 @@ import { query, getRequestEvent } from '$app/server';
 import { error } from '@sveltejs/kit';
 import { titaniumRequest } from '$lib/helpers/titanium';
 import { remoteCheckToken } from '$lib/server/token';
-import { leaderboardLimit } from '$lib/limits';
+import { leaderboardLimit } from '$lib/server/limits';
 
 import { z } from 'zod';
 

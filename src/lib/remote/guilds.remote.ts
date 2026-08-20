@@ -4,7 +4,7 @@ import { error } from '@sveltejs/kit';
 import { remoteCheckToken, deleteToken } from '$lib/server/token';
 import { DiscordPermission, hasAnyDiscordPermission } from '$lib/helpers/discord';
 
-import { guildsLimit } from '$lib/limits';
+import { guildsLimit } from '$lib/server/limits';
 import { TITANIUM_API_URL } from '$env/static/private';
 import type { DiscordServerResponse } from '$lib/interfaces/serverInfo';
 

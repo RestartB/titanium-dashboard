@@ -3,7 +3,7 @@ import { error } from '@sveltejs/kit';
 
 import { z } from 'zod';
 import { remoteCheckToken } from '$lib/server/token';
-import { apiLimit } from '$lib/limits';
+import { apiLimit } from '$lib/server/limits';
 
 import { TITANIUM_API_URL } from '$env/static/private';
 import type { TagsResponse } from '$lib/interfaces/tags';

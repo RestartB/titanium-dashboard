@@ -2,7 +2,7 @@ import { error } from '@sveltejs/kit';
 import { query, getRequestEvent } from '$app/server';
 
 import { remoteCheckToken } from '$lib/server/token';
-import { apiLimit } from '$lib/limits';
+import { apiLimit } from '$lib/server/limits';
 
 import emojis from 'emojibase-data/en/data.json';
 import groupsSubgroups from 'emojibase-data/en/messages.json';

@@ -5,7 +5,7 @@ import { createHash } from 'node:crypto';
 
 import { z } from 'zod';
 import { remoteCheckToken } from '$lib/server/token';
-import { apiLimit } from '$lib/limits';
+import { apiLimit } from '$lib/server/limits';
 
 import { KLIPY_KEY } from '$env/static/private';
 import type { GifResults, GifCategoriesResult } from '$lib/interfaces/gif';
