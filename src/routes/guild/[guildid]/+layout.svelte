@@ -10,14 +10,16 @@
 
   let { children, data } = $props();
 
-  let serverInfo = data.serverInfo;
+  let serverBranding = data.serverBranding;
   let width: number = $state(840);
 
   afterNavigate(() => {
     sidebarState.open = false;
   });
 
-  let isHome = $derived(page.url.pathname.split('/')[page.url.pathname.split('/').length - 1] !== data.serverInfo.id);
+  let isHome = $derived(
+    page.url.pathname.split('/')[page.url.pathname.split('/').length - 1] !== data.serverBranding.id
+  );
 
   $effect(() => {
     if (sidebarState.open && width >= 840) {
@@ -35,7 +37,7 @@
     {#if !data.cases_only}
       {#if width >= 840}
         <div class="hidden w-full max-w-2xs overflow-y-auto sidebar:block">
-          <Sidebar {serverInfo} />
+          <Sidebar {serverBranding} />
         </div>
       {:else if sidebarState.open}
         <div
@@ -43,7 +45,7 @@
           transition:fade={{ duration: 100 }}
         >
           <div class="absolute inset-0 -z-10" onclick={() => (sidebarState.open = false)} aria-hidden="true"></div>
-          <Sidebar {serverInfo} />
+          <Sidebar {serverBranding} />
         </div>
       {/if}
     {/if}

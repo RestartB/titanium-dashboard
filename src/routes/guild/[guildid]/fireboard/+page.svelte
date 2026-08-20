@@ -148,6 +148,7 @@
       <div animate:flip={{ duration: 400 }}>
         <Board
           bind:board={dataState.pageSettings.boards[index]}
+          serverBranding={data.serverBranding}
           serverInfo={data.serverInfo}
           deleteThis={() => {
             dataState.pageSettings.boards.splice(index, 1);

@@ -1,10 +1,23 @@
-export interface ServerInfo {
+export interface DiscordServerResponse {
+  id: string;
+  name: string;
+  icon: string | null;
+  banner: string | null;
+  owner: boolean;
+  permissions: string;
+  features?: string[];
+}
+
+export interface ServerBranding {
   id: string;
   name: string;
   icon: string | null;
   banner: string | null;
   splash: string | null;
   member_count: number;
+}
+
+export interface ServerInfo {
   features?: string[];
   roles: RoleInfo[];
   categories: CategoryInfo[];

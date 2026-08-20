@@ -9,7 +9,7 @@
   import { Smile, UserRound, Cat, Pizza, Earth, Gamepad2, Lamp, Heart, Flag, LoaderCircle } from '@lucide/svelte';
 
   import type { Emoji, MessagesDataset, ShortcodesDataset } from 'emojibase';
-  import type { ServerInfo, EmojiInfo } from '$lib/interfaces/serverInfo';
+  import type { ServerInfo, EmojiInfo, ServerBranding } from '$lib/interfaces/serverInfo';
 
   let emojis: Emoji[];
   let groupsSubgroups: MessagesDataset | undefined = $state();
@@ -54,10 +54,12 @@
   });
 
   let {
+    serverBranding,
     serverInfo,
     selectedEmoji = $bindable(),
     overlayOpen = $bindable(false)
   }: {
+    serverBranding: ServerBranding;
     serverInfo: ServerInfo;
     selectedEmoji?: string | null;
     overlayOpen?: boolean;
@@ -201,8 +203,8 @@
             aria-label="Jump to server emojis section"
           >
             <img
-              src={serverInfo.icon?.replaceAll('?size=1024', '?size=128')}
-              alt={serverInfo.name}
+              src={serverBranding.icon?.replaceAll('?size=1024', '?size=128')}
+              alt={serverBranding.name}
               class="h-6 w-6 shrink-0 transition-all {activeSection === 'custom'
                 ? 'rounded-full brightness-150'
                 : 'rounded-lg'}"
@@ -238,13 +240,13 @@
       {#if filteredCustomEmojis.length > 0}
         <div class="flex items-center justify-center gap-2" id="custom">
           <img
-            src={serverInfo.icon?.replaceAll('?size=1024', '?size=128')}
-            alt={serverInfo.name}
+            src={serverBranding.icon?.replaceAll('?size=1024', '?size=128')}
+            alt={serverBranding.name}
             class="h-6 w-6 rounded-lg"
             loading="lazy"
             decoding="async"
           />
-          <h3 class="text-md font-semibold capitalize">{serverInfo.name}</h3>
+          <h3 class="text-md font-semibold capitalize">{serverBranding.name}</h3>
         </div>
         <div class="grid grid-cols-7 place-items-center gap-2">
           {#each filteredCustomEmojis as emoji (emoji.id)}

@@ -6,7 +6,7 @@ import { DiscordPermission, hasAnyDiscordPermission } from '$lib/helpers/discord
 
 import { guildsLimit } from '$lib/limits';
 import { TITANIUM_API_URL } from '$env/static/private';
-import type { ServerInfo } from '$lib/interfaces/serverInfo';
+import type { DiscordServerResponse } from '$lib/interfaces/serverInfo';
 
 export const getUserGuilds = query(async () => {
   const event = getRequestEvent();
@@ -32,13 +32,13 @@ export const getUserGuilds = query(async () => {
     throw error(request.status, 'Failed to fetch guilds from Discord');
   }
 
-  const guildData: ServerInfo[] = await request.json();
+  const guildData: DiscordServerResponse[] = await request.json();
   const mutualRequest = await fetch(`${TITANIUM_API_URL}/user/${tokenRecord.discordUserId}/guilds`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ user_guilds: guildData.map((guild: ServerInfo) => guild.id) })
+    body: JSON.stringify({ user_guilds: guildData.map((guild: DiscordServerResponse) => guild.id) })
   });
 
   if (!mutualRequest.ok) {
@@ -55,8 +55,8 @@ export const getUserGuilds = query(async () => {
     DiscordPermission.ModerateMembers |
     DiscordPermission.Administrator;
 
-  const mutualGuilds: ServerInfo[] = [];
-  const nonMutualGuilds: ServerInfo[] = [];
+  const mutualGuilds: DiscordServerResponse[] = [];
+  const nonMutualGuilds: DiscordServerResponse[] = [];
 
   for (const guild of guildData) {
     const permissions = BigInt(guild.permissions);

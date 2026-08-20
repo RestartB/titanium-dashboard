@@ -22,7 +22,7 @@
   import type { Component } from 'svelte';
 
   const { data } = $props();
-  const serverId = data.serverInfo.id;
+  const serverId = data.serverBranding.id;
   const userData = data.userData?.userData;
 
   // eslint-disable-next-line no-useless-assignment
@@ -60,7 +60,7 @@
     </span>
   </h1>
   <p>
-    Manage settings for Titanium in <strong translate="no">{data.serverInfo.name}</strong> here.
+    Manage settings for Titanium in <strong translate="no">{data.serverBranding.name}</strong> here.
   </p>
 </div>
 

@@ -14,15 +14,17 @@
   import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
   import { Trash, Menu } from '@lucide/svelte';
 
-  import type { ServerInfo } from '$lib/interfaces/serverInfo';
+  import type { ServerBranding, ServerInfo } from '$lib/interfaces/serverInfo';
   import type { FireboardBoardSchema } from '$lib/validators/fireboard';
 
   let {
     board = $bindable(),
+    serverBranding,
     serverInfo,
     deleteThis
   }: {
     board: FireboardBoardSchema;
+    serverBranding: ServerBranding;
     serverInfo: ServerInfo;
     deleteThis: () => void;
   } = $props();
@@ -44,7 +46,7 @@
 </script>
 
 {#if emojiPickerOpen}
-  <EmojiPicker {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={board.reaction} />
+  <EmojiPicker {serverBranding} {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={board.reaction} />
 {/if}
 
 {#if channelPickerOpen}

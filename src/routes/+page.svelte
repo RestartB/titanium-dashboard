@@ -15,14 +15,14 @@
   import verified from '$lib/assets/verified.svg';
   import partner from '$lib/assets/partner.svg';
 
-  import type { ServerInfo } from '$lib/interfaces/serverInfo';
+  import type { DiscordServerResponse } from '$lib/interfaces/serverInfo';
   import type { HttpError, RemoteQuery } from '@sveltejs/kit';
 
   let { data } = $props();
   let guildsQuery:
     | RemoteQuery<{
-        nonMutualGuilds: ServerInfo[];
-        mutualGuilds: ServerInfo[];
+        nonMutualGuilds: DiscordServerResponse[];
+        mutualGuilds: DiscordServerResponse[];
       }>
     | undefined = $state();
 
@@ -35,7 +35,7 @@
   });
 </script>
 
-{#snippet guildRow(guild: ServerInfo, invite = false)}
+{#snippet guildRow(guild: DiscordServerResponse, invite = false)}
   <a
     class="overflow-hidden rounded-md border border-zinc-700 transition-all"
     href={invite

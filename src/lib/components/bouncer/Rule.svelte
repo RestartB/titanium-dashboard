@@ -13,16 +13,18 @@
 
   import { GripVertical, Trash, Plus } from '@lucide/svelte';
 
-  import type { ServerInfo } from '$lib/interfaces/serverInfo';
+  import type { ServerBranding, ServerInfo } from '$lib/interfaces/serverInfo';
   import type { BouncerRuleSchema } from '$lib/validators';
 
   let {
+    serverBranding,
     serverInfo,
     limit,
     enforcingLimit,
     rule = $bindable(),
     deleteThis
   }: {
+    serverBranding: ServerBranding;
     serverInfo: ServerInfo;
     limit: number;
     enforcingLimit: boolean;
@@ -134,6 +136,7 @@
           </button>
           {#each rule?.actions as _, index (index)}
             <ActionTile
+              {serverBranding}
               {serverInfo}
               actionKind="automod"
               bind:action={rule.actions[index]}

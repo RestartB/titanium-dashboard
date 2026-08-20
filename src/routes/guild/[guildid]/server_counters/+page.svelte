@@ -46,7 +46,7 @@
     />
   </Assistant>
 
-  {#if data.serverInfo.member_count > 250}
+  {#if data.serverBranding.member_count > 250}
     <Alert>
       <p>
         Your server is considered by Discord to be large (over 250 members). The "Users" and "Bots" counter types may

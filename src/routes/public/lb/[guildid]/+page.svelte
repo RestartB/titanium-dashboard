@@ -17,8 +17,8 @@
   let currentPage = $state(1);
   let limited = $state(false);
   let leaderboardQuery = $derived(
-    data.serverInfo && data.enabled && !data.loginRequired && !data.noAccess
-      ? getLeaderboard({ guildId: data.serverInfo.id, limit: 100, offset: 100 * currentPage - 100 })
+    data.serverBranding && data.enabled && !data.loginRequired && !data.noAccess
+      ? getLeaderboard({ guildId: data.serverBranding.id, limit: 100, offset: 100 * currentPage - 100 })
       : null
   );
   let leaderboard = $derived(leaderboardQuery?.current);
@@ -75,10 +75,10 @@
     }
 
     document.body.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${
-      data.serverInfo?.splash
-        ? data.serverInfo.splash
-        : data.serverInfo?.banner
-          ? data.serverInfo.banner
+      data.serverBranding?.splash
+        ? data.serverBranding.splash
+        : data.serverBranding?.banner
+          ? data.serverBranding.banner
           : '/images/background_blur.svg'
     }')`;
     document.body.style.backgroundPosition = 'center';
@@ -99,16 +99,17 @@
 </script>
 
 <svelte:head>
-  {#if data.enabled && data.serverInfo}
-    <meta name="description" content="View the Titanium Leaderboard for {data.serverInfo.name}." />
+  {#if data.enabled && data.serverBranding}
+    <meta name="description" content="View the Titanium Leaderboard for {data.serverBranding.name}." />
 
-    <meta property="og:title" content={data.serverInfo.name} />
+    <meta property="og:title" content={data.serverBranding.name} />
     <meta property="og:site_name" content="Titanium Leaderboard" />
-    <meta property="og:description" content="View the Titanium Leaderboard for {data.serverInfo.name}." />
+    <meta property="og:description" content="View the Titanium Leaderboard for {data.serverBranding.name}." />
     <meta property="og:url" content={page.url.href} />
     <meta
       property="og:image"
-      content={data.serverInfo.icon?.replaceAll('?size=1024', '?size=512') || 'https://titanium.fyi/assets/logo.png'}
+      content={data.serverBranding.icon?.replaceAll('?size=1024', '?size=512') ||
+        'https://titanium.fyi/assets/logo.png'}
     />
   {/if}
 </svelte:head>
@@ -204,7 +205,7 @@
 
     <p class="mt-4 font-semibold opacity-50">© 2026, Restart</p>
   </div>
-{:else if data.serverInfo && leaderboardQuery !== null}
+{:else if data.serverBranding && leaderboardQuery !== null}
   {#if leaderboardError}
     <div class="m-4 mx-auto flex w-fit items-center gap-4 px-4 font-bold">
       <X size={20} class="shrink-0" />
@@ -223,8 +224,8 @@
       </span>
 
       <span class="flex items-center gap-2 px-6">
-        <Avatar src={data.serverInfo.icon || ''} name={data.serverInfo.name} size={40} />
-        <p class="truncate text-center">{data.serverInfo.name}</p>
+        <Avatar src={data.serverBranding.icon || ''} name={data.serverBranding.name} size={40} />
+        <p class="truncate text-center">{data.serverBranding.name}</p>
       </span>
 
       <div class="my-4 hidden w-full items-center justify-center gap-4 sm:flex">

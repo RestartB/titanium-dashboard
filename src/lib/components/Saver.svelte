@@ -53,7 +53,7 @@
     loading = true;
 
     if (page == 'permissions') {
-      const permissionsReq = await fetch(`/api/guild/${dataState.serverInfo.id}/module/perms`, {
+      const permissionsReq = await fetch(`/api/guild/${dataState.serverBranding.id}/module/perms`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -83,7 +83,7 @@
       return;
     }
 
-    const generalSettingsReq = await fetch(`/api/guild/${dataState.serverInfo.id}/settings`, {
+    const generalSettingsReq = await fetch(`/api/guild/${dataState.serverBranding.id}/settings`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -104,7 +104,7 @@
     }
 
     if (page) {
-      const pageSettingsReq = await fetch(`/api/guild/${dataState.serverInfo.id}/module/${page}`, {
+      const pageSettingsReq = await fetch(`/api/guild/${dataState.serverBranding.id}/module/${page}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -146,7 +146,7 @@
       navigator.clipboard
         .writeText(
           JSON.stringify({
-            serverId: dataState.serverInfo.id,
+            serverId: dataState.serverBranding.id,
             pageSettings: dataState.pageSettings,
             serverSettings: dataState.serverSettings
           })

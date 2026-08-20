@@ -2,6 +2,7 @@
   import CaseRow from '$lib/components/cases/CaseRow.svelte';
   import Pagination from '$lib/components/ui/Pagination.svelte';
   import Beta from '$lib/components/ui/Beta.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import { ChevronLeft } from '@lucide/svelte';
 
   import type { CasesResponse } from '$lib/interfaces/moderation';
@@ -16,7 +17,9 @@
     if (newPage < 1 || newPage > pageCount) return;
     currentPage = newPage;
 
-    const response = await fetch(`/api/guild/${data.serverInfo.id}/cases?offset=${(currentPage - 1) * 50}&limit=50`);
+    const response = await fetch(
+      `/api/guild/${data.serverBranding.id}/cases?offset=${(currentPage - 1) * 50}&limit=50`
+    );
     const newData: CasesResponse = await response.json();
 
     casesData = newData;
@@ -24,7 +27,7 @@
 </script>
 
 {#if !data.cases_only}
-  <a href={`/guild/${data.serverInfo.id}/moderation`} class="back-button group flex w-fit items-center">
+  <a href={`/guild/${data.serverBranding.id}/moderation`} class="back-button group flex w-fit items-center">
     <ChevronLeft
       size={32}
       class="shrink-0 -translate-x-2 transition-transform duration-200 ease-in-out group-hover:-translate-x-3"
@@ -39,16 +42,20 @@
   <p>View and manage cases that have been created in your server.</p>
 </div>
 
-<ul>
-  {#if casesData.cases.length === 0}
-    <p class="text-zinc-400">No cases found.</p>
-  {:else}
-    {#each casesData.cases as caseData}
-      <CaseRow case={caseData} guild={data.serverInfo.id} />
+{#if !data.moderationEnabled}
+  <Alert>The moderation module is disabled in this server.</Alert>
+{:else}
+  <ul>
+    {#if casesData.cases.length === 0}
+      <p class="text-zinc-400">No cases found.</p>
+    {:else}
+      {#each casesData.cases as caseData (caseData.id)}
+        <CaseRow case={caseData} guild={data.serverBranding.id} />
 
-      <hr class="my-2 border-zinc-500 last:hidden" />
-    {/each}
-  {/if}
-</ul>
+        <hr class="my-2 border-zinc-500 last:hidden" />
+      {/each}
+    {/if}
+  </ul>
 
-<Pagination bind:currentPage {pageCount} {changePage} />
+  <Pagination bind:currentPage {pageCount} {changePage} />
+{/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from '$app/state';
-  import type { ServerInfo } from '$lib/interfaces/serverInfo';
+  import type { ServerBranding } from '$lib/interfaces/serverInfo';
 
   import {
     House,
@@ -21,18 +21,18 @@
   import Tile from './Tile.svelte';
   import Avatar from '$lib/components/ui/Avatar.svelte';
 
-  const { serverInfo }: { serverInfo: ServerInfo } = $props();
-  const serverId = serverInfo.id;
+  const { serverBranding }: { serverBranding: ServerBranding } = $props();
+  const serverId = serverBranding.id;
 </script>
 
 <div class="flex w-full shrink-0 flex-col gap-2 p-4" style="view-transition-name: sidebar">
   <div class="flex items-center gap-2">
-    <Avatar src={serverInfo.icon || ''} name={serverInfo.name} size={40} />
+    <Avatar src={serverBranding.icon || ''} name={serverBranding.name} size={40} />
     <div class="overflow-hidden">
-      <h2 class="overflow-hidden font-bold text-nowrap text-ellipsis" translate="no">{serverInfo.name}</h2>
-      {#if serverInfo.member_count}
+      <h2 class="overflow-hidden font-bold text-nowrap text-ellipsis" translate="no">{serverBranding.name}</h2>
+      {#if serverBranding.member_count}
         <p class="overflow-hidden text-sm text-nowrap text-ellipsis">
-          {serverInfo.member_count.toLocaleString()} members
+          {serverBranding.member_count.toLocaleString()} members
         </p>
       {/if}
     </div>

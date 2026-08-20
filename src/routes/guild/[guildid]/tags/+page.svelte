@@ -22,7 +22,7 @@
 
   let tagsFunction = $derived(
     getTags({
-      guildId: data.serverInfo.id,
+      guildId: data.serverBranding.id,
       limit: 50,
       offset: 50 * currentPage - 50
     })
@@ -50,7 +50,7 @@
 {#if overlayOpen}
   <form {...createTag} {...createTag.preflight(newTagSchema)} class="absolute">
     <FullscreenOverlay title="Create Tag" padding={16} gap={16} bottomRow={submitButton} bind:overlayOpen>
-      <TagForm form={createTag} guildId={data.serverInfo.id} />
+      <TagForm form={createTag} guildId={data.serverBranding.id} />
     </FullscreenOverlay>
   </form>
 {/if}
@@ -123,7 +123,7 @@
 
       <ul class="space-y-2">
         {#each (await tagsFunction).tags as tag (tag.id)}
-          <Tag {tag} guildId={data.serverInfo.id} />
+          <Tag {tag} guildId={data.serverBranding.id} />
         {/each}
 
         <Pagination

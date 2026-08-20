@@ -154,13 +154,13 @@
     <ButtonRow
       {Icon}
       onclick={async () => {
-        await navigator.clipboard.writeText(`${page.url.origin}/public/rep/${data.serverInfo.id}`);
+        await navigator.clipboard.writeText(`${page.url.origin}/public/rep/${data.serverBranding.id}`);
         Icon = Check;
         setTimeout(() => (Icon = Copy), 3000);
       }}
     >
       <p class="text-base font-bold text-zinc-300/60">Your leaderboard link</p>
-      <p class="truncate">{page.url.origin}/public/rep/{data.serverInfo.id}</p>
+      <p class="truncate">{page.url.origin}/public/rep/{data.serverBranding.id}</p>
     </ButtonRow>
   {/if}
 

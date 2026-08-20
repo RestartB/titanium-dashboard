@@ -4,7 +4,7 @@ import { remoteCheckToken } from '$lib/server/token';
 import { TITANIUM_API_URL } from '$env/static/private';
 
 import type { PageServerLoad } from './$types';
-import type { ServerInfo } from '$lib/interfaces/serverInfo';
+import type { ServerBranding } from '$lib/interfaces/serverInfo';
 import type { GuildSettingsSchema } from '$lib/validators/settings';
 import type { LeaderboardConfigSchema } from '$lib/validators';
 
@@ -34,18 +34,18 @@ export const load: PageServerLoad = async (event) => {
     return { enabled: false };
   }
 
-  const serverInfo = (await titaniumRequest(`${TITANIUM_API_URL}/guild/${event.params.guildid}/info`)) as ServerInfo;
+  const serverBranding = (await titaniumRequest(`${TITANIUM_API_URL}/guild/${event.params.guildid}`)) as ServerBranding;
 
   if (leaderboardSettings.web_login_required && !tokenRecord) {
-    return { enabled: true, loginRequired: true, serverInfo };
+    return { enabled: true, loginRequired: true, serverBranding };
   } else if (leaderboardSettings.web_login_required && tokenRecord) {
     const inGuild = await titaniumRequest(
       `${TITANIUM_API_URL}/user/${tokenRecord.discordUserId}/inguild/${event.params.guildid}`
     );
     if (!inGuild.in_guild) {
-      return { enabled: true, noAccess: true, serverInfo };
+      return { enabled: true, noAccess: true, serverBranding };
     }
   }
 
-  return { enabled: true, serverInfo };
+  return { enabled: true, serverBranding };
 };

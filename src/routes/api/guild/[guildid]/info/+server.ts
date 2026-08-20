@@ -5,7 +5,7 @@ import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async (event) => {
   try {
-    const request = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}`, {
+    const request = await fetch(`${TITANIUM_API_URL}/guild/${event.locals.guildId}/info?user=${event.locals.discordId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -13,7 +13,7 @@ export const GET: RequestHandler = async (event) => {
     });
 
     if (!request.ok) {
-      error(request.status, 'Failed to fetch server branding from Titanium');
+      error(request.status, 'Failed to fetch server info from Titanium');
     }
 
     const data = await request.json();

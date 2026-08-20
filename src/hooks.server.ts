@@ -151,13 +151,15 @@ export const handle: Handle = async ({ event, resolve }) => {
       return redirect(302, '/');
     } else if (
       event.url.pathname === `/api/guild/${guildId}` ||
-      (event.url.pathname === `/api/guild/${guildId}/settings` && event.request.method === 'GET') ||
       event.url.pathname === `/api/guild/${guildId}/cases` ||
       event.url.pathname.startsWith(`/api/guild/${guildId}/cases/`) ||
       event.url.pathname === `/guild/${guildId}/moderation/cases` ||
       event.url.pathname.startsWith(`/guild/${guildId}/moderation/cases/`)
     ) {
       if (!event.locals.case_manager && !event.locals.dashboard_manager) {
+        if (event.url.pathname.startsWith('/api')) {
+          return json({ error: 'Insufficient Permissions' }, { status: 403 });
+        }
         return redirect(302, '/');
       }
     } else if (!event.locals.dashboard_manager) {

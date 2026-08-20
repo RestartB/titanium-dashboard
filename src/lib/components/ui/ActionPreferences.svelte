@@ -9,17 +9,19 @@
   import EmojiPicker from '$lib/components/pickers/EmojiPicker.svelte';
   import { Plus } from '@lucide/svelte';
 
-  import type { ServerInfo } from '$lib/interfaces/serverInfo';
+  import type { ServerBranding, ServerInfo } from '$lib/interfaces/serverInfo';
   import type { AutomodActionSchema } from '$lib/validators/automod';
   import type { BouncerActionSchema } from '$lib/validators/bouncer';
 
   let {
     actionKind,
+    serverBranding,
     serverInfo,
     action = $bindable(),
     overlayOpen = $bindable(true)
   }: {
     actionKind: 'automod' | 'bouncer';
+    serverBranding: ServerBranding;
     serverInfo: ServerInfo;
     action: AutomodActionSchema | BouncerActionSchema;
     overlayOpen?: boolean;
@@ -43,7 +45,7 @@
 {/if}
 
 {#if emojiPickerOpen && isAutomodReactionAction(action)}
-  <EmojiPicker {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={action.reaction} />
+  <EmojiPicker {serverBranding} {serverInfo} bind:overlayOpen={emojiPickerOpen} bind:selectedEmoji={action.reaction} />
 {/if}
 
 <FullscreenOverlay title="Set Preferences" padding={16} gap={16} bind:overlayOpen>

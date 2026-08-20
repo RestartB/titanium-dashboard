@@ -150,7 +150,7 @@
     </div>
   </ToggleRow>
 
-  <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
+  <AnchorRow href="/guild/{dataState.serverBranding.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
       <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xs:flex">
         <ScrollText size={28} />
@@ -255,6 +255,7 @@
     {#each dataState.pageSettings.rules as rule, index (`${rule.id}-${getShadowMarker(rule) ?? ''}`)}
       <div animate:flip={{ duration: flipDurationMs }} data-is-dnd-shadow-item-hint={getShadowMarker(rule)}>
         <Rule
+          serverBranding={dataState.serverBranding}
           serverInfo={dataState.serverInfo}
           limit={data.serverInfo.limits.bad_word_list_size}
           enforcingLimit={data.serverInfo.limits.enforcing}

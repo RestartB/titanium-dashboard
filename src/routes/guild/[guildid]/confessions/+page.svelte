@@ -77,7 +77,7 @@
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Confession Logs</p>
 
-  <AnchorRow href="/guild/{dataState.serverInfo.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
+  <AnchorRow href="/guild/{dataState.serverBranding.id}/logging#titanium" Icon={ChevronRight} title="Configure Logs">
     <div class="flex h-full items-center gap-4">
       <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xs:flex">
         <ScrollText size={28} />

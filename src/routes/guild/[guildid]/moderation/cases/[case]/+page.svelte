@@ -1,5 +1,6 @@
 <script lang="ts">
   import CaseInfo from '$lib/components/cases/CaseInfo.svelte';
+  import Alert from '$lib/components/ui/Alert.svelte';
   import { ChevronLeft } from '@lucide/svelte';
 
   const { data } = $props();
@@ -14,6 +15,8 @@
   <p class="-ml-1">Cases</p>
 </a>
 
-{#if data.userData}
-  <CaseInfo case={data.caseData} guild={data.serverInfo.id} userData={data.userData} />
+{#if data.userData && data.moderationEnabled}
+  <CaseInfo case={data.caseData} guild={data.serverBranding.id} userData={data.userData} />
+{:else}
+  <Alert>The moderation module is disabled in this server.</Alert>
 {/if}

@@ -13,7 +13,9 @@
     if (newPage < 1 || newPage > pageCount) return;
     currentPage = newPage;
 
-    const response = await fetch(`/api/guild/${data.serverInfo.id}/errors?offset=${(currentPage - 1) * 50}&limit=50`);
+    const response = await fetch(
+      `/api/guild/${data.serverBranding.id}/errors?offset=${(currentPage - 1) * 50}&limit=50`
+    );
     const newData: ErrorLogs = await response.json();
 
     errorData = newData;
