@@ -4,7 +4,7 @@ import { db } from '$lib/server/db';
 import { token } from '$lib/server/db/schema';
 import type { RequestHandler } from './$types';
 
-export const GET: RequestHandler = async ({ locals }) => {
+export const GET: RequestHandler = async ({ locals, cookies }) => {
   const request = await fetch('https://discord.com/api/v10/users/@me', {
     headers: {
       Authorization: `Bearer ${locals.discordToken}`
@@ -12,8 +12,9 @@ export const GET: RequestHandler = async ({ locals }) => {
   });
 
   if (request.status === 401) {
-    if (locals.discordToken) {
-      await db.delete(token).where(eq(token.discordToken, locals.discordToken)).run();
+    if (locals.token) {
+      await db.delete(token).where(eq(token.token, locals.token)).run();
+      cookies.delete('titanium_token', { path: '/' });
     }
     throw error(401, 'Unauthorized');
   }
