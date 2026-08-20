@@ -64,7 +64,7 @@
   </p>
 </div>
 
-{#if !hasDiscordPermission(BigInt(data.serverInfo.bot_permissions), DiscordPermission.ViewChannel | DiscordPermission.SendMessages)}
+{#if !data.serverInfo || !hasDiscordPermission(BigInt(data.serverInfo.bot_permissions), DiscordPermission.ViewChannel | DiscordPermission.SendMessages)}
   <Alert>
     Titanium is missing critical permissions (view channels and send messages). It will not function correctly until it
     has these permissions.

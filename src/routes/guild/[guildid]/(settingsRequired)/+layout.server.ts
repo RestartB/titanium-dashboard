@@ -3,10 +3,11 @@ import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = async ({ parent }) => {
   const parentData = await parent();
-  if (!parentData.serverSettings) {
+  if (!parentData.serverInfo || !parentData.serverSettings) {
     redirect(302, '/');
   }
 
+  const serverInfo = parentData.serverInfo;
   const serverSettings = parentData.serverSettings;
-  return { serverSettings };
+  return { serverInfo, serverSettings };
 };

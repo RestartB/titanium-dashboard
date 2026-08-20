@@ -28,52 +28,54 @@
 {/if}
 
 <ToggledContent enabled={dataState.serverSettings && dataState.serverSettings.modules.moderation}>
-  <Assistant
-    permissions={BigInt(data.serverInfo.bot_permissions)}
-    allRequired={DiscordPermission.ModerateMembers |
-      DiscordPermission.KickMembers |
-      DiscordPermission.BanMembers |
-      DiscordPermission.ManageMessages |
-      DiscordPermission.ReadMessageHistory |
-      DiscordPermission.ViewAuditLog}
-  >
-    <PermRow
+  {#if data.serverInfo}
+    <Assistant
       permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={DiscordPermission.ModerateMembers}
-      title="Timeout Users"
-      description="Allows Titanium to mute and unmute members."
-    />
-    <PermRow
-      permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={DiscordPermission.KickMembers}
-      title="Kick Users"
-      description="Allows Titanium to kick members."
-    />
-    <PermRow
-      permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={DiscordPermission.BanMembers}
-      title="Ban Users"
-      description="Allows Titanium to ban and unban members."
-    />
-    <PermRow
-      permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={DiscordPermission.ManageMessages}
-      title="Manage Messages"
-      description="Allows Titanium to purge messages."
-    />
-    <PermRow
-      permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={DiscordPermission.ReadMessageHistory}
-      title="View Message History"
-      description="Allows Titanium to check what messages need to be purged."
-    />
-    <PermRow
-      permissions={BigInt(data.serverInfo.bot_permissions)}
-      required={DiscordPermission.ViewAuditLog}
-      title="View Audit Log"
-      description="Allows Titanium to monitor external moderation events."
-    />
-  </Assistant>
+      allRequired={DiscordPermission.ModerateMembers |
+        DiscordPermission.KickMembers |
+        DiscordPermission.BanMembers |
+        DiscordPermission.ManageMessages |
+        DiscordPermission.ReadMessageHistory |
+        DiscordPermission.ViewAuditLog}
+    >
+      <PermRow
+        permissions={BigInt(data.serverInfo.bot_permissions)}
+        required={DiscordPermission.ModerateMembers}
+        title="Timeout Users"
+        description="Allows Titanium to mute and unmute members."
+      />
+      <PermRow
+        permissions={BigInt(data.serverInfo.bot_permissions)}
+        required={DiscordPermission.KickMembers}
+        title="Kick Users"
+        description="Allows Titanium to kick members."
+      />
+      <PermRow
+        permissions={BigInt(data.serverInfo.bot_permissions)}
+        required={DiscordPermission.BanMembers}
+        title="Ban Users"
+        description="Allows Titanium to ban and unban members."
+      />
+      <PermRow
+        permissions={BigInt(data.serverInfo.bot_permissions)}
+        required={DiscordPermission.ManageMessages}
+        title="Manage Messages"
+        description="Allows Titanium to purge messages."
+      />
+      <PermRow
+        permissions={BigInt(data.serverInfo.bot_permissions)}
+        required={DiscordPermission.ReadMessageHistory}
+        title="View Message History"
+        description="Allows Titanium to check what messages need to be purged."
+      />
+      <PermRow
+        permissions={BigInt(data.serverInfo.bot_permissions)}
+        required={DiscordPermission.ViewAuditLog}
+        title="View Audit Log"
+        description="Allows Titanium to monitor external moderation events."
+      />
+    </Assistant>
+  {/if}
 
   <AnchorRow href="/guild/{dataState.serverBranding.id}/moderation/cases" Icon={ChevronRight} title="View Cases">
     <div class="flex h-full w-full items-center gap-4">

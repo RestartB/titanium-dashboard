@@ -13,20 +13,23 @@ export const load: LayoutServerLoad = async ({ locals, fetch, url }) => {
     }
     error(brandingRequest.status, 'Failed to fetch server branding from Titanium');
   }
+  const serverBranding: ServerBranding = await brandingRequest.json();
 
-  const infoRequest = await fetch('/api/guild/' + locals.guildId + '/info');
-  if (!infoRequest.ok) {
-    if (infoRequest.status === 404 || infoRequest.status === 403) {
-      throw redirect(302, '/');
-    }
-    error(infoRequest.status, 'Failed to fetch server info from Titanium');
-  }
-
+  let serverInfo: ServerInfo | undefined;
   let serverSettings: GuildSettingsSchema | undefined;
   if (
     url.pathname !== `/guild/${locals.guildId}/moderation/cases` &&
     !url.pathname.startsWith(`/guild/${locals.guildId}/moderation/cases/`)
   ) {
+    const infoRequest = await fetch('/api/guild/' + locals.guildId + '/info');
+    if (!infoRequest.ok) {
+      if (infoRequest.status === 404 || infoRequest.status === 403) {
+        throw redirect(302, '/');
+      }
+      error(infoRequest.status, 'Failed to fetch server info from Titanium');
+    }
+    serverInfo = await infoRequest.json();
+
     const settingsRequest = await fetch('/api/guild/' + locals.guildId + '/settings');
     if (!settingsRequest.ok) {
       if (settingsRequest.status === 404 || settingsRequest.status === 403) {
@@ -36,9 +39,6 @@ export const load: LayoutServerLoad = async ({ locals, fetch, url }) => {
     }
     serverSettings = await settingsRequest.json();
   }
-
-  const serverBranding: ServerBranding = await brandingRequest.json();
-  const serverInfo: ServerInfo = await infoRequest.json();
 
   return { serverBranding, serverInfo, serverSettings, cases_only: !locals.dashboard_manager && locals.case_manager };
 };
