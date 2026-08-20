@@ -23,7 +23,10 @@ export const load: LayoutServerLoad = async ({ locals, fetch, url }) => {
   }
 
   let serverSettings: GuildSettingsSchema | undefined;
-  if (!url.pathname.startsWith(`/guild/${locals.guildId}/moderation/cases/`)) {
+  if (
+    url.pathname !== `/guild/${locals.guildId}/moderation/cases` &&
+    !url.pathname.startsWith(`/guild/${locals.guildId}/moderation/cases/`)
+  ) {
     const settingsRequest = await fetch('/api/guild/' + locals.guildId + '/settings');
     if (!settingsRequest.ok) {
       if (settingsRequest.status === 404 || settingsRequest.status === 403) {

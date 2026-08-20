@@ -17,15 +17,17 @@
 
 <Saver page="moderation" {data} bind:dataState />
 
-<div class="flex items-center justify-between gap-4">
-  <div class="flex-1">
-    <h2 class="text-4xl font-bold">Moderation</h2>
-    <p>Moderate your server and manage cases.</p>
+{#if dataState.serverSettings}
+  <div class="flex items-center justify-between gap-4">
+    <div class="flex-1">
+      <h2 class="text-4xl font-bold">Moderation</h2>
+      <p>Moderate your server and manage cases.</p>
+    </div>
+    <Toggle bind:toggled={dataState.serverSettings.modules.moderation} />
   </div>
-  <Toggle bind:toggled={dataState.serverSettings.modules.moderation} />
-</div>
+{/if}
 
-<ToggledContent enabled={dataState.serverSettings.modules.moderation}>
+<ToggledContent enabled={dataState.serverSettings && dataState.serverSettings.modules.moderation}>
   <Assistant
     permissions={BigInt(data.serverInfo.bot_permissions)}
     allRequired={DiscordPermission.ModerateMembers |
