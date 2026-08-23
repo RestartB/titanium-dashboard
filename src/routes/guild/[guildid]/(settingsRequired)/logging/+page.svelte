@@ -22,7 +22,9 @@
   let { data } = $props();
   let dataState = $state(data);
 
-  let overlayOpen = $state(false);
+  let selectAllOpen = $state(false);
+  let categoryOpen = $state(false);
+  let selectedCategory = '';
   const categories = [...new Set(data.loggingEvents.map((event) => event.category))].sort();
 
   let newIgnoredCreatorId = $state('');
@@ -65,6 +67,20 @@
   </li>
 {/snippet}
 
+{#snippet collapsibleTitle(category: string)}
+  <h3 class="mr-auto text-left font-bold">{category}</h3>
+  <button
+    class="flex w-fit shrink-0 cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 text-zinc-500 transition-colors hover:bg-zinc-700 hover:text-zinc-300"
+    onclick={(event) => {
+      event.stopPropagation();
+      selectedCategory = category;
+      categoryOpen = !categoryOpen;
+    }}
+  >
+    Select channel...
+  </button>
+{/snippet}
+
 {#if creatorRolesOverlayOpen}
   <RolePicker
     multiselect={true}
@@ -85,7 +101,7 @@
 
 <Saver page="logging" {data} bind:dataState />
 
-{#if overlayOpen}
+{#if selectAllOpen}
   <ChannelPicker
     categories={data.serverInfo.categories}
     onSelect={(channel) => {
@@ -94,7 +110,22 @@
         dataState.pageSettings.channels[event.event] = channel;
       }
     }}
-    bind:overlayOpen
+    bind:overlayOpen={selectAllOpen}
+  />
+{/if}
+
+{#if categoryOpen}
+  <ChannelPicker
+    categories={data.serverInfo.categories}
+    onSelect={(channel) => {
+      for (const eventType of data.loggingEvents) {
+        if (eventType.category !== selectedCategory) {
+          continue;
+        }
+        dataState.pageSettings.channels[eventType.event] = channel;
+      }
+    }}
+    bind:overlayOpen={categoryOpen}
   />
 {/if}
 
@@ -314,7 +345,7 @@
   <div class="flex items-center gap-2">
     <Button
       onclick={() => {
-        overlayOpen = true;
+        selectAllOpen = true;
       }}
     >
       <ListPlus size={20} />
@@ -327,7 +358,11 @@
     </Button>
   </div>
 
-  <Collapsible title="Titanium" defaultState={page.url.hash === '#titanium' ? true : false}>
+  <Collapsible defaultState={page.url.hash === '#titanium' ? true : false}>
+    {#snippet topRow()}
+      {@render collapsibleTitle('Titanium')}
+    {/snippet}
+
     <ul class="flex flex-col gap-2">
       {#each data.loggingEvents.filter((event) => event.category === 'Titanium') as event (event.event)}
         {@render loggingEventRow(event)}
@@ -338,7 +373,11 @@
   <hr class="border-zinc-500 last:hidden" />
 
   {#each categories.filter((category) => category !== 'Titanium') as category (category)}
-    <Collapsible title={category}>
+    <Collapsible>
+      {#snippet topRow()}
+        {@render collapsibleTitle(category)}
+      {/snippet}
+
       <ul class="flex flex-col gap-2">
         {#each data.loggingEvents.filter((event) => event.category === category) as event (event.event)}
           {@render loggingEventRow(event)}
