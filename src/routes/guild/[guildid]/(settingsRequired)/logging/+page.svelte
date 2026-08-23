@@ -11,7 +11,11 @@
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
   import Assistant from '$lib/components/permissions/Assistant.svelte';
   import PermRow from '$lib/components/permissions/PermRow.svelte';
-  import { ListPlus, ListX, X } from '@lucide/svelte';
+  import Row from '$lib/components/ui/row/Row.svelte';
+  import WordTile from '$lib/components/ui/WordTile.svelte';
+  import RolePicker from '$lib/components/pickers/RolePicker.svelte';
+  import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
+  import { ListPlus, ListX, Plus, X } from '@lucide/svelte';
 
   import type { LoggingEvent } from '$lib/interfaces/logging';
 
@@ -20,6 +24,11 @@
 
   let overlayOpen = $state(false);
   const categories = [...new Set(data.loggingEvents.map((event) => event.category))].sort();
+
+  let newIgnoredCreatorId = $state('');
+  let newIgnoredTargetId = $state('');
+  let creatorRolesOverlayOpen = $state(false);
+  let targetRolesOverlayOpen = $state(false);
 </script>
 
 {#snippet loggingEventRow(eventType: LoggingEvent)}
@@ -55,6 +64,24 @@
     </div>
   </li>
 {/snippet}
+
+{#if creatorRolesOverlayOpen}
+  <RolePicker
+    multiselect={true}
+    roles={data.serverInfo.roles}
+    bind:selectedRoles={dataState.pageSettings.ignored_creator_role_ids}
+    bind:overlayOpen={creatorRolesOverlayOpen}
+  />
+{/if}
+
+{#if targetRolesOverlayOpen}
+  <RolePicker
+    multiselect={true}
+    roles={data.serverInfo.roles}
+    bind:selectedRoles={dataState.pageSettings.ignored_target_role_ids}
+    bind:overlayOpen={targetRolesOverlayOpen}
+  />
+{/if}
 
 <Saver page="logging" {data} bind:dataState />
 
@@ -112,6 +139,177 @@
       description="Allows Titanium to see when invites are created and deleted."
     />
   </Assistant>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Ignored Creators</p>
+
+  <Row>
+    <h2 class="text-xl font-bold">Ignored Creator Roles</h2>
+    <p class="mb-2">
+      Set up to 100 roles where Titanium will not create logs if the action affects a user with a selected role. For
+      example, if the user is banned, or if the user updates their PFP.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      {#if dataState.pageSettings.ignored_creator_role_ids.length < 100}
+        <Button smallPadding={true} onclick={() => (creatorRolesOverlayOpen = true)}
+          ><Plus size={20} /> Add roles...</Button
+        >
+      {/if}
+
+      {#each dataState.pageSettings.ignored_creator_role_ids as role (role)}
+        {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
+        {#if foundRole}
+          <RoleTile
+            role={foundRole}
+            deleteThis={() => {
+              dataState.pageSettings.ignored_creator_role_ids = dataState.pageSettings.ignored_creator_role_ids.filter(
+                (r) => r !== role
+              );
+            }}
+          />
+        {/if}
+      {/each}
+    </div>
+  </Row>
+
+  <Row>
+    <h2 class="text-xl font-bold">Ignored Creator User IDs</h2>
+    <p class="mb-2">
+      Enter up to 100 user IDs where Titanium will not create logs if the user has created the action. For example, if
+      the user bans someone or if the user updates someone's nickname.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      {#if dataState.pageSettings.ignored_creator_user_ids.length < 100}
+        <div
+          class="flex w-full max-w-60 items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
+        >
+          <input
+            type="text"
+            placeholder="Enter user ID..."
+            class="h-full w-full"
+            onkeydown={(e) => {
+              newIgnoredCreatorId = newIgnoredCreatorId.replace(/\D/g, '');
+              if (
+                e.key === 'Enter' &&
+                newIgnoredCreatorId &&
+                newIgnoredCreatorId.length >= 17 &&
+                newIgnoredCreatorId.length <= 20
+              ) {
+                dataState.pageSettings.ignored_creator_user_ids.push(newIgnoredCreatorId);
+                newIgnoredCreatorId = '';
+              }
+            }}
+            bind:value={newIgnoredCreatorId}
+          />
+          <button
+            class="cursor-pointer rounded-lg p-1 transition-colors hover:bg-zinc-600"
+            onclick={() => {
+              newIgnoredCreatorId = newIgnoredCreatorId.replace(/\D/g, '');
+              if (newIgnoredCreatorId && newIgnoredCreatorId.length >= 17 && newIgnoredCreatorId.length <= 20) {
+                dataState.pageSettings.ignored_creator_user_ids.push(newIgnoredCreatorId);
+                newIgnoredCreatorId = '';
+              }
+            }}
+            aria-label="Add user ID"
+          >
+            <Plus size={16} />
+          </button>
+        </div>
+      {/if}
+      {#each dataState.pageSettings.ignored_creator_user_ids as prefix, index (index)}
+        <WordTile word={prefix} deleteThis={() => dataState.pageSettings.ignored_creator_user_ids.splice(index, 1)} />
+      {/each}
+    </div>
+  </Row>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Ignored Targets</p>
+
+  <Row>
+    <h2 class="text-xl font-bold">Ignored Target Roles</h2>
+    <p class="mb-2">
+      Set up to 100 roles where Titanium will not create logs if the action affects a user with a selected role. For
+      example, if the user is banned, or if the user updates their PFP.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      {#if dataState.pageSettings.ignored_target_role_ids.length < 100}
+        <Button smallPadding={true} onclick={() => (targetRolesOverlayOpen = true)}
+          ><Plus size={20} /> Add roles...</Button
+        >
+      {/if}
+
+      {#each dataState.pageSettings.ignored_target_role_ids as role (role)}
+        {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
+        {#if foundRole}
+          <RoleTile
+            role={foundRole}
+            deleteThis={() => {
+              dataState.pageSettings.ignored_target_role_ids = dataState.pageSettings.ignored_target_role_ids.filter(
+                (r) => r !== role
+              );
+            }}
+          />
+        {/if}
+      {/each}
+    </div>
+  </Row>
+
+  <Row>
+    <h2 class="text-xl font-bold">Ignored Target User IDs</h2>
+    <p class="mb-2">
+      Enter up to 100 user IDs where Titanium will not create logs if the action affects them. For example, if the user
+      is banned, or if the user updates their PFP.
+    </p>
+
+    <div class="flex flex-wrap gap-2">
+      {#if dataState.pageSettings.ignored_target_user_ids.length < 100}
+        <div
+          class="flex w-full max-w-60 items-center justify-center gap-2 rounded-lg border-2 border-zinc-600 bg-zinc-700 p-1 px-2 text-base"
+        >
+          <input
+            type="text"
+            placeholder="Enter user ID..."
+            class="h-full w-full"
+            onkeydown={(e) => {
+              newIgnoredTargetId = newIgnoredTargetId.replace(/\D/g, '');
+              if (
+                e.key === 'Enter' &&
+                newIgnoredTargetId &&
+                newIgnoredTargetId.length >= 17 &&
+                newIgnoredTargetId.length <= 20
+              ) {
+                dataState.pageSettings.ignored_target_user_ids.push(newIgnoredTargetId);
+                newIgnoredTargetId = '';
+              }
+            }}
+            bind:value={newIgnoredTargetId}
+          />
+          <button
+            class="cursor-pointer rounded-lg p-1 transition-colors hover:bg-zinc-600"
+            onclick={() => {
+              newIgnoredTargetId = newIgnoredTargetId.replace(/\D/g, '');
+              if (newIgnoredTargetId && newIgnoredTargetId.length >= 17 && newIgnoredTargetId.length <= 20) {
+                dataState.pageSettings.ignored_target_user_ids.push(newIgnoredTargetId);
+                newIgnoredTargetId = '';
+              }
+            }}
+            aria-label="Add user ID"
+          >
+            <Plus size={16} />
+          </button>
+        </div>
+      {/if}
+      {#each dataState.pageSettings.ignored_target_user_ids as prefix, index (index)}
+        <WordTile word={prefix} deleteThis={() => dataState.pageSettings.ignored_target_user_ids.splice(index, 1)} />
+      {/each}
+    </div>
+  </Row>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Channels</p>
 
   <div class="flex items-center gap-2">
     <Button
