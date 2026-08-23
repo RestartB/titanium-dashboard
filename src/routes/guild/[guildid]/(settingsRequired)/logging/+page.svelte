@@ -177,8 +177,8 @@
   <Row>
     <h2 class="text-xl font-bold">Ignored Creator Roles</h2>
     <p class="mb-2">
-      Set up to 100 roles where Titanium will not create logs if the action affects a user with a selected role. For
-      example, if the user is banned, or if the user updates their PFP.
+      Set up to 100 roles where Titanium will not create logs if a user with a selected role has created the action. For
+      example, if the user bans someone or if the user updates someone's nickname.
     </p>
 
     <div class="flex flex-wrap gap-2">
