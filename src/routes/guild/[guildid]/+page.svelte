@@ -41,6 +41,7 @@
 
 {#snippet featureCard(title: string, description: string, href: ResolvedPathname, Icon: Component)}
   <a
+    data-sveltekit-preload-data="tap"
     class="rounded-xl border-2 border-zinc-700 bg-zinc-800 p-4 shadow-lg transition-all hover:scale-102 hover:bg-zinc-700 active:scale-98"
     {href}
   >
