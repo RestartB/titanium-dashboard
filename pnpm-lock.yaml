@@ -94,8 +94,8 @@ importers:
         specifier: 4.7.6
         version: 4.7.6(picomatch@4.0.5)(svelte@5.56.10(@typescript-eslint/types@8.67.0))(typescript@6.0.3)
       svelte-dnd-action:
-        specifier: 0.9.78
-        version: 0.9.78(svelte@5.56.10(@typescript-eslint/types@8.67.0))
+        specifier: 0.9.79
+        version: 0.9.79(svelte@5.56.10(@typescript-eslint/types@8.67.0))
       sveltekit-rate-limiter:
         specifier: 0.7.0
         version: 0.7.0(@sveltejs/kit@2.70.3(@sveltejs/vite-plugin-svelte@7.3.0(svelte@5.56.10(@typescript-eslint/types@8.67.0))(vite@8.2.2(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.0)))(svelte@5.56.10(@typescript-eslint/types@8.67.0))(typescript@6.0.3)(vite@8.2.2(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.23.0)))
@@ -2247,8 +2247,8 @@ packages:
       svelte: ^4.0.0 || ^5.0.0-next.0
       typescript: ^5.0.0 || ^6.0.0
 
-  svelte-dnd-action@0.9.78:
-    resolution: {integrity: sha512-qov+j3A9Umo1Ng2b2PaQ/nTDBo1sogAw19DF1KZ35Pcx/9yJtlmnKYKVHjCz9iqUH+g1sk4XuCstxPZFFPEa/Q==}
+  svelte-dnd-action@0.9.79:
+    resolution: {integrity: sha512-zCKaG1Q9hVgfJFyZXhY+uIpo9+cjsG03CqwNz8yBlWCRBphC8U2zli9FzIcrL4rhXEs8yV+asS4rV0RHDuQqQQ==}
     peerDependencies:
       svelte: '>=3.23.0 || ^5.0.0-next.0'
 
@@ -4090,7 +4090,7 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
-  svelte-dnd-action@0.9.78(svelte@5.56.10(@typescript-eslint/types@8.67.0)):
+  svelte-dnd-action@0.9.79(svelte@5.56.10(@typescript-eslint/types@8.67.0)):
     dependencies:
       svelte: 5.56.10(@typescript-eslint/types@8.67.0)
 
