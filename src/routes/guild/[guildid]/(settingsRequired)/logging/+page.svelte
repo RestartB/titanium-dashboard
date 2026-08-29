@@ -171,7 +171,6 @@
     />
   </Assistant>
 
-  <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Ignored Creators</p>
 
   <Row>

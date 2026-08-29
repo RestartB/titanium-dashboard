@@ -56,20 +56,22 @@
   {/if}
 
   <div class="flex flex-col gap-4">
-    <Button
-      disabled={dataState.pageSettings.channels.length >= data.serverInfo.limits.server_counters &&
-        data.serverInfo.limits.enforcing}
-      onclick={() => {
-        dataState.pageSettings.channels.push(createBlankChannel('total_members'));
-      }}
-    >
-      <Plus size={20} />
-      Add Channel
-    </Button>
+    <div class="flex flex-wrap items-center gap-2">
+      <Button
+        disabled={dataState.pageSettings.channels.length >= data.serverInfo.limits.server_counters &&
+          data.serverInfo.limits.enforcing}
+        onclick={() => {
+          dataState.pageSettings.channels.push(createBlankChannel('total_members'));
+        }}
+      >
+        <Plus size={20} />
+        Add Channel
+      </Button>
 
-    {#if data.serverInfo.limits.enforcing}
-      <LimitPill amount={dataState.pageSettings.channels.length} limit={data.serverInfo.limits.server_counters} />
-    {/if}
+      {#if data.serverInfo.limits.enforcing}
+        <LimitPill amount={dataState.pageSettings.channels.length} limit={data.serverInfo.limits.server_counters} />
+      {/if}
+    </div>
 
     {#each dataState.pageSettings.channels as _, index}
       <Channel

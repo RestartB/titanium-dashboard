@@ -385,24 +385,26 @@
     </div>
   </ToggleRow>
 
-  <Button
-    onclick={() => {
-      dataState.pageSettings.levels.push({
-        id: crypto.randomUUID(),
-        xp_required: dataState.pageSettings.levels.length > 0 ? sortedLevelsDecending[0].xp_required + 1000 : 1000,
-        reward_roles: []
-      });
-    }}
-    disabled={data.serverInfo.limits.enforcing &&
-      dataState.pageSettings.levels.length >= data.serverInfo.limits.leaderboard_levels}
-  >
-    <Plus size={20} />
-    Add Level
-  </Button>
+  <div class="flex flex-wrap items-center gap-2">
+    <Button
+      onclick={() => {
+        dataState.pageSettings.levels.push({
+          id: crypto.randomUUID(),
+          xp_required: dataState.pageSettings.levels.length > 0 ? sortedLevelsDecending[0].xp_required + 1000 : 1000,
+          reward_roles: []
+        });
+      }}
+      disabled={data.serverInfo.limits.enforcing &&
+        dataState.pageSettings.levels.length >= data.serverInfo.limits.leaderboard_levels}
+    >
+      <Plus size={20} />
+      Add Level
+    </Button>
 
-  {#if data.serverInfo.limits.enforcing}
-    <LimitPill amount={dataState.pageSettings.levels.length} limit={data.serverInfo.limits.leaderboard_levels} />
-  {/if}
+    {#if data.serverInfo.limits.enforcing}
+      <LimitPill amount={dataState.pageSettings.levels.length} limit={data.serverInfo.limits.leaderboard_levels} />
+    {/if}
+  </div>
 
   {#each sortedLevels as level, i (level.id)}
     <Level
