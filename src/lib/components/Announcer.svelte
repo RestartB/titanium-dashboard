@@ -3,9 +3,9 @@
   import { localStorageAvailable } from '$lib/helpers/storage';
 
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
-  import { Trophy, Globe, Shield, Mic, Bell, Brain, HatGlasses, Bug } from '@lucide/svelte';
+  import { CircleQuestionMark } from '@lucide/svelte';
 
-  const currentId = '58daca4d-58fa-4856-93fa-f261575ea6ce';
+  const currentId = '1';
   let overlayOpen = $state(false);
 
   onMount(() => {
@@ -45,55 +45,75 @@
 
 {#if overlayOpen}
   <FullscreenOverlay title="Announcement" width={600} height={700} bottomRow={buttons} bind:overlayOpen>
-    <img
-      src="/images/background_blur.svg"
-      alt="Grey blurred gradient background"
-      class="block h-40 w-full object-cover blur-lg"
-    />
+    <div class="relative blur-lg">
+      <span class="absolute inset-0 z-10 block bg-red-500 opacity-20"></span>
+      <img
+        src="/images/background_blur.svg"
+        alt="Grey blurred gradient background"
+        class="block h-40 w-full object-cover"
+      />
+    </div>
 
     <div class="mt-6 space-y-2 p-4">
-      <h2 class="text-2xl font-bold">📢 Recent Updates</h2>
+      <h2 class="text-2xl font-bold">🚨 Prefix Commands Removal</h2>
       <p>
-        Titanium has received various updates over the past few months to make it better for you, based on planned ideas
-        and various suggestions.
+        Due to Discord restrictions, prefix commands will be removed from Titanium between the middle and the end of
+        September. Slash commands will become the only way to interact with Titanium.
       </p>
 
       <hr class="my-4 border-zinc-500" />
 
       <ul class="space-y-4">
         <li class="flex items-center gap-4">
-          <Trophy size={25} class="shrink-0" />
-          <p>Level roles - assign roles when a user levels up</p>
+          <CircleQuestionMark size={25} class="shrink-0" />
+          <div>
+            <h3 class="font-bold">What are slash commands?</h3>
+            <p>
+              Slash commands always begin with <code>/</code>. When you type <code>/</code>, you will see a list of
+              commands that you can select from.
+            </p>
+          </div>
         </li>
+
         <li class="flex items-center gap-4">
-          <Globe size={25} class="shrink-0" />
-          <p>Web leaderboard - view your server's leaderboard in the browser</p>
+          <CircleQuestionMark size={25} class="shrink-0" />
+          <div>
+            <h3 class="font-bold">What benefits do slash commands provide?</h3>
+            <p>
+              Slash commands allow you to easily find commands (though a built in command list), allow you to pick what
+              arguments you want to use and in what order, and allow for easy permission management via hiding /
+              blocking commands for certain roles and channels.
+            </p>
+          </div>
         </li>
+
         <li class="flex items-center gap-4">
-          <Shield size={25} class="shrink-0" />
-          <p>Mass punish commands to punish up to 20 users at once</p>
+          <CircleQuestionMark size={25} class="shrink-0" />
+          <div>
+            <h3 class="font-bold">Why?</h3>
+            <p>
+              Discord are heavily cracking down on prefix commands to make everyone switch to slash commands. If your
+              bot has prefix commands, there is a high chance your bot will not be allowed to access message content,
+              which will break several Titanium features.
+            </p>
+          </div>
         </li>
+
         <li class="flex items-center gap-4">
-          <Mic size={25} class="shrink-0" />
-          <p>Voice Chat XP - track VC time and add XP based on your time in VC</p>
-        </li>
-        <li class="flex items-center gap-4">
-          <Bell size={25} class="shrink-0" />
-          <p>Reminders - set reminders that send in servers or DMs</p>
-        </li>
-        <li class="flex items-center gap-4">
-          <Brain size={25} class="shrink-0" />
-          <p>New automod - create fully custom rules, with criteria and actions</p>
-        </li>
-        <li class="flex items-center gap-4">
-          <HatGlasses size={25} class="shrink-0" />
-          <p>Anonymous Polls - create fully anonymous polls using the confessions feature</p>
-        </li>
-        <li class="flex items-center gap-4">
-          <Bug size={25} class="shrink-0" />
-          <p>40+ bug fixes and improvements</p>
+          <CircleQuestionMark size={25} class="shrink-0" />
+          <div>
+            <h3 class="font-bold">Will I be warned in the bot?</h3>
+            <p>
+              Yes. I have added several warnings to Titanium to show that prefix commands will be going away. I will
+              also add a warning that is displayed once prefix commands have been fully removed.
+            </p>
+          </div>
         </li>
       </ul>
+
+      <hr class="my-4 border-zinc-500" />
+
+      For more information, please join Titanium's support server.
     </div>
   </FullscreenOverlay>
 {/if}

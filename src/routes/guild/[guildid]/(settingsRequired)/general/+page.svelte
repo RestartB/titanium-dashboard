@@ -9,7 +9,6 @@
   import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
   import RolePicker from '$lib/components/pickers/RolePicker.svelte';
   import Alert from '$lib/components/ui/Alert.svelte';
-
   import { Plus } from '@lucide/svelte';
 
   const { data } = $props();
@@ -61,6 +60,8 @@
 </div>
 
 <p class="text-base font-bold text-zinc-300/60">Prefix Commands</p>
+
+<Alert>Prefix commands will be removed from Titanium in mid-late September due to Discord restrictions.</Alert>
 
 <ToggleRow bind:toggled={dataState.serverSettings.settings.allow_prefix}>
   <div>
