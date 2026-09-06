@@ -24,8 +24,8 @@ importers:
         specifier: 7.5.0
         version: 7.5.0
       zod:
-        specifier: 4.4.3
-        version: 4.4.3
+        specifier: 4.5.4
+        version: 4.5.4
     devDependencies:
       '@eslint/compat':
         specifier: 2.1.0
@@ -2426,8 +2426,8 @@ packages:
   zimmerframe@1.1.4:
     resolution: {integrity: sha512-B58NGBEoc8Y9MWWCQGl/gq9xBCe4IiKM0a2x7GZdQKOW5Exr8S1W24J6OgM1njK8xCRGvAJIL/MxXHf6SkmQKQ==}
 
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+  zod@4.5.4:
+    resolution: {integrity: sha512-sC95tT5iHHH9gtpj6A81kh+NEaRAUFN+qlUPDUbRfOMvNf5QCBqsb3WgvnpVtK5Y+4UfA6KqufotuTvMGiTlsA==}
 
 snapshots:
 
@@ -3611,7 +3611,7 @@ snapshots:
   flowbite-datepicker@1.3.2(rollup@4.62.2):
     dependencies:
       '@rollup/plugin-node-resolve': 15.3.1(rollup@4.62.2)
-      flowbite: 2.5.2(rollup@4.62.2)
+      flowbite: 2.5.2
     transitivePeerDependencies:
       - rollup
 
@@ -3638,13 +3638,11 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
-  flowbite@2.5.2(rollup@4.62.2):
+  flowbite@2.5.2:
     dependencies:
       '@popperjs/core': 2.11.8
       flowbite-datepicker: 1.3.2(rollup@4.62.2)
       mini-svg-data-uri: 1.4.4
-    transitivePeerDependencies:
-      - rollup
 
   flowbite@3.1.2(rollup@4.62.2):
     dependencies:
@@ -4221,4 +4219,4 @@ snapshots:
 
   zimmerframe@1.1.4: {}
 
-  zod@4.4.3: {}
+  zod@4.5.4: {}
