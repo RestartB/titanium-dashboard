@@ -75,16 +75,6 @@
     </div>
   </ToggleRow>
 
-  <ToggleRow bind:toggled={dataState.pageSettings.prefix_fallback}>
-    <div>
-      <h2 class="text-xl font-bold">Prefix Command Fallback</h2>
-      <p>
-        If a command doesn't exist in Titanium, search for it as a server tag instead. This allows custom command
-        responses. The tag name must not exist as an existing Titanium command for this to work.
-      </p>
-    </div>
-  </ToggleRow>
-
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Manage Server Tags</p>
 

@@ -74,7 +74,7 @@
 <div class="grid grid-cols-1 gap-4 xs:grid-cols-2 lg:grid-cols-3">
   {@render featureCard(
     'General Settings',
-    'Change general settings like prefixes and reply types.',
+    'Change general settings like data retention.',
     `/guild/${serverId}/general`,
     Cog
   )}
