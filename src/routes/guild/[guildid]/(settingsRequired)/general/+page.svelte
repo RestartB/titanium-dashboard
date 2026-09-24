@@ -35,7 +35,7 @@
     </p>
     <div class="mt-2 flex flex-wrap gap-2">
       {#each dataState.serverSettings.prefixes as prefix, index (index)}
-        <WordTile word={prefix} deleteThis={() => dataState.serverSettings.prefixes.splice(index, 1)} />
+        <WordTile word={prefix} deleteThis={() => {}} />
       {/each}
     </div>
   </Row>
