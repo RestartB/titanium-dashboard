@@ -5,7 +5,7 @@
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
   import { CircleQuestionMark } from '@lucide/svelte';
 
-  const currentId = '1';
+  const currentId = '2';
   let overlayOpen = $state(false);
 
   onMount(() => {
@@ -57,8 +57,8 @@
     <div class="mt-6 space-y-2 p-4">
       <h2 class="text-2xl font-bold">🚨 Prefix Commands Removal</h2>
       <p>
-        Due to Discord restrictions, prefix commands will be removed from Titanium between the middle and the end of
-        September. Slash commands will become the only way to interact with Titanium.
+        Due to Discord restrictions, prefix / mention commands have been removed from the bot. Going forwards, the only
+        way to use the bot's commands is by using slash commands.
       </p>
 
       <hr class="my-4 border-zinc-500" />
@@ -67,10 +67,23 @@
         <li class="flex items-center gap-4">
           <CircleQuestionMark size={25} class="shrink-0" />
           <div>
+            <h3 class="font-bold">Why?</h3>
+            <p>
+              Discord are heavily cracking down on prefix commands to make bots switch to slash commands. If Titanium
+              keeps its prefix commands, there is a high chance it will be blocked from accessing message content, which
+              will break several features.
+            </p>
+          </div>
+        </li>
+
+        <li class="flex items-center gap-4">
+          <CircleQuestionMark size={25} class="shrink-0" />
+          <div>
             <h3 class="font-bold">What are slash commands?</h3>
             <p>
               Slash commands always begin with <code>/</code>. When you type <code>/</code>, you will see a list of
-              commands that you can select from.
+              commands that you can select from. You can also use the Apps button on the message bar (or in the + menu
+              on mobile) to browse a list of commands from bots you have added.
             </p>
           </div>
         </li>
@@ -86,34 +99,11 @@
             </p>
           </div>
         </li>
-
-        <li class="flex items-center gap-4">
-          <CircleQuestionMark size={25} class="shrink-0" />
-          <div>
-            <h3 class="font-bold">Why?</h3>
-            <p>
-              Discord are heavily cracking down on prefix commands to make everyone switch to slash commands. If your
-              bot has prefix commands, there is a high chance your bot will not be allowed to access message content,
-              which will break several Titanium features.
-            </p>
-          </div>
-        </li>
-
-        <li class="flex items-center gap-4">
-          <CircleQuestionMark size={25} class="shrink-0" />
-          <div>
-            <h3 class="font-bold">Will I be warned in the bot?</h3>
-            <p>
-              Yes. I have added several warnings to Titanium to show that prefix commands will be going away. I will
-              also add a warning that is displayed once prefix commands have been fully removed.
-            </p>
-          </div>
-        </li>
       </ul>
 
       <hr class="my-4 border-zinc-500" />
 
-      For more information, please join Titanium's support server.
+      <p>For more information, please join Titanium's support server.</p>
     </div>
   </FullscreenOverlay>
 {/if}

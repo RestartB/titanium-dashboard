@@ -1,8 +1,7 @@
 import { z } from 'zod';
 
 export const tagsConfigSchema = z.object({
-  allow_user_tags: z.boolean(),
-  prefix_fallback: z.boolean()
+  allow_user_tags: z.boolean()
 });
 
 export type TagsConfigSchema = z.infer<typeof tagsConfigSchema>;
