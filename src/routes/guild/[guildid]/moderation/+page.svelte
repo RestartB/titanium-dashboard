@@ -93,16 +93,6 @@
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">General Settings</p>
 
-  <ToggleRow bind:toggled={dataState.pageSettings.delete_confirmation}>
-    <div>
-      <h2 class="text-xl font-bold">Delete Confirmation Messages</h2>
-      <p>
-        Titanium will send a confirmation message to the current channel once a moderation action has been completed.
-        When this option is enabled, the confirmation messages will delete automatically after 5 seconds.
-      </p>
-    </div>
-  </ToggleRow>
-
   <ToggleRow bind:toggled={dataState.pageSettings.dm_users}>
     <div>
       <h2 class="text-xl font-bold">DM Users</h2>
