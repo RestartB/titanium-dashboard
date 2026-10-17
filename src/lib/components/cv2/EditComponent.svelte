@@ -109,11 +109,11 @@
 
       <div class="mb-2 flex w-full items-center justify-between gap-2">
         <p>Small</p>
-        <Radio name="separator-spacing" value={1} bind:group={component.spacing} />
+        <Radio name="separator_spacing" value={1} bind:group={component.spacing} />
       </div>
       <div class="flex w-full items-center justify-between gap-2">
         <p>Large</p>
-        <Radio name="separator-spacing" value={2} bind:group={component.spacing} />
+        <Radio name="separator_spacing" value={2} bind:group={component.spacing} />
       </div>
     </div>
   {/if}

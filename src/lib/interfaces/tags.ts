@@ -1,3 +1,5 @@
+import type { ViewComponent } from './cv2';
+
 export type TagsResponse = {
   tags: Tag[];
   total_count: number;
@@ -7,6 +9,7 @@ export type Tag = {
   id: string;
   name: string;
   content: string;
+  components: ViewComponent[];
   creator_id: string;
   creator_name: string;
   creator_discrim?: string | null;

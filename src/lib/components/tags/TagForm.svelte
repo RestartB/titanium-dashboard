@@ -2,7 +2,7 @@
   import { createTag, editTag } from '$lib/remote/tags.remote';
   import GifPicker from '$lib/components/pickers/GifPicker.svelte';
 
-  const { form, guildId }: { form: typeof createTag | ReturnType<typeof editTag.for>; guildId: string } = $props();
+  const { form }: { form: typeof createTag | ReturnType<typeof editTag.for> } = $props();
 
   let gifPickerOpen = $state(false);
 </script>
@@ -17,7 +17,7 @@
   />
 {/if}
 
-<input type="hidden" {...form.fields.guildId.as('text')} value={guildId} />
+
 
 <div class="w-full text-left">
   <label class="font-medium" for="tag-name">Name</label>
