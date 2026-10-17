@@ -2,6 +2,7 @@ import { query, form, command, getRequestEvent } from '$app/server';
 import { error } from '@sveltejs/kit';
 
 import { z } from 'zod';
+import { newTagSchema, editTagSchema } from '$lib/validators/tags';
 import { remoteCheckToken } from '$lib/server/token';
 import { apiLimit } from '$lib/server/limits';
 
@@ -47,74 +48,49 @@ export const getTags = query(
   }
 );
 
-export const createTag = form(
-  z.object({
-    guildId: z.string(),
-    name: z
-      .string('Please enter a title.')
-      .trim()
-      .min(1)
-      .max(35, 'Please ensure the tag name is 35 characters or shorter.'),
-    content: z
-      .string('Please enter some content.')
-      .trim()
-      .min(1)
-      .max(2000, 'Please ensure the tag content is 2000 characters or shorter.')
-  }),
-  async ({ guildId, name, content }) => {
-    const { tokenRecord } = await checkPerms(guildId);
+export const createTag = form(newTagSchema, async ({ guildId, name, cv2, content, components }) => {
+  const { tokenRecord } = await checkPerms(guildId);
 
-    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user: tokenRecord.discordUserId, name: name, content: content })
-    });
+  const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      user: tokenRecord.discordUserId,
+      name: name,
+      cv2: cv2,
+      content: content,
+      components: components
+    })
+  });
 
-    if (!postRequest.ok) {
-      console.error('Failed to create tag: ', postRequest.status, postRequest.statusText);
-      return { success: false };
-    }
-
-    return { success: true };
+  if (!postRequest.ok) {
+    console.error('Failed to create tag: ', postRequest.status, postRequest.statusText);
+    return { success: false };
   }
-);
 
-export const editTag = form(
-  z.object({
-    guildId: z.string(),
-    tagId: z.uuidv4(),
-    name: z
-      .string('Please enter a title.')
-      .trim()
-      .min(1)
-      .max(35, 'Please ensure the tag name is 35 characters or shorter.'),
-    content: z
-      .string('Please enter some content.')
-      .trim()
-      .min(1)
-      .max(2000, 'Please ensure the tag content is 2000 characters or shorter.')
-  }),
-  async ({ guildId, tagId, name, content }) => {
-    const { tokenRecord } = await checkPerms(guildId);
+  return { success: true };
+});
 
-    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags/${tagId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user: tokenRecord.discordUserId, name: name, content: content })
-    });
+export const editTag = form(editTagSchema, async ({ guildId, tagId, name, content, components }) => {
+  const { tokenRecord } = await checkPerms(guildId);
 
-    if (!postRequest.ok) {
-      console.error('Failed to edit tag: ', postRequest.status, postRequest.statusText);
-      return { success: false };
-    }
+  const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags/${tagId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ user: tokenRecord.discordUserId, name: name, content: content, components: components })
+  });
 
-    return { success: true };
+  if (!postRequest.ok) {
+    console.error('Failed to edit tag: ', postRequest.status, postRequest.statusText);
+    return { success: false };
   }
-);
+
+  return { success: true };
+});
 
 export const deleteTag = command(
   z.object({

@@ -21,7 +21,7 @@
         {component.content || 'No text added yet'}
       </p>
     {:else if component.cId === 9}
-      <div class="flex items-center justify-center gap-2">
+      <div class="flex justify-center gap-2">
         <p class="flex-1 whitespace-pre-wrap" class:opacity-50={!component.content}>
           {component.content || 'No text added yet'}
         </p>

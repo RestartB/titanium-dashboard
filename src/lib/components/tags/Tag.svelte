@@ -111,10 +111,11 @@
 
 {#if overlayOpen}
   <form {...editFormLocal} {...editFormLocal.preflight(editTagSchema)} class="absolute">
+    <input {...editFormLocal.fields.guildId.as('hidden', guildId)} />
     <input type="hidden" {...editFormLocal.fields.tagId.as('text')} value={tag.id} />
     <FullscreenOverlay title={editMode ? 'Edit Tag' : 'Tag Details'} padding={16} gap={16} {bottomRow} bind:overlayOpen>
       {#if editMode}
-        <TagForm form={editFormLocal} {guildId} />
+        <TagForm form={editFormLocal} />
       {:else}
         <div class="w-full text-left">
           <h3 class="text-xl font-semibold">Name</h3>
