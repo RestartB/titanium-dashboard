@@ -13,11 +13,12 @@ const buttonSchema = z.object({
 
 export const componentSchema = z.object({
   cId: z.literal([1, 9, 10, 12, 14]),
+  id: z.uuidv4(),
   content: z.string().trim().min(1).max(1000).optional(),
   url: z.httpUrl().optional(),
   urls: z.array(z.httpUrl()).default([]),
   buttons: z.array(buttonSchema).default([]),
-  spacing: z.literal([1, 2]).optional()
+  spacing: z.literal([1, 2]).default(1)
 });
 
 export const newTagSchema = z
@@ -40,6 +41,7 @@ export const newTagSchema = z
 export const editTagSchema = z.object({
   guildId: z.string(),
   tagId: z.uuidv4(),
+  cv2: z.boolean().default(false),
   name: z.string('Please enter a title.').trim().min(1).max(35),
   content: z.string('Please enter some content.').trim().min(1).max(2000),
   components: z.array(componentSchema)

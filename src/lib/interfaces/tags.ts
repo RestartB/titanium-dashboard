@@ -10,6 +10,7 @@ export type Tag = {
   name: string;
   content: string;
   components: ViewComponent[];
+  cv2: boolean;
   creator_id: string;
   creator_name: string;
   creator_discrim?: string | null;

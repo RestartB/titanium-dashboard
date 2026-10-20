@@ -1,12 +1,12 @@
 <script lang="ts">
   import { dragHandle } from 'svelte-dnd-action';
-  import type { ButtonRow, MediaGallery, Separator, TextDisplay, TextThumbnail } from '$lib/interfaces/cv2';
+  import type { ViewComponent } from '$lib/interfaces/cv2';
 
   import EditComponent from './EditComponent.svelte';
+  import GalleryMedia from './GalleryMedia.svelte';
   import { Cog, ExternalLink, GripVertical } from '@lucide/svelte';
 
-  let { component = $bindable() }: { component: ButtonRow | TextDisplay | TextThumbnail | MediaGallery | Separator } =
-    $props();
+  let { component = $bindable(), editMode = false }: { component: ViewComponent; editMode?: boolean } = $props();
   let editOverlayOpen = $state(false);
 </script>
 
@@ -40,6 +40,7 @@
             <a
               class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-700 p-2 px-4 transition-colors hover:bg-zinc-600"
               href={button.url}
+              target="_blank"
             >
               <ExternalLink />
               {button.label}
@@ -52,8 +53,10 @@
         <p class="opacity-50">No media added yet</p>
       {:else}
         <div class="gallery" data-count={Math.min(component.urls.length, 4)}>
-          {#each component.urls.slice(0, 4) as url, i (i)}
-            <img src={url} alt="" class="gallery-item" />
+          {#each component.urls.slice(0, 4) as url, i (`${i}-${url}`)}
+            <div class="gallery-item">
+              <GalleryMedia src={url} />
+            </div>
           {/each}
         </div>
       {/if}
@@ -62,17 +65,19 @@
     {/if}
   </div>
 
-  <button
-    class="shrink-0 cursor-pointer opacity-50 transition-opacity hover:opacity-100"
-    title="Settings for component"
-    onclick={() => (editOverlayOpen = true)}
-  >
-    <Cog />
-  </button>
+  {#if editMode}
+    <button
+      class="shrink-0 cursor-pointer opacity-50 transition-opacity hover:opacity-100"
+      title="Settings for component"
+      onclick={() => (editOverlayOpen = true)}
+    >
+      <Cog />
+    </button>
 
-  <button class="cursor-grab touch-none text-zinc-300 active:cursor-grabbing" use:dragHandle aria-label="Drag rule">
-    <GripVertical />
-  </button>
+    <button class="cursor-grab touch-none text-zinc-300 active:cursor-grabbing" use:dragHandle aria-label="Drag rule">
+      <GripVertical />
+    </button>
+  {/if}
 </div>
 
 <style>

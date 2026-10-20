@@ -7,7 +7,7 @@
   import PreviewComponent from './PreviewComponent.svelte';
   import { Plus } from '@lucide/svelte';
 
-  import { cv2Components } from '$lib/helpers/discord';
+  import { createComponent, cv2Metadata } from '$lib/helpers/discord';
   import type { ViewComponent } from '$lib/interfaces/cv2';
 
   let { view = $bindable() }: { view: ViewComponent[] } = $props();
@@ -30,16 +30,13 @@
 
 {#if addOverlayOpen}
   <FullscreenOverlay title="Add Component" padding={8} gap={8} zIndex={60} bind:overlayOpen={addOverlayOpen}>
-    {#each Object.values(cv2Components) as c (c.cId)}
+    {#each Object.values(cv2Metadata) as c (c.cId)}
       {@const Icon = c.Icon}
       <button
         class="flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 px-4 transition-all hover:bg-zinc-800"
         aria-label="Select {c.title} component"
         onclick={() => {
-          let newComponent = { ...c };
-          newComponent.id = crypto.randomUUID();
-          view.push(newComponent);
-
+          view.push(createComponent(c.cId, crypto.randomUUID()));
           addOverlayOpen = false;
         }}
       >
@@ -69,7 +66,7 @@
   {:else}
     {#each view as component, i (`${component.id}-${getShadowMarker(component) ?? ''}`)}
       <div animate:flip={{ duration: flipDurationMs }} data-is-dnd-shadow-item-hint={getShadowMarker(component)}>
-        <PreviewComponent bind:component={view[i]} />
+        <PreviewComponent bind:component={view[i]} editMode={true} />
       </div>
     {/each}
   {/if}

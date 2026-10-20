@@ -23,6 +23,7 @@
 
     {#if component.cId === 9}
       <!-- Text with Thumbnail -->
+      <!-- TODO: debounce this so we don't send too many requests -->
       <div class="w-full text-left">
         <p class="font-medium">Thumbnail URL</p>
         <p class="mb-2 text-sm text-zinc-400">
@@ -90,6 +91,7 @@
     {:else}
       {#each component.urls as _, i (i)}
         <div class="flex w-full gap-2">
+          <!-- TODO: debounce this so we don't send too many requests -->
           <input type="url" class="flex-1 rounded-lg bg-zinc-800 p-2" bind:value={component.urls[i]} />
           <button
             class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 p-2 transition-colors hover:bg-zinc-600"

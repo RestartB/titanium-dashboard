@@ -1,10 +1,15 @@
 import type { Component } from 'svelte';
 
-export type BaseComponent = {
+export type ValidCids = 1 | 9 | 10 | 12 | 14;
+
+export type ViewComponent = {
+  cId: ValidCids;
   id: string;
-  title: string;
-  description: string;
-  Icon: Component;
+  content: string;
+  url: string;
+  urls: string[];
+  buttons: Button[];
+  spacing: 1 | 2;
 };
 
 export type Button = {
@@ -12,30 +17,9 @@ export type Button = {
   label: string;
 };
 
-export type ButtonRow = BaseComponent & {
-  cId: 1;
-  buttons: Button[];
+export type ComponentMeta = {
+  cId: ValidCids;
+  title: string;
+  description: string;
+  Icon: Component;
 };
-
-export type TextDisplay = BaseComponent & {
-  cId: 10;
-  content: string;
-};
-
-export type TextThumbnail = BaseComponent & {
-  cId: 9;
-  content: string;
-  url: string;
-};
-
-export type MediaGallery = BaseComponent & {
-  cId: 12;
-  urls: string[];
-};
-
-export type Separator = BaseComponent & {
-  cId: 14;
-  spacing: 1 | 2;
-};
-
-export type ViewComponent = ButtonRow | TextDisplay | TextThumbnail | MediaGallery | Separator;
