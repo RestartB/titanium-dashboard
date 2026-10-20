@@ -1,58 +1,54 @@
 import { Link, TextAlignStart, Image, SeparatorHorizontal } from '@lucide/svelte';
-import type { ViewComponent } from '$lib/interfaces/cv2';
+import type { ComponentMeta, ValidCids, ViewComponent } from '$lib/interfaces/cv2';
 
 function validateID(id: string) {
   return /^\d{15,20}$/.test(id);
 }
 
-export const cv2Components: { [id: number]: ViewComponent } = {
+export const cv2Metadata: Record<ValidCids, ComponentMeta> = {
   1: {
     cId: 1,
     title: 'Button Row',
     description: 'Add a row of up to 5 link buttons.',
-    Icon: Link,
-
-    id: '',
-    buttons: []
+    Icon: Link
   },
   10: {
     cId: 10,
     title: 'Text',
     description: 'Add markdown text.',
-    Icon: TextAlignStart,
-
-    id: '',
-    content: ''
+    Icon: TextAlignStart
   },
   9: {
     cId: 9,
     title: 'Text with Thumbnail',
     description: 'Add markdown text with a thumbnail to the side.',
-    Icon: TextAlignStart,
-
-    id: '',
-    content: '',
-    url: 'https://titanium.fyi/assets/logo.png'
+    Icon: TextAlignStart
   },
   12: {
     cId: 12,
     title: 'Media Gallery',
     description: 'Add photos and videos via URLs.',
-    Icon: Image,
-
-    id: '',
-    urls: []
+    Icon: Image
   },
   14: {
     cId: 14,
     title: 'Separator',
     description: 'Add a separator.',
-    Icon: SeparatorHorizontal,
-
-    id: '',
-    spacing: 1
+    Icon: SeparatorHorizontal
   }
 };
+
+export function createComponent(cId: ValidCids, id: string): ViewComponent {
+  return {
+    cId,
+    id,
+    content: cId === 9 || cId === 10 ? '' : '_',
+    url: 'https://titanium.fyi/assets/logo.png',
+    urls: [],
+    buttons: [],
+    spacing: 1
+  };
+}
 
 const DiscordPermission = {
   KickMembers: 0x0000000000000002n,

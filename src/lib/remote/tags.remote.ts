@@ -73,7 +73,7 @@ export const createTag = form(newTagSchema, async ({ guildId, name, cv2, content
   return { success: true };
 });
 
-export const editTag = form(editTagSchema, async ({ guildId, tagId, name, content, components }) => {
+export const editTag = form(editTagSchema, async ({ guildId, tagId, cv2, name, content, components }) => {
   const { tokenRecord } = await checkPerms(guildId);
 
   const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags/${tagId}`, {
@@ -81,7 +81,13 @@ export const editTag = form(editTagSchema, async ({ guildId, tagId, name, conten
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ user: tokenRecord.discordUserId, name: name, content: content, components: components })
+    body: JSON.stringify({
+      user: tokenRecord.discordUserId,
+      cv2: cv2,
+      name: name,
+      content: content,
+      components: components
+    })
   });
 
   if (!postRequest.ok) {
