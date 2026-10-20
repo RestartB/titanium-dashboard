@@ -112,7 +112,20 @@
 {/snippet}
 
 {#if overlayOpen}
-  <form {...editFormLocal} {...editFormLocal.preflight(editTagSchema)} class="absolute">
+  <form
+    {...editFormLocal.preflight(editTagSchema).enhance(async (form) => {
+      try {
+        form.validate({ preflightOnly: true });
+        if (!(await form.submit()) || !form.result || !form.result.success) {
+          return;
+        }
+        editMode = false;
+      } catch (error) {
+        console.error('Error when submitting tag: ', error);
+      }
+    })}
+    class="absolute"
+  >
     <input type="hidden" {...editFormLocal.fields.tagId.as('text')} value={tag.id} />
     <FullscreenOverlay
       title={editMode ? 'Edit Tag' : 'Tag Details'}
@@ -132,7 +145,7 @@
         </div>
 
         <div class="w-full text-left">
-          <h3 class="text-xl font-semibold mb-1">Content</h3>
+          <h3 class="mb-1 text-xl font-semibold">Content</h3>
 
           {#if tag.cv2}
             <div class="space-y-4 rounded-lg border-2 border-zinc-600 bg-zinc-800 p-4">

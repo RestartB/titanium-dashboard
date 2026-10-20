@@ -35,6 +35,7 @@
       <button
         class="flex w-full cursor-pointer items-center gap-4 rounded-lg p-2 px-4 transition-all hover:bg-zinc-800"
         aria-label="Select {c.title} component"
+        type="button"
         onclick={() => {
           view.push(createComponent(c.cId, crypto.randomUUID()));
           addOverlayOpen = false;

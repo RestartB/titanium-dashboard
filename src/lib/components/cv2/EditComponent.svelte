@@ -37,7 +37,11 @@
     {/if}
   {:else if component.cId === 1}
     <!-- Button row -->
-    <UiButton border={false} onclick={() => component.buttons.push({ url: 'https://titanium.fyi', label: 'Button' })}>
+    <UiButton
+      border={false}
+      type="button"
+      onclick={() => component.buttons.push({ url: 'https://titanium.fyi', label: 'Button' })}
+    >
       <Plus /> Add button
     </UiButton>
 
@@ -53,6 +57,7 @@
           <button
             class="shrink-0 cursor-pointer opacity-50 transition-opacity hover:opacity-100"
             title="Remove this button"
+            type="button"
             onclick={() => component.buttons.splice(i, 1)}
           >
             <X />
@@ -83,7 +88,7 @@
         of the following:
         <code>png, gif, jpg/jpeg, webp, avif, mp4, webm, mov</code>
       </p>
-      <UiButton border={false} onclick={() => component.urls.push('')}><Plus /> Add media</UiButton>
+      <UiButton border={false} type="button" onclick={() => component.urls.push('')}><Plus /> Add media</UiButton>
     </div>
 
     <hr class="border-zinc-500" />
@@ -98,6 +103,7 @@
           <button
             class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-lg bg-zinc-800 p-2 transition-colors hover:bg-zinc-600"
             title="Delete media"
+            type="button"
             onclick={() => component.urls.splice(i, 1)}
           >
             <X />

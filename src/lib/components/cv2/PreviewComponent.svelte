@@ -69,12 +69,18 @@
     <button
       class="shrink-0 cursor-pointer opacity-50 transition-opacity hover:opacity-100"
       title="Settings for component"
+      type="button"
       onclick={() => (editOverlayOpen = true)}
     >
       <Cog />
     </button>
 
-    <button class="cursor-grab touch-none text-zinc-300 active:cursor-grabbing" use:dragHandle aria-label="Drag rule">
+    <button
+      class="cursor-grab touch-none text-zinc-300 active:cursor-grabbing"
+      aria-label="Drag component"
+      type="button"
+      use:dragHandle
+    >
       <GripVertical />
     </button>
   {/if}
