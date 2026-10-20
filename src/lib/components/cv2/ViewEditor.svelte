@@ -52,6 +52,8 @@
 
 <Button class="border-zinc-600! bg-zinc-800!" onclick={() => (addOverlayOpen = true)}><Plus /> Add component</Button>
 
+<!-- TODO: can't update tags - content not provided -->
+
 <section
   use:dragHandleZone={{
     items: view,

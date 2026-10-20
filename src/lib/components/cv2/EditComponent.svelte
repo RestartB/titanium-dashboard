@@ -10,6 +10,8 @@
     $props();
 </script>
 
+<!-- TODO: delete component -->
+
 <FullscreenOverlay title="Edit Component" padding={16} gap={16} zIndex={60} bind:overlayOpen>
   {#if component.cId === 9 || component.cId === 10}
     <!-- Text -->
