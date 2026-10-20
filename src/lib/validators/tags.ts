@@ -24,9 +24,9 @@ export const componentSchema = z.object({
 export const newTagSchema = z
   .object({
     guildId: z.string(),
-    name: z.string('Please enter a title.').trim().min(1).max(35),
     cv2: z.boolean().default(false),
-    content: z.string().trim().max(2000).optional(),
+    name: z.string('Please enter a title.').trim().min(1).max(35),
+    content: z.string('Please enter some content.').trim().max(2000).optional(),
     components: z.array(componentSchema).max(10, 'A max of 10 components per tag is allowed.').default([])
   })
   .refine((data) => !data.cv2 || (data.cv2 && data.components.length > 0), {
@@ -39,10 +39,18 @@ export const newTagSchema = z
   });
 
 export const editTagSchema = z.object({
-  guildId: z.string(),
-  tagId: z.uuidv4(),
-  cv2: z.boolean().default(false),
-  name: z.string('Please enter a title.').trim().min(1).max(35),
-  content: z.string('Please enter some content.').trim().min(1).max(2000),
-  components: z.array(componentSchema)
-});
+    guildId: z.string(),
+    tagId: z.uuidv4(),
+    cv2: z.boolean().default(false),
+    name: z.string('Please enter a title.').trim().min(1).max(35),
+    content: z.string('Please enter some content.').trim().max(2000).optional(),
+    components: z.array(componentSchema).max(10, 'A max of 10 components per tag is allowed.').default([])
+  })
+  .refine((data) => !data.cv2 || (data.cv2 && data.components.length > 0), {
+    message: 'Please add some components.',
+    path: ['components']
+  })
+  .refine((data) => data.cv2 || (!data.cv2 && data.content), {
+    message: 'Please add some content.',
+    path: ['content']
+  });
