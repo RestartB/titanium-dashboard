@@ -22,3 +22,15 @@ export type Tag = {
   modified_by_display: string;
   modified_by_pfp: string;
 };
+
+export type TagSessionData = {
+  submit_key: string;
+  expires: string;
+  tag: {
+    id: string;
+    name: string;
+    cv2: boolean;
+    content: string;
+    components: ViewComponent[];
+  } | null;
+};

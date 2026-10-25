@@ -1,13 +1,13 @@
 import { query, form, command, getRequestEvent } from '$app/server';
-import { error } from '@sveltejs/kit';
+import { error, invalid } from '@sveltejs/kit';
 
 import { z } from 'zod';
-import { newTagSchema, editTagSchema } from '$lib/validators/tags';
+import { newTagSchema, editTagSchema, componentSchema } from '$lib/validators/tags';
 import { remoteCheckToken } from '$lib/server/token';
 import { apiLimit } from '$lib/server/limits';
 
 import { TITANIUM_API_URL } from '$env/static/private';
-import type { TagsResponse } from '$lib/interfaces/tags';
+import type { TagSessionData, TagsResponse } from '$lib/interfaces/tags';
 
 async function checkPerms(guildId: string) {
   const event = getRequestEvent();
@@ -48,55 +48,92 @@ export const getTags = query(
   }
 );
 
-export const createTag = form(newTagSchema, async ({ guildId, name, cv2, content, components }) => {
-  const { tokenRecord } = await checkPerms(guildId);
+async function tagDataReq(data: {
+  userId: string;
+  tagId?: string;
+  guildId?: string;
+  pageKey?: string;
+  submitKey?: string;
+  name: string;
+  cv2: boolean;
+  content: string | undefined;
+  components: z.infer<typeof componentSchema>[] | undefined;
+}) {
+  const { userId: user, tagId, guildId, pageKey, submitKey, ...tagData } = data;
 
-  const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags`, {
-    method: 'POST',
+  const tempLink = pageKey && submitKey;
+  const method = tagId && tempLink ? 'PATCH' : 'POST';
+  const endpoint = tempLink
+    ? `${TITANIUM_API_URL}/taglink/${guildId}/tags/${tagId}`
+    : `${TITANIUM_API_URL}/guild/${guildId}/tags/${tagId}`;
+
+  return await fetch(endpoint, {
+    method: method,
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      user: tokenRecord.discordUserId,
-      name: name,
-      cv2: cv2,
-      content: content,
-      components: components
+      user,
+      ...tagData
     })
   });
+}
 
-  if (!postRequest.ok) {
-    console.error('Failed to create tag: ', postRequest.status, postRequest.statusText);
-    return { success: false };
+export const createTag = form(
+  newTagSchema,
+  async ({ guildId, pageKey, submitKey, name, cv2, content, components }, issue) => {
+    if (!guildId || !(pageKey && submitKey)) {
+      invalid(issue.guildId(`No guild ID or submission keys provided`));
+    }
+
+    const { tokenRecord } = await checkPerms(guildId);
+
+    const postRequest = await tagDataReq({
+      userId: tokenRecord.discordUserId,
+      guildId,
+      pageKey,
+      submitKey,
+      name,
+      cv2,
+      content,
+      components
+    });
+    if (!postRequest.ok) {
+      console.error('Failed to create tag: ', postRequest.status, postRequest.statusText);
+      return { success: false };
+    }
+
+    return { success: true };
   }
+);
 
-  return { success: true };
-});
+export const editTag = form(
+  editTagSchema,
+  async ({ guildId, pageKey, submitKey, tagId, cv2, name, content, components }, issue) => {
+    if (!guildId || !(pageKey && submitKey)) {
+      invalid(issue.guildId(`No guild ID or submission keys provided`));
+    }
 
-export const editTag = form(editTagSchema, async ({ guildId, tagId, cv2, name, content, components }) => {
-  const { tokenRecord } = await checkPerms(guildId);
+    const { tokenRecord } = await checkPerms(guildId);
+    const postRequest = await tagDataReq({
+      userId: tokenRecord.discordUserId,
+      guildId,
+      pageKey,
+      submitKey,
+      tagId,
+      name,
+      cv2,
+      content,
+      components
+    });
+    if (!postRequest.ok) {
+      console.error('Failed to edit tag: ', postRequest.status, postRequest.statusText);
+      return { success: false };
+    }
 
-  const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags/${tagId}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      user: tokenRecord.discordUserId,
-      cv2: cv2,
-      name: name,
-      content: content,
-      components: components
-    })
-  });
-
-  if (!postRequest.ok) {
-    console.error('Failed to edit tag: ', postRequest.status, postRequest.statusText);
-    return { success: false };
+    return { success: true };
   }
-
-  return { success: true };
-});
+);
 
 export const deleteTag = command(
   z.object({
@@ -113,5 +150,40 @@ export const deleteTag = command(
     }
 
     return { success: true };
+  }
+);
+
+// TODO: rate limiting for these endpoints
+export const startEditSession = command(
+  z.object({
+    pageKey: z.uuidv4()
+  }),
+  async ({ pageKey }) => {
+    const event = getRequestEvent();
+
+    const request = await fetch(`${TITANIUM_API_URL}/taglink/${pageKey}/start`);
+    if (!request.ok) {
+      return error(request.status, request.statusText);
+    }
+
+    const data: TagSessionData = await request.json();
+    event.cookies.set('submitKey', data.submit_key, { path: `/public/tagedit/${pageKey}`, sameSite: 'strict' });
+    return data;
+  }
+);
+
+export const continueEditSession = command(
+  z.object({
+    pageKey: z.uuidv4(),
+    submitKey: z.uuidv4()
+  }),
+  async ({ pageKey, submitKey }) => {
+    const request = await fetch(`${TITANIUM_API_URL}/taglink/${pageKey}/continue?submitKey=${submitKey}`);
+    if (!request.ok) {
+      return error(request.status, request.statusText);
+    }
+
+    const data: TagSessionData = await request.json();
+    return data;
   }
 );

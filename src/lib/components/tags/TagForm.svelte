@@ -8,12 +8,16 @@
   const {
     form,
     guildId,
-    cv2,
+    pageKey,
+    submitKey,
+    cv2 = false,
     components = []
   }: {
     form: typeof createTag | ReturnType<typeof editTag.for>;
-    guildId: string;
-    cv2: boolean;
+    guildId?: string;
+    pageKey?: string;
+    submitKey?: string;
+    cv2?: boolean;
     components?: ViewComponent[];
   } = $props();
 
@@ -37,7 +41,15 @@
   />
 {/if}
 
-<input {...form.fields.guildId.as('hidden', guildId)} />
+{#if guildId}
+  <input {...form.fields.guildId.as('hidden', guildId)} />
+{/if}
+
+{#if pageKey && submitKey}
+  <input {...form.fields.pageKey.as('hidden', pageKey)} />
+  <input {...form.fields.submitKey.as('hidden', submitKey)} />
+{/if}
+
 <input {...form.fields.cv2.as('hidden', cv2)} />
 
 {#each localComponents as component, componentIndex (component.id)}

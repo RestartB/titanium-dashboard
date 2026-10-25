@@ -23,7 +23,9 @@ export const componentSchema = z.object({
 
 export const newTagSchema = z
   .object({
-    guildId: z.string(),
+    guildId: z.string().optional(),
+    pageKey: z.uuidv4().optional(),
+    submitKey: z.uuidv4().optional(),
     cv2: z.boolean().default(false),
     name: z.string('Please enter a title.').trim().min(1).max(35),
     content: z.string('Please enter some content.').trim().max(2000).optional(),
@@ -38,8 +40,11 @@ export const newTagSchema = z
     path: ['content']
   });
 
-export const editTagSchema = z.object({
-    guildId: z.string(),
+export const editTagSchema = z
+  .object({
+    guildId: z.string().optional(),
+    pageKey: z.uuidv4().optional(),
+    submitKey: z.uuidv4().optional(),
     tagId: z.uuidv4(),
     cv2: z.boolean().default(false),
     name: z.string('Please enter a title.').trim().min(1).max(35),
