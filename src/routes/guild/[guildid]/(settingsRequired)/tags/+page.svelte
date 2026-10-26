@@ -51,13 +51,13 @@
 
 {#if overlayOpen}
   <form
-    {...createTag}
     {...createTag.preflight(newTagSchema).enhance(async (form) => {
       try {
         form.validate({ preflightOnly: true });
         if (!(await form.submit()) || !form.result || !form.result.success) {
           return;
         }
+        form.element.reset();
       } catch (error) {
         console.error('Error when creating tag: ', error);
       }
