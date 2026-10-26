@@ -49,7 +49,7 @@ export const getTags = query(
 );
 
 async function tagDataReq(data: {
-  userId: string;
+  userId?: string;
   tagId?: string;
   guildId?: string;
   pageKey?: string;
@@ -62,15 +62,18 @@ async function tagDataReq(data: {
   const { userId: user, tagId, guildId, pageKey, submitKey, ...tagData } = data;
 
   const tempLink = pageKey && submitKey;
-  const method = tagId && tempLink ? 'PATCH' : 'POST';
+  const method = tagId && !tempLink ? 'PATCH' : 'POST';
   const endpoint = tempLink
-    ? `${TITANIUM_API_URL}/taglink/${guildId}/tags/${tagId}`
-    : `${TITANIUM_API_URL}/guild/${guildId}/tags/${tagId}`;
+    ? `${TITANIUM_API_URL}/taglink/${pageKey}/submit`
+    : `${TITANIUM_API_URL}/guild/${guildId}/tags${tagId ? '/' + tagId : ''}`;
+
+  console.log(method, endpoint);
 
   return await fetch(endpoint, {
     method: method,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Submit-Key': submitKey || ''
     },
     body: JSON.stringify({
       user,
@@ -82,14 +85,13 @@ async function tagDataReq(data: {
 export const createTag = form(
   newTagSchema,
   async ({ guildId, pageKey, submitKey, name, cv2, content, components }, issue) => {
-    if (!guildId || !(pageKey && submitKey)) {
+    if (!guildId && !(pageKey && submitKey)) {
       invalid(issue.guildId(`No guild ID or submission keys provided`));
     }
 
-    const { tokenRecord } = await checkPerms(guildId);
-
+    const tokenRecord = guildId ? (await checkPerms(guildId)).tokenRecord : undefined;
     const postRequest = await tagDataReq({
-      userId: tokenRecord.discordUserId,
+      userId: tokenRecord?.discordUserId,
       guildId,
       pageKey,
       submitKey,
@@ -100,6 +102,7 @@ export const createTag = form(
     });
     if (!postRequest.ok) {
       console.error('Failed to create tag: ', postRequest.status, postRequest.statusText);
+      console.error(await postRequest.text());
       return { success: false };
     }
 
@@ -110,13 +113,13 @@ export const createTag = form(
 export const editTag = form(
   editTagSchema,
   async ({ guildId, pageKey, submitKey, tagId, cv2, name, content, components }, issue) => {
-    if (!guildId || !(pageKey && submitKey)) {
+    if (!guildId && !(pageKey && submitKey)) {
       invalid(issue.guildId(`No guild ID or submission keys provided`));
     }
 
-    const { tokenRecord } = await checkPerms(guildId);
+    const tokenRecord = guildId ? (await checkPerms(guildId)).tokenRecord : undefined;
     const postRequest = await tagDataReq({
-      userId: tokenRecord.discordUserId,
+      userId: tokenRecord?.discordUserId,
       guildId,
       pageKey,
       submitKey,
@@ -167,7 +170,11 @@ export const startEditSession = command(
     }
 
     const data: TagSessionData = await request.json();
-    event.cookies.set('submitKey', data.submit_key, { path: `/public/tagedit/${pageKey}`, sameSite: 'strict' });
+    event.cookies.set('submitKey', data.submit_key, {
+      path: `/public/tagedit/${pageKey}`,
+      sameSite: 'strict',
+      expires: new Date(data.expires)
+    });
     return data;
   }
 );
@@ -180,6 +187,7 @@ export const continueEditSession = command(
   async ({ pageKey, submitKey }) => {
     const request = await fetch(`${TITANIUM_API_URL}/taglink/${pageKey}/continue?submitKey=${submitKey}`);
     if (!request.ok) {
+      console.log(request.status, request.statusText);
       return error(request.status, request.statusText);
     }
 

@@ -50,7 +50,20 @@
 {/snippet}
 
 {#if overlayOpen}
-  <form {...createTag} {...createTag.preflight(newTagSchema)} class="absolute">
+  <form
+    {...createTag}
+    {...createTag.preflight(newTagSchema).enhance(async (form) => {
+      try {
+        form.validate({ preflightOnly: true });
+        if (!(await form.submit()) || !form.result || !form.result.success) {
+          return;
+        }
+      } catch (error) {
+        console.error('Error when creating tag: ', error);
+      }
+    })}
+    class="absolute"
+  >
     <FullscreenOverlay
       title="Create Tag"
       padding={16}
