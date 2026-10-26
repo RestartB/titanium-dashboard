@@ -100,10 +100,27 @@ export const createTag = form(
       content,
       components
     });
+
     if (!postRequest.ok) {
       console.error('Failed to create tag: ', postRequest.status, postRequest.statusText);
-      console.error(await postRequest.text());
-      return { success: false };
+
+      let inUse = false;
+      try {
+        const error = await postRequest.json();
+        console.error(error);
+        if ((error.error ?? '') === 'tag_in_use') {
+          inUse = true;
+        }
+      } catch {
+        const error = await postRequest.text();
+        console.error(error);
+      }
+
+      if (inUse) {
+        invalid(issue.name('Tag name is already in use.'));
+      } else {
+        return { success: false };
+      }
     }
 
     return { success: true };
@@ -129,9 +146,27 @@ export const editTag = form(
       content,
       components
     });
+
     if (!postRequest.ok) {
-      console.error('Failed to edit tag: ', postRequest.status, postRequest.statusText);
-      return { success: false };
+      console.error('Failed to update tag: ', postRequest.status, postRequest.statusText);
+
+      let inUse = false;
+      try {
+        const error = await postRequest.json();
+        console.error(error);
+        if ((error.error ?? '') === 'tag_in_use') {
+          inUse = true;
+        }
+      } catch {
+        const error = await postRequest.text();
+        console.error(error);
+      }
+
+      if (inUse) {
+        invalid(issue.name('Tag name is already in use.'));
+      } else {
+        return { success: false };
+      }
     }
 
     return { success: true };
