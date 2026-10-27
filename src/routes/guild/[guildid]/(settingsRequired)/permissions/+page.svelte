@@ -64,16 +64,14 @@
 
     {#each dataState.pageSettings.dashboard_managers as role (role)}
       {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
-      {#if foundRole}
-        <RoleTile
-          role={foundRole}
-          deleteThis={() => {
-            dataState.pageSettings.dashboard_managers = dataState.pageSettings.dashboard_managers.filter(
-              (r) => r !== role
-            );
-          }}
-        />
-      {/if}
+      <RoleTile
+        role={foundRole || role}
+        deleteThis={() => {
+          dataState.pageSettings.dashboard_managers = dataState.pageSettings.dashboard_managers.filter(
+            (r) => r !== role
+          );
+        }}
+      />
     {/each}
   </div>
 </Row>
@@ -94,14 +92,12 @@
 
       {#each dataState.pageSettings.case_managers as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
-        {#if foundRole}
-          <RoleTile
-            role={foundRole}
-            deleteThis={() => {
-              dataState.pageSettings.case_managers = dataState.pageSettings.case_managers.filter((r) => r !== role);
-            }}
-          />
-        {/if}
+        <RoleTile
+          role={foundRole || role}
+          deleteThis={() => {
+            dataState.pageSettings.case_managers = dataState.pageSettings.case_managers.filter((r) => r !== role);
+          }}
+        />
       {/each}
     </div>
   </div>

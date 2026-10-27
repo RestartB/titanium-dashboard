@@ -82,14 +82,12 @@
 
       {#each level.reward_roles as role (role)}
         {@const foundRole = serverInfo.roles.find((r) => r.id === role)}
-        {#if foundRole}
-          <RoleTile
-            role={foundRole}
-            deleteThis={() => {
-              level.reward_roles = level.reward_roles.filter((r) => r !== role);
-            }}
-          />
-        {/if}
+        <RoleTile
+          role={foundRole || role}
+          deleteThis={() => {
+            level.reward_roles = level.reward_roles.filter((r) => r !== role);
+          }}
+        />
       {/each}
     </div>
   {/if}

@@ -189,16 +189,14 @@
 
       {#each dataState.pageSettings.ignored_creator_role_ids as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
-        {#if foundRole}
-          <RoleTile
-            role={foundRole}
-            deleteThis={() => {
-              dataState.pageSettings.ignored_creator_role_ids = dataState.pageSettings.ignored_creator_role_ids.filter(
-                (r) => r !== role
-              );
-            }}
-          />
-        {/if}
+        <RoleTile
+          role={foundRole || role}
+          deleteThis={() => {
+            dataState.pageSettings.ignored_creator_role_ids = dataState.pageSettings.ignored_creator_role_ids.filter(
+              (r) => r !== role
+            );
+          }}
+        />
       {/each}
     </div>
   </Row>
@@ -273,16 +271,14 @@
 
       {#each dataState.pageSettings.ignored_target_role_ids as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
-        {#if foundRole}
-          <RoleTile
-            role={foundRole}
-            deleteThis={() => {
-              dataState.pageSettings.ignored_target_role_ids = dataState.pageSettings.ignored_target_role_ids.filter(
-                (r) => r !== role
-              );
-            }}
-          />
-        {/if}
+        <RoleTile
+          role={foundRole || role}
+          deleteThis={() => {
+            dataState.pageSettings.ignored_target_role_ids = dataState.pageSettings.ignored_target_role_ids.filter(
+              (r) => r !== role
+            );
+          }}
+        />
       {/each}
     </div>
   </Row>
