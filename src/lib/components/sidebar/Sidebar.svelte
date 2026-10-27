@@ -119,7 +119,7 @@
     title="Tags"
     href="/guild/{serverId}/tags"
     Icon={Tag}
-    active={page.url.pathname.endsWith('/tags')}
+    active={page.url.pathname.endsWith('/tags') || page.url.pathname.endsWith('/tags/responses')}
   />
   <!-- prettier-ignore -->
   <Tile

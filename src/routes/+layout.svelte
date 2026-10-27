@@ -26,6 +26,7 @@
     server_counters: { depth: 0, order: 10 },
     confessions: { depth: 0, order: 11 },
     tags: { depth: 0, order: 12 },
+    'tags/responses': { depth: 1, order: 12 },
     rep: { depth: 0, order: 13 }
   };
 
