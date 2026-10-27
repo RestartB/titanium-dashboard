@@ -4,13 +4,14 @@
   const {
     onclick = () => {},
     type = 'button',
-    title = '',
+    title = undefined,
     class: className = '',
     disabled = false,
     border = true,
     smallPadding = false,
     disablePadding = false,
-    aria = '',
+    aria = undefined,
+    form = undefined,
     children
   }: {
     onclick?: () => void;
@@ -22,6 +23,7 @@
     smallPadding?: boolean;
     disablePadding?: boolean;
     aria?: string;
+    form?: string;
     children: Snippet<[]>;
   } = $props();
 </script>
@@ -33,6 +35,7 @@
   {disabled}
   {type}
   {title}
+  {form}
   aria-label={aria}
 >
   {@render children?.()}

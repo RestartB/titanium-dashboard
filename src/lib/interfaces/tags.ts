@@ -1,3 +1,5 @@
+import type { ViewComponent } from './cv2';
+
 export type TagsResponse = {
   tags: Tag[];
   total_count: number;
@@ -7,6 +9,8 @@ export type Tag = {
   id: string;
   name: string;
   content: string;
+  components: ViewComponent[];
+  cv2: boolean;
   creator_id: string;
   creator_name: string;
   creator_discrim?: string | null;
@@ -17,4 +21,16 @@ export type Tag = {
   modified_by_discrim?: string | null;
   modified_by_display: string;
   modified_by_pfp: string;
+};
+
+export type TagSessionData = {
+  submit_key: string;
+  expires: string;
+  tag: {
+    id: string;
+    name: string;
+    cv2: boolean;
+    content: string;
+    components: ViewComponent[];
+  } | null;
 };

@@ -1,12 +1,13 @@
 import { query, form, command, getRequestEvent } from '$app/server';
-import { error } from '@sveltejs/kit';
+import { error, invalid } from '@sveltejs/kit';
 
 import { z } from 'zod';
+import { newTagSchema, editTagSchema, componentSchema } from '$lib/validators/tags';
 import { remoteCheckToken } from '$lib/server/token';
-import { apiLimit } from '$lib/server/limits';
+import { apiLimit, tagLinkLimit } from '$lib/server/limits';
 
 import { TITANIUM_API_URL } from '$env/static/private';
-import type { TagsResponse } from '$lib/interfaces/tags';
+import type { TagSessionData, TagsResponse } from '$lib/interfaces/tags';
 
 async function checkPerms(guildId: string) {
   const event = getRequestEvent();
@@ -47,34 +48,82 @@ export const getTags = query(
   }
 );
 
-export const createTag = form(
-  z.object({
-    guildId: z.string(),
-    name: z
-      .string('Please enter a title.')
-      .trim()
-      .min(1)
-      .max(35, 'Please ensure the tag name is 35 characters or shorter.'),
-    content: z
-      .string('Please enter some content.')
-      .trim()
-      .min(1)
-      .max(2000, 'Please ensure the tag content is 2000 characters or shorter.')
-  }),
-  async ({ guildId, name, content }) => {
-    const { tokenRecord } = await checkPerms(guildId);
+async function tagDataReq(data: {
+  userId?: string;
+  tagId?: string;
+  guildId?: string;
+  pageKey?: string;
+  submitKey?: string;
+  name: string;
+  cv2: boolean;
+  content: string | undefined;
+  components: z.infer<typeof componentSchema>[] | undefined;
+}) {
+  const { userId: user, tagId, guildId, pageKey, submitKey, ...tagData } = data;
 
-    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user: tokenRecord.discordUserId, name: name, content: content })
+  const tempLink = pageKey && submitKey;
+  const method = tagId && !tempLink ? 'PATCH' : 'POST';
+  const endpoint = tempLink
+    ? `${TITANIUM_API_URL}/taglink/${pageKey}/submit`
+    : `${TITANIUM_API_URL}/guild/${guildId}/tags${tagId ? '/' + tagId : ''}`;
+
+  return await fetch(endpoint, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      'Submit-Key': submitKey || ''
+    },
+    body: JSON.stringify({
+      user,
+      ...tagData
+    })
+  });
+}
+
+export const createTag = form(
+  newTagSchema,
+  async ({ guildId, pageKey, submitKey, name, cv2, content, components }, issue) => {
+    if (!guildId && !(pageKey && submitKey)) {
+      invalid(issue.guildId(`No guild ID or submission keys provided`));
+    }
+
+    if (!guildId) {
+      const event = getRequestEvent();
+      if (await tagLinkLimit.isLimited(event)) throw error(429);
+    }
+
+    const tokenRecord = guildId ? (await checkPerms(guildId)).tokenRecord : undefined;
+    const postRequest = await tagDataReq({
+      userId: tokenRecord?.discordUserId,
+      guildId,
+      pageKey,
+      submitKey,
+      name,
+      cv2,
+      content,
+      components
     });
 
     if (!postRequest.ok) {
       console.error('Failed to create tag: ', postRequest.status, postRequest.statusText);
-      return { success: false };
+
+      let inUse = false;
+      try {
+        const error = await postRequest.json();
+        console.error(error);
+        if ((error.error ?? '') === 'tag_in_use') {
+          inUse = true;
+        }
+      } catch {
+        const error = await postRequest.text();
+        console.error(error);
+      }
+
+      if (inUse) {
+        invalid(issue.name('Tag name is already in use.'));
+      } else {
+        return { success: false };
+      }
     }
 
     return { success: true };
@@ -82,34 +131,50 @@ export const createTag = form(
 );
 
 export const editTag = form(
-  z.object({
-    guildId: z.string(),
-    tagId: z.uuidv4(),
-    name: z
-      .string('Please enter a title.')
-      .trim()
-      .min(1)
-      .max(35, 'Please ensure the tag name is 35 characters or shorter.'),
-    content: z
-      .string('Please enter some content.')
-      .trim()
-      .min(1)
-      .max(2000, 'Please ensure the tag content is 2000 characters or shorter.')
-  }),
-  async ({ guildId, tagId, name, content }) => {
-    const { tokenRecord } = await checkPerms(guildId);
+  editTagSchema,
+  async ({ guildId, pageKey, submitKey, tagId, cv2, name, content, components }, issue) => {
+    if (!guildId && !(pageKey && submitKey)) {
+      invalid(issue.guildId(`No guild ID or submission keys provided`));
+    }
 
-    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/tags/${tagId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user: tokenRecord.discordUserId, name: name, content: content })
+    if (!guildId) {
+      const event = getRequestEvent();
+      if (await tagLinkLimit.isLimited(event)) throw error(429);
+    }
+
+    const tokenRecord = guildId ? (await checkPerms(guildId)).tokenRecord : undefined;
+    const postRequest = await tagDataReq({
+      userId: tokenRecord?.discordUserId,
+      guildId,
+      pageKey,
+      submitKey,
+      tagId,
+      name,
+      cv2,
+      content,
+      components
     });
 
     if (!postRequest.ok) {
-      console.error('Failed to edit tag: ', postRequest.status, postRequest.statusText);
-      return { success: false };
+      console.error('Failed to update tag: ', postRequest.status, postRequest.statusText);
+
+      let inUse = false;
+      try {
+        const error = await postRequest.json();
+        console.error(error);
+        if ((error.error ?? '') === 'tag_in_use') {
+          inUse = true;
+        }
+      } catch {
+        const error = await postRequest.text();
+        console.error(error);
+      }
+
+      if (inUse) {
+        invalid(issue.name('Tag name is already in use.'));
+      } else {
+        return { success: false };
+      }
     }
 
     return { success: true };
@@ -131,5 +196,28 @@ export const deleteTag = command(
     }
 
     return { success: true };
+  }
+);
+
+export const startEditSession = command(
+  z.object({
+    pageKey: z.uuidv4()
+  }),
+  async ({ pageKey }) => {
+    const event = getRequestEvent();
+    if (await tagLinkLimit.isLimited(event)) throw error(429);
+
+    const request = await fetch(`${TITANIUM_API_URL}/taglink/${pageKey}/start`);
+    if (!request.ok) {
+      return error(request.status, request.statusText);
+    }
+
+    const data: TagSessionData = await request.json();
+    event.cookies.set('submitKey', data.submit_key, {
+      path: `/public/tagedit/${pageKey}`,
+      sameSite: 'strict',
+      expires: new Date(data.expires)
+    });
+    return data;
   }
 );

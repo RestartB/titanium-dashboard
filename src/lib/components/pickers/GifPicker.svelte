@@ -11,7 +11,6 @@
   import type { GifResults, GifCategoriesResult } from '$lib/interfaces/gif';
 
   let {
-    // eslint-disable-next-line no-useless-assignment
     selectedGif = $bindable(),
     onSelect = () => {},
     overlayOpen = $bindable(false)

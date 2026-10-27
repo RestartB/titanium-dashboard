@@ -94,7 +94,7 @@
     if (!generalSettingsReq.ok) {
       errorMessage =
         (await generalSettingsReq.json())['message'] ||
-        'Failed to update settings on Titanium server. Please try again later.';
+        'Failed to update general settings on Titanium server. Please try again later.';
       errorCode = generalSettingsReq.status;
       errorStage = '2';
 
@@ -115,7 +115,7 @@
       if (!pageSettingsReq.ok) {
         errorMessage =
           (await pageSettingsReq.json())['message'] ||
-          'Failed to update settings on Titanium server. Please try again later.';
+          'Failed to update module settings on Titanium server. Please try again later.';
         errorCode = pageSettingsReq.status;
         errorStage = '3';
 

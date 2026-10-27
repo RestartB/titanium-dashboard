@@ -16,10 +16,11 @@
 
   const { data } = $props();
   let dataState = $state(data);
+
   let overlayOpen = $state(false);
+  let advMode = $state(false);
 
   let currentPage = $state(1);
-
   let tagsFunction = $derived(
     getTags({
       guildId: data.serverBranding.id,
@@ -33,6 +34,7 @@
   $effect(() => {
     if (createTag.result && createTag.result.success) {
       overlayOpen = false;
+      advMode = false;
     }
   });
 
@@ -48,9 +50,30 @@
 {/snippet}
 
 {#if overlayOpen}
-  <form {...createTag} {...createTag.preflight(newTagSchema)} class="absolute">
-    <FullscreenOverlay title="Create Tag" padding={16} gap={16} bottomRow={submitButton} bind:overlayOpen>
-      <TagForm form={createTag} guildId={data.serverBranding.id} />
+  <form
+    {...createTag.preflight(newTagSchema).enhance(async (form) => {
+      try {
+        form.validate({ preflightOnly: true });
+        if (!(await form.submit()) || !form.result || !form.result.success) {
+          return;
+        }
+        form.element.reset();
+      } catch (error) {
+        console.error('Error when creating tag: ', error);
+      }
+    })}
+    class="absolute"
+  >
+    <FullscreenOverlay
+      title="Create Tag"
+      padding={16}
+      gap={16}
+      height={1000}
+      width={800}
+      bottomRow={submitButton}
+      bind:overlayOpen
+    >
+      <TagForm form={createTag} guildId={data.serverBranding.id} cv2={advMode} />
     </FullscreenOverlay>
   </form>
 {/if}
@@ -80,7 +103,7 @@
 
   {#if data.serverSettings.modules.tags}
     <svelte:boundary>
-      <div class="flex items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2">
         <Button
           onclick={() => tagsFunction.refresh()}
           disablePadding={true}
@@ -95,7 +118,10 @@
         </Button>
 
         <Button
-          onclick={() => (overlayOpen = true)}
+          onclick={() => {
+            advMode = false;
+            overlayOpen = true;
+          }}
           smallPadding={true}
           disabled={$effect.pending() || (totalCount >= data.serverInfo.limits.tags && data.serverInfo.limits.enforcing)
             ? true
@@ -103,7 +129,22 @@
           class="transition-all"
         >
           <Plus size={20} class="shrink-0" />
-          Create
+          Create Basic Tag
+        </Button>
+
+        <Button
+          onclick={() => {
+            advMode = true;
+            overlayOpen = true;
+          }}
+          smallPadding={true}
+          disabled={$effect.pending() || (totalCount >= data.serverInfo.limits.tags && data.serverInfo.limits.enforcing)
+            ? true
+            : false}
+          class="transition-all"
+        >
+          <Plus size={20} class="shrink-0" />
+          Create Advanced Tag
         </Button>
       </div>
 

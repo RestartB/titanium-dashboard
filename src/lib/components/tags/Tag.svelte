@@ -9,6 +9,7 @@
   import Button from '$lib/components/ui/inputs/Button.svelte';
 
   import type { Tag } from '$lib/interfaces/tags';
+  import PreviewComponent from '../cv2/PreviewComponent.svelte';
 
   const { tag, guildId }: { tag: Tag; guildId: string } = $props();
 
@@ -24,6 +25,7 @@
   onMount(() => {
     editFormLocal.fields.name.set(tag.name);
     editFormLocal.fields.content.set(tag.content);
+    editFormLocal.fields.components.set(tag.components);
   });
 
   $effect(() => {
@@ -110,11 +112,32 @@
 {/snippet}
 
 {#if overlayOpen}
-  <form {...editFormLocal} {...editFormLocal.preflight(editTagSchema)} class="absolute">
+  <form
+    {...editFormLocal.preflight(editTagSchema).enhance(async (form) => {
+      try {
+        form.validate({ preflightOnly: true });
+        if (!(await form.submit()) || !form.result || !form.result.success) {
+          return;
+        }
+        editMode = false;
+      } catch (error) {
+        console.error('Error when submitting tag: ', error);
+      }
+    })}
+    class="absolute"
+  >
     <input type="hidden" {...editFormLocal.fields.tagId.as('text')} value={tag.id} />
-    <FullscreenOverlay title={editMode ? 'Edit Tag' : 'Tag Details'} padding={16} gap={16} {bottomRow} bind:overlayOpen>
+    <FullscreenOverlay
+      title={editMode ? 'Edit Tag' : 'Tag Details'}
+      padding={16}
+      gap={16}
+      height={1000}
+      width={800}
+      {bottomRow}
+      bind:overlayOpen
+    >
       {#if editMode}
-        <TagForm form={editFormLocal} {guildId} />
+        <TagForm form={editFormLocal} {guildId} cv2={tag.cv2} components={tag.components} />
       {:else}
         <div class="w-full text-left">
           <h3 class="text-xl font-semibold">Name</h3>
@@ -122,8 +145,17 @@
         </div>
 
         <div class="w-full text-left">
-          <h3 class="text-xl font-semibold">Content</h3>
-          <p class="wrap-break-word">{tag.content}</p>
+          <h3 class="mb-1 text-xl font-semibold">Content</h3>
+
+          {#if tag.cv2}
+            <div class="space-y-4 rounded-lg border-2 border-zinc-600 bg-zinc-800 p-4">
+              {#each tag.components as component (component.id)}
+                <PreviewComponent {component} />
+              {/each}
+            </div>
+          {:else}
+            <p class="wrap-break-word">{tag.content}</p>
+          {/if}
         </div>
       {/if}
     </FullscreenOverlay>

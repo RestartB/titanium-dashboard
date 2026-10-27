@@ -1,11 +1,14 @@
 import { error } from '@sveltejs/kit';
 
-export async function titaniumRequest(path: string) {
+export async function titaniumRequest(path: string, headers: { [key: string]: string } = {}) {
   try {
     const modulesRequest = await fetch(path, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        ...{
+          'Content-Type': 'application/json'
+        },
+        ...headers
       }
     });
 
