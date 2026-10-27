@@ -8,9 +8,10 @@
   import TagForm from '$lib/components/tags/TagForm.svelte';
   import Button from '$lib/components/ui/inputs/Button.svelte';
 
-  import type { Tag } from '$lib/interfaces/tags';
-  import PreviewComponent from '../cv2/PreviewComponent.svelte';
+  import PreviewComponent from '$lib/components/cv2/PreviewComponent.svelte';
   import { Code } from '@lucide/svelte';
+
+  import type { Tag } from '$lib/interfaces/tags';
 
   const { tag, guildId }: { tag: Tag; guildId: string } = $props();
 
@@ -184,7 +185,9 @@
     <h2 class="text-xl font-bold wrap-break-word">{tag.name}</h2>
 
     {#if tag.cv2}
-      <span class="flex items-center justify-center gap-1 rounded-full bg-zinc-500 p-1 px-2 w-fit text-sm mt-1 opacity-70">
+      <span
+        class="mt-1 flex w-fit items-center justify-center gap-1 rounded-full bg-zinc-500 p-1 px-2 text-sm opacity-70"
+      >
         <Code size={16} /> Components v2
       </span>
     {:else}

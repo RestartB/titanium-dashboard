@@ -1,7 +1,7 @@
 <script lang="ts">
-  import FullscreenOverlay from '../ui/FullscreenOverlay.svelte';
-  import UiButton from '../ui/inputs/Button.svelte';
-  import Radio from '../ui/inputs/Radio.svelte';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import UiButton from '$lib/components/ui/inputs/Button.svelte';
+  import Radio from '$lib/components/ui/inputs/Radio.svelte';
   import { Plus, Trash, X } from '@lucide/svelte';
 
   import type { ViewComponent } from '$lib/interfaces/cv2';

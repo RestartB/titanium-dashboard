@@ -2,9 +2,9 @@
   import { flip } from 'svelte/animate';
   import { dragHandleZone, SHADOW_ITEM_MARKER_PROPERTY_NAME, type DndEvent } from 'svelte-dnd-action';
 
-  import FullscreenOverlay from '../ui/FullscreenOverlay.svelte';
-  import Button from '../ui/inputs/Button.svelte';
-  import Toggle from '../ui/inputs/Toggle.svelte';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import PreviewComponent from './PreviewComponent.svelte';
   import { Palette, Plus } from '@lucide/svelte';
 

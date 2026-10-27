@@ -3,7 +3,7 @@
   import { createTag, editTag } from '$lib/remote/tags.remote';
 
   import GifPicker from '$lib/components/pickers/GifPicker.svelte';
-  import ViewEditor from '../cv2/ViewEditor.svelte';
+  import ViewEditor from '$lib/components/cv2/ViewEditor.svelte';
 
   import type { ViewComponent } from '$lib/interfaces/cv2';
 
