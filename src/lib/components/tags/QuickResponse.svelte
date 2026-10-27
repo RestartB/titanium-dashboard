@@ -5,6 +5,7 @@
   import FullscreenOverlay from '../ui/FullscreenOverlay.svelte';
   import RoleTile from '../ui/discord/RoleTile.svelte';
   import Button from '../ui/inputs/Button.svelte';
+  import Toggle from '../ui/inputs/Toggle.svelte';
   import ChannelTile from '../ui/discord/ChannelTile.svelte';
   import ChannelPicker from '../pickers/ChannelPicker.svelte';
   import RolePicker from '../pickers/RolePicker.svelte';
@@ -102,14 +103,12 @@
 
         {#each response.ignored_roles as role (role)}
           {@const foundRole = serverInfo.roles.find((r) => r.id === role)}
-          {#if foundRole}
-            <RoleTile
-              role={foundRole}
-              deleteThis={() => {
-                response.ignored_roles = response.ignored_roles.filter((r) => r !== role);
-              }}
-            />
-          {/if}
+          <RoleTile
+            role={foundRole || role}
+            deleteThis={() => {
+              response.ignored_roles = response.ignored_roles.filter((r) => r !== role);
+            }}
+          />
         {/each}
       </div>
     </div>
@@ -189,5 +188,16 @@
         {/each}
       {/if}
     </div>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-4">
+    <label class="inline-flex items-center gap-2 align-middle">
+      <Toggle bind:toggled={response.match_whole_word} />
+      <span>Match whole word</span>
+    </label>
+    <label class="inline-flex items-center gap-2 align-middle">
+      <Toggle bind:toggled={response.case_sensitive} />
+      <span>Case sensitive</span>
+    </label>
   </div>
 </Row>

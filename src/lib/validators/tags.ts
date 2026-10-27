@@ -4,6 +4,7 @@ export const tagQuickResponseSchema = z
   .object({
     id: z.uuidv4(),
     tag_id: z.uuidv4().optional(),
+
     keywords: z.array(z.string().min(1).max(25)).max(5),
     match_whole_word: z.boolean(),
     case_sensitive: z.boolean(),
