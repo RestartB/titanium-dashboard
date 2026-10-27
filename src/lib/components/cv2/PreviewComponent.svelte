@@ -10,7 +10,7 @@
     component = $bindable(),
     editMode = false,
     deleteThis = () => {}
-  }: { component: ViewComponent; editMode?: boolean; deleteThis: () => void } = $props();
+  }: { component: ViewComponent; editMode?: boolean; deleteThis?: () => void } = $props();
   let editOverlayOpen = $state(false);
 </script>
 

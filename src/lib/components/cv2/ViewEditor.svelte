@@ -4,18 +4,24 @@
 
   import FullscreenOverlay from '../ui/FullscreenOverlay.svelte';
   import Button from '../ui/inputs/Button.svelte';
+  import Toggle from '../ui/inputs/Toggle.svelte';
   import PreviewComponent from './PreviewComponent.svelte';
-  import { Plus } from '@lucide/svelte';
+  import { Palette, Plus } from '@lucide/svelte';
 
   import { createComponent, cv2Metadata } from '$lib/helpers/discord';
   import type { ViewComponent } from '$lib/interfaces/cv2';
 
-  let { view = $bindable() }: { view: ViewComponent[] } = $props();
+  let {
+    view = $bindable(),
+    colour = $bindable(),
+    spoiler = $bindable()
+  }: { view: ViewComponent[]; colour: string; spoiler: boolean } = $props();
 
   type DndComponent = ViewComponent & Partial<Record<typeof SHADOW_ITEM_MARKER_PROPERTY_NAME, boolean>>;
   const flipDurationMs = 300;
 
   let addOverlayOpen = $state(false);
+  let overlayOpen = $state(false);
 
   function handleSort(e: CustomEvent<DndEvent<ViewComponent>>) {
     view = e.detail.items.map((rule, order) => ({
@@ -51,7 +57,36 @@
   </FullscreenOverlay>
 {/if}
 
-<Button class="border-zinc-600! bg-zinc-800!" onclick={() => (addOverlayOpen = true)}><Plus /> Add component</Button>
+{#if overlayOpen}
+  <FullscreenOverlay title="Customisation" padding={16} gap={16} zIndex={60} bind:overlayOpen>
+    <div class="w-full text-left">
+      <p class="font-medium">Colour</p>
+      <p class="mb-2 text-sm text-zinc-400">Set the colour of the tag.</p>
+      <input
+        type="color"
+        class="h-11 w-full overflow-hidden rounded-lg border-2 border-zinc-600 bg-zinc-800 p-1"
+        bind:value={colour}
+      />
+    </div>
+
+    <div class="flex w-full items-center justify-between gap-2">
+      <div>
+        <p class="font-medium">Spoiler</p>
+        <p class="mb-2 text-sm text-zinc-400">Whether to hide the component's contents behind a spoiler.</p>
+      </div>
+      <Toggle bind:toggled={spoiler} />
+    </div>
+  </FullscreenOverlay>
+{/if}
+
+<div class="flex flex-wrap items-center gap-2">
+  <Button class="border-zinc-600! bg-zinc-800! hover:bg-zinc-600!" onclick={() => (addOverlayOpen = true)}
+    ><Plus /> Add component</Button
+  >
+  <Button class="border-zinc-600! bg-zinc-800! hover:bg-zinc-600!" onclick={() => (overlayOpen = true)}
+    ><Palette /> Customise</Button
+  >
+</div>
 
 <section
   use:dragHandleZone={{
@@ -60,7 +95,8 @@
   }}
   onconsider={handleSort}
   onfinalize={handleSort}
-  class="space-y-4 rounded-lg border-2 border-zinc-600 bg-zinc-800 p-4"
+  class="space-y-4 rounded-lg border-2 border-l-6 border-zinc-600 bg-zinc-800 p-4"
+  style="border-left-color: {colour};"
 >
   {#if view.length === 0}
     <p class="opacity-50">No components added yet</p>

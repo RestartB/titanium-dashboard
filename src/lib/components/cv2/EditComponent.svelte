@@ -10,7 +10,7 @@
     component = $bindable(),
     deleteThis = () => {},
     overlayOpen = $bindable(false)
-  }: { component: ViewComponent; deleteThis: () => void; overlayOpen: boolean } = $props();
+  }: { component: ViewComponent; deleteThis?: () => void; overlayOpen: boolean } = $props();
 
   let confirm = $state(false);
 </script>
@@ -27,7 +27,8 @@
 
       deleteThis();
     }}
-    aria-label="Copy ID to clipboard"
+    title={confirm ? 'Press again to confirm' : 'Delete component'}
+    aria-label={confirm ? 'Press again to confirm' : 'Delete component'}
   >
     {#if confirm}
       <p class="mr-2">Press again</p>

@@ -10,6 +10,7 @@
 
   import type { Tag } from '$lib/interfaces/tags';
   import PreviewComponent from '../cv2/PreviewComponent.svelte';
+  import { Code } from '@lucide/svelte';
 
   const { tag, guildId }: { tag: Tag; guildId: string } = $props();
 
@@ -26,6 +27,8 @@
     editFormLocal.fields.name.set(tag.name);
     editFormLocal.fields.content.set(tag.content);
     editFormLocal.fields.components.set(tag.components);
+    editFormLocal.fields.colour.set(tag.colour);
+    editFormLocal.fields.spoiler.set(tag.spoiler);
   });
 
   $effect(() => {
@@ -148,7 +151,10 @@
           <h3 class="mb-1 text-xl font-semibold">Content</h3>
 
           {#if tag.cv2}
-            <div class="space-y-4 rounded-lg border-2 border-zinc-600 bg-zinc-800 p-4">
+            <div
+              class="space-y-4 rounded-lg border-2 border-l-6 border-zinc-600 bg-zinc-800 p-4"
+              style="border-left-color: {tag.colour}"
+            >
               {#each tag.components as component (component.id)}
                 <PreviewComponent {component} />
               {/each}
@@ -176,6 +182,13 @@
     </p>
 
     <h2 class="text-xl font-bold wrap-break-word">{tag.name}</h2>
-    <p class="w-full max-w-full wrap-break-word">{tag.content}</p>
+
+    {#if tag.cv2}
+      <span class="flex items-center justify-center gap-1 rounded-full bg-zinc-500 p-1 px-2 w-fit text-sm mt-1 opacity-70">
+        <Code size={16} /> Components v2
+      </span>
+    {:else}
+      <p class="w-full max-w-full wrap-break-word">{tag.content}</p>
+    {/if}
   </ButtonRow>
 </li>

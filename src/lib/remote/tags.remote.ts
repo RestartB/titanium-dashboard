@@ -58,6 +58,8 @@ async function tagDataReq(data: {
   cv2: boolean;
   content: string | undefined;
   components: z.infer<typeof componentSchema>[] | undefined;
+  colour: string;
+  spoiler: boolean;
 }) {
   const { userId: user, tagId, guildId, pageKey, submitKey, ...tagData } = data;
 
@@ -82,7 +84,7 @@ async function tagDataReq(data: {
 
 export const createTag = form(
   newTagSchema,
-  async ({ guildId, pageKey, submitKey, name, cv2, content, components }, issue) => {
+  async ({ guildId, pageKey, submitKey, name, cv2, content, components, colour, spoiler }, issue) => {
     if (!guildId && !(pageKey && submitKey)) {
       invalid(issue.guildId(`No guild ID or submission keys provided`));
     }
@@ -101,7 +103,9 @@ export const createTag = form(
       name,
       cv2,
       content,
-      components
+      components,
+      colour,
+      spoiler
     });
 
     if (!postRequest.ok) {
@@ -132,7 +136,7 @@ export const createTag = form(
 
 export const editTag = form(
   editTagSchema,
-  async ({ guildId, pageKey, submitKey, tagId, cv2, name, content, components }, issue) => {
+  async ({ guildId, pageKey, submitKey, tagId, cv2, name, content, components, colour, spoiler }, issue) => {
     if (!guildId && !(pageKey && submitKey)) {
       invalid(issue.guildId(`No guild ID or submission keys provided`));
     }
@@ -152,7 +156,9 @@ export const editTag = form(
       name,
       cv2,
       content,
-      components
+      components,
+      colour,
+      spoiler
     });
 
     if (!postRequest.ok) {

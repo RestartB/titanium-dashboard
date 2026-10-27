@@ -4,6 +4,7 @@
 
 <button
   class={`relative h-6 w-12 shrink-0 cursor-pointer rounded-full p-1 transition-colors ${toggled ? 'bg-green-500' : 'bg-zinc-500'} ${className}`}
+  type="button"
   onclick={() => (toggled = !toggled)}
   aria-label="Toggle"
 >

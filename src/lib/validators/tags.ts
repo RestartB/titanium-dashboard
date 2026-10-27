@@ -62,10 +62,14 @@ export const newTagSchema = z
     guildId: z.string().optional(),
     pageKey: z.uuidv4().optional(),
     submitKey: z.uuidv4().optional(),
-    cv2: z.boolean().default(false),
+
     name: z.string('Please enter a title.').trim().min(1).max(35),
+    cv2: z.boolean().default(false),
+
     content: z.string('Please enter some content.').trim().max(2000).optional(),
-    components: z.array(componentSchema).max(10, 'A max of 10 components per tag is allowed.').default([])
+    components: z.array(componentSchema).max(10, 'A max of 10 components per tag is allowed.').default([]),
+    colour: z.string().trim().default('#979C9F'),
+    spoiler: z.boolean().default(false)
   })
   .refine((data) => !data.cv2 || (data.cv2 && data.components.length > 0), {
     message: 'Please add some components.',
@@ -83,10 +87,14 @@ export const editTagSchema = z
     pageKey: z.uuidv4().optional(),
     submitKey: z.uuidv4().optional(),
     tagId: z.uuidv4(),
-    cv2: z.boolean().default(false),
+
     name: z.string('Please enter a title.').trim().min(1).max(35),
+    cv2: z.boolean().default(false),
+
     content: z.string('Please enter some content.').trim().max(2000).optional(),
-    components: z.array(componentSchema).max(10, 'A max of 10 components per tag is allowed.').default([])
+    components: z.array(componentSchema).max(10, 'A max of 10 components per tag is allowed.').default([]),
+    colour: z.string().trim().default('#979C9F'),
+    spoiler: z.boolean().default(false)
   })
   .refine((data) => !data.cv2 || (data.cv2 && data.components.length > 0), {
     message: 'Please add some components.',

@@ -8,14 +8,19 @@ export type TagsResponse = {
 export type Tag = {
   id: string;
   name: string;
+  cv2: boolean;
+
   content: string;
   components: ViewComponent[];
-  cv2: boolean;
+  colour: string;
+  spoiler: boolean;
+
   creator_id: string;
   creator_name: string;
   creator_discrim?: string | null;
   creator_display: string;
   creator_pfp: string;
+
   modified_by_id: string;
   modified_by_name: string;
   modified_by_discrim?: string | null;

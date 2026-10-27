@@ -1,8 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { createTag, editTag } from '$lib/remote/tags.remote';
+
   import GifPicker from '$lib/components/pickers/GifPicker.svelte';
   import ViewEditor from '../cv2/ViewEditor.svelte';
+
   import type { ViewComponent } from '$lib/interfaces/cv2';
 
   const {
@@ -22,7 +24,10 @@
   } = $props();
 
   let gifPickerOpen = $state(false);
+
   let localComponents: ViewComponent[] = $state([]);
+  let colour = $state(form.fields.colour.value() || '#979C9F');
+  let spoiler = $state(form.fields.spoiler.value() || false);
 
   onMount(() => {
     localComponents = components;
@@ -51,6 +56,8 @@
 {/if}
 
 <input {...form.fields.cv2.as('hidden', cv2)} />
+<input {...form.fields.colour.as('hidden', colour)} />
+<input {...form.fields.spoiler.as('hidden', spoiler)} />
 
 {#each localComponents as component, componentIndex (component.id)}
   <input {...form.fields.components[componentIndex].cId.as('hidden', component.cId)} />
@@ -96,7 +103,7 @@
     <p class="text-red-300">{issue.message}</p>
   {/each}
 
-  <ViewEditor bind:view={localComponents} />
+  <ViewEditor bind:view={localComponents} bind:colour bind:spoiler />
 {:else}
   <div class="w-full text-left">
     <div class="flex items-center gap-2">
