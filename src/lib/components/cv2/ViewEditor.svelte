@@ -53,8 +53,6 @@
 
 <Button class="border-zinc-600! bg-zinc-800!" onclick={() => (addOverlayOpen = true)}><Plus /> Add component</Button>
 
-<!-- TODO: can't update tags - content not provided -->
-
 <section
   use:dragHandleZone={{
     items: view,
@@ -69,7 +67,7 @@
   {:else}
     {#each view as component, i (`${component.id}-${getShadowMarker(component) ?? ''}`)}
       <div animate:flip={{ duration: flipDurationMs }} data-is-dnd-shadow-item-hint={getShadowMarker(component)}>
-        <PreviewComponent bind:component={view[i]} editMode={true} />
+        <PreviewComponent bind:component={view[i]} editMode={true} deleteThis={() => view.splice(i, 1)} />
       </div>
     {/each}
   {/if}

@@ -123,7 +123,6 @@
   {/each}
 {/if}
 
-<!-- TODO: handle tag name already exists -->
 {#if form.result && !form.result.success}
   <p class="text-red-300">An error occurred. Please try again in a few moments.</p>
 {/if}

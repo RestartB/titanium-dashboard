@@ -1,18 +1,45 @@
 <script lang="ts">
-  import type { ViewComponent } from '$lib/interfaces/cv2';
-
   import FullscreenOverlay from '../ui/FullscreenOverlay.svelte';
   import UiButton from '../ui/inputs/Button.svelte';
   import Radio from '../ui/inputs/Radio.svelte';
-  import { Plus, X } from '@lucide/svelte';
+  import { Plus, Trash, X } from '@lucide/svelte';
 
-  let { component = $bindable(), overlayOpen = $bindable(false) }: { component: ViewComponent; overlayOpen: boolean } =
-    $props();
+  import type { ViewComponent } from '$lib/interfaces/cv2';
+
+  let {
+    component = $bindable(),
+    deleteThis = () => {},
+    overlayOpen = $bindable(false)
+  }: { component: ViewComponent; deleteThis: () => void; overlayOpen: boolean } = $props();
+
+  let confirm = $state(false);
 </script>
 
-<!-- TODO: delete component -->
+{#snippet extraButton()}
+  <button
+    class="ml-auto flex h-8 shrink-0 cursor-pointer items-center justify-center rounded-full bg-zinc-700 p-2 text-zinc-400 hover:bg-zinc-600"
+    type="button"
+    onclick={() => {
+      if (!confirm) {
+        confirm = true;
+        return setTimeout(() => (confirm = false), 5000);
+      }
 
-<FullscreenOverlay title="Edit Component" padding={16} gap={16} zIndex={60} bind:overlayOpen>
+      deleteThis();
+    }}
+    aria-label="Copy ID to clipboard"
+  >
+    {#if confirm}
+      <p class="mr-2">Press again</p>
+      <Trash size={20} />
+    {:else}
+      <p class="mr-2">Delete</p>
+      <Trash size={20} />
+    {/if}
+  </button>
+{/snippet}
+
+<FullscreenOverlay title="Edit Component" padding={16} gap={16} zIndex={60} {extraButton} bind:overlayOpen>
   {#if component.cId === 9 || component.cId === 10}
     <!-- Text -->
     <div class="w-full text-left">

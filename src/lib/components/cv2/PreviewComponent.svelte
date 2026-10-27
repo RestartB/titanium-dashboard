@@ -6,12 +6,16 @@
   import GalleryMedia from './GalleryMedia.svelte';
   import { Cog, ExternalLink, GripVertical } from '@lucide/svelte';
 
-  let { component = $bindable(), editMode = false }: { component: ViewComponent; editMode?: boolean } = $props();
+  let {
+    component = $bindable(),
+    editMode = false,
+    deleteThis = () => {}
+  }: { component: ViewComponent; editMode?: boolean; deleteThis: () => void } = $props();
   let editOverlayOpen = $state(false);
 </script>
 
 {#if editOverlayOpen}
-  <EditComponent bind:component bind:overlayOpen={editOverlayOpen} />
+  <EditComponent bind:component bind:overlayOpen={editOverlayOpen} {deleteThis} />
 {/if}
 
 <div class="flex items-center justify-center gap-4">
