@@ -65,6 +65,7 @@ export interface Limits {
   leaderboard_levels: number;
   server_counters: number;
   tags: number;
+  tag_responses: number;
 }
 
 export interface ErrorLogs {

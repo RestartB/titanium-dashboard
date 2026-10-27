@@ -2,6 +2,7 @@
   import { resolve } from '$app/paths';
 
   import Saver from '$lib/components/Saver.svelte';
+  import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import QuickResponse from '$lib/components/tags/QuickResponse.svelte';
   import ChannelTile from '$lib/components/ui/discord/ChannelTile.svelte';
   import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
@@ -107,21 +108,29 @@
 <hr class="border-zinc-500" />
 <p class="text-base font-bold text-zinc-300/60">Quick Responses</p>
 
-<Button
-  onclick={() => {
-    dataState.pageSettings.quick_responses.push({
-      id: crypto.randomUUID(),
-      tag_id: undefined,
-      keywords: [],
-      match_whole_word: true,
-      case_sensitive: false,
-      ignored_channels: [],
-      ignored_roles: []
-    });
-  }}
->
-  <Plus size={20} /> Add response
-</Button>
+<div class="flex flex-wrap items-center gap-2">
+  <Button
+    onclick={() => {
+      dataState.pageSettings.quick_responses.push({
+        id: crypto.randomUUID(),
+        tag_id: undefined,
+        keywords: [],
+        match_whole_word: true,
+        case_sensitive: false,
+        ignored_channels: [],
+        ignored_roles: []
+      });
+    }}
+    disabled={data.serverInfo.limits.enforcing &&
+      dataState.pageSettings.quick_responses.length >= data.serverInfo.limits.tag_responses}
+  >
+    <Plus size={20} /> Add response
+  </Button>
+
+  {#if data.serverInfo.limits.enforcing}
+    <LimitPill amount={dataState.pageSettings.quick_responses.length} limit={data.serverInfo.limits.tag_responses} />
+  {/if}
+</div>
 
 {#each dataState.pageSettings.quick_responses as response, i (response.id)}
   <QuickResponse
