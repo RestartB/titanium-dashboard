@@ -1,14 +1,14 @@
 <script lang="ts">
-  import Row from '../ui/row/Row.svelte';
-  import WordTile from '../ui/WordTile.svelte';
-  import TagPicker from '../pickers/TagPicker.svelte';
-  import FullscreenOverlay from '../ui/FullscreenOverlay.svelte';
-  import RoleTile from '../ui/discord/RoleTile.svelte';
-  import Button from '../ui/inputs/Button.svelte';
-  import Toggle from '../ui/inputs/Toggle.svelte';
-  import ChannelTile from '../ui/discord/ChannelTile.svelte';
-  import ChannelPicker from '../pickers/ChannelPicker.svelte';
-  import RolePicker from '../pickers/RolePicker.svelte';
+  import Row from '$lib/components/ui/row/Row.svelte';
+  import WordTile from '$lib/components/ui/WordTile.svelte';
+  import TagPicker from '$lib/components/pickers/TagPicker.svelte';
+  import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
+  import RoleTile from '$lib/components/ui/discord/RoleTile.svelte';
+  import Button from '$lib/components/ui/inputs/Button.svelte';
+  import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
+  import ChannelTile from '$lib/components/ui/discord/ChannelTile.svelte';
+  import ChannelPicker from '$lib/components/pickers/ChannelPicker.svelte';
+  import RolePicker from '$lib/components/pickers/RolePicker.svelte';
   import { Menu, Plus, Trash } from '@lucide/svelte';
 
   import type { TagQuickResponseSchema } from '$lib/validators/tags';
