@@ -161,7 +161,7 @@
               {/each}
             </div>
           {:else}
-            <p class="wrap-break-word">{tag.content}</p>
+            <p class="wrap-break-word whitespace-pre-wrap">{tag.content}</p>
           {/if}
         </div>
       {/if}
