@@ -1,9 +1,9 @@
+import { error } from '@sveltejs/kit';
+import { tagLinkLimit } from '$lib/server/limits';
 import { TITANIUM_API_URL } from '$env/static/private';
 
 import type { PageServerLoad } from './$types';
 import type { TagSessionData } from '$lib/interfaces/tags';
-import { tagLinkLimit } from '$lib/server/limits';
-import { error } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async (event) => {
   const submitKey = event.cookies.get('submitKey');
