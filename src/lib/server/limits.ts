@@ -30,5 +30,11 @@ export const commentsLimit = new RateLimiter({
 });
 
 export const leaderboardLimit = new RateLimiter({
-  IP: [1, 's']
+  IPUA: [1, 's'],
+  IP: [60, 'm']
+});
+
+export const tagLinkLimit = new RateLimiter({
+  IPUA: [3, 's'],
+  IP: [120, 'm']
 });

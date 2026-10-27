@@ -4,7 +4,7 @@ import { error, invalid } from '@sveltejs/kit';
 import { z } from 'zod';
 import { newTagSchema, editTagSchema, componentSchema } from '$lib/validators/tags';
 import { remoteCheckToken } from '$lib/server/token';
-import { apiLimit } from '$lib/server/limits';
+import { apiLimit, tagLinkLimit } from '$lib/server/limits';
 
 import { TITANIUM_API_URL } from '$env/static/private';
 import type { TagSessionData, TagsResponse } from '$lib/interfaces/tags';
@@ -67,8 +67,6 @@ async function tagDataReq(data: {
     ? `${TITANIUM_API_URL}/taglink/${pageKey}/submit`
     : `${TITANIUM_API_URL}/guild/${guildId}/tags${tagId ? '/' + tagId : ''}`;
 
-  console.log(method, endpoint);
-
   return await fetch(endpoint, {
     method: method,
     headers: {
@@ -87,6 +85,11 @@ export const createTag = form(
   async ({ guildId, pageKey, submitKey, name, cv2, content, components }, issue) => {
     if (!guildId && !(pageKey && submitKey)) {
       invalid(issue.guildId(`No guild ID or submission keys provided`));
+    }
+
+    if (!guildId) {
+      const event = getRequestEvent();
+      if (await tagLinkLimit.isLimited(event)) throw error(429);
     }
 
     const tokenRecord = guildId ? (await checkPerms(guildId)).tokenRecord : undefined;
@@ -132,6 +135,11 @@ export const editTag = form(
   async ({ guildId, pageKey, submitKey, tagId, cv2, name, content, components }, issue) => {
     if (!guildId && !(pageKey && submitKey)) {
       invalid(issue.guildId(`No guild ID or submission keys provided`));
+    }
+
+    if (!guildId) {
+      const event = getRequestEvent();
+      if (await tagLinkLimit.isLimited(event)) throw error(429);
     }
 
     const tokenRecord = guildId ? (await checkPerms(guildId)).tokenRecord : undefined;
@@ -191,13 +199,13 @@ export const deleteTag = command(
   }
 );
 
-// TODO: rate limiting for these endpoints
 export const startEditSession = command(
   z.object({
     pageKey: z.uuidv4()
   }),
   async ({ pageKey }) => {
     const event = getRequestEvent();
+    if (await tagLinkLimit.isLimited(event)) throw error(429);
 
     const request = await fetch(`${TITANIUM_API_URL}/taglink/${pageKey}/start`);
     if (!request.ok) {
@@ -210,23 +218,6 @@ export const startEditSession = command(
       sameSite: 'strict',
       expires: new Date(data.expires)
     });
-    return data;
-  }
-);
-
-export const continueEditSession = command(
-  z.object({
-    pageKey: z.uuidv4(),
-    submitKey: z.uuidv4()
-  }),
-  async ({ pageKey, submitKey }) => {
-    const request = await fetch(`${TITANIUM_API_URL}/taglink/${pageKey}/continue?submitKey=${submitKey}`);
-    if (!request.ok) {
-      console.log(request.status, request.statusText);
-      return error(request.status, request.statusText);
-    }
-
-    const data: TagSessionData = await request.json();
     return data;
   }
 );

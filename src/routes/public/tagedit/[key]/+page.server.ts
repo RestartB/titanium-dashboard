@@ -2,15 +2,18 @@ import { TITANIUM_API_URL } from '$env/static/private';
 
 import type { PageServerLoad } from './$types';
 import type { TagSessionData } from '$lib/interfaces/tags';
+import { tagLinkLimit } from '$lib/server/limits';
+import { error } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ cookies, params }) => {
-  const submitKey = cookies.get('submitKey');
+export const load: PageServerLoad = async (event) => {
+  const submitKey = event.cookies.get('submitKey');
   if (!submitKey) {
-    console.log('No submit key');
     return { session: undefined };
   }
 
-  const request = await fetch(`${TITANIUM_API_URL}/taglink/${params.key}/continue`, {
+  if (await tagLinkLimit.isLimited(event)) error(429);
+
+  const request = await fetch(`${TITANIUM_API_URL}/taglink/${event.params.key}/continue`, {
     headers: {
       'Submit-Key': submitKey
     }
