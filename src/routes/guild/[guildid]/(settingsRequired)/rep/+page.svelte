@@ -135,14 +135,12 @@
 
       {#each dataState.pageSettings.ignored_roles as role (role)}
         {@const foundRole = dataState.serverInfo.roles.find((r) => r.id === role)}
-        {#if foundRole}
-          <RoleTile
-            role={foundRole}
-            deleteThis={() => {
-              dataState.pageSettings.ignored_roles = dataState.pageSettings.ignored_roles.filter((r) => r !== role);
-            }}
-          />
-        {/if}
+        <RoleTile
+          role={foundRole || role}
+          deleteThis={() => {
+            dataState.pageSettings.ignored_roles = dataState.pageSettings.ignored_roles.filter((r) => r !== role);
+          }}
+        />
       {/each}
     </div>
   </Row>

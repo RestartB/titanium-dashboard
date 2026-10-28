@@ -1,7 +1,29 @@
 import { z } from 'zod';
 
+export const tagQuickResponseSchema = z
+  .object({
+    id: z.uuidv4(),
+    tag_id: z.uuidv4().optional(),
+
+    keywords: z.array(z.string().min(1).max(25)).max(5),
+    match_whole_word: z.boolean(),
+    case_sensitive: z.boolean(),
+
+    ignored_roles: z.array(z.string()).max(100).default([]),
+    ignored_channels: z.array(z.string()).max(100).default([])
+  })
+  .refine((data) => data.tag_id, {
+    message: 'Please select a tag.',
+    path: ['tag_id']
+  });
+
+export type TagQuickResponseSchema = z.infer<typeof tagQuickResponseSchema>;
+
 export const tagsConfigSchema = z.object({
-  allow_user_tags: z.boolean()
+  allow_user_tags: z.boolean(),
+  quick_responses: z.array(tagQuickResponseSchema),
+  global_ignored_roles: z.array(z.string()).max(100).default([]),
+  global_ignored_channels: z.array(z.string()).max(100).default([])
 });
 
 export type TagsConfigSchema = z.infer<typeof tagsConfigSchema>;

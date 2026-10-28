@@ -10,9 +10,10 @@
   import Tag from '$lib/components/tags/Tag.svelte';
   import TagForm from '$lib/components/tags/TagForm.svelte';
   import ToggleRow from '$lib/components/ui/row/ToggleRow.svelte';
+  import AnchorRow from '$lib/components/ui/row/AnchorRow.svelte';
   import Pagination from '$lib/components/ui/Pagination.svelte';
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
-  import { RefreshCw, Plus, LoaderCircle, X } from '@lucide/svelte';
+  import { RefreshCw, Plus, LoaderCircle, X, MessageCircle, ChevronRight } from '@lucide/svelte';
 
   const { data } = $props();
   let dataState = $state(data);
@@ -97,6 +98,20 @@
       <p>Allow user tags in this server. Users will be able to use their own tags.</p>
     </div>
   </ToggleRow>
+
+  <AnchorRow href="/guild/{dataState.serverBranding.id}/tags/responses" Icon={ChevronRight} title="View Cases">
+    <div class="flex h-full w-full items-center gap-4">
+      <div class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-600 xs:flex">
+        <MessageCircle size={28} />
+      </div>
+      <div>
+        <h2 class="text-xl font-bold">Quick Responses</h2>
+        <p>
+          Create quick responses to send tags quicker. When a message starts with your keyword, the tag will be sent.
+        </p>
+      </div>
+    </div>
+  </AnchorRow>
 
   <hr class="border-zinc-500" />
   <p class="text-base font-bold text-zinc-300/60">Manage Server Tags</p>

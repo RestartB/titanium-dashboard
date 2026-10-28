@@ -110,14 +110,12 @@
 
         {#each action.role_ids as role (role)}
           {@const foundRole = serverInfo.roles.find((r) => r.id === role)}
-          {#if foundRole}
-            <RoleTile
-              role={foundRole}
-              deleteThis={() => {
-                action.role_ids = action.role_ids.filter((r) => r !== role);
-              }}
-            />
-          {/if}
+          <RoleTile
+            role={foundRole || role}
+            deleteThis={() => {
+              action.role_ids = action.role_ids.filter((r) => r !== role);
+            }}
+          />
         {/each}
       </div>
     </div>

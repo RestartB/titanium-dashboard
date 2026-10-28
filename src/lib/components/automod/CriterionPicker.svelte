@@ -27,7 +27,7 @@
     {
       id: 'word_list',
       name: 'Word List',
-      desc: 'Watch for malicious links in the message content.',
+      desc: 'Watch for words in the message content.',
       icon: WholeWord
     },
     {

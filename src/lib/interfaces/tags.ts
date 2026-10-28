@@ -1,5 +1,10 @@
 import type { ViewComponent } from './cv2';
 
+export type TagsId = {
+  id: string;
+  name: string;
+};
+
 export type TagsResponse = {
   tags: Tag[];
   total_count: number;

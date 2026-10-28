@@ -13,8 +13,8 @@ export const fireboardBoardSchema = z
     ignore_self_reactions: z.boolean(),
     send_notifications: z.boolean(),
 
-    ignored_roles: z.array(z.string()).default([]),
-    ignored_channels: z.array(z.string()).default([])
+    ignored_roles: z.array(z.string()).max(100).default([]),
+    ignored_channels: z.array(z.string()).max(100).default([])
   })
   .refine(
     (data) => {
