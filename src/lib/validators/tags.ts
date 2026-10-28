@@ -9,8 +9,8 @@ export const tagQuickResponseSchema = z
     match_whole_word: z.boolean(),
     case_sensitive: z.boolean(),
 
-    ignored_roles: z.array(z.string()).default([]),
-    ignored_channels: z.array(z.string()).default([])
+    ignored_roles: z.array(z.string()).max(100).default([]),
+    ignored_channels: z.array(z.string()).max(100).default([])
   })
   .refine((data) => data.tag_id, {
     message: 'Please select a tag.',
