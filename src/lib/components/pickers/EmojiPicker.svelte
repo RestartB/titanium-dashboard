@@ -229,7 +229,7 @@
     </div>
   {:else if filteredEmojis.length === 0 && filteredCustomEmojis.length === 0}
     <div class="flex flex-1 items-center justify-center p-4">
-      <p class="text-zinc-400">No results found</p>
+      <p class="text-zinc-400">No emojis found</p>
     </div>
   {:else}
     <div

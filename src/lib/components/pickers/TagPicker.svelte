@@ -20,7 +20,7 @@
 
   const fuse = $derived(
     new Fuse(tags, {
-      keys: ['title'],
+      keys: ['name'],
       threshold: 0.3
     })
   );
@@ -46,18 +46,24 @@
   </div>
 
   <div class="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-2">
-    {#each filteredTags as tag (tag.id)}
-      <button
-        class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
-        type="button"
-        onclick={() => {
-          onSelect(tag.id);
-          selectedTag = tag.id;
-          overlayOpen = false;
-        }}
-      >
-        <p>{tag.name}</p>
-      </button>
-    {/each}
+    {#if filteredTags.length === 0}
+      <div class="flex flex-col items-center justify-center text-zinc-400 p-4">
+        <p class="text-lg">No tags found</p>
+      </div>
+    {:else}
+      {#each filteredTags as tag (tag.id)}
+        <button
+          class="flex w-fit cursor-pointer items-center gap-2 rounded-lg bg-zinc-800 p-1 px-2 transition-colors hover:bg-zinc-600"
+          type="button"
+          onclick={() => {
+            onSelect(tag.id);
+            selectedTag = tag.id;
+            overlayOpen = false;
+          }}
+        >
+          <p>{tag.name}</p>
+        </button>
+      {/each}
+    {/if}
   </div>
 </FullscreenOverlay>

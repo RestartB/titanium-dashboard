@@ -93,20 +93,26 @@
   </div>
 
   <div class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto p-2">
-    {#each categories as category (category.id)}
-      {@const categoryChannels = filteredChannels.filter((channel) => channel.category === category.id)}
-      {#if categoryChannels.length > 0}
-        <div class="flex flex-col gap-1">
-          {#if category.id !== null}
-            <h3 class="text-left text-base font-semibold text-zinc-400">
-              {category.name}
-            </h3>
-          {/if}
-          {#each categoryChannels as channel (channel.id)}
-            {@render channelRow(channel)}
-          {/each}
-        </div>
-      {/if}
-    {/each}
+    {#if filteredChannels.length === 0}
+      <div class="flex flex-col items-center justify-center p-4 text-zinc-400">
+        <p class="text-lg">No channels found</p>
+      </div>
+    {:else}
+      {#each categories as category (category.id)}
+        {@const categoryChannels = filteredChannels.filter((channel) => channel.category === category.id)}
+        {#if categoryChannels.length > 0}
+          <div class="flex flex-col gap-1">
+            {#if category.id !== null}
+              <h3 class="text-left text-base font-semibold text-zinc-400">
+                {category.name}
+              </h3>
+            {/if}
+            {#each categoryChannels as channel (channel.id)}
+              {@render channelRow(channel)}
+            {/each}
+          </div>
+        {/if}
+      {/each}
+    {/if}
   </div>
 </FullscreenOverlay>
