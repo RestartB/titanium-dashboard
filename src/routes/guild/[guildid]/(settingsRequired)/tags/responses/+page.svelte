@@ -117,6 +117,7 @@
         keywords: [],
         match_whole_word: true,
         case_sensitive: false,
+        reply: true,
         ignored_channels: [],
         ignored_roles: []
       });

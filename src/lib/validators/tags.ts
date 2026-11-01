@@ -9,6 +9,8 @@ export const tagQuickResponseSchema = z
     match_whole_word: z.boolean(),
     case_sensitive: z.boolean(),
 
+    reply: z.boolean(),
+
     ignored_roles: z.array(z.string()).max(100).default([]),
     ignored_channels: z.array(z.string()).max(100).default([])
   })

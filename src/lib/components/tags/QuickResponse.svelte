@@ -200,4 +200,9 @@
       <span>Case sensitive</span>
     </label>
   </div>
+
+  <label class="inline-flex items-center gap-2 align-middle">
+    <Toggle bind:toggled={response.reply} />
+    <span>Reply to source message</span>
+  </label>
 </Row>
