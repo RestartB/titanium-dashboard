@@ -18,7 +18,6 @@
   }: { criterion: AutomodCriterionSchema; limit: number; enforcingLimit: boolean; overlayOpen?: boolean } = $props();
 
   let newWordInput = $state('');
-  $inspect(criterion)
 </script>
 
 <FullscreenOverlay title="Set Preferences" padding={16} gap={16} bind:overlayOpen>
