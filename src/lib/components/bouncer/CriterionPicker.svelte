@@ -1,7 +1,7 @@
 <script lang="ts">
   import FullscreenOverlay from '$lib/components/ui/FullscreenOverlay.svelte';
 
-  import { ALargeSmall, Tag, Clock, User } from '@lucide/svelte';
+  import { ALargeSmall, Tag, Clock, User, Bot } from '@lucide/svelte';
   import type { Component } from 'svelte';
   import type { BouncerCriterionSchema, BouncerRuleSchema } from '$lib/validators/bouncer';
 
@@ -47,6 +47,12 @@
       name: 'Default Avatar',
       desc: 'Watch if the user has a default avatar.',
       icon: User
+    },
+    {
+      id: 'verified',
+      name: 'Unverified Bot',
+      desc: 'Watch for if the member is an unverified bot.',
+      icon: Bot
     }
   ];
   let filteredTypes = $derived(
