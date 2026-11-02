@@ -3,10 +3,12 @@
   import LimitPill from '$lib/components/ui/LimitPill.svelte';
   import Toggle from '$lib/components/ui/inputs/Toggle.svelte';
   import Duration from '$lib/components/ui/inputs/Duration.svelte';
+  import Number from '$lib/components/ui/inputs/Number.svelte';
   import WordTile from '$lib/components/ui/WordTile.svelte';
   import { Plus } from '@lucide/svelte';
 
   import type { AutomodCriterionSchema } from '$lib/validators/automod';
+    
 
   let {
     criterion = $bindable(),
@@ -16,6 +18,7 @@
   }: { criterion: AutomodCriterionSchema; limit: number; enforcingLimit: boolean; overlayOpen?: boolean } = $props();
 
   let newWordInput = $state('');
+  $inspect(criterion)
 </script>
 
 <FullscreenOverlay title="Set Preferences" padding={16} gap={16} bind:overlayOpen>
@@ -100,7 +103,7 @@
         If there are this amount of matches or more, the criteria will be met. Example: 5 emojis - messages within the
         duration specified above must have 5 emojis or more to trigger the criteria.
       </p>
-      <Duration class="w-full p-2" border={false} bind:seconds={criterion.threshold} />
+      <Number min={1} max={1_892_160_000} class="w-full p-2" border={false} bind:value={criterion.threshold} />
     </div>
   {/if}
 </FullscreenOverlay>
