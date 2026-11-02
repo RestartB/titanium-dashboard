@@ -18,28 +18,23 @@
   } = $props();
 
   // only allow numbers and decimals
-  function processNumber(event: Event) {
-    const input = event.target as HTMLInputElement;
-
+  function processNumber(inputValue: string) {
     let numericValue;
     if (integer) {
-      numericValue = Number(input.value.replace(/[^\d-]/g, ''));
+      numericValue = Number(inputValue.replace(/[^\d-]/g, ''));
     } else {
-      const normalized = input.value.replace(/,/g, '.').replace(/[^\d.-]/g, '');
+      const normalized = inputValue.replace(/,/g, '.').replace(/[^\d.-]/g, '');
       numericValue = Number(normalized);
     }
 
-    if (isNaN(numericValue)) {
-      value = 0;
-    } else {
-      if (min !== undefined && numericValue < min) {
-        value = min;
-      } else if (max !== undefined && numericValue > max) {
-        value = max;
-      } else {
-        value = numericValue;
-      }
+    if (!Number.isFinite(numericValue)) {
+      numericValue = 0;
     }
+
+    if (min !== undefined) numericValue = Math.max(min, numericValue);
+    if (max !== undefined) numericValue = Math.min(max, numericValue);
+
+    value = numericValue;
   }
 </script>
 
@@ -49,6 +44,10 @@
     ? 'border-2 border-zinc-700'
     : ''} bg-zinc-800 p-1 px-2 transition-colors focus:bg-zinc-600 {className}"
   aria-label={aria}
-  bind:value
-  onfocusout={processNumber}
+  value={value ?? ''}
+  oninput={(event) => processNumber(event.currentTarget.value)}
+  onfocusout={(event) => {
+    processNumber(event.currentTarget.value);
+    event.currentTarget.value = String(value);
+  }}
 />

@@ -8,7 +8,6 @@
   import { Plus } from '@lucide/svelte';
 
   import type { AutomodCriterionSchema } from '$lib/validators/automod';
-    
 
   let {
     criterion = $bindable(),
