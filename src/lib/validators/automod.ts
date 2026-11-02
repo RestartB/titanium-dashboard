@@ -15,7 +15,7 @@ export const automodCriterionSchema = z.object({
     'emoji_spam'
   ]),
 
-  threshold: z.number().int().nullable().optional(),
+  threshold: z.number().int().optional(),
   duration: z.number().int().nullable().optional(),
 
   words: z.array(z.string().min(1).max(100)),
