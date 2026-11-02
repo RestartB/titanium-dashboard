@@ -8,7 +8,7 @@
     class: className = '',
     aria = ''
   }: {
-    value?: number;
+    value?: number | null;
     min?: number;
     max?: number;
     integer?: boolean;
