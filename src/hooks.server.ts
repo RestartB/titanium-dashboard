@@ -3,6 +3,7 @@ import type { Handle } from '@sveltejs/kit';
 
 import { checkToken, deleteToken } from '$lib/server/token';
 import { apiLimit } from '$lib/server/limits';
+import { isGuildId, isSafePathSegment } from '$lib/helpers/path';
 import { dev } from '$app/environment';
 
 import { TITANIUM_API_URL } from '$env/static/private';
@@ -16,6 +17,14 @@ interface PermCacheEntry {
 }
 const permsCache = new Map<string, PermCacheEntry>();
 
+const caseManagerRoutes = new Set<string>([
+  '/api/guild/[guildid]',
+  '/api/guild/[guildid]/cases',
+  '/api/guild/[guildid]/cases/[case]',
+  '/guild/[guildid]/moderation/cases',
+  '/guild/[guildid]/moderation/cases/[case]'
+]);
+
 export const handle: Handle = async ({ event, resolve }) => {
   console.log(`Handling request for ${event.url.pathname}`);
 
@@ -27,18 +36,31 @@ export const handle: Handle = async ({ event, resolve }) => {
     });
   }
 
-  const pathParts = event.url.pathname.split('/');
-  const guildIndex = pathParts.indexOf('guild');
-  const guildId = guildIndex !== -1 ? pathParts[guildIndex + 1] : event.params.guildid;
+  // check the route rather than the pathname
+  // stops attacks via url encoding as sveltekit doesn't remove encoded characters in these cases
+  const routeId = event.route.id ?? '';
+  const isApi = routeId.startsWith('/api/');
+  const isGuildApi = routeId === '/api/guild/[guildid]' || routeId.startsWith('/api/guild/[guildid]/');
+  const isGuildRoute =
+    isGuildApi || routeId === '/guild/[guildid]' || routeId.startsWith('/guild/[guildid]/');
+  const guildId = event.params.guildid;
+
+  if (Object.values(event.params).some((value) => !isSafePathSegment(value))) {
+    throw error(400, 'Invalid route parameter');
+  }
+
+  if (guildId !== undefined && !isGuildId(guildId)) {
+    throw error(400, 'Invalid Guild ID');
+  }
 
   // ignore auth for certain endpoints
   if (
-    event.url.pathname === '/' ||
-    event.url.pathname.startsWith('/public/') ||
-    event.url.pathname.startsWith('/auth/') ||
-    event.url.pathname.startsWith('/api/auth/') ||
-    event.url.pathname.startsWith('/_app/remote/') ||
-    event.url.pathname.startsWith('/emojis/')
+    event.isRemoteRequest ||
+    routeId === '/' ||
+    routeId.startsWith('/public/') ||
+    routeId.startsWith('/auth/') ||
+    routeId.startsWith('/api/auth/') ||
+    routeId.startsWith('/emojis/')
   ) {
     const response = await resolve(event);
     return response;
@@ -54,7 +76,7 @@ export const handle: Handle = async ({ event, resolve }) => {
       await deleteToken(titaniumToken.token, titaniumToken.discordToken);
     }
 
-    if (event.url.pathname.startsWith('/api')) {
+    if (isApi) {
       return json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -68,27 +90,17 @@ export const handle: Handle = async ({ event, resolve }) => {
   event.locals.discordId = titaniumToken.discordUserId;
 
   // rate limiting
-  if (event.url.pathname.startsWith('/api/guild/')) {
+  if (isGuildApi) {
     const status = await apiLimit.check(event);
     if (status.limited) throw error(429, 'Too many requests');
   }
 
   // guild id / permissions check
-  if (event.url.pathname.startsWith('/guild/') || event.url.pathname.startsWith('/api/guild/')) {
-    if (!guildId) {
+  if (isGuildRoute) {
+    if (!isGuildId(guildId)) {
       console.debug('No guild id');
-      if (event.url.pathname.startsWith('/api')) {
+      if (isApi) {
         return json({ error: 'Missing Guild ID' }, { status: 400 });
-      }
-
-      const response = await resolve(event);
-      return response;
-    }
-
-    if (isNaN(Number(guildId))) {
-      console.debug('Invalid guild id');
-      if (event.url.pathname.startsWith('/api')) {
-        return json({ error: 'Invalid Guild ID' }, { status: 400 });
       }
 
       return redirect(302, '/');
@@ -109,7 +121,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         if (!permCheckRequest.ok) {
           if (permCheckRequest.status === 404) {
             console.debug('Guild not found');
-            if (event.url.pathname.startsWith('/api')) {
+            if (isApi) {
               return json({ error: 'Guild not found' }, { status: 404 });
             }
 
@@ -117,7 +129,7 @@ export const handle: Handle = async ({ event, resolve }) => {
           }
 
           console.debug('Failed to fetch guild permissions from Titanium');
-          if (event.url.pathname.startsWith('/api')) {
+          if (isApi) {
             return json(
               { error: 'Failed to fetch guild permissions from Titanium' },
               { status: permCheckRequest.status }
@@ -144,25 +156,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     if (!event.locals.dashboard_manager && !event.locals.case_manager) {
       console.debug('Insufficient guild permissions');
-      if (event.url.pathname.startsWith('/api')) {
+      if (isApi) {
         return json({ error: 'Insufficient Permissions' }, { status: 403 });
       }
 
       return redirect(302, '/');
-    } else if (
-      event.url.pathname === `/api/guild/${guildId}` ||
-      event.url.pathname === `/api/guild/${guildId}/cases` ||
-      event.url.pathname.startsWith(`/api/guild/${guildId}/cases/`) ||
-      event.url.pathname === `/guild/${guildId}/moderation/cases` ||
-      event.url.pathname.startsWith(`/guild/${guildId}/moderation/cases/`)
-    ) {
-      if (!event.locals.case_manager && !event.locals.dashboard_manager) {
-        if (event.url.pathname.startsWith('/api')) {
-          return json({ error: 'Insufficient Permissions' }, { status: 403 });
-        }
-        return redirect(302, '/');
+    } else if (!caseManagerRoutes.has(routeId) && !event.locals.dashboard_manager) {
+      if (isApi) {
+        return json({ error: 'Insufficient Permissions' }, { status: 403 });
       }
-    } else if (!event.locals.dashboard_manager) {
       console.log(`Not a case manager whitelisted link, redirecting (${event.url.href})`);
       return redirect(302, `/guild/${guildId}/moderation/cases`);
     }

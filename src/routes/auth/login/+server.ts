@@ -23,8 +23,14 @@ export const GET: RequestHandler = async (event) => {
     httpOnly: false
   });
 
-  throw redirect(
-    302,
-    `https://discord.com/oauth2/authorize?response_type=code&client_id=${DISCORD_CLIENT_ID}&scope=identify%20guilds&state=${state}&redirect_uri=${encodeURIComponent(`${event.url.origin}/auth/callback`)}`
-  );
+  const authorizeUrl = new URL('https://discord.com/oauth2/authorize');
+  authorizeUrl.search = new URLSearchParams({
+    response_type: 'code',
+    client_id: DISCORD_CLIENT_ID,
+    scope: 'identify guilds',
+    state,
+    redirect_uri: `${event.url.origin}/auth/callback`
+  }).toString();
+
+  throw redirect(302, authorizeUrl.toString());
 };

@@ -2,6 +2,7 @@ import { query, form, command, getRequestEvent } from '$app/server';
 import { error, invalid } from '@sveltejs/kit';
 
 import { z } from 'zod';
+import { isGuildId } from '$lib/helpers/path';
 import { newTagSchema, editTagSchema, componentSchema } from '$lib/validators/tags';
 import { remoteCheckToken } from '$lib/server/token';
 import { apiLimit, tagLinkLimit } from '$lib/server/limits';
@@ -30,7 +31,7 @@ async function checkPerms(guildId: string) {
 
 export const getTags = query(
   z.object({
-    guildId: z.string(),
+    guildId: z.string().refine(isGuildId, 'Invalid Guild ID'),
     limit: z.int().max(100).nonnegative(),
     offset: z.int().nonnegative()
   }),
@@ -189,7 +190,7 @@ export const editTag = form(
 
 export const deleteTag = command(
   z.object({
-    guildId: z.string(),
+    guildId: z.string().refine(isGuildId, 'Invalid Guild ID'),
     tagId: z.uuidv4()
   }),
   async ({ guildId, tagId }) => {

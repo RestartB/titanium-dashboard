@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isGuildId } from '$lib/helpers/path';
 
 export const tagQuickResponseSchema = z
   .object({
@@ -83,7 +84,7 @@ function checkComponentLimits({ components }: TagWithComponents, ctx: z.Refineme
 
 export const newTagSchema = z
   .object({
-    guildId: z.string().optional(),
+    guildId: z.string().refine((value) => value === '' || isGuildId(value), 'Invalid Guild ID').optional(),
     pageKey: z.uuidv4().optional(),
     submitKey: z.uuidv4().optional(),
 
@@ -107,7 +108,7 @@ export const newTagSchema = z
 
 export const editTagSchema = z
   .object({
-    guildId: z.string().optional(),
+    guildId: z.string().refine((value) => value === '' || isGuildId(value), 'Invalid Guild ID').optional(),
     pageKey: z.uuidv4().optional(),
     submitKey: z.uuidv4().optional(),
     tagId: z.uuidv4(),

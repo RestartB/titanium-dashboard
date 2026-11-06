@@ -4,7 +4,7 @@ import type { LayoutServerLoad } from './$types';
 import type { ServerBranding, ServerInfo } from '$lib/interfaces/serverInfo';
 import type { GuildSettingsSchema } from '$lib/validators/settings';
 
-export const load: LayoutServerLoad = async ({ locals, fetch, url }) => {
+export const load: LayoutServerLoad = async ({ locals, fetch, route }) => {
   // Get data
   const brandingRequest = await fetch('/api/guild/' + locals.guildId);
   if (!brandingRequest.ok) {
@@ -18,8 +18,8 @@ export const load: LayoutServerLoad = async ({ locals, fetch, url }) => {
   let serverInfo: ServerInfo | undefined;
   let serverSettings: GuildSettingsSchema | undefined;
   if (
-    url.pathname !== `/guild/${locals.guildId}/moderation/cases` &&
-    !url.pathname.startsWith(`/guild/${locals.guildId}/moderation/cases/`)
+    route.id !== '/guild/[guildid]/moderation/cases' &&
+    route.id !== '/guild/[guildid]/moderation/cases/[case]'
   ) {
     const infoRequest = await fetch('/api/guild/' + locals.guildId + '/info');
     if (!infoRequest.ok) {

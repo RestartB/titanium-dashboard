@@ -16,7 +16,12 @@ export const getGifCategories = query(z.object({ region: z.string() }), async ({
   await remoteCheckToken(event);
   if (await apiLimit.isLimited(event)) throw error(429);
 
-  const request = await fetch(`https://api.klipy.com/api/v1/${KLIPY_KEY}/gifs/categories?locale=${region}`);
+  const url = new URL(`https://api.klipy.com/api/v1/${KLIPY_KEY}/gifs/categories`);
+  url.search = new URLSearchParams({
+    locale: region
+  }).toString();
+
+  const request = await fetch(url);
 
   if (!request.ok) {
     console.error('Failed to fetch categories:', await request.text());
@@ -37,9 +42,15 @@ export const getTrendingGifs = query(
 
     // hash user id + klipy key to send as customer id
     const customerId = createHash('sha256').update(`${tokenRecord.discordUserId}-${KLIPY_KEY}`).digest('hex');
-    const request = await fetch(
-      `https://api.klipy.com/api/v1/${KLIPY_KEY}/gifs/trending?page=${page}&customer_id=${customerId}&locale=${region}&format_filter=webp`
-    );
+    const url = new URL(`https://api.klipy.com/api/v1/${KLIPY_KEY}/gifs/trending`);
+    url.search = new URLSearchParams({
+      page: String(page),
+      customer_id: customerId,
+      locale: region,
+      format_filter: 'webp'
+    }).toString();
+
+    const request = await fetch(url);
 
     if (!request.ok) {
       console.error('Failed to fetch trending GIFs:', await request.text());
@@ -61,9 +72,16 @@ export const searchGifs = query(
 
     // hash user id + klipy key to send as customer id
     const customerId = createHash('sha256').update(`${tokenRecord.discordUserId}-${KLIPY_KEY}`).digest('hex');
-    const request = await fetch(
-      `https://api.klipy.com/api/v1/${KLIPY_KEY}/gifs/search?page=${page}&customer_id=${customerId}&locale=${region}&format_filter=webp&q=${encodeURIComponent(query)}`
-    );
+    const url = new URL(`https://api.klipy.com/api/v1/${KLIPY_KEY}/gifs/search`);
+    url.search = new URLSearchParams({
+      page: String(page),
+      customer_id: customerId,
+      locale: region,
+      format_filter: 'webp',
+      q: query
+    }).toString();
+
+    const request = await fetch(url);
 
     if (!request.ok) {
       console.error('Failed to fetch GIF search:', await request.text());

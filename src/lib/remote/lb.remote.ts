@@ -5,6 +5,7 @@ import { remoteCheckToken } from '$lib/server/token';
 import { leaderboardLimit } from '$lib/server/limits';
 
 import { z } from 'zod';
+import { isGuildId } from '$lib/helpers/path';
 
 import { TITANIUM_API_URL } from '$env/static/private';
 import type { LeaderboardResponse } from '$lib/interfaces/lb';
@@ -12,7 +13,7 @@ import type { GuildSettingsSchema, LeaderboardConfigSchema } from '$lib/validato
 
 export const getLeaderboard = query(
   z.object({
-    guildId: z.string(),
+    guildId: z.string().refine(isGuildId, 'Invalid Guild ID'),
     limit: z.int().max(100).nonnegative(),
     offset: z.int().nonnegative()
   }),

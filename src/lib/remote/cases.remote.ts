@@ -2,6 +2,7 @@ import { form, query, command, getRequestEvent } from '$app/server';
 import { error } from '@sveltejs/kit';
 
 import { z } from 'zod';
+import { isGuildId, isSafePathSegment } from '$lib/helpers/path';
 import { remoteCheckToken } from '$lib/server/token';
 import { commentsLimit, apiLimit } from '$lib/server/limits';
 
@@ -27,9 +28,9 @@ async function checkPerms(guildId: string, limit: RateLimiter = apiLimit) {
   return { event, tokenRecord };
 }
 
-export const getComments = query(z.object({ guildId: z.string(), caseId: z.string() }), async ({ guildId, caseId }) => {
+export const getComments = query(z.object({ guildId: z.string().refine(isGuildId, 'Invalid Guild ID'), caseId: z.string().refine(isSafePathSegment, 'Invalid case ID') }), async ({ guildId, caseId }) => {
   await checkPerms(guildId);
-  const request = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${caseId}/comments`);
+  const request = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${encodeURIComponent(caseId)}/comments`);
 
   if (!request.ok) {
     console.error('Failed to fetch comments:', await request.text());
@@ -42,8 +43,8 @@ export const getComments = query(z.object({ guildId: z.string(), caseId: z.strin
 
 export const createComment = form(
   z.object({
-    guildId: z.string(),
-    caseId: z.string(),
+    guildId: z.string().refine(isGuildId, 'Invalid Guild ID'),
+    caseId: z.string().refine(isSafePathSegment, 'Invalid case ID'),
     content: z
       .string('Please enter a comment.')
       .trim()
@@ -53,7 +54,7 @@ export const createComment = form(
   async ({ guildId, caseId, content }) => {
     const { tokenRecord } = await checkPerms(guildId, commentsLimit);
 
-    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${caseId}/comments`, {
+    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${encodeURIComponent(caseId)}/comments`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -72,8 +73,8 @@ export const createComment = form(
 
 export const editComment = form(
   z.object({
-    guildId: z.string(),
-    caseId: z.string(),
+    guildId: z.string().refine(isGuildId, 'Invalid Guild ID'),
+    caseId: z.string().refine(isSafePathSegment, 'Invalid case ID'),
     commentId: z.uuidv4(),
     content: z
       .string('Please enter a comment.')
@@ -84,7 +85,7 @@ export const editComment = form(
   async ({ guildId, caseId, commentId, content }) => {
     const { tokenRecord } = await checkPerms(guildId, commentsLimit);
 
-    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${caseId}/comments/${commentId}`, {
+    const postRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${encodeURIComponent(caseId)}/comments/${commentId}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -103,14 +104,14 @@ export const editComment = form(
 
 export const deleteComment = command(
   z.object({
-    guildId: z.string(),
-    caseId: z.string(),
+    guildId: z.string().refine(isGuildId, 'Invalid Guild ID'),
+    caseId: z.string().refine(isSafePathSegment, 'Invalid case ID'),
     commentId: z.uuidv4()
   }),
   async ({ guildId, caseId, commentId }) => {
     const { tokenRecord } = await checkPerms(guildId);
 
-    const deleteRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${caseId}/comments/${commentId}`, {
+    const deleteRequest = await fetch(`${TITANIUM_API_URL}/guild/${guildId}/cases/${encodeURIComponent(caseId)}/comments/${commentId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
