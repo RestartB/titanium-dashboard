@@ -42,7 +42,7 @@ const BUTTON_ROW_ID = 1;
 export const componentSchema = z.object({
   cId: z.literal([1, 9, 10, 12, 14]),
   id: z.uuidv4(),
-  content: z.string().trim().min(1).max(1000).optional(),
+  content: z.string().trim().min(1).max(4000).optional(),
   url: z.httpUrl().max(2048).optional(),
   urls: z.array(z.httpUrl().max(2048)).max(10).default([]),
   buttons: z.array(buttonSchema).max(5).default([]),
@@ -63,7 +63,7 @@ function checkComponentLimits({ components }: TagWithComponents, ctx: z.Refineme
   if (totalChars > 4000) {
     ctx.addIssue({
       code: 'custom',
-      message: 'Too many characters: please ensure the total length of all text components is less than 4000.',
+      message: 'Too many characters: please ensure the total length of all text components is 4000 or less.',
       path: ['components']
     });
   }
