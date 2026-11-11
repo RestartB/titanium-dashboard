@@ -9,6 +9,8 @@
   import ToggledContent from '$lib/components/ui/ToggledContent.svelte';
   import Assistant from '$lib/components/permissions/Assistant.svelte';
   import PermRow from '$lib/components/permissions/PermRow.svelte';
+  import Tip from '$lib/components/ui/Tip.svelte';
+  import TextArea from '$lib/components/ui/inputs/TextArea.svelte';
   import { ChevronRight, Book } from '@lucide/svelte';
 
   const { data } = $props();
@@ -103,9 +105,6 @@
     </div>
   </ToggleRow>
 
-  <hr class="border-zinc-500" />
-  <p class="text-base font-bold text-zinc-300/60">External Cases</p>
-
   <ToggleRow bind:toggled={dataState.pageSettings.external_cases}>
     <div>
       <h2 class="text-xl font-bold">Create External Cases</h2>
@@ -128,5 +127,45 @@
       </p>
     </div>
     <NumberInput bind:value={dataState.pageSettings.ban_days} min={0} max={7} class="mt-2" />
+  </Row>
+
+  <hr class="border-zinc-500" />
+  <p class="text-base font-bold text-zinc-300/60">Additional Info</p>
+
+  <Tip>
+    Set additional information here that will always be displayed in the DM sent to users when they are punished. A
+    maximum of 256 characters is allowed for each.
+  </Tip>
+
+  <Row>
+    <div>
+      <h2 class="text-xl font-bold">Warnings</h2>
+      <p>Additional information to be displayed in warning DMs.</p>
+    </div>
+    <TextArea bind:value={dataState.pageSettings.warn_additional} class="mt-2" />
+  </Row>
+
+  <Row>
+    <div>
+      <h2 class="text-xl font-bold">Mutes</h2>
+      <p>Additional information to be displayed in mute DMs.</p>
+    </div>
+    <TextArea bind:value={dataState.pageSettings.mute_additional} class="mt-2" />
+  </Row>
+
+  <Row>
+    <div>
+      <h2 class="text-xl font-bold">Kicks</h2>
+      <p>Additional information to be displayed in kick DMs.</p>
+    </div>
+    <TextArea bind:value={dataState.pageSettings.kick_additional} class="mt-2" />
+  </Row>
+
+  <Row>
+    <div>
+      <h2 class="text-xl font-bold">Bans</h2>
+      <p>Additional information to be displayed in ban DMs.</p>
+    </div>
+    <TextArea bind:value={dataState.pageSettings.ban_additional} class="mt-2" />
   </Row>
 </ToggledContent>

@@ -41,8 +41,8 @@
 <input
   type="text"
   class="flex cursor-text items-center gap-2 rounded-lg {border
-    ? 'border-2 border-zinc-700'
-    : ''} bg-zinc-800 p-1 px-2 transition-colors focus:bg-zinc-600 {className}"
+    ? 'border-2 border-zinc-600'
+    : ''} bg-zinc-700 p-1 px-2 {className}"
   aria-label={aria}
   value={value ?? ''}
   oninput={(event) => processNumber(event.currentTarget.value)}

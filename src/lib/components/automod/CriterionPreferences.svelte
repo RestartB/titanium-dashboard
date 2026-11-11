@@ -101,7 +101,7 @@
         If there are this amount of matches or more, the criteria will be met. Example: 5 emojis - messages within the
         duration specified above must have 5 emojis or more to trigger the criteria.
       </p>
-      <Number min={1} max={1_892_160_000} class="w-full p-2" border={false} bind:value={criterion.threshold} />
+      <Number min={1} max={1_892_160_000} class="w-full p-2 bg-zinc-800!" border={false} bind:value={criterion.threshold} />
     </div>
   {/if}
 </FullscreenOverlay>
